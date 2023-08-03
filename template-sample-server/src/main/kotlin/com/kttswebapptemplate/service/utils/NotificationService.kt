@@ -5,10 +5,7 @@ import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
 @Service
-class NotificationService(
-    private val taskExecutor: ApplicationTaskExecutor,
-    val httpService: HttpService
-) {
+class NotificationService(private val taskExecutor: ApplicationTaskExecutor) {
 
     private val logger = KotlinLogging.logger {}
 
