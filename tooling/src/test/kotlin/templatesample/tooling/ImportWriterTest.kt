@@ -3,7 +3,7 @@ package templatesample.tooling
 import templatesample.tooling.kttots.ImportWriter.relativePath
 import templatesample.tooling.kttots.KtToTsConfiguration
 import java.nio.file.Paths
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 internal class ImportWriterTest {
