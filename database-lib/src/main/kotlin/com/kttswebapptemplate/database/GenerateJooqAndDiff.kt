@@ -1,9 +1,12 @@
 package com.kttswebapptemplate.database
 
-import com.kttswebapptemplate.database.jooq.JooqGeneration
+import com.kttswebapptemplate.database.jooq.JooqConfiguration
+import com.kttswebapptemplate.database.jooq.JooqGeneratorStrategy
+import com.kttswebapptemplate.database.utils.PgQuarrelUtils
 import com.kttswebapptemplate.database.utils.ShellRunner
 import java.nio.file.Paths
 import mu.KotlinLogging
+import org.jooq.codegen.GenerationTool
 
 fun main() {
     System.setProperty("logback.configurationFile", "logback-database-lib.xml")
@@ -52,14 +55,16 @@ object GenerateJooqAndDiff {
         try {
             ResetDatabase.resetDatabaseSchema(generationDatabaseConfiguration, insertData = false)
             logger.info { "Generate Jooq code" }
-            JooqGeneration.generateJooq(
-                conf = generationDatabaseConfiguration,
-                excludeTables = setOf("spring_session", "spring_session_attributes"),
-                generatedPackageName = "com.kttswebapptemplate.jooq",
-                generatedCodePath = projectDir.resolve("database-lib/src/generated/kotlin"))
+            GenerationTool.generate(
+                JooqConfiguration.generateConfiguration(
+                    conf = generationDatabaseConfiguration,
+                    excludeTables = setOf("spring_session", "spring_session_attributes"),
+                    generatedPackageName = "com.kttswebapptemplate.jooq",
+                    generatedCodePath = projectDir.resolve("database-lib/src/generated/kotlin"),
+                    generatorStrategyClass = JooqGeneratorStrategy::class))
             // TODO[tmpl][doc] diff will fail if Config.runDatabase does not exist
             // (not very problematic but can be better)
-            JooqGeneration.generateDiff(
+            PgQuarrelUtils.generateDiff(
                 psqlDatabaseConfiguration, generationDatabaseConfiguration, buildDir)
             ResetDatabase.resetDatabaseSchema(psqlDatabaseConfiguration, insertData = true)
             logger.info { "Format codebase" }
