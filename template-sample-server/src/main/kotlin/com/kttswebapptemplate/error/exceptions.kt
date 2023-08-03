@@ -3,24 +3,17 @@ package com.kttswebapptemplate.error
 import com.kttswebapptemplate.domain.RequestErrorId
 import com.kttswebapptemplate.domain.TemplateSampleId
 import java.time.Instant
-import org.apache.commons.lang3.exception.ExceptionUtils
+import kttots.Shared
 import org.slf4j.event.Level
 
-// FIXME[tmpl] can remove ? ReadableStackTrace ? and ReadableStackTraceSerializer ?
-// @Shared
+@Shared
 data class RequestError(
     val id: RequestErrorId,
     val status: Int,
     val error: String,
     val message: String,
-    val instant: Instant,
-    val stackTrace: ReadableStackTrace?
+    val instant: Instant
 )
-
-data class ReadableStackTrace(val exception: Throwable?) {
-    fun toReadableString(): String? =
-        if (exception != null) ExceptionUtils.getStackTrace(exception) else null
-}
 
 // TODO[tmpl][error] display ? silent ? mute ?
 // class DisplayMessageException(displayMessage: String, logMessage: String) : Exception(message)
