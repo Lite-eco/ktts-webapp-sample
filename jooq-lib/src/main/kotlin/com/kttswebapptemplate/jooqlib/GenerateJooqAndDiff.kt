@@ -1,9 +1,7 @@
 package com.kttswebapptemplate.jooqlib
 
-import com.kttswebapptemplate.jooqlib.Configuration.configuration
+import com.kttswebapptemplate.jooqlib.jooq.JooqGeneration
 import java.nio.file.Paths
-import jooqutils.DatabaseInitializer
-import jooqutils.JooqGeneration
 import mu.KotlinLogging
 
 fun main() {
@@ -42,20 +40,16 @@ object GenerateJooqAndDiff {
 
     val buildDir by lazy { projectDir.resolve("jooq-lib/build") }
 
-    val sqlCleanResultFile by lazy { buildDir.resolve("clean-database.sql") }
-
     val sqlInitiateSchemaResultFile by lazy { buildDir.resolve("initiate-database.sql") }
 
     fun generate() {
         logger.info { "Generate Jooq" }
         val generationDatabaseConfiguration =
-            configuration.copy(databaseName = configuration.databaseName + "-dbtooling")
+            psqlDatabaseConfiguration.copy(
+                databaseName = psqlDatabaseConfiguration.databaseName + "-dbtooling")
         logger.info { "Generation via base ${generationDatabaseConfiguration.databaseName}" }
         try {
-            DatabaseInitializer.dropDb(generationDatabaseConfiguration)
-            DatabaseInitializer.createDb(generationDatabaseConfiguration)
-            DatabaseInitializer.initializeSchema(
-                generationDatabaseConfiguration, sqlSchemaFilesDir, sqlCleanResultFile)
+            ResetDatabase.resetDatabaseSchema(generationDatabaseConfiguration, insertData = false)
             logger.info { "Generate Jooq code" }
             JooqGeneration.generateJooq(
                 conf = generationDatabaseConfiguration,
@@ -64,11 +58,11 @@ object GenerateJooqAndDiff {
                 generatedCodePath = projectDir.resolve("jooq-lib/src/generated/java"))
             // TODO[tmpl][doc] diff will fail if Config.runDatabase does not exist
             // (not very problematic but can be better)
-            JooqGeneration.generateDiff(configuration, generationDatabaseConfiguration, buildDir)
-            ResetDatabase.resetDatabaseSchema(configuration)
-            ResetDatabase.insertInitialData(configuration)
+            JooqGeneration.generateDiff(
+                psqlDatabaseConfiguration, generationDatabaseConfiguration, buildDir)
+            ResetDatabase.resetDatabaseSchema(psqlDatabaseConfiguration, insertData = true)
         } finally {
-            DatabaseInitializer.dropDb(generationDatabaseConfiguration)
+            ResetDatabase.dropDatabase(generationDatabaseConfiguration)
         }
     }
 }

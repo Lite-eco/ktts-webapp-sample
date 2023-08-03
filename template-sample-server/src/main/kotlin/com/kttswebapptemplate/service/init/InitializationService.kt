@@ -1,15 +1,15 @@
 package com.kttswebapptemplate.service.init
 
 import com.kttswebapptemplate.domain.ApplicationEnvironment
-import com.kttswebapptemplate.jooqlib.Configuration
 import com.kttswebapptemplate.jooqlib.ResetDatabase
+import com.kttswebapptemplate.jooqlib.domain.PsqlDatabaseConfiguration
+import com.kttswebapptemplate.jooqlib.psqlDatabaseConfiguration
 import com.kttswebapptemplate.repository.log.DeploymentLogDao
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
 import java.util.Locale
 import java.util.TimeZone
 import javax.sql.DataSource
-import jooqutils.DatabaseConfiguration
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
@@ -33,14 +33,13 @@ class InitializationService(
     private val logger = KotlinLogging.logger {}
 
     val databaseConfiguration by lazy {
-        DatabaseConfiguration(
-            driver = DatabaseConfiguration.Driver.psql,
+        PsqlDatabaseConfiguration(
             host = databaseHost,
             port = databasePort,
             databaseName = databaseName,
             user = databaseUser,
             password = databasePassword,
-            schemas = Configuration.configuration.schemas)
+            schema = psqlDatabaseConfiguration.schema)
     }
 
     init {
@@ -49,20 +48,14 @@ class InitializationService(
         when (ApplicationInstance.env) {
             ApplicationEnvironment.Dev -> {
                 if (databaseIsEmpty(dataSource)) {
-                    ResetDatabase.resetDatabaseSchema(databaseConfiguration)
-                    if (insertInitialData) {
-                        ResetDatabase.insertInitialData(databaseConfiguration)
-                    }
+                    ResetDatabase.resetDatabaseSchema(databaseConfiguration, insertInitialData)
                 }
                 if (insertInitialData) {
                     devInitialDataInjectorService.initiateDevData()
                 }
             }
             ApplicationEnvironment.Test -> {
-                ResetDatabase.resetDatabaseSchema(databaseConfiguration)
-                if (insertInitialData) {
-                    ResetDatabase.insertInitialData(databaseConfiguration)
-                }
+                ResetDatabase.resetDatabaseSchema(databaseConfiguration, insertInitialData)
             }
             ApplicationEnvironment.Staging,
             ApplicationEnvironment.Prod -> {

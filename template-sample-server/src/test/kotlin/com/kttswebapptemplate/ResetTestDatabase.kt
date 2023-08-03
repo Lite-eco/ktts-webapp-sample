@@ -1,7 +1,7 @@
 package com.kttswebapptemplate
 
-import com.kttswebapptemplate.jooqlib.Configuration
 import com.kttswebapptemplate.jooqlib.ResetDatabase
+import com.kttswebapptemplate.jooqlib.psqlDatabaseConfiguration
 import com.kttswebapptemplate.jooqlib.utils.SpringLikeYamlConfigUtils
 
 object ResetTestDatabase {
@@ -13,10 +13,7 @@ object ResetTestDatabase {
                     ResetTestDatabase.javaClass.classLoader.getResourceAsStream(
                         "application-test.yaml"))
                 .getValue("database.name")
-        val configuration = Configuration.configuration.copy(databaseName = databaseName)
-        ResetDatabase.resetDatabaseSchema(configuration)
-        if (insertInitialData) {
-            ResetDatabase.insertInitialData(configuration)
-        }
+        val configuration = psqlDatabaseConfiguration.copy(databaseName = databaseName)
+        ResetDatabase.resetDatabaseSchema(configuration, insertData = insertInitialData)
     }
 }

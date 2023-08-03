@@ -1,20 +1,12 @@
 package com.kttswebapptemplate.jooqlib
 
+import com.kttswebapptemplate.jooqlib.domain.PsqlDatabaseConfiguration
 import com.kttswebapptemplate.jooqlib.utils.SpringLikeYamlConfigUtils
-import jooqutils.DatabaseConfiguration
 import kotlin.io.path.exists
 import kotlin.io.path.inputStream
 
-object Configuration {
-
-    val configuration by lazy {
-        val additionalConfig =
-            System.getenv("TEMPLATE_SAMPLE_DEV_ADDITIONAL_CONFIG")
-                ?: ("dev-" + System.getenv("USER"))
-        configuration("application-dev.yaml", "application-$additionalConfig.yaml")
-    }
-
-    private fun configuration(vararg configurationFiles: String): DatabaseConfiguration {
+val psqlDatabaseConfiguration: PsqlDatabaseConfiguration by lazy {
+    fun configuration(vararg configurationFiles: String): PsqlDatabaseConfiguration {
         val config =
             SpringLikeYamlConfigUtils.yamlFilesToMap(
                 *configurationFiles
@@ -35,13 +27,15 @@ object Configuration {
         if ("prod" in databaseName) {
             throw RuntimeException("Warning run database operations on $databaseName")
         }
-        return DatabaseConfiguration(
-            driver = DatabaseConfiguration.Driver.psql,
+        return PsqlDatabaseConfiguration(
             host = host,
             port = config.getValue("database.port").toInt(),
             databaseName = databaseName,
             user = config.getValue("database.user"),
             password = config["database.password"],
-            schemas = setOf("public"))
+            schema = "public")
     }
+    val additionalConfig =
+        System.getenv("TEMPLATE_SAMPLE_DEV_ADDITIONAL_CONFIG") ?: ("dev-" + System.getenv("USER"))
+    configuration("application-dev.yaml", "application-$additionalConfig.yaml")
 }
