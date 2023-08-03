@@ -3,8 +3,8 @@ package templatesample.serialization
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
-import com.fasterxml.jackson.module.kotlin.KotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
+import com.fasterxml.jackson.module.kotlin.registerKotlinModule
 import templatesample.domain.TemplateSampleId
 import templatesample.domain.TemplateSampleSecurityString
 import templatesample.domain.TemplateSampleStringId
@@ -75,7 +75,7 @@ object Serializer {
             }
 
         objectMapper.registerModule(module)
-        objectMapper.registerModule(KotlinModule())
+        objectMapper.registerKotlinModule()
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     }
 
