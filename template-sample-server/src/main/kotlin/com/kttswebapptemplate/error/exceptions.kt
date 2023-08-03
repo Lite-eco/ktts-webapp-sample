@@ -3,10 +3,10 @@ package com.kttswebapptemplate.error
 import com.kttswebapptemplate.domain.RequestErrorId
 import com.kttswebapptemplate.domain.TemplateSampleId
 import java.time.Instant
-import kttots.Shared
+import kt2ts.annotation.GenerateTypescript
 import org.slf4j.event.Level
 
-@Shared
+@GenerateTypescript
 data class RequestError(
     val id: RequestErrorId,
     val status: Int,

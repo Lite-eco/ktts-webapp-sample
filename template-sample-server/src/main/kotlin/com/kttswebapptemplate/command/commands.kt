@@ -7,14 +7,14 @@ import com.kttswebapptemplate.domain.RegisterResult
 import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserInfos
-import kttots.Shared
+import kt2ts.annotation.GenerateTypescript
 
-@Shared
+@GenerateTypescript
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 sealed class Command
 
-@Shared sealed class CommandResponse
+@GenerateTypescript sealed class CommandResponse
 
 object EmptyCommandResponse : CommandResponse()
 

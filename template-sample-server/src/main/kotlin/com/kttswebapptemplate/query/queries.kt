@@ -3,14 +3,14 @@ package com.kttswebapptemplate.query
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserInfos
-import kttots.Shared
+import kt2ts.annotation.GenerateTypescript
 
-@Shared
+@GenerateTypescript
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 sealed class Query
 
-@Shared sealed class QueryResponse
+@GenerateTypescript sealed class QueryResponse
 
 data class GetUserInfosQuery(val userId: UserId) : Query()
 

@@ -1,11 +1,6 @@
 rootProject.name = "template-sample"
 
-include(
-    "database-lib",
-    "template-sample-client",
-    "template-sample-server",
-    "tooling",
-    "kt-to-ts-annotations")
+include("database-lib", "template-sample-client", "template-sample-server")
 
 pluginManagement {
     repositories {

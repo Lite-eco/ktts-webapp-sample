@@ -38,38 +38,36 @@ tasks {
 repositories {
     mavenLocal()
     mavenCentral()
+    // TODO keep ?
     maven("https://repo.spring.io/milestone")
     maven("https://repo.spring.io/snapshot")
+    // TODO keep ?
     gradlePluginPortal()
 }
 
 configurations.all { exclude("junit") }
 
 ksp {
-    arg("ktToTs:clientDirectory", "$rootDir/template-sample-client")
-    // arg("ktToTs:srcDirectory", "src")
-    // arg("ktToTs:generatedDirectory", "generated")
-    arg("ktToTs:dropPackage", "com.kttswebapptemplate")
-    arg("ktToTs:mappings", "$rootDir/template-sample-client/kt-to-ts-mappings.json")
+    arg("kt2ts:clientDirectory", "$rootDir/template-sample-client")
+    arg("kt2ts:dropPackage", "com.kttswebapptemplate")
+    arg("kt2ts:mappings", "$rootDir/template-sample-client/kt-to-ts-mappings.json")
     arg(
-        "ktToTs:nominalStringMappings",
-        "com.kttswebapptemplate.domain.SerializeAsString" +
-            "|templatesample.domain.TemplateSampleId" +
-            "|templatesample.domain.PlainStringPassword")
-    // can  arg("ktToTsNominalStringImport", "utils/nominal-class.ts.MyNominalString")
-    arg("ktToTs:nominalStringImport", "utils/nominal-class.ts")
-    arg("ktToTs:debugFile", "$rootDir/template-sample-client/build/debug-generation.html")
+        "kt2ts:nominalStringMappings",
+        listOf(
+                "com.kttswebapptemplate.domain.SerializeAsString",
+                "com.kttswebapptemplate.domain.TemplateSampleId",
+                "com.kttswebapptemplate.domain.PlainStringPassword")
+            .joinToString(separator = "|"))
+    arg("kt2ts:nominalStringImport", "utils/nominal-class.ts")
+    arg("kt2ts:debugFile", "$rootDir/template-sample-client/build/debug-generation.html")
 }
 
 dependencies {
     implementation(project(":database-lib"))
-    implementation(project(":kt-to-ts-annotations"))
 
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
-    implementation(project(":tooling"))
-    ksp(project(":tooling"))
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -78,6 +76,12 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.session:spring-session-jdbc")
 
+    // kt2ts
+    implementation("io.github.kt2ts:kt2ts-annotation:1.0.0")
+    implementation("io.github.kt2ts:kt2ts-ksp-generator:0.0.1")
+    ksp("io.github.kt2ts:kt2ts-ksp-generator:0.0.1")
+
+    // database
     implementation("org.postgresql:postgresql:42.5.4")
     implementation("org.jooq:jooq:3.18.3")
 
@@ -95,6 +99,7 @@ dependencies {
     implementation("com.squareup.okhttp3:okhttp:4.11.0")
     implementation("org.json:json:20230227")
 
+    // tests
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
 }
