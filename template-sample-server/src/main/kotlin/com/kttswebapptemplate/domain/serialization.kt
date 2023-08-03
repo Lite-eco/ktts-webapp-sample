@@ -5,4 +5,6 @@ package com.kttswebapptemplate.domain
 @Retention(AnnotationRetention.RUNTIME)
 internal annotation class Prefix(val value: String)
 
-open class SerializeAsString(open val value: String)
+open class SerializeAsString(protected val internalValue: String) {
+    fun serialize() = internalValue
+}
