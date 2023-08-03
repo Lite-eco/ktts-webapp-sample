@@ -4,8 +4,8 @@ import com.kttswebapptemplate.domain.MimeType
 import com.kttswebapptemplate.domain.UserFileData
 import com.kttswebapptemplate.domain.UserFileId
 import com.kttswebapptemplate.domain.UserId
-import com.kttswebapptemplate.jooq.generated.Tables.USER_FILE
 import com.kttswebapptemplate.jooq.generated.tables.records.UserFileRecord
+import com.kttswebapptemplate.jooq.generated.tables.references.USER_FILE
 import com.kttswebapptemplate.utils.toTypeId
 import java.time.Instant
 import org.jooq.DSLContext
@@ -35,17 +35,17 @@ class UserFileDao(private val jooq: DSLContext) {
     )
 
     fun insert(r: Record, bytes: ByteArray) {
-        // FIMENOW refactor proposition
-        val jr =
-            UserFileRecord().apply {
-                id = r.id.rawId
-                userId = r.userId.rawId
-                fileContent = bytes
-                contentType = r.contentType.type
-                originalFilename = r.originalFilename
-                uploadDate = r.uploadDate
-            }
-        jooq.insertInto(USER_FILE).set(jr).execute()
+        jooq
+            .insertInto(USER_FILE)
+            .set(
+                UserFileRecord(
+                    id = r.id.rawId,
+                    userId = r.userId.rawId,
+                    fileContent = bytes,
+                    contentType = r.contentType.type,
+                    originalFilename = r.originalFilename,
+                    uploadDate = r.uploadDate))
+            .execute()
     }
 
     fun fetchDataOrNull(id: UserFileId): UserFileData? =

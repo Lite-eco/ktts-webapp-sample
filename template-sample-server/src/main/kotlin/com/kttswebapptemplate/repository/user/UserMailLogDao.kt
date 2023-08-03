@@ -3,8 +3,8 @@ package com.kttswebapptemplate.repository.user
 import com.kttswebapptemplate.domain.AuthLogType
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserMailLogId
-import com.kttswebapptemplate.jooq.generated.Tables.USER_MAIL_LOG
 import com.kttswebapptemplate.jooq.generated.tables.records.UserMailLogRecord
+import com.kttswebapptemplate.jooq.generated.tables.references.USER_MAIL_LOG
 import java.time.Instant
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
@@ -21,15 +21,15 @@ class UserMailLogDao(private val jooq: DSLContext) {
     )
 
     fun insert(r: Record) {
-        val jr =
-            UserMailLogRecord().apply {
-                id = r.id.rawId
-                userId = r.userId.rawId
-                mail = r.mail
-                type = r.type.name
-                creationDate = r.creationDate
-            }
-
-        jooq.insertInto(USER_MAIL_LOG).set(jr).execute()
+        jooq
+            .insertInto(USER_MAIL_LOG)
+            .set(
+                UserMailLogRecord(
+                    id = r.id.rawId,
+                    userId = r.userId.rawId,
+                    mail = r.mail,
+                    type = r.type.name,
+                    creationDate = r.creationDate))
+            .execute()
     }
 }

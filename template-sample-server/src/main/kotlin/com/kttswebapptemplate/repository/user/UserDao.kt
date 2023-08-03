@@ -5,9 +5,9 @@ import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.error.MailAlreadyRegisteredException
-import com.kttswebapptemplate.jooq.generated.Keys.APP_USER_MAIL_KEY
-import com.kttswebapptemplate.jooq.generated.Tables.APP_USER
+import com.kttswebapptemplate.jooq.generated.keys.APP_USER_MAIL_KEY
 import com.kttswebapptemplate.jooq.generated.tables.records.AppUserRecord
+import com.kttswebapptemplate.jooq.generated.tables.references.APP_USER
 import com.kttswebapptemplate.utils.toTypeId
 import java.time.Instant
 import kotlin.streams.asSequence
@@ -31,20 +31,20 @@ class UserDao(private val jooq: DSLContext) {
     }
 
     fun insert(r: Record, hashedPassword: HashedPassword) {
-        val jr =
-            AppUserRecord().apply {
-                id = r.id.rawId
-                mail = r.mail
-                password = hashedPassword.hash
-                displayName = r.displayName
-                language = r.language.name
-                roles = r.roles.map { it.name }.toTypedArray()
-                signupDate = r.signupDate
-                lastUpdate = r.lastUpdate
-            }
-
         try {
-            jooq.insertInto(APP_USER).set(jr).execute()
+            jooq
+                .insertInto(APP_USER)
+                .set(
+                    AppUserRecord(
+                        id = r.id.rawId,
+                        mail = r.mail,
+                        password = hashedPassword.hash,
+                        displayName = r.displayName,
+                        language = r.language.name,
+                        roles = r.roles.map { it.name }.toTypedArray(),
+                        signupDate = r.signupDate,
+                        lastUpdate = r.lastUpdate))
+                .execute()
         } catch (e: DuplicateKeyException) {
             handleDuplicateKeyException(e, r.mail)
         }
@@ -135,7 +135,7 @@ class UserDao(private val jooq: DSLContext) {
             mail = r.mail,
             displayName = r.displayName,
             language = Language.valueOf(r.language),
-            roles = r.roles.map { Role.valueOf(it) }.toSet(),
+            roles = r.roles.map { Role.valueOf(requireNotNull(it)) }.toSet(),
             signupDate = r.signupDate,
             lastUpdate = r.lastUpdate)
 }

@@ -10,7 +10,6 @@ import com.kttswebapptemplate.query.Query
 import com.kttswebapptemplate.query.QueryConfiguration
 import com.kttswebapptemplate.query.QueryHandler
 import com.kttswebapptemplate.query.QueryResponse
-import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.user.UserSessionService
 import com.kttswebapptemplate.service.utils.TransactionIsolationService
@@ -21,12 +20,11 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class QueryController(
-    private val userDao: UserDao,
+    private val transactionIsolationService: TransactionIsolationService,
     private val userSessionService: UserSessionService,
     private val getUserInfosQueryHandler: GetUserInfosQueryHandler,
     private val getUsersQueryHandler: GetUsersQueryHandler,
     private val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler,
-    private val transactionIsolationService: TransactionIsolationService,
 ) {
 
     @GetMapping("/query")

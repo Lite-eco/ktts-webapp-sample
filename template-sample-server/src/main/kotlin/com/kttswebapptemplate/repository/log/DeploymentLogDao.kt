@@ -1,8 +1,8 @@
 package com.kttswebapptemplate.repository.log
 
 import com.kttswebapptemplate.domain.DeploymentLogId
-import com.kttswebapptemplate.jooq.generated.Tables.DEPLOYMENT_LOG
 import com.kttswebapptemplate.jooq.generated.tables.records.DeploymentLogRecord
+import com.kttswebapptemplate.jooq.generated.tables.references.DEPLOYMENT_LOG
 import java.time.Instant
 import java.time.ZoneId
 import org.jooq.DSLContext
@@ -21,14 +21,15 @@ class DeploymentLogDao(private val jooq: DSLContext) {
     )
 
     fun insert(r: Record) {
-        val jr =
-            DeploymentLogRecord().apply {
-                id = r.id.rawId
-                buildVersion = r.buildVersion
-                systemZoneId = r.systemZoneId.id
-                startupDate = r.startupDate
-            }
-        jooq.insertInto(DEPLOYMENT_LOG).set(jr).execute()
+        jooq
+            .insertInto(DEPLOYMENT_LOG)
+            .set(
+                DeploymentLogRecord(
+                    id = r.id.rawId,
+                    buildVersion = r.buildVersion,
+                    systemZoneId = r.systemZoneId.id,
+                    startupDate = r.startupDate))
+            .execute()
     }
 
     fun updateShutdownTime(id: DeploymentLogId, shutdownDate: Instant) =

@@ -4,8 +4,8 @@ import com.kttswebapptemplate.domain.CommandLogId
 import com.kttswebapptemplate.domain.DeploymentLogId
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserSessionId
-import com.kttswebapptemplate.jooq.generated.Tables.COMMAND_LOG
 import com.kttswebapptemplate.jooq.generated.tables.records.CommandLogRecord
+import com.kttswebapptemplate.jooq.generated.tables.references.COMMAND_LOG
 import com.kttswebapptemplate.utils.toTypeId
 import java.time.Instant
 import org.jooq.DSLContext
@@ -31,23 +31,25 @@ class CommandLogDao(private val jooq: DSLContext) {
     )
 
     fun insert(r: Record) {
-        val jr =
-            CommandLogRecord().apply {
-                id = r.id.rawId
-                userId = r.userId?.rawId
-                affectedUserId = r.affectedUserId?.rawId
-                deploymentLogId = r.deploymentLogId.rawId
-                commandClass = r.commandClass.name
-                jsonCommand = r.jsonCommand
-                ip = r.ip
-                userSessionId = r.userSessionId?.rawId
-                idsLog = r.idsLog
-                jsonResult = r.jsonResult
-                exceptionStackTrace = r.exceptionStackTrace
-                startDate = r.startDate
-                endDate = r.endDate
-            }
-        jooq.insertInto(COMMAND_LOG).set(jr).execute()
+        jooq
+            .insertInto(COMMAND_LOG)
+            .set(
+                CommandLogRecord(
+                    id = r.id.rawId,
+                    userId = r.userId?.rawId,
+                    affectedUserId = r.affectedUserId?.rawId,
+                    deploymentLogId = r.deploymentLogId.rawId,
+                    commandClass = r.commandClass.name,
+                    jsonCommand = r.jsonCommand,
+                    ip = r.ip,
+                    userSessionId = r.userSessionId?.rawId,
+                    idsLog = r.idsLog,
+                    jsonResult = r.jsonResult,
+                    exceptionStackTrace = r.exceptionStackTrace,
+                    startDate = r.startDate,
+                    endDate = r.endDate,
+                ))
+            .execute()
     }
 
     private fun map(r: CommandLogRecord) =
