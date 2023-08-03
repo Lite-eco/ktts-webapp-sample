@@ -1,6 +1,5 @@
 package com.kttswebapptemplate.config
 
-import com.kttswebapptemplate.controller.RemoteController
 import com.kttswebapptemplate.domain.Uri
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
@@ -24,10 +23,7 @@ class SecurityConfiguration(
     @Bean
     fun filterChain(http: HttpSecurity): DefaultSecurityFilterChain {
         http.invoke {
-            csrf {
-                csrfTokenRepository = cookieCsrfTokenRepository
-                ignoringRequestMatchers(RemoteController.remoteRoute + "/**")
-            }
+            csrf { csrfTokenRepository = cookieCsrfTokenRepository }
             exceptionHandling {
                 // [doc] disable Spring default login page
                 authenticationEntryPoint = AuthenticationEntryPoint { _, response, _ ->

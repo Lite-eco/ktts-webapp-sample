@@ -2,6 +2,8 @@ package com.kttswebapptemplate.controller
 
 import com.kttswebapptemplate.command.AdminUpdateRolesCommand
 import com.kttswebapptemplate.command.AdminUpdateRolesCommandHandler
+import com.kttswebapptemplate.command.AdminUpdateSessions
+import com.kttswebapptemplate.command.AdminUpdateSessionsCommandHandler
 import com.kttswebapptemplate.command.Command
 import com.kttswebapptemplate.command.CommandConfiguration
 import com.kttswebapptemplate.command.CommandHandler
@@ -42,6 +44,7 @@ class CommandController(
     private val transactionIsolationService: TransactionIsolationService,
     private val userSessionService: UserSessionService,
     private val adminUpdateRolesCommandHandler: AdminUpdateRolesCommandHandler,
+    private val adminUpdateSessionsCommandHandler: AdminUpdateSessionsCommandHandler,
     private val devLoginCommandHandler: DevLoginCommandHandler,
     private val loginCommandHandler: LoginCommandHandler,
     private val registerCommandHandler: RegisterCommandHandler,
@@ -124,6 +127,7 @@ class CommandController(
     private fun handler(command: Command) =
         when (command) {
             is AdminUpdateRolesCommand -> adminUpdateRolesCommandHandler
+            is AdminUpdateSessions -> adminUpdateSessionsCommandHandler
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
             is RegisterCommand -> registerCommandHandler
@@ -133,6 +137,7 @@ class CommandController(
     // for admin commands, should return the affected user when there's one
     private fun affectedUserId(command: Command): UserId? =
         when (command) {
+            is AdminUpdateSessions,
             is DevLoginCommand,
             is LoginCommand,
             is RegisterCommand,
