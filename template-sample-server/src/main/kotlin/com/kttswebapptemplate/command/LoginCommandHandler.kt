@@ -6,8 +6,8 @@ import com.kttswebapptemplate.domain.UserSession
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.service.user.UserService
 import com.kttswebapptemplate.service.user.UserSessionService
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 
 @Service

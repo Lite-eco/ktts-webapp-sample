@@ -1,8 +1,8 @@
 package com.kttswebapptemplate.command
 
 import com.kttswebapptemplate.domain.UserSession
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 
 interface CommandHandler<C : Command, R : CommandResponse> {
     fun handle(

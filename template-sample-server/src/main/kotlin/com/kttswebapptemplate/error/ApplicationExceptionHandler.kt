@@ -6,7 +6,7 @@ import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.user.UserSessionService
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.random.RandomService
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletResponse
 import mu.KotlinLogging
 import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException
 import org.springframework.web.bind.annotation.ControllerAdvice

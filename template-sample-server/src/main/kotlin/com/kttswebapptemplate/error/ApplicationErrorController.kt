@@ -3,8 +3,8 @@ package com.kttswebapptemplate.error
 import com.kttswebapptemplate.config.Routes
 import com.kttswebapptemplate.domain.RequestErrorId
 import com.kttswebapptemplate.service.utils.random.RandomService
+import jakarta.servlet.http.HttpServletResponse
 import java.util.Date
-import javax.servlet.http.HttpServletResponse
 import mu.KotlinLogging
 import org.springframework.boot.web.error.ErrorAttributeOptions
 import org.springframework.boot.web.servlet.error.ErrorAttributes

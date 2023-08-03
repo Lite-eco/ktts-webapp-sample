@@ -3,7 +3,7 @@ package com.kttswebapptemplate.service.init
 import com.kttswebapptemplate.repository.log.DeploymentLogDao
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
-import javax.annotation.PreDestroy
+import jakarta.annotation.PreDestroy
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
 

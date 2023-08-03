@@ -3,8 +3,8 @@ package com.kttswebapptemplate.command
 import com.kttswebapptemplate.domain.PlainStringPassword
 import com.kttswebapptemplate.domain.UserSession
 import com.kttswebapptemplate.service.init.DevInitialDataInjectorService
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 
 @Service

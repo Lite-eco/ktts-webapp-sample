@@ -7,8 +7,8 @@ import com.kttswebapptemplate.error.MailAlreadyRegisteredException
 import com.kttswebapptemplate.service.user.LocaleService
 import com.kttswebapptemplate.service.user.UserService
 import com.kttswebapptemplate.service.user.UserSessionService
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 
 @Service
