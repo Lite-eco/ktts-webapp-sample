@@ -20,6 +20,7 @@ import com.kttswebapptemplate.tooling.kttots.prettyPrint
 import java.nio.file.Files
 import java.time.LocalDateTime
 import kotlin.io.path.absolutePathString
+import kotlin.io.path.createDirectories
 import kttots.Shared
 
 // TODO[tmpl] use exceptions and catch them for debug report ?
@@ -171,6 +172,9 @@ class KtToTsSymbolProcessor(
         // }
         //        }
         resultFiles.forEach {
+            val destination =
+                configuration.srcDirectory.resolve(kotlinToTsFile(it.first, configuration))
+            destination.parent.createDirectories()
             // TODO[fmk] format before writing file to avoid triggering webpack hot reload, useless
             // temporary diffs...
             ShellRunner.run(
@@ -184,9 +188,7 @@ class KtToTsSymbolProcessor(
                 "&&",
                 "mv",
                 it.second.absolutePathString(),
-                configuration.srcDirectory
-                    .resolve(kotlinToTsFile(it.first, configuration))
-                    .absolutePathString())
+                destination.absolutePathString())
         }
         //        tempDir.toFile().deleteRecursively()
         debugReport?.appendLine("<h1>Report</h1>")
