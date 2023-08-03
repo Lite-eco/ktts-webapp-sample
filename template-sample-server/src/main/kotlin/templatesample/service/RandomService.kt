@@ -17,28 +17,25 @@ open class RandomService(val idLogService: IdLogService? = null) {
     }
 
     inline fun <reified T : TemplateSampleUuidId> id(): T {
-        @Suppress("DEPRECATION") val uuid = internalUuid()
+        val uuid = uuid()
         val id = T::class.constructors.first().call(uuid)
         idLogService?.log(id)
         return id
     }
 
     inline fun <reified T : TemplateSampleStringId> stringId(length: Int): T {
-        @Suppress("DEPRECATION") val stringId = internalRandomString(length)
+        val stringId = randomString(length)
         val id = T::class.constructors.first().call(stringId)
         idLogService?.log(id)
         return id
     }
 
     inline fun <reified T : TemplateSampleSecurityString> securityString(length: Int): T {
-        @Suppress("DEPRECATION") val stringId = internalRandomString(length)
+        val stringId = randomString(length)
         return T::class.constructors.first().call(stringId)
     }
 
-    @Deprecated("Is for internal use only, exists because of reified id() & DummyRandomService")
-    open fun internalUuid() = UUID.randomUUID()
+    open fun uuid() = UUID.randomUUID()
 
-    @Deprecated(
-        "Is for internal use only, exists because of reified stringId() & DummyRandomService")
-    open fun internalRandomString(length: Int) = generator.generate(length)
+    open fun randomString(length: Int) = generator.generate(length)
 }

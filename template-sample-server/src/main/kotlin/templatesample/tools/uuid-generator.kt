@@ -1,10 +1,12 @@
 package templatesample.tools
 
-import java.util.UUID
+import templatesample.service.RandomService
 
 fun main() {
-    val uuid = UUID.randomUUID()
+    val random = RandomService()
+    val uuid = random.uuid()
     println(uuid.toString())
     println(uuid.toString().replace("-", ""))
     println(uuid.toString().replace("-", "").substring(0, 6))
+    println(random.randomString(100))
 }
