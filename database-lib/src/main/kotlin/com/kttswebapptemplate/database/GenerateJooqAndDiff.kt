@@ -2,9 +2,11 @@ package com.kttswebapptemplate.database
 
 import com.kttswebapptemplate.database.jooq.JooqConfiguration
 import com.kttswebapptemplate.database.jooq.JooqGeneratorStrategy
+import com.kttswebapptemplate.database.utils.DatabaseUtils
 import com.kttswebapptemplate.database.utils.PgQuarrelUtils
 import com.kttswebapptemplate.database.utils.ShellRunner
 import java.nio.file.Paths
+import java.sql.DriverManager
 import mu.KotlinLogging
 import org.jooq.codegen.GenerationTool
 
@@ -53,7 +55,12 @@ object GenerateJooqAndDiff {
                 databaseName = psqlDatabaseConfiguration.databaseName + "-dbtooling")
         logger.info { "Generation via base ${generationDatabaseConfiguration.databaseName}" }
         try {
-            ResetDatabase.resetDatabaseSchema(generationDatabaseConfiguration, insertData = false)
+            DatabaseUtils.createDatabaseIfNeeded(generationDatabaseConfiguration)
+            DriverManager.getConnection(
+                    generationDatabaseConfiguration.jdbcUrl(),
+                    generationDatabaseConfiguration.user,
+                    generationDatabaseConfiguration.password)
+                .use { ResetDatabase.resetDatabaseSchema(it, insertData = false) }
             logger.info { "Generate Jooq code" }
             GenerationTool.generate(
                 JooqConfiguration.generateConfiguration(
@@ -62,15 +69,21 @@ object GenerateJooqAndDiff {
                     generatedPackageName = "com.kttswebapptemplate.jooq",
                     generatedCodePath = projectDir.resolve("database-lib/src/generated/kotlin"),
                     generatorStrategyClass = JooqGeneratorStrategy::class))
+            DatabaseUtils.createDatabaseIfNeeded(psqlDatabaseConfiguration)
             // TODO[tmpl][doc] diff will fail if Config.runDatabase does not exist
             // (not very problematic but can be better)
             PgQuarrelUtils.generateDiff(
                 psqlDatabaseConfiguration, generationDatabaseConfiguration, buildDir)
-            ResetDatabase.resetDatabaseSchema(psqlDatabaseConfiguration, insertData = true)
+            DriverManager.getConnection(
+                    psqlDatabaseConfiguration.jdbcUrl(),
+                    psqlDatabaseConfiguration.user,
+                    psqlDatabaseConfiguration.password)
+                .use { c -> ResetDatabase.resetDatabaseSchema(c, insertData = true) }
             logger.info { "Format codebase" }
+            // TODO should be on generated files only
             ShellRunner.run(projectDir, "./ktfmt")
         } finally {
-            ResetDatabase.dropDatabase(generationDatabaseConfiguration)
+            DatabaseUtils.dropDatabaseIfExists(generationDatabaseConfiguration)
         }
     }
 }
