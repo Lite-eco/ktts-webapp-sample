@@ -1,7 +1,5 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-group = "template-sample"
-
 plugins { kotlin("jvm") }
 
 val kotlinVersion = "1.7.21"
