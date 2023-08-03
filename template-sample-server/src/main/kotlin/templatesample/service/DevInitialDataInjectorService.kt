@@ -5,6 +5,7 @@ import templatesample.domain.PlainStringPassword
 import templatesample.domain.Role
 import templatesample.repository.user.UserDao
 import templatesample.service.user.UserService
+import templatesample.service.utils.TransactionIsolationService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
@@ -15,12 +16,15 @@ class DevInitialDataInjectorService(
     val userDao: UserDao,
     val dateService: DateService,
     val randomService: RandomService,
-    val userService: UserService
+    val userService: UserService,
+    val transactionIsolationService: TransactionIsolationService
 ) {
 
     fun initiateDevUsers() {
-        insertUser("user", false)
-        insertUser("admin", true)
+        transactionIsolationService.execute {
+            insertUser("user", false)
+            insertUser("admin", true)
+        }
     }
 
     private fun insertUser(
