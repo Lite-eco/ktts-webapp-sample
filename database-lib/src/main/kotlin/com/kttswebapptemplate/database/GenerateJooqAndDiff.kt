@@ -1,6 +1,7 @@
 package com.kttswebapptemplate.database
 
 import com.kttswebapptemplate.database.jooq.JooqGeneration
+import com.kttswebapptemplate.database.utils.ShellRunner
 import java.nio.file.Paths
 import mu.KotlinLogging
 
@@ -61,6 +62,8 @@ object GenerateJooqAndDiff {
             JooqGeneration.generateDiff(
                 psqlDatabaseConfiguration, generationDatabaseConfiguration, buildDir)
             ResetDatabase.resetDatabaseSchema(psqlDatabaseConfiguration, insertData = true)
+            logger.info { "Format codebase" }
+            ShellRunner.run(projectDir, "./ktfmt")
         } finally {
             ResetDatabase.dropDatabase(generationDatabaseConfiguration)
         }
