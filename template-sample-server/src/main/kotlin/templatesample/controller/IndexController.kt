@@ -10,6 +10,7 @@ import templatesample.service.LocaleService
 import templatesample.service.user.MagicLinkTokenService
 import templatesample.service.user.UserService
 import templatesample.service.user.UserSessionService
+import templatesample.utils.TemplateSampleStringUtils
 import freemarker.ext.beans.BeansWrapperBuilder
 import freemarker.template.Configuration
 import java.io.File
@@ -97,7 +98,8 @@ class IndexController(
             } else null
         mav.model["bootstrapData"] =
             serialize(ApplicationBootstrapData(ApplicationInstance.env, userInfos))
-        mav.model["deploymentId"] = applicationInstance.deploymentId.rawId
+        mav.model["deploymentId"] =
+            TemplateSampleStringUtils.serializeUuid(applicationInstance.deploymentId.rawId)
         mav.model["gitRevisionLabel"] = applicationInstance.gitRevisionLabel
         mav.model["jsAssets"] = jsAssets(request)
         mav.model["cssAssets"] = cssAssets
