@@ -1,6 +1,7 @@
 package templatesample.tooling
 
-import templatesample.tooling.ImportWriter.relativePath
+import templatesample.tooling.kttots.ImportWriter.relativePath
+import templatesample.tooling.kttots.KtToTsConfiguration
 import java.nio.file.Paths
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test

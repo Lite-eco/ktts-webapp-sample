@@ -1,4 +1,4 @@
-package templatesample.tooling
+package templatesample.tooling.kttots
 
 import com.google.devtools.ksp.symbol.KSTypeReference
 

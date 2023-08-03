@@ -1,4 +1,4 @@
-package templatesample.tooling
+package templatesample.tooling.kttots
 
 import java.io.File
 import java.nio.file.Path

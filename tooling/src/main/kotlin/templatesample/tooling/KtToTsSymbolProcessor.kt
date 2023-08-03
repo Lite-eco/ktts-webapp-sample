@@ -9,8 +9,14 @@ import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSFile
 import com.google.devtools.ksp.symbol.KSPropertyDeclaration
 import com.google.devtools.ksp.validate
-import templatesample.tooling.ImportWriter.fileToPath
-import templatesample.tooling.ImportWriter.relativePath
+import templatesample.tooling.kttots.ClassMapper
+import templatesample.tooling.kttots.ClassParser
+import templatesample.tooling.kttots.ClassWriter
+import templatesample.tooling.kttots.Debug
+import templatesample.tooling.kttots.ImportWriter.fileToPath
+import templatesample.tooling.kttots.ImportWriter.relativePath
+import templatesample.tooling.kttots.KtToTsConfiguration
+import templatesample.tooling.kttots.prettyPrint
 import java.nio.file.Files
 import java.time.LocalDateTime
 import kttots.Shared
