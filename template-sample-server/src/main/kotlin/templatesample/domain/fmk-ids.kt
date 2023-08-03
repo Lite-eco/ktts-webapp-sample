@@ -27,6 +27,8 @@ abstract class TemplateSampleStringId : TemplateSampleId<String> {
     final override fun toString() = "${javaClass.simpleName}($rawId)"
 }
 
+data class AuthLogId(override val rawId: UUID) : TemplateSampleUuidId()
+
 // TODO[tmpl][serialization] back as an inline class when Jackson supports it ?
 // are data classes instead of inline class because of serialization "bugs" with Jackson
 data class CommandLogId(override val rawId: UUID) : TemplateSampleUuidId()
@@ -40,7 +42,5 @@ data class RequestErrorId(override val rawId: UUID) : TemplateSampleUuidId()
 data class UserFileId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class UserId(override val rawId: UUID) : TemplateSampleUuidId()
-
-data class UserMailLogId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class UserSessionId(override val rawId: UUID) : TemplateSampleUuidId()
