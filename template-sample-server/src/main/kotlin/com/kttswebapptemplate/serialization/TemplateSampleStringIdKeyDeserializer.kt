@@ -6,7 +6,7 @@ import com.kttswebapptemplate.domain.TemplateSampleStringId
 import kotlin.reflect.KClass
 
 class TemplateSampleStringIdKeyDeserializer<T : TemplateSampleStringId>(
-    val templateSampleStringId: KClass<T>
+    private val templateSampleStringId: KClass<T>
 ) : KeyDeserializer() {
 
     override fun deserializeKey(key: String, ctxt: DeserializationContext?) =

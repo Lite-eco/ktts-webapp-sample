@@ -21,7 +21,7 @@ import org.reflections.Reflections
 
 object Serializer {
 
-    val idsPackage = TemplateSampleId::class.java.packageName
+    private val idsPackage = TemplateSampleId::class.java.packageName
 
     private val reflections by lazy { Reflections(idsPackage) }
 
@@ -34,7 +34,7 @@ object Serializer {
     fun <T> deserialize(json: String, objectClass: Class<T>): T =
         objectMapper.readValue(json, objectClass)
 
-    fun configure(objectMapper: ObjectMapper) {
+    private fun configure(objectMapper: ObjectMapper) {
         val module =
             SimpleModule().apply {
                 addSerializer(InstantSerializer())
@@ -82,67 +82,71 @@ object Serializer {
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
     }
 
-    fun addAllTemplateSampleStringIdsDeserializers(module: SimpleModule) {
+    private fun addAllTemplateSampleStringIdsDeserializers(module: SimpleModule) {
         fun <T : TemplateSampleStringId> addDeserializer(
             module: SimpleModule,
-            idKclass: KClass<T>
+            idKClass: KClass<T>
         ) {
-            module.addDeserializer(idKclass.java, TemplateSampleStringIdDeserializer(idKclass))
+            module.addDeserializer(idKClass.java, TemplateSampleStringIdDeserializer(idKClass))
             module.addKeyDeserializer(
-                idKclass.java, TemplateSampleStringIdKeyDeserializer(idKclass))
+                idKClass.java, TemplateSampleStringIdKeyDeserializer(idKClass))
         }
 
         val idClasses: Set<Class<out TemplateSampleStringId>> =
             reflections.getSubTypesOf(TemplateSampleStringId::class.java)
         idClasses.forEach {
+            @Suppress("UNCHECKED_CAST")
             addDeserializer(
                 module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleStringId>)
         }
     }
 
-    fun addAllTemplateSampleUuidIdsDeserializers(module: SimpleModule) {
-        fun <T : TemplateSampleUuidId> addDeserializer(module: SimpleModule, idKclass: KClass<T>) {
-            module.addDeserializer(idKclass.java, TemplateSampleUuidIdDeserializer(idKclass))
-            module.addKeyDeserializer(idKclass.java, TemplateSampleUuidIdKeyDeserializer(idKclass))
+    private fun addAllTemplateSampleUuidIdsDeserializers(module: SimpleModule) {
+        fun <T : TemplateSampleUuidId> addDeserializer(module: SimpleModule, idKClass: KClass<T>) {
+            module.addDeserializer(idKClass.java, TemplateSampleUuidIdDeserializer(idKClass))
+            module.addKeyDeserializer(idKClass.java, TemplateSampleUuidIdKeyDeserializer(idKClass))
         }
 
         val idClasses: Set<Class<out TemplateSampleUuidId>> =
             reflections.getSubTypesOf(TemplateSampleUuidId::class.java)
         idClasses.forEach {
+            @Suppress("UNCHECKED_CAST")
             addDeserializer(
                 module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleUuidId>)
         }
     }
 
-    fun addAllTemplateSampleSecurityStringDeserializers(module: SimpleModule) {
+    private fun addAllTemplateSampleSecurityStringDeserializers(module: SimpleModule) {
         fun <T : TemplateSampleSecurityString> addDeserializer(
             module: SimpleModule,
-            idKclass: KClass<T>
+            idKClass: KClass<T>
         ) {
             module.addDeserializer(
-                idKclass.java, TemplateSampleSecurityStringDeserializer(idKclass))
+                idKClass.java, TemplateSampleSecurityStringDeserializer(idKClass))
             module.addKeyDeserializer(
-                idKclass.java, TemplateSampleSecurityStringKeyDeserializer(idKclass))
+                idKClass.java, TemplateSampleSecurityStringKeyDeserializer(idKClass))
         }
 
         val idClasses: Set<Class<out TemplateSampleSecurityString>> =
             reflections.getSubTypesOf(TemplateSampleSecurityString::class.java)
         idClasses.forEach {
+            @Suppress("UNCHECKED_CAST")
             addDeserializer(
                 module,
                 Reflection.createKotlinClass(it) as KClass<out TemplateSampleSecurityString>)
         }
     }
 
-    fun addAllSerializeAsStringDeserializers(module: SimpleModule) {
-        fun <T : SerializeAsString> addDeserializer(module: SimpleModule, idKclass: KClass<T>) {
-            module.addDeserializer(idKclass.java, SerializeAsStringDeserializer(idKclass))
-            module.addKeyDeserializer(idKclass.java, SerializeAsStringKeyDeserializer(idKclass))
+    private fun addAllSerializeAsStringDeserializers(module: SimpleModule) {
+        fun <T : SerializeAsString> addDeserializer(module: SimpleModule, idKClass: KClass<T>) {
+            module.addDeserializer(idKClass.java, SerializeAsStringDeserializer(idKClass))
+            module.addKeyDeserializer(idKClass.java, SerializeAsStringKeyDeserializer(idKClass))
         }
 
         val idClasses: Set<Class<out SerializeAsString>> =
             reflections.getSubTypesOf(SerializeAsString::class.java)
         idClasses.forEach {
+            @Suppress("UNCHECKED_CAST")
             addDeserializer(
                 module, Reflection.createKotlinClass(it) as KClass<out SerializeAsString>)
         }

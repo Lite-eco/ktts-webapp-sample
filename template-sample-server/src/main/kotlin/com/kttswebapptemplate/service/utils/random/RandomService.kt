@@ -9,7 +9,7 @@ import org.apache.commons.text.RandomStringGenerator
 
 open class RandomService(val idLogService: IdLogService? = null) {
 
-    val generator by lazy {
+    private val generator by lazy {
         RandomStringGenerator.Builder()
             .withinRange('0'.code, 'z'.code)
             .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)

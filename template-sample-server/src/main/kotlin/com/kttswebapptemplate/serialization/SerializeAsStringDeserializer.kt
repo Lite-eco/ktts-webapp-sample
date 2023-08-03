@@ -7,7 +7,7 @@ import com.kttswebapptemplate.domain.SerializeAsString
 import kotlin.reflect.KClass
 
 class SerializeAsStringDeserializer<T : SerializeAsString>(
-    val templateSampleStringIdClass: KClass<T>
+    private val templateSampleStringIdClass: KClass<T>
 ) : StdDeserializer<T>(templateSampleStringIdClass.java) {
 
     companion object {

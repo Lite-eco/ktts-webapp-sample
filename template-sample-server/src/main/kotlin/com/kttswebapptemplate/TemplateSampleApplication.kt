@@ -33,7 +33,7 @@ class TemplateSampleApplication {
             app.run(*args)
         }
 
-        fun springProfile(lowercaseEnv: String) =
+        private fun springProfile(lowercaseEnv: String) =
             if (ApplicationInstance.env == ApplicationEnvironment.Dev) {
                 val userProfile = lowercaseEnv + "-" + System.getProperty("user.name")
                 "$lowercaseEnv,$userProfile"
