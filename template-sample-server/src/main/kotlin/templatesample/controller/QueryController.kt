@@ -1,6 +1,15 @@
 package templatesample.controller
 
-import templatesample.query.*
+import templatesample.query.GetUserInfosQuery
+import templatesample.query.GetUserInfosQueryHandler
+import templatesample.query.GetUsersQuery
+import templatesample.query.GetUsersQueryHandler
+import templatesample.query.IsMailAlreadyTakenQuery
+import templatesample.query.IsMailAlreadyTakenQueryHandler
+import templatesample.query.Query
+import templatesample.query.QueryConfiguration
+import templatesample.query.QueryHandler
+import templatesample.query.QueryResponse
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer
 import templatesample.service.user.UserSessionService
@@ -15,7 +24,7 @@ class QueryController(
     private val userDao: UserDao,
     private val userSessionService: UserSessionService,
     private val getUserInfosQueryHandler: GetUserInfosQueryHandler,
-    private val getUsersListQueryHandler: GetUsersListQueryHandler,
+    private val getUsersQueryHandler: GetUsersQueryHandler,
     private val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler,
     private val transactionIsolationService: TransactionIsolationService,
 ) {
@@ -35,7 +44,7 @@ class QueryController(
     private fun handler(query: Query) =
         when (query) {
             is GetUserInfosQuery -> getUserInfosQueryHandler
-            is GetUsersListQuery -> getUsersListQueryHandler
+            is GetUsersQuery -> getUsersQueryHandler
             is IsMailAlreadyTakenQuery -> isMailAlreadyTakenQueryHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as QueryHandler<Query, QueryResponse>) }
 }
