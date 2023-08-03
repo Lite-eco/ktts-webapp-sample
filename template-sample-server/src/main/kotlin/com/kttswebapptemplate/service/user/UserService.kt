@@ -1,28 +1,39 @@
 package com.kttswebapptemplate.service.user
 
+import com.kttswebapptemplate.config.SafeSessionRepository
 import com.kttswebapptemplate.domain.AuthLogType
 import com.kttswebapptemplate.domain.HashedPassword
 import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.PlainStringPassword
 import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.UserId
+import com.kttswebapptemplate.domain.UserSession
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.repository.user.UserMailLogDao
+import com.kttswebapptemplate.repository.user.UserSessionLogDao
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.NotificationService
+import com.kttswebapptemplate.service.utils.TransactionIsolationService
 import com.kttswebapptemplate.service.utils.random.RandomService
 import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 import mu.KotlinLogging
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository
+import org.springframework.session.Session as SpringSession
 import org.springframework.stereotype.Service
 
 @Service
 class UserService(
     private val userDao: UserDao,
     private val userMailLogDao: UserMailLogDao,
+    private val userSessionLogDao: UserSessionLogDao,
     private val dateService: DateService,
     private val randomService: RandomService,
     private val notificationService: NotificationService,
+    private val transactionIsolationService: TransactionIsolationService,
+    private val sessionRepository: SafeSessionRepository,
     private val passwordEncoder: PasswordEncoder
 ) {
 
@@ -96,6 +107,29 @@ class UserService(
         userMailLogDao.insert(
             UserMailLogDao.Record(
                 randomService.id(), userId, formerMail, AuthLogType.FormerMail, now))
+    }
+
+    fun updateRoles(userId: UserId, roles: Set<Role>) {
+        userDao.updateRoles(userId, roles, dateService.now())
+        userSessionLogDao.fetchIdsByUserId(userId).forEach { sessionId ->
+            val userSession = UserSession(sessionId, userId, roles)
+            val userSessionPrincipalName = userSession.toString()
+            sessionRepository.findByPrincipalName(userSessionPrincipalName).values.forEach {
+                updateSession(it, userSession)
+            }
+        }
+    }
+
+    fun updateSession(session: SpringSession, userSession: UserSession) {
+        logger.info { "Save up-to-date session ${session.id}" }
+        val springAuthentication = UsernamePasswordAuthenticationToken(userSession, null, null)
+        val context =
+            session.getAttribute<SecurityContextImpl>(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
+        context.authentication = springAuthentication
+        session.setAttribute(
+            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context)
+        transactionIsolationService.execute { sessionRepository.save(session) }
     }
 
     fun hashPassword(password: PlainStringPassword): HashedPassword {

@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.kttswebapptemplate.domain.LoginResult
 import com.kttswebapptemplate.domain.PlainStringPassword
 import com.kttswebapptemplate.domain.RegisterResult
+import com.kttswebapptemplate.domain.Role
+import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserInfos
 import kttots.Shared
 
@@ -15,6 +17,8 @@ sealed class Command
 @Shared sealed class CommandResponse
 
 object EmptyCommandResponse : CommandResponse()
+
+data class AdminUpdateRolesCommand(val userId: UserId, val roles: Set<Role>) : Command()
 
 data class DevLoginCommand(val username: String) : Command()
 

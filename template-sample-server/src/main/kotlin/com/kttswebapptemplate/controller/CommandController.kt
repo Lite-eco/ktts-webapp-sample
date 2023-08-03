@@ -1,5 +1,7 @@
 package com.kttswebapptemplate.controller
 
+import com.kttswebapptemplate.command.AdminUpdateRolesCommand
+import com.kttswebapptemplate.command.AdminUpdateRolesCommandHandler
 import com.kttswebapptemplate.command.Command
 import com.kttswebapptemplate.command.CommandConfiguration
 import com.kttswebapptemplate.command.CommandHandler
@@ -13,7 +15,6 @@ import com.kttswebapptemplate.command.RegisterCommand
 import com.kttswebapptemplate.command.RegisterCommandHandler
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.repository.log.CommandLogDao
-import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.user.UserSessionService
 import com.kttswebapptemplate.service.utils.ApplicationInstance
@@ -33,11 +34,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 class CommandController(
     private val commandLogDao: CommandLogDao,
-    private val userDao: UserDao,
     private val dateService: DateService,
     private val randomService: RandomService,
     private val idLogService: IdLogService,
     private val userSessionService: UserSessionService,
+    private val adminUpdateRolesCommandHandler: AdminUpdateRolesCommandHandler,
     private val devLoginCommandHandler: DevLoginCommandHandler,
     private val loginCommandHandler: LoginCommandHandler,
     private val registerCommandHandler: RegisterCommandHandler,
@@ -115,6 +116,7 @@ class CommandController(
 
     private fun handler(command: Command) =
         when (command) {
+            is AdminUpdateRolesCommand -> adminUpdateRolesCommandHandler
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
             is RegisterCommand -> registerCommandHandler
@@ -126,5 +128,6 @@ class CommandController(
             is DevLoginCommand,
             is LoginCommand,
             is RegisterCommand -> null
+            is AdminUpdateRolesCommand -> command.userId
         }
 }
