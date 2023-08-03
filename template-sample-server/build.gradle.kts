@@ -58,7 +58,8 @@ configurations.all { exclude("junit") }
 ksp {
     arg("ktToTs:clientDirectory", "$rootDir/template-sample-client")
     // arg("ktToTs:srcDirectory", "src")
-    // arg("ktToTs:generatedDirectory", "src/generated")
+    // arg("ktToTs:generatedDirectory", "generated")
+    arg("ktToTs:dropPackage", "com.kttswebapptemplate")
     arg("ktToTs:mappings", "$rootDir/template-sample-client/kt-to-ts-mappings.json")
     arg(
         "ktToTs:nominalStringMappings",
