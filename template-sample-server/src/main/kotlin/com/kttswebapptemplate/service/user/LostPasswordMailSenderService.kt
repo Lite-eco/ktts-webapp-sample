@@ -5,6 +5,7 @@ import com.kttswebapptemplate.config.Routes
 import com.kttswebapptemplate.controller.IndexController
 import com.kttswebapptemplate.controller.InvalidateMagicLinkTokenController
 import com.kttswebapptemplate.domain.MailReference
+import com.kttswebapptemplate.domain.Uri
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.serialization.Serializer.serialize
 import com.kttswebapptemplate.service.mail.MailService
@@ -16,7 +17,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class LostPasswordMailSenderService(
-    @Value("\${app.url}") private val appUrl: String,
+    @Value("\${app.url}") private val appUrl: Uri,
     private val httpService: HttpService,
     private val magicLinkTokenService: MagicLinkTokenService,
     private val mailService: MailService,
@@ -24,14 +25,18 @@ class LostPasswordMailSenderService(
 
     private val logger = KotlinLogging.logger {}
 
-    data class LostPasswordMailPayload(val url: String, val invalidateTokenUrl: String)
+    data class LostPasswordMailPayload(val url: Uri, val invalidateTokenUrl: Uri)
 
     fun sendMail(user: UserDao.Record) {
         val magicToken = magicLinkTokenService.createToken(user.id)
         val magicUrl =
-            "$appUrl${Routes.loginUpdatePassword}?${IndexController.magicTokenParameterName}=$magicToken"
+            appUrl
+                .resolve(Routes.loginUpdatePassword)
+                .append("?${IndexController.magicTokenParameterName}=$magicToken")
         val invalidateUrl =
-            "$appUrl${InvalidateMagicLinkTokenController.invalidateTokenUri}?${IndexController.magicTokenParameterName}=$magicToken"
+            appUrl
+                .resolve(InvalidateMagicLinkTokenController.invalidateTokenUri)
+                .append("?${IndexController.magicTokenParameterName}=$magicToken")
         val data = LostPasswordMailPayload(magicUrl, invalidateUrl)
         val mailContent = fetchMailContent(data)
         logger.info { "Send lost password mail to $user" }

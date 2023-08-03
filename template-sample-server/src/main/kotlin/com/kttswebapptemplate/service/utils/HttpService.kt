@@ -1,5 +1,6 @@
 package com.kttswebapptemplate.service.utils
 
+import com.kttswebapptemplate.domain.Uri
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -36,32 +37,21 @@ class HttpService(private val okHttpClient: OkHttpClient) {
             get() = buffer?.toString(Charsets.UTF_8)
     }
 
-    fun execute(method: HttpMethod, url: String, vararg headers: Pair<Header, String>) =
-        doExecute(method, url, null, *headers)
+    fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<Header, String>) =
+        execute(method, url, null, *headers)
+
+    fun execute(method: HttpMethod, url: Uri, body: String, vararg headers: Pair<Header, String>) =
+        execute(method, url, body.toRequestBody(), *headers)
 
     fun execute(
         method: HttpMethod,
-        url: String,
-        body: String,
-        vararg headers: Pair<Header, String>
-    ) = doExecute(method, url, body.toRequestBody(), *headers)
-
-    fun execute(
-        method: HttpMethod,
-        url: String,
-        body: RequestBody,
-        vararg headers: Pair<Header, String>
-    ) = doExecute(method, url, body, *headers)
-
-    private fun doExecute(
-        method: HttpMethod,
-        url: String,
+        url: Uri,
         body: RequestBody?,
         vararg headers: Pair<Header, String>
     ): Response =
         Request.Builder()
             .apply {
-                url(url)
+                url(url.path)
                 header(Header.Accept.header, jsonMediaType.toString())
                 header(Header.ContentType.header, jsonMediaType.toString())
                 headers.forEach { header(it.first.header, it.second) }

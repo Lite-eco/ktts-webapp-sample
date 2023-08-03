@@ -2,6 +2,7 @@ package com.kttswebapptemplate.controller
 
 import com.kttswebapptemplate.domain.ApplicationEnvironment
 import com.kttswebapptemplate.domain.MimeType
+import com.kttswebapptemplate.domain.Uri
 import com.kttswebapptemplate.error.TemplateSampleNotFoundException
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.HttpService
@@ -26,6 +27,8 @@ class ReactHotLoaderController(
 
     val logger = KotlinLogging.logger {}
 
+    val baseUrl = Uri("http://$assetsWebpackDevHost:$assetsWebpackDevPort")
+
     @GetMapping("/*.hot-update.*")
     fun handle(request: HttpServletRequest, response: HttpServletResponse) {
         if (ApplicationInstance.env != ApplicationEnvironment.Dev) {
@@ -38,9 +41,7 @@ class ReactHotLoaderController(
             } else {
                 MimeType.JSON.fullType
             }
-        val r =
-            httpService.execute(
-                HttpMethod.GET, "http://$assetsWebpackDevHost:$assetsWebpackDevPort$path")
+        val r = httpService.execute(HttpMethod.GET, baseUrl.resolve(path))
         if (r.code == HttpStatus.OK) {
             response.writer.print(r.bodyString)
         } else {

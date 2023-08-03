@@ -1,6 +1,7 @@
 package com.kttswebapptemplate.service.init
 
 import com.kttswebapptemplate.domain.ApplicationEnvironment
+import com.kttswebapptemplate.domain.Uri
 import com.kttswebapptemplate.service.mail.MailService
 import com.kttswebapptemplate.service.mail.MailService.MailJetMail
 import com.kttswebapptemplate.service.utils.ApplicationInstance
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class DebugMailService(
-    @Value("\${mailjet.url}") private val url: String,
+    @Value("\${mailjet.url}") private val url: Uri,
     @Value("\${mailjet.api-key}") private val apiKey: String,
     @Value("\${mailjet.secret-key}") private val secretKey: String,
     @Value("\${mail.devLogSender}") private val devLogSenderMail: String,

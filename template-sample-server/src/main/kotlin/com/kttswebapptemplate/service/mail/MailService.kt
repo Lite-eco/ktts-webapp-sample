@@ -11,6 +11,7 @@ import com.kttswebapptemplate.domain.DeploymentLogId
 import com.kttswebapptemplate.domain.MailLogId
 import com.kttswebapptemplate.domain.MailReference
 import com.kttswebapptemplate.domain.MimeType
+import com.kttswebapptemplate.domain.Uri
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.error.MessageNotSentException
 import com.kttswebapptemplate.repository.log.MailLogDao
@@ -28,7 +29,7 @@ import org.springframework.stereotype.Service
 
 @Service
 class MailService(
-    @Value("\${mailjet.url}") private val url: String,
+    @Value("\${mailjet.url}") private val url: Uri,
     @Value("\${mailjet.api-key}") private val apiKey: String,
     @Value("\${mailjet.secret-key}") private val secretKey: String,
     @Value("\${mail.devLogSender}") private val devLogSenderMail: String,
