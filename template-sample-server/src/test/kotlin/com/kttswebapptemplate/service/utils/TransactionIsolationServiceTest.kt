@@ -1,11 +1,8 @@
 package com.kttswebapptemplate.service.utils
 
-import com.kttswebapptemplate.TestData
-import com.kttswebapptemplate.domain.HashedPassword
-import com.kttswebapptemplate.repository.user.UserDao
-import com.kttswebapptemplate.service.utils.random.RandomService
-import org.junit.jupiter.api.Assertions.assertNotNull
-import org.junit.jupiter.api.Assertions.assertNull
+import java.util.UUID
+import org.jooq.DSLContext
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
@@ -17,8 +14,7 @@ import org.springframework.transaction.support.TransactionTemplate
 @ActiveProfiles("test")
 internal class TransactionIsolationServiceTest(
     @Autowired val transactionIsolationService: TransactionIsolationService,
-    @Autowired val userDao: UserDao,
-    @Autowired val randomService: RandomService,
+    @Autowired val jooq: DSLContext,
     @Autowired val transactionManager: PlatformTransactionManager
 ) {
 
@@ -35,15 +31,26 @@ internal class TransactionIsolationServiceTest(
         * for first transaction, the propagation behavior is default (PROPAGATION_REQUIRED) ; it could also have been
         PROPAGATION_REQUIRES_NEW or PROPAGATION_NESTED
          */
-
-        val recordNotIsolated = TestData.dummyUser(randomService.id()).copy(mail = "not isolated")
-        val recordIsolated = TestData.dummyUser(randomService.id()).copy(mail = "isolated")
+        jooq.execute(
+            """
+CREATE TABLE transaction_isolation_test
+(
+    id UUID PRIMARY KEY,
+    text VARCHAR(255) NOT NULL
+);
+        """
+                .trimIndent())
         val transactionTemplate = TransactionTemplate(transactionManager)
         try {
             transactionTemplate.execute {
-                userDao.insert(recordNotIsolated, HashedPassword(""))
+                val notIsolated =
+                    "insert into transaction_isolation_test (id, text) values ('${UUID.randomUUID()}', 'not isolated');"
+                jooq.execute(notIsolated)
                 transactionIsolationService.execute {
-                    userDao.insert(recordIsolated, HashedPassword(""))
+                    // isolated
+                    val isolated =
+                        "insert into transaction_isolation_test (id, text) values ('${UUID.randomUUID()}', 'isolated');"
+                    jooq.execute(isolated)
                 }
                 throw RuntimeException("my test exception")
             }
@@ -52,7 +59,12 @@ internal class TransactionIsolationServiceTest(
                 throw e
             }
         }
-        assertNotNull(userDao.fetchOrNullByMail("isolated"))
-        assertNull(userDao.fetchOrNullByMail("not isolated"))
+        assertEquals(
+            setOf("isolated"),
+            jooq
+                .resultQuery("select text from transaction_isolation_test;")
+                .fetch()
+                .map { it.get("text") }
+                .toSet())
     }
 }
