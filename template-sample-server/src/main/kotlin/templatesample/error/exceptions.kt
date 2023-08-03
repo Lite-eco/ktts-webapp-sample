@@ -40,8 +40,8 @@ data class ItemIdNotFoundException(val id: TemplateSampleId<*>) : Exception("Not
 // TODO[tmpl] a message
 data class ItemNotFoundException(val itemClass: Class<*>, val reference: String) : Exception()
 
-// TODO[tmpl] ItemIdNotFoundException + ItemNotFoundException + TemplateSampleNotFoundException... it's a lot of
-// "not found"
+// TODO[tmpl] ItemIdNotFoundException + ItemNotFoundException + TemplateSampleNotFoundException...
+// it's a lot of "not found"
 class TemplateSampleNotFoundException : Exception()
 
 class TemplateSampleSerializationLocalDateException(val date: String) : Exception()

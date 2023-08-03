@@ -33,8 +33,6 @@ data class CommandLogId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class DeploymentLogId(override val rawId: UUID) : TemplateSampleUuidId()
 
-data class FormerMailId(override val rawId: UUID) : TemplateSampleUuidId()
-
 data class MailLogId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class RequestErrorId(override val rawId: UUID) : TemplateSampleUuidId()
@@ -42,5 +40,7 @@ data class RequestErrorId(override val rawId: UUID) : TemplateSampleUuidId()
 data class UserFileId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class UserId(override val rawId: UUID) : TemplateSampleUuidId()
+
+data class UserMailLogId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class UserSessionId(override val rawId: UUID) : TemplateSampleUuidId()

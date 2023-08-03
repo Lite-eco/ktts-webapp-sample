@@ -1,12 +1,19 @@
 package templatesample.repository.user
 
+import templatesample.ResetTestDatabase
 import templatesample.jooq.generated.Tables.USER_FILE
 import org.jooq.TableField
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.reflections.ReflectionUtils
 
 internal class UserFileDaoTest {
+
+    @BeforeEach
+    fun init() {
+        ResetTestDatabase.resetDatabaseSchema(false)
+    }
 
     @Test
     fun `test fields exhaustiveness`() {
