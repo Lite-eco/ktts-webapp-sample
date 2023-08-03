@@ -16,7 +16,7 @@ import templatesample.domain.TestSecurityString
 import templatesample.domain.TestSerializeAsString
 import templatesample.domain.TestStringId
 import templatesample.domain.TestUuidId
-import templatesample.service.DummyRandomService
+import templatesample.service.utils.random.DummyRandomService
 import templatesample.utils.TemplateSampleStringUtils
 import templatesample.utils.TemplateSampleStringUtils.filteredPassword
 

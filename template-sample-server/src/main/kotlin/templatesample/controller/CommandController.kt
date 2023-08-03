@@ -22,12 +22,12 @@ import templatesample.command.RegisterCommandHandler
 import templatesample.repository.log.CommandLogDao
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer
-import templatesample.service.ApplicationInstance
-import templatesample.service.DateService
-import templatesample.service.IdLogService
-import templatesample.service.RandomService
 import templatesample.service.user.UserSessionService
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.DateService
 import templatesample.service.utils.TransactionIsolationService
+import templatesample.service.utils.random.IdLogService
+import templatesample.service.utils.random.RandomService
 
 @RestController
 class CommandController(

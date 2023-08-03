@@ -9,6 +9,8 @@ import templatesample.domain.TestPrefixUuidId
 import templatesample.domain.TestSecurityString
 import templatesample.domain.TestStringId
 import templatesample.domain.TestUuidId
+import templatesample.service.utils.random.DummyRandomService
+import templatesample.service.utils.random.IdLogService
 
 internal class IdLogServiceTest {
 

@@ -7,7 +7,7 @@ import templatesample.domain.RegisterResult
 import templatesample.domain.UserInfos
 import templatesample.domain.UserSession
 import templatesample.error.MailAlreadyRegisteredException
-import templatesample.service.LocaleService
+import templatesample.service.user.LocaleService
 import templatesample.service.user.UserService
 import templatesample.service.user.UserSessionService
 

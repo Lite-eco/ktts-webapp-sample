@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController
 import templatesample.domain.ApplicationEnvironment
 import templatesample.domain.MimeType
 import templatesample.error.TemplateSampleNotFoundException
-import templatesample.service.ApplicationInstance
-import templatesample.service.HttpService
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.HttpService
 
 @RestController
 // [doc] so it won't run on prod

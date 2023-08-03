@@ -16,10 +16,10 @@ import templatesample.domain.MimeType
 import templatesample.domain.RequestErrorId
 import templatesample.domain.Role
 import templatesample.serialization.Serializer
-import templatesample.service.ApplicationInstance
-import templatesample.service.DateService
-import templatesample.service.RandomService
 import templatesample.service.user.UserSessionService
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.DateService
+import templatesample.service.utils.random.RandomService
 import templatesample.utils.TemplateSampleStringUtils
 
 @ControllerAdvice

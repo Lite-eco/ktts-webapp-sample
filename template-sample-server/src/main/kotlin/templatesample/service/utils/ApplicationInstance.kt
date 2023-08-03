@@ -1,4 +1,4 @@
-package templatesample.service
+package templatesample.service.utils
 
 import java.io.File
 import java.io.FileInputStream

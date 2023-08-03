@@ -1,4 +1,4 @@
-package templatesample.service
+package templatesample.service.mail
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.PropertyNamingStrategy
@@ -21,6 +21,10 @@ import templatesample.domain.MimeType
 import templatesample.domain.UserId
 import templatesample.error.MessageNotSentException
 import templatesample.repository.log.MailLogDao
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.DateService
+import templatesample.service.utils.HttpService
+import templatesample.service.utils.random.RandomService
 
 @Service
 class MailService(

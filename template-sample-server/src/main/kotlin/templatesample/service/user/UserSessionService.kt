@@ -17,9 +17,9 @@ import templatesample.error.AppErrors
 import templatesample.error.TemplateSampleSecurityException
 import templatesample.repository.user.UserDao
 import templatesample.repository.user.UserSessionLogDao
-import templatesample.service.ApplicationInstance
-import templatesample.service.DateService
-import templatesample.service.RandomService
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.DateService
+import templatesample.service.utils.random.RandomService
 
 @Service
 class UserSessionService(

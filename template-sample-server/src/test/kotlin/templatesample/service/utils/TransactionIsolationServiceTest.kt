@@ -11,7 +11,7 @@ import org.springframework.transaction.support.TransactionTemplate
 import templatesample.TestData
 import templatesample.domain.HashedPassword
 import templatesample.repository.user.UserDao
-import templatesample.service.RandomService
+import templatesample.service.utils.random.RandomService
 
 @SpringBootTest
 @ActiveProfiles("test")

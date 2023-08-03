@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service
 import templatesample.domain.UserId
 import templatesample.repository.user.MagicLinkTokenDao
 import templatesample.repository.user.UserDao
-import templatesample.service.DateService
+import templatesample.service.utils.DateService
 
 @Service
 class MagicLinkTokenService(

@@ -4,7 +4,7 @@ import mu.KotlinLogging
 import org.springframework.session.FindByIndexNameSessionRepository
 import org.springframework.session.Session
 import templatesample.domain.ApplicationEnvironment
-import templatesample.service.ApplicationInstance
+import templatesample.service.utils.ApplicationInstance
 
 // [doc] from
 // https://sdqali.in/blog/2016/11/02/handling-deserialization-errors-in-spring-redis-sessions/

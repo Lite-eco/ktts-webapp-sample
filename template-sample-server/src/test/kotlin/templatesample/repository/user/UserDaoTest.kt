@@ -10,8 +10,8 @@ import templatesample.ResetTestDatabase
 import templatesample.TestData
 import templatesample.domain.HashedPassword
 import templatesample.error.MailAlreadyRegisteredException
-import templatesample.service.DateService
-import templatesample.service.RandomService
+import templatesample.service.utils.DateService
+import templatesample.service.utils.random.RandomService
 
 @SpringBootTest
 @ActiveProfiles("test")

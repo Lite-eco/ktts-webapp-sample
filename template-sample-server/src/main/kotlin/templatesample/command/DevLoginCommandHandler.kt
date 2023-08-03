@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletResponse
 import org.springframework.stereotype.Service
 import templatesample.domain.PlainStringPassword
 import templatesample.domain.UserSession
-import templatesample.service.DevInitialDataInjectorService
+import templatesample.service.init.DevInitialDataInjectorService
 
 @Service
 class DevLoginCommandHandler(

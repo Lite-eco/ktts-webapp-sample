@@ -1,4 +1,4 @@
-package templatesample.service
+package templatesample.service.init
 
 import java.util.TimeZone
 import javax.sql.DataSource
@@ -11,6 +11,8 @@ import templatesample.domain.ApplicationEnvironment
 import templatesample.jooqlib.Configuration
 import templatesample.jooqlib.ResetDatabase
 import templatesample.repository.log.DeploymentLogDao
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.DateService
 
 @Service
 class InitializationService(

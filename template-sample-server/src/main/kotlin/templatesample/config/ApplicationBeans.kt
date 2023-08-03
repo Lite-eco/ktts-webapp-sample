@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Primary
 import org.springframework.core.task.TaskExecutor
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
 import templatesample.serialization.Serializer
-import templatesample.service.IdLogService
-import templatesample.service.RandomService
 import templatesample.service.utils.ApplicationTaskExecutor
+import templatesample.service.utils.random.IdLogService
+import templatesample.service.utils.random.RandomService
 
 @Configuration
 class ApplicationBeans {

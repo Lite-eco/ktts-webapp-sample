@@ -1,4 +1,4 @@
-package templatesample.service
+package templatesample.service.init
 
 import mu.KotlinLogging
 import okhttp3.Credentials
@@ -7,8 +7,11 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import templatesample.domain.ApplicationEnvironment
-import templatesample.service.MailService.MailJetMail
+import templatesample.service.mail.MailService
+import templatesample.service.mail.MailService.MailJetMail
+import templatesample.service.utils.ApplicationInstance
 import templatesample.service.utils.ApplicationTaskExecutor
+import templatesample.service.utils.HttpService
 
 @Service
 class DebugMailService(

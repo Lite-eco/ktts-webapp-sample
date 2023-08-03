@@ -12,7 +12,7 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.ModelAndView
 import templatesample.config.Routes
 import templatesample.domain.RequestErrorId
-import templatesample.service.RandomService
+import templatesample.service.utils.random.RandomService
 
 @RestController
 class ApplicationErrorController(

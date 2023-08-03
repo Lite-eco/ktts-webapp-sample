@@ -17,9 +17,9 @@ import templatesample.domain.ApplicationBootstrapData
 import templatesample.domain.UserInfos
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer.serialize
-import templatesample.service.ApplicationInstance
 import templatesample.service.user.MagicLinkTokenService
 import templatesample.service.user.UserSessionService
+import templatesample.service.utils.ApplicationInstance
 import templatesample.utils.TemplateSampleStringUtils
 
 @Controller

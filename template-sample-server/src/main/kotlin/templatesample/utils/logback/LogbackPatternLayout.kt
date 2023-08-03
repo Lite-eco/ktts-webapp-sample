@@ -1,4 +1,4 @@
-package templatesample.utils
+package templatesample.utils.logback
 
 import ch.qos.logback.classic.PatternLayout
 

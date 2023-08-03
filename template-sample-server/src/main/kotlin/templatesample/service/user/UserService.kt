@@ -11,9 +11,9 @@ import templatesample.domain.Role
 import templatesample.domain.UserId
 import templatesample.repository.user.UserDao
 import templatesample.repository.user.UserMailLogDao
-import templatesample.service.DateService
-import templatesample.service.NotificationService
-import templatesample.service.RandomService
+import templatesample.service.utils.DateService
+import templatesample.service.utils.NotificationService
+import templatesample.service.utils.random.RandomService
 import templatesample.utils.TemplateSampleStringUtils
 
 @Service

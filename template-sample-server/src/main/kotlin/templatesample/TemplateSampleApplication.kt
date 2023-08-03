@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.autoconfigure.security.servlet.UserDetailsServiceAutoConfiguration
 import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHttpSession
 import templatesample.domain.ApplicationEnvironment
-import templatesample.service.ApplicationInstance
+import templatesample.service.utils.ApplicationInstance
 
 @SpringBootApplication(exclude = [UserDetailsServiceAutoConfiguration::class])
 @EnableJdbcHttpSession

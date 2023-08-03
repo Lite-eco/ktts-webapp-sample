@@ -1,4 +1,4 @@
-package templatesample.service
+package templatesample.service.utils.random
 
 import java.util.UUID
 import templatesample.domain.TemplateSampleId

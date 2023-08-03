@@ -1,4 +1,4 @@
-package templatesample.service
+package templatesample.service.utils
 
 import java.time.Instant
 import java.time.LocalDate

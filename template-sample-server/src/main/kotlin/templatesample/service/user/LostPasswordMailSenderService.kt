@@ -1,4 +1,4 @@
-package templatesample.service.changepassword
+package templatesample.service.user
 
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
@@ -10,10 +10,9 @@ import templatesample.controller.InvalidateMagicLinkTokenController
 import templatesample.domain.MailReference
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer.serialize
-import templatesample.service.ApplicationInstance
-import templatesample.service.HttpService
-import templatesample.service.MailService
-import templatesample.service.user.MagicLinkTokenService
+import templatesample.service.mail.MailService
+import templatesample.service.utils.ApplicationInstance
+import templatesample.service.utils.HttpService
 
 @Service
 class LostPasswordMailSenderService(

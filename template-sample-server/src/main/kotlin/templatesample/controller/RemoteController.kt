@@ -17,8 +17,8 @@ import templatesample.domain.Session as TemplateSampleSession
 import templatesample.domain.UserSession
 import templatesample.repository.user.UserDao
 import templatesample.repository.user.UserSessionLogDao
-import templatesample.service.DateService
 import templatesample.service.user.UserSessionService
+import templatesample.service.utils.DateService
 import templatesample.service.utils.TransactionIsolationService
 
 @RestController
