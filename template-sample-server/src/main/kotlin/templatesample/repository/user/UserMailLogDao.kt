@@ -1,8 +1,8 @@
 package templatesample.repository.user
 
-import templatesample.domain.AuthLogId
 import templatesample.domain.AuthLogType
 import templatesample.domain.UserId
+import templatesample.domain.UserMailLogId
 import templatesample.jooq.generated.Tables.USER_MAIL_LOG
 import templatesample.jooq.generated.tables.records.UserMailLogRecord
 import java.time.Instant
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
 class UserMailLogDao(val jooq: DSLContext) {
 
     data class Record(
-        val id: AuthLogId,
+        val id: UserMailLogId,
         val userId: UserId,
         val mail: String,
         val type: AuthLogType,
