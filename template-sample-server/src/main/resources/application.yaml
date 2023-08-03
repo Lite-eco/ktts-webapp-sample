@@ -19,7 +19,7 @@ insertInitialData: false
 #---------------------------------------------------------------------------
 mail:
   devLogSender: dev+log-template-sample@example.com
-  devDestination:
+  devDestination: dev+log-template-sample@example.com
 #---------------------------------------------------------------------------
 assets.webpackDevHost:
 #---------------------------------------------------------------------------
