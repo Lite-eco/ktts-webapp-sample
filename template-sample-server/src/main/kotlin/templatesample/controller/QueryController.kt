@@ -9,6 +9,7 @@ import templatesample.query.QueryResponse
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer
 import templatesample.service.user.UserSessionService
+import templatesample.service.utils.TransactionIsolationService
 import java.net.URLDecoder
 import javax.servlet.http.HttpServletRequest
 import org.springframework.web.bind.annotation.GetMapping
@@ -18,7 +19,8 @@ import org.springframework.web.bind.annotation.RestController
 class QueryController(
     val userDao: UserDao,
     val userSessionService: UserSessionService,
-    val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler
+    val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler,
+    val transactionIsolationService: TransactionIsolationService,
 ) {
 
     @GetMapping("/query")
@@ -30,7 +32,7 @@ class QueryController(
         val handler = handler(query)
         val userSession =
             if (userSessionService.isAuthenticated()) userSessionService.getUserSession() else null
-        return handler.doHandle(query, userSession)
+        return transactionIsolationService.executeReadOnly { handler.doHandle(query, userSession) }
     }
 
     private fun handler(query: Query) =
