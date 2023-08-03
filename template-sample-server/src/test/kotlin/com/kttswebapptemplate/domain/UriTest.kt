@@ -1,6 +1,5 @@
-package com.kttswebapptemplate.utils
+package com.kttswebapptemplate.domain
 
-import com.kttswebapptemplate.domain.Uri
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
