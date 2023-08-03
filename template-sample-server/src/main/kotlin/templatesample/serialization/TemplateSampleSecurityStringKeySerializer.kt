@@ -12,5 +12,5 @@ class TemplateSampleSecurityStringKeySerializer :
         value: TemplateSampleSecurityString,
         gen: JsonGenerator,
         provider: SerializerProvider
-    ): Unit = gen.writeFieldName(TemplateSampleSecurityStringSerializer.serialize(value))
+    ) = gen.writeFieldName(TemplateSampleSecurityStringSerializer.serialize(value))
 }

@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test
 internal class TemplateSampleUuidIdDeserializerTest {
 
     @Test
-    fun `test DeviceId deserialization`() {
+    fun `test TemplateSampleUuidId deserialization`() {
         assertEquals(
             emptyUuid0.toTypeId<TestUuidId>(),
             Serializer.deserialize<TestUuidId>("\"00000000000000000000000000000000\""))

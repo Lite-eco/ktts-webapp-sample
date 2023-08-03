@@ -11,5 +11,5 @@ class TemplateSampleStringIdKeySerializer : StdSerializer<TemplateSampleStringId
         value: TemplateSampleStringId,
         gen: JsonGenerator,
         provider: SerializerProvider
-    ): Unit = gen.writeFieldName(TemplateSampleStringIdSerializer.serialize(value))
+    ) = gen.writeFieldName(TemplateSampleStringIdSerializer.serialize(value))
 }
