@@ -1,8 +1,8 @@
 package templatesample.domain
 
 enum class ApplicationEnvironment {
-    dev,
-    staging,
-    prod,
-    test
+    Dev,
+    Staging,
+    Prod,
+    Test
 }
