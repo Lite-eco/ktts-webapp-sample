@@ -1,10 +1,10 @@
 package templatesample.config
 
-import templatesample.domain.Session
-import templatesample.serialization.Serializer.serialize
 import org.springframework.core.convert.converter.Converter
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextImpl
+import templatesample.domain.Session
+import templatesample.serialization.Serializer.serialize
 
 class JsonSerializingService : Converter<Any, ByteArray> {
 

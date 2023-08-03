@@ -1,5 +1,8 @@
 package templatesample.command
 
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import org.springframework.stereotype.Service
 import templatesample.domain.RegisterResult
 import templatesample.domain.UserInfos
 import templatesample.domain.UserSession
@@ -7,9 +10,6 @@ import templatesample.error.MailAlreadyRegisteredException
 import templatesample.service.LocaleService
 import templatesample.service.user.UserService
 import templatesample.service.user.UserSessionService
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import org.springframework.stereotype.Service
 
 @Service
 class RegisterCommandHandler(

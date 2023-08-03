@@ -1,9 +1,9 @@
 package templatesample.service
 
-import templatesample.domain.ApplicationEnvironment
-import templatesample.service.utils.ApplicationTaskExecutor
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
+import templatesample.domain.ApplicationEnvironment
+import templatesample.service.utils.ApplicationTaskExecutor
 
 @Service
 class NotificationService(

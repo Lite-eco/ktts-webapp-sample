@@ -1,10 +1,5 @@
 package templatesample.controller
 
-import templatesample.domain.ApplicationEnvironment
-import templatesample.domain.MimeType
-import templatesample.error.TemplateSampleNotFoundException
-import templatesample.service.ApplicationInstance
-import templatesample.service.HttpService
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import mu.KotlinLogging
@@ -14,6 +9,11 @@ import org.springframework.http.HttpMethod
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import templatesample.domain.ApplicationEnvironment
+import templatesample.domain.MimeType
+import templatesample.error.TemplateSampleNotFoundException
+import templatesample.service.ApplicationInstance
+import templatesample.service.HttpService
 
 @RestController
 // [doc] so it won't run on prod

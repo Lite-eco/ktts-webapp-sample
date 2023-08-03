@@ -1,9 +1,9 @@
 package templatesample.domain
 
-import templatesample.utils.toSecurityString
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import templatesample.utils.toSecurityString
 
 class TemplateSampleSecurityStringTest {
 

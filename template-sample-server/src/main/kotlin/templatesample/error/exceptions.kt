@@ -1,10 +1,10 @@
 package templatesample.error
 
-import templatesample.domain.TemplateSampleId
-import templatesample.domain.RequestErrorId
 import java.time.Instant
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.slf4j.event.Level
+import templatesample.domain.RequestErrorId
+import templatesample.domain.TemplateSampleId
 
 // FIXME[tmpl] can remove ? ReadableStackTrace ? and ReadableStackTraceSerializer ?
 // @Shared

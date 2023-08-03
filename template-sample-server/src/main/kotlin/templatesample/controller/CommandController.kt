@@ -1,5 +1,13 @@
 package templatesample.controller
 
+import java.time.Instant
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import mu.KotlinLogging
+import org.apache.commons.lang3.exception.ExceptionUtils
+import org.springframework.web.bind.annotation.PostMapping
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RestController
 import templatesample.command.Command
 import templatesample.command.CommandConfiguration
 import templatesample.command.CommandHandler
@@ -20,14 +28,6 @@ import templatesample.service.IdLogService
 import templatesample.service.RandomService
 import templatesample.service.user.UserSessionService
 import templatesample.service.utils.TransactionIsolationService
-import java.time.Instant
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import mu.KotlinLogging
-import org.apache.commons.lang3.exception.ExceptionUtils
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class CommandController(

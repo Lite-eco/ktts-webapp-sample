@@ -1,9 +1,9 @@
 package templatesample.service
 
-import templatesample.domain.Language
 import java.util.Enumeration
 import java.util.Locale
 import org.springframework.stereotype.Service
+import templatesample.domain.Language
 
 @Service
 class LocaleService(private val notificationService: NotificationService) {

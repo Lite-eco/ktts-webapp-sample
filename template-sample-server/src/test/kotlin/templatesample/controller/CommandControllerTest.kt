@@ -1,9 +1,9 @@
 package templatesample.controller
 
+import org.junit.jupiter.api.Test
 import templatesample.command.Command
 import templatesample.command.LoginCommand
 import templatesample.serialization.Serializer
-import org.junit.jupiter.api.Test
 
 internal class CommandControllerTest {
 

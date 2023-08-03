@@ -1,8 +1,8 @@
 package templatesample.controller
 
-import templatesample.controller.IndexController.Companion.extractDomain
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import templatesample.controller.IndexController.Companion.extractDomain
 
 internal class IndexControllerCompanionTest() {
 

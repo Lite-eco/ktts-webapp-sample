@@ -1,13 +1,13 @@
 package templatesample.tools.generation
 
-import templatesample.domain.TemplateSampleId
-import templatesample.serialization.Serializer.idsPackage
 import java.nio.file.Files
 import java.nio.file.Paths
 import org.reflections.Reflections
 import org.reflections.util.ClasspathHelper
 import org.reflections.util.ConfigurationBuilder
 import org.reflections.util.FilterBuilder
+import templatesample.domain.TemplateSampleId
+import templatesample.serialization.Serializer.idsPackage
 
 fun main() {
     val stringBuilder = StringBuilder()

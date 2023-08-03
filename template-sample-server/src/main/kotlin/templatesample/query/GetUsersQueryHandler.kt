@@ -1,8 +1,8 @@
 package templatesample.query
 
+import org.springframework.stereotype.Service
 import templatesample.domain.UserInfos
 import templatesample.repository.user.UserDao
-import org.springframework.stereotype.Service
 
 @Service
 class GetUsersQueryHandler(private val userDao: UserDao) :

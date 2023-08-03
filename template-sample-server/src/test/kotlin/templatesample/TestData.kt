@@ -1,11 +1,11 @@
 package templatesample
 
+import java.time.LocalDateTime
 import templatesample.config.ApplicationConstants
 import templatesample.domain.Language
 import templatesample.domain.Role
 import templatesample.domain.UserId
 import templatesample.repository.user.UserDao
-import java.time.LocalDateTime
 
 object TestData {
 

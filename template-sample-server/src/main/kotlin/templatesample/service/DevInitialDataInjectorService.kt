@@ -1,13 +1,13 @@
 package templatesample.service
 
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import templatesample.domain.Language
 import templatesample.domain.PlainStringPassword
 import templatesample.domain.Role
 import templatesample.repository.user.UserDao
 import templatesample.service.user.UserService
 import templatesample.service.utils.TransactionIsolationService
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 
 @Service
 // TODO[tmpl] naming fake / sample

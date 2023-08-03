@@ -1,9 +1,9 @@
 package templatesample.serialization
 
-import templatesample.domain.TestIds.sampleStringId
-import templatesample.domain.TestStringId
 import org.junit.jupiter.api.Test
 import org.skyscreamer.jsonassert.JSONAssert
+import templatesample.domain.TestIds.sampleStringId
+import templatesample.domain.TestStringId
 
 internal class TemplateSampleStringIdKeySerializerTest {
 

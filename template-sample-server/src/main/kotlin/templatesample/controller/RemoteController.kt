@@ -1,15 +1,5 @@
 package templatesample.controller
 
-import templatesample.config.SafeSessionRepository
-import templatesample.controller.RemoteController.Companion.remoteRoute
-import templatesample.domain.Role
-import templatesample.domain.Session as TemplateSampleSession
-import templatesample.domain.UserSession
-import templatesample.repository.user.UserDao
-import templatesample.repository.user.UserSessionLogDao
-import templatesample.service.DateService
-import templatesample.service.user.UserSessionService
-import templatesample.service.utils.TransactionIsolationService
 import mu.KotlinLogging
 import org.jooq.DSLContext
 import org.springframework.beans.factory.annotation.Value
@@ -20,6 +10,16 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import templatesample.config.SafeSessionRepository
+import templatesample.controller.RemoteController.Companion.remoteRoute
+import templatesample.domain.Role
+import templatesample.domain.Session as TemplateSampleSession
+import templatesample.domain.UserSession
+import templatesample.repository.user.UserDao
+import templatesample.repository.user.UserSessionLogDao
+import templatesample.service.DateService
+import templatesample.service.user.UserSessionService
+import templatesample.service.utils.TransactionIsolationService
 
 @RestController
 @RequestMapping(remoteRoute)

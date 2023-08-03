@@ -6,6 +6,13 @@ import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.databind.cfg.MapperConfig
 import com.fasterxml.jackson.databind.introspect.AnnotatedField
 import com.fasterxml.jackson.databind.introspect.AnnotatedMethod
+import java.util.Base64
+import mu.KotlinLogging
+import okhttp3.Credentials
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.HttpMethod
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Service
 import templatesample.domain.ApplicationEnvironment
 import templatesample.domain.DeploymentLogId
 import templatesample.domain.MailLogId
@@ -14,13 +21,6 @@ import templatesample.domain.MimeType
 import templatesample.domain.UserId
 import templatesample.error.MessageNotSentException
 import templatesample.repository.log.MailLogDao
-import java.util.Base64
-import mu.KotlinLogging
-import okhttp3.Credentials
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
-import org.springframework.stereotype.Service
 
 @Service
 class MailService(
@@ -70,7 +70,8 @@ class MailService(
 
     private data class MailJetMessages(val Messages: List<MailJetMessage>)
 
-    // TODO[tmpl][mail][doc] this informations is here to display the environnement which sent the mail in mailjet ui
+    // TODO[tmpl][mail][doc] this informations is here to display the environnement which sent the
+    // mail in mailjet ui
     private data class MailJetEventPayload(val env: String)
 
     // TODO[tmpl][mail] check this... + uppercase first letter handled here ?

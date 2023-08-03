@@ -1,13 +1,13 @@
 package templatesample.jooqlib
 
-import templatesample.jooqlib.GenerateJooqAndDiff.sqlCleanResultFile
-import templatesample.jooqlib.GenerateJooqAndDiff.sqlInitiateSchemaResultFile
-import templatesample.jooqlib.GenerateJooqAndDiff.sqlInsertFilesDir
-import templatesample.jooqlib.GenerateJooqAndDiff.sqlSchemaFilesDir
 import jooqutils.DatabaseCleaner
 import jooqutils.DatabaseConfiguration
 import jooqutils.DatabaseInitializer
 import mu.KotlinLogging
+import templatesample.jooqlib.GenerateJooqAndDiff.sqlCleanResultFile
+import templatesample.jooqlib.GenerateJooqAndDiff.sqlInitiateSchemaResultFile
+import templatesample.jooqlib.GenerateJooqAndDiff.sqlInsertFilesDir
+import templatesample.jooqlib.GenerateJooqAndDiff.sqlSchemaFilesDir
 
 fun main() {
     System.setProperty("logback.configurationFile", "logback-jooq-lib.xml")

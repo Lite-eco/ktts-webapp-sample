@@ -5,12 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import templatesample.domain.TemplateSampleId
-import templatesample.domain.TemplateSampleSecurityString
-import templatesample.domain.TemplateSampleStringId
-import templatesample.domain.TemplateSampleUuidId
-import templatesample.domain.PlainStringPassword
-import templatesample.domain.SerializeAsString
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -18,6 +12,12 @@ import java.util.UUID
 import kotlin.jvm.internal.Reflection
 import kotlin.reflect.KClass
 import org.reflections.Reflections
+import templatesample.domain.PlainStringPassword
+import templatesample.domain.SerializeAsString
+import templatesample.domain.TemplateSampleId
+import templatesample.domain.TemplateSampleSecurityString
+import templatesample.domain.TemplateSampleStringId
+import templatesample.domain.TemplateSampleUuidId
 
 object Serializer {
 
@@ -57,16 +57,19 @@ object Serializer {
 
                 addSerializer(TemplateSampleSecurityStringSerializer())
                 addKeySerializer(
-                    TemplateSampleSecurityString::class.java, TemplateSampleSecurityStringKeySerializer())
+                    TemplateSampleSecurityString::class.java,
+                    TemplateSampleSecurityStringKeySerializer())
                 addAllTemplateSampleSecurityStringDeserializers(this)
 
                 // TODO[tmpl][serialization] about data class
                 addSerializer(TemplateSampleUuidIdSerializer())
-                addKeySerializer(TemplateSampleUuidId::class.java, TemplateSampleUuidIdKeySerializer())
+                addKeySerializer(
+                    TemplateSampleUuidId::class.java, TemplateSampleUuidIdKeySerializer())
                 addAllTemplateSampleUuidIdsDeserializers(this)
 
                 addSerializer(TemplateSampleStringIdSerializer())
-                addKeySerializer(TemplateSampleStringId::class.java, TemplateSampleStringIdKeySerializer())
+                addKeySerializer(
+                    TemplateSampleStringId::class.java, TemplateSampleStringIdKeySerializer())
                 addAllTemplateSampleStringIdsDeserializers(this)
 
                 addSerializer(SerializeAsStringSerializer())
@@ -80,15 +83,20 @@ object Serializer {
     }
 
     fun addAllTemplateSampleStringIdsDeserializers(module: SimpleModule) {
-        fun <T : TemplateSampleStringId> addDeserializer(module: SimpleModule, idKclass: KClass<T>) {
+        fun <T : TemplateSampleStringId> addDeserializer(
+            module: SimpleModule,
+            idKclass: KClass<T>
+        ) {
             module.addDeserializer(idKclass.java, TemplateSampleStringIdDeserializer(idKclass))
-            module.addKeyDeserializer(idKclass.java, TemplateSampleStringIdKeyDeserializer(idKclass))
+            module.addKeyDeserializer(
+                idKclass.java, TemplateSampleStringIdKeyDeserializer(idKclass))
         }
 
         val idClasses: Set<Class<out TemplateSampleStringId>> =
             reflections.getSubTypesOf(TemplateSampleStringId::class.java)
         idClasses.forEach {
-            addDeserializer(module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleStringId>)
+            addDeserializer(
+                module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleStringId>)
         }
     }
 
@@ -101,21 +109,28 @@ object Serializer {
         val idClasses: Set<Class<out TemplateSampleUuidId>> =
             reflections.getSubTypesOf(TemplateSampleUuidId::class.java)
         idClasses.forEach {
-            addDeserializer(module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleUuidId>)
+            addDeserializer(
+                module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleUuidId>)
         }
     }
 
     fun addAllTemplateSampleSecurityStringDeserializers(module: SimpleModule) {
-        fun <T : TemplateSampleSecurityString> addDeserializer(module: SimpleModule, idKclass: KClass<T>) {
-            module.addDeserializer(idKclass.java, TemplateSampleSecurityStringDeserializer(idKclass))
-            module.addKeyDeserializer(idKclass.java, TemplateSampleSecurityStringKeyDeserializer(idKclass))
+        fun <T : TemplateSampleSecurityString> addDeserializer(
+            module: SimpleModule,
+            idKclass: KClass<T>
+        ) {
+            module.addDeserializer(
+                idKclass.java, TemplateSampleSecurityStringDeserializer(idKclass))
+            module.addKeyDeserializer(
+                idKclass.java, TemplateSampleSecurityStringKeyDeserializer(idKclass))
         }
 
         val idClasses: Set<Class<out TemplateSampleSecurityString>> =
             reflections.getSubTypesOf(TemplateSampleSecurityString::class.java)
         idClasses.forEach {
             addDeserializer(
-                module, Reflection.createKotlinClass(it) as KClass<out TemplateSampleSecurityString>)
+                module,
+                Reflection.createKotlinClass(it) as KClass<out TemplateSampleSecurityString>)
         }
     }
 

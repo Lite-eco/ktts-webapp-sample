@@ -1,17 +1,17 @@
 package templatesample.repository.user
 
-import templatesample.ResetTestDatabase
-import templatesample.TestData
-import templatesample.domain.HashedPassword
-import templatesample.error.MailAlreadyRegisteredException
-import templatesample.service.DateService
-import templatesample.service.RandomService
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
+import templatesample.ResetTestDatabase
+import templatesample.TestData
+import templatesample.domain.HashedPassword
+import templatesample.error.MailAlreadyRegisteredException
+import templatesample.service.DateService
+import templatesample.service.RandomService
 
 @SpringBootTest
 @ActiveProfiles("test")

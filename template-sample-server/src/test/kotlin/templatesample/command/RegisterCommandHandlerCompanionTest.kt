@@ -1,10 +1,10 @@
 package templatesample.command
 
-import templatesample.domain.PlainStringPassword
 import org.hamcrest.MatcherAssert
 import org.hamcrest.Matchers
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import templatesample.domain.PlainStringPassword
 
 internal class RegisterCommandHandlerCompanionTest {
 

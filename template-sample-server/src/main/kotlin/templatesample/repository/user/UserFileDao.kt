@@ -1,5 +1,9 @@
 package templatesample.repository.user
 
+import org.jooq.DSLContext
+import org.jooq.Record
+import org.jooq.TableField
+import org.springframework.stereotype.Repository
 import templatesample.domain.UserFileData
 import templatesample.domain.UserFileId
 import templatesample.domain.UserFileReference
@@ -7,10 +11,6 @@ import templatesample.domain.UserId
 import templatesample.jooq.generated.Tables.USER_FILE
 import templatesample.jooq.generated.tables.records.UserFileRecord
 import templatesample.utils.toTypeId
-import org.jooq.DSLContext
-import org.jooq.Record
-import org.jooq.TableField
-import org.springframework.stereotype.Repository
 
 @Repository
 class UserFileDao(private val jooq: DSLContext) {

@@ -2,8 +2,8 @@ package templatesample.serialization
 
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.KeyDeserializer
-import templatesample.domain.TemplateSampleSecurityString
 import kotlin.reflect.KClass
+import templatesample.domain.TemplateSampleSecurityString
 
 class TemplateSampleSecurityStringKeyDeserializer<T : TemplateSampleSecurityString>(
     val TemplateSampleSecurityString: KClass<T>

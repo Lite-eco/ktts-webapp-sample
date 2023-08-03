@@ -1,9 +1,5 @@
 package templatesample.service.utils
 
-import templatesample.TestData
-import templatesample.domain.HashedPassword
-import templatesample.repository.user.UserDao
-import templatesample.service.RandomService
 import org.junit.jupiter.api.Assertions.assertNotNull
 import org.junit.jupiter.api.Assertions.assertNull
 import org.junit.jupiter.api.Test
@@ -12,6 +8,10 @@ import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.transaction.PlatformTransactionManager
 import org.springframework.transaction.support.TransactionTemplate
+import templatesample.TestData
+import templatesample.domain.HashedPassword
+import templatesample.repository.user.UserDao
+import templatesample.service.RandomService
 
 @SpringBootTest
 @ActiveProfiles("test")

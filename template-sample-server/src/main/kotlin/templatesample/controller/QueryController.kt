@@ -1,5 +1,9 @@
 package templatesample.controller
 
+import java.net.URLDecoder
+import javax.servlet.http.HttpServletRequest
+import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RestController
 import templatesample.query.GetUserInfosQuery
 import templatesample.query.GetUserInfosQueryHandler
 import templatesample.query.GetUsersQuery
@@ -14,10 +18,6 @@ import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer
 import templatesample.service.user.UserSessionService
 import templatesample.service.utils.TransactionIsolationService
-import java.net.URLDecoder
-import javax.servlet.http.HttpServletRequest
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RestController
 
 @RestController
 class QueryController(

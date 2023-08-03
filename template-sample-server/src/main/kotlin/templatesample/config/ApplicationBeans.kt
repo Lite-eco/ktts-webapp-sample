@@ -1,15 +1,15 @@
 package templatesample.config
 
-import templatesample.serialization.Serializer
-import templatesample.service.IdLogService
-import templatesample.service.RandomService
-import templatesample.service.utils.ApplicationTaskExecutor
 import okhttp3.OkHttpClient
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.context.annotation.Primary
 import org.springframework.core.task.TaskExecutor
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor
+import templatesample.serialization.Serializer
+import templatesample.service.IdLogService
+import templatesample.service.RandomService
+import templatesample.service.utils.ApplicationTaskExecutor
 
 @Configuration
 class ApplicationBeans {

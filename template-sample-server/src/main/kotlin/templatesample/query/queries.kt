@@ -1,9 +1,9 @@
 package templatesample.query
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import kttots.Shared
 import templatesample.domain.UserId
 import templatesample.domain.UserInfos
-import kttots.Shared
 
 @Shared
 @JsonTypeInfo(

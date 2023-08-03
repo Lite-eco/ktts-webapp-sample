@@ -1,7 +1,7 @@
 package templatesample.domain
 
-import templatesample.utils.TemplateSampleStringUtils
 import java.util.UUID
+import templatesample.utils.TemplateSampleStringUtils
 
 interface TemplateSampleId<T> {
     val rawId: T

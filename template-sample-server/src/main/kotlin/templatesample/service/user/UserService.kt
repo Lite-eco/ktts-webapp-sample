@@ -1,5 +1,8 @@
 package templatesample.service.user
 
+import mu.KotlinLogging
+import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
 import templatesample.domain.AuthLogType
 import templatesample.domain.HashedPassword
 import templatesample.domain.Language
@@ -12,9 +15,6 @@ import templatesample.service.DateService
 import templatesample.service.NotificationService
 import templatesample.service.RandomService
 import templatesample.utils.TemplateSampleStringUtils
-import mu.KotlinLogging
-import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.stereotype.Service
 
 @Service
 class UserService(

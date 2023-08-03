@@ -2,11 +2,11 @@ package templatesample.tooling.kttots
 
 import com.google.devtools.ksp.symbol.KSClassDeclaration
 import com.google.devtools.ksp.symbol.KSTypeReference
-import templatesample.tooling.kttots.ClassWriter.propertyClassName
 import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.LocalTime
+import templatesample.tooling.kttots.ClassWriter.propertyClassName
 
 object ClassMapper {
 

@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import templatesample.domain.TemplateSampleStringId
 
-class TemplateSampleStringIdKeySerializer : StdSerializer<TemplateSampleStringId>(TemplateSampleStringId::class.java) {
+class TemplateSampleStringIdKeySerializer :
+    StdSerializer<TemplateSampleStringId>(TemplateSampleStringId::class.java) {
 
     override fun serialize(
         value: TemplateSampleStringId,

@@ -1,14 +1,14 @@
 package templatesample.repository.user
 
+import java.time.Instant
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 import templatesample.domain.DeploymentLogId
 import templatesample.domain.UserId
 import templatesample.domain.UserSessionId
 import templatesample.jooq.generated.Tables.USER_SESSION_LOG
 import templatesample.jooq.generated.tables.records.UserSessionLogRecord
 import templatesample.utils.toTypeId
-import java.time.Instant
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
 
 // TODO[tmpl][user] : try to keep Spring id
 @Repository

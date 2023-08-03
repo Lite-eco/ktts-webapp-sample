@@ -1,9 +1,9 @@
 package templatesample.serialization
 
-import templatesample.domain.TestIds.sampleStringId
-import templatesample.domain.TestStringId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import templatesample.domain.TestIds.sampleStringId
+import templatesample.domain.TestStringId
 
 internal class TemplateSampleStringIdDeserializerTest {
 

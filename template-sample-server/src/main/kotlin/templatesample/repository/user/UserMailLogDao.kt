@@ -1,13 +1,13 @@
 package templatesample.repository.user
 
+import java.time.Instant
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 import templatesample.domain.AuthLogType
 import templatesample.domain.UserId
 import templatesample.domain.UserMailLogId
 import templatesample.jooq.generated.Tables.USER_MAIL_LOG
 import templatesample.jooq.generated.tables.records.UserMailLogRecord
-import java.time.Instant
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
 
 @Repository
 class UserMailLogDao(private val jooq: DSLContext) {

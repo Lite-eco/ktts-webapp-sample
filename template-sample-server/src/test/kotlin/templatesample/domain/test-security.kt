@@ -1,6 +1,7 @@
 package templatesample.domain
 
-data class TestSecurityString(override val rawString: String) : TemplateSampleSecurityString(rawString) {
+data class TestSecurityString(override val rawString: String) :
+    TemplateSampleSecurityString(rawString) {
     override fun length() = TestStringId.length
 }
 

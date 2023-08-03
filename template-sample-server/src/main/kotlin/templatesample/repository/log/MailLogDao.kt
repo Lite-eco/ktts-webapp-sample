@@ -1,5 +1,8 @@
 package templatesample.repository.log
 
+import java.time.Instant
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 import templatesample.domain.DeploymentLogId
 import templatesample.domain.MailLogId
 import templatesample.domain.MailReference
@@ -7,9 +10,6 @@ import templatesample.domain.UserId
 import templatesample.jooq.generated.Tables.MAIL_LOG
 import templatesample.jooq.generated.tables.records.MailLogRecord
 import templatesample.utils.toTypeId
-import java.time.Instant
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
 
 @Repository
 class MailLogDao(private val jooq: DSLContext) {

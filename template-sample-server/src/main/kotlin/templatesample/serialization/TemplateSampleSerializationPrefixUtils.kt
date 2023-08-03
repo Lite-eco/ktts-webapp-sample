@@ -1,9 +1,9 @@
 package templatesample.serialization
 
+import kotlin.reflect.KClass
+import templatesample.domain.Prefix
 import templatesample.domain.TemplateSampleId
 import templatesample.domain.TemplateSampleSecurityString
-import templatesample.domain.Prefix
-import kotlin.reflect.KClass
 
 object TemplateSampleSerializationPrefixUtils {
 

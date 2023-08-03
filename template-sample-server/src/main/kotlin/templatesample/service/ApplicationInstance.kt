@@ -1,13 +1,13 @@
 package templatesample.service
 
-import templatesample.TemplateSampleApplication
-import templatesample.domain.ApplicationEnvironment
-import templatesample.domain.DeploymentLogId
-import templatesample.utils.toTypeId
 import java.io.File
 import java.io.FileInputStream
 import java.util.Properties
 import java.util.UUID
+import templatesample.TemplateSampleApplication
+import templatesample.domain.ApplicationEnvironment
+import templatesample.domain.DeploymentLogId
+import templatesample.utils.toTypeId
 
 object ApplicationInstance {
     val env by lazy {

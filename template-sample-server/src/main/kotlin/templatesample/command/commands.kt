@@ -1,11 +1,11 @@
 package templatesample.command
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import kttots.Shared
 import templatesample.domain.LoginResult
 import templatesample.domain.PlainStringPassword
 import templatesample.domain.RegisterResult
 import templatesample.domain.UserInfos
-import kttots.Shared
 
 @Shared
 @JsonTypeInfo(

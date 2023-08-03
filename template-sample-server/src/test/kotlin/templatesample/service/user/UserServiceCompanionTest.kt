@@ -1,8 +1,8 @@
 package templatesample.service.user
 
-import templatesample.service.user.UserService.Companion.cleanMailAndReturnDirty
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
+import templatesample.service.user.UserService.Companion.cleanMailAndReturnDirty
 
 class UserServiceCompanionTest {
     @Test

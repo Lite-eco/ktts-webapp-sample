@@ -1,5 +1,10 @@
 package templatesample.repository.user
 
+import java.time.Instant
+import java.util.stream.Stream
+import org.jooq.DSLContext
+import org.springframework.dao.DuplicateKeyException
+import org.springframework.stereotype.Repository
 import templatesample.domain.HashedPassword
 import templatesample.domain.Language
 import templatesample.domain.Role
@@ -9,11 +14,6 @@ import templatesample.jooq.generated.Keys.APP_USER_MAIL_KEY
 import templatesample.jooq.generated.Tables.APP_USER
 import templatesample.jooq.generated.tables.records.AppUserRecord
 import templatesample.utils.toTypeId
-import java.time.Instant
-import java.util.stream.Stream
-import org.jooq.DSLContext
-import org.springframework.dao.DuplicateKeyException
-import org.springframework.stereotype.Repository
 
 @Repository
 class UserDao(private val jooq: DSLContext) {

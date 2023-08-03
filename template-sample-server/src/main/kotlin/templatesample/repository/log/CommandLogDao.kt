@@ -1,5 +1,8 @@
 package templatesample.repository.log
 
+import java.time.Instant
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 import templatesample.domain.CommandLogId
 import templatesample.domain.DeploymentLogId
 import templatesample.domain.UserId
@@ -7,9 +10,6 @@ import templatesample.domain.UserSessionId
 import templatesample.jooq.generated.Tables.COMMAND_LOG
 import templatesample.jooq.generated.tables.records.CommandLogRecord
 import templatesample.utils.toTypeId
-import java.time.Instant
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
 
 @Repository
 class CommandLogDao(private val jooq: DSLContext) {

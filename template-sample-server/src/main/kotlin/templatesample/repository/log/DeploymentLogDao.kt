@@ -1,12 +1,12 @@
 package templatesample.repository.log
 
-import templatesample.domain.DeploymentLogId
-import templatesample.jooq.generated.Tables.DEPLOYMENT_LOG
-import templatesample.jooq.generated.tables.records.DeploymentLogRecord
 import java.time.Instant
 import java.time.ZoneId
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
+import templatesample.domain.DeploymentLogId
+import templatesample.jooq.generated.Tables.DEPLOYMENT_LOG
+import templatesample.jooq.generated.tables.records.DeploymentLogRecord
 
 @Repository
 class DeploymentLogDao(private val jooq: DSLContext) {

@@ -1,9 +1,5 @@
 package templatesample.service.user
 
-import templatesample.domain.UserId
-import templatesample.repository.user.MagicLinkTokenDao
-import templatesample.repository.user.UserDao
-import templatesample.service.DateService
 import java.math.BigInteger
 import java.security.SecureRandom
 import java.time.Duration
@@ -12,6 +8,10 @@ import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import mu.KotlinLogging
 import org.springframework.stereotype.Service
+import templatesample.domain.UserId
+import templatesample.repository.user.MagicLinkTokenDao
+import templatesample.repository.user.UserDao
+import templatesample.service.DateService
 
 @Service
 class MagicLinkTokenService(

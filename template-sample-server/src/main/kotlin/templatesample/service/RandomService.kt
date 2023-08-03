@@ -1,11 +1,11 @@
 package templatesample.service
 
-import templatesample.domain.TemplateSampleSecurityString
-import templatesample.domain.TemplateSampleStringId
-import templatesample.domain.TemplateSampleUuidId
 import java.util.UUID
 import org.apache.commons.text.CharacterPredicates
 import org.apache.commons.text.RandomStringGenerator
+import templatesample.domain.TemplateSampleSecurityString
+import templatesample.domain.TemplateSampleStringId
+import templatesample.domain.TemplateSampleUuidId
 
 open class RandomService(val idLogService: IdLogService? = null) {
 

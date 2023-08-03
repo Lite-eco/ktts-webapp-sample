@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.SerializerProvider
 import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import templatesample.domain.TemplateSampleStringId
 
-class TemplateSampleStringIdSerializer : StdSerializer<TemplateSampleStringId>(TemplateSampleStringId::class.java) {
+class TemplateSampleStringIdSerializer :
+    StdSerializer<TemplateSampleStringId>(TemplateSampleStringId::class.java) {
 
     companion object {
         fun serialize(value: TemplateSampleStringId) =

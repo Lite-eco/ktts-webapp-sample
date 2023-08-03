@@ -1,10 +1,10 @@
 package templatesample.jooqlib
 
-import templatesample.jooqlib.Configuration.configuration
 import java.nio.file.Paths
 import jooqutils.DatabaseInitializer
 import jooqutils.JooqGeneration
 import mu.KotlinLogging
+import templatesample.jooqlib.Configuration.configuration
 
 fun main() {
     System.setProperty("logback.configurationFile", "logback-jooq-lib.xml")
@@ -35,7 +35,9 @@ object GenerateJooqAndDiff {
         Paths.get(rootDir).also { logger.info { "Project dir is $it" } }
     }
 
-    val webServerResourcesDir by lazy { projectDir.resolve("template-sample-server/src/main/resources") }
+    val webServerResourcesDir by lazy {
+        projectDir.resolve("template-sample-server/src/main/resources")
+    }
 
     val sqlSchemaFilesDir by lazy { webServerResourcesDir.resolve("data/schema") }
 

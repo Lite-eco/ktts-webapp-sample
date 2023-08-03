@@ -1,9 +1,5 @@
 package templatesample.service
 
-import templatesample.domain.ApplicationEnvironment
-import templatesample.jooqlib.Configuration
-import templatesample.jooqlib.ResetDatabase
-import templatesample.repository.log.DeploymentLogDao
 import java.util.TimeZone
 import javax.sql.DataSource
 import jooqutils.DatabaseConfiguration
@@ -11,6 +7,10 @@ import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Service
+import templatesample.domain.ApplicationEnvironment
+import templatesample.jooqlib.Configuration
+import templatesample.jooqlib.ResetDatabase
+import templatesample.repository.log.DeploymentLogDao
 
 @Service
 class InitializationService(

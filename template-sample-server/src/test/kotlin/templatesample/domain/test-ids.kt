@@ -10,7 +10,8 @@ object TestIds {
 
 data class TestUuidId(override val rawId: UUID) : TemplateSampleUuidId()
 
-@Prefix("test_prefix") data class TestPrefixUuidId(override val rawId: UUID) : TemplateSampleUuidId()
+@Prefix("test_prefix")
+data class TestPrefixUuidId(override val rawId: UUID) : TemplateSampleUuidId()
 
 data class TestStringId(override val rawId: String) : TemplateSampleStringId(rawId) {
     companion object {

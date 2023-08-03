@@ -1,5 +1,14 @@
 package templatesample.service.user
 
+import java.time.Duration
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import mu.KotlinLogging
+import org.springframework.security.authentication.AnonymousAuthenticationToken
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
+import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository
+import org.springframework.stereotype.Service
 import templatesample.domain.Role
 import templatesample.domain.Session
 import templatesample.domain.UserSession
@@ -11,15 +20,6 @@ import templatesample.repository.user.UserSessionLogDao
 import templatesample.service.ApplicationInstance
 import templatesample.service.DateService
 import templatesample.service.RandomService
-import java.time.Duration
-import javax.servlet.http.HttpServletRequest
-import javax.servlet.http.HttpServletResponse
-import mu.KotlinLogging
-import org.springframework.security.authentication.AnonymousAuthenticationToken
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository
-import org.springframework.stereotype.Service
 
 @Service
 class UserSessionService(

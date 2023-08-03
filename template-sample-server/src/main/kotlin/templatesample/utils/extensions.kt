@@ -1,10 +1,10 @@
 package templatesample.utils
 
+import java.lang.reflect.InvocationTargetException
+import java.util.UUID
 import templatesample.domain.TemplateSampleSecurityString
 import templatesample.domain.TemplateSampleStringId
 import templatesample.domain.TemplateSampleUuidId
-import java.lang.reflect.InvocationTargetException
-import java.util.UUID
 
 operator fun StringBuilder.plusAssign(adding: Any) {
     append(adding)

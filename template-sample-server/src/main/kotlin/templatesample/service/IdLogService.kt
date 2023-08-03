@@ -1,8 +1,8 @@
 package templatesample.service
 
+import java.util.UUID
 import templatesample.domain.TemplateSampleId
 import templatesample.utils.TemplateSampleStringUtils
-import java.util.UUID
 
 class IdLogService {
 

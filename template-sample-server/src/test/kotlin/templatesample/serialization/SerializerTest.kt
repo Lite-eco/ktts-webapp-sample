@@ -1,5 +1,13 @@
 package templatesample.serialization
 
+import java.time.Instant
+import java.time.LocalDate
+import java.time.ZoneId
+import java.util.UUID
+import org.json.JSONObject
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
+import org.skyscreamer.jsonassert.JSONAssert
 import templatesample.domain.PlainStringPassword
 import templatesample.domain.TestPrefixSecurityString
 import templatesample.domain.TestPrefixStringId
@@ -11,14 +19,6 @@ import templatesample.domain.TestUuidId
 import templatesample.service.DummyRandomService
 import templatesample.utils.TemplateSampleStringUtils
 import templatesample.utils.TemplateSampleStringUtils.filteredPassword
-import java.time.Instant
-import java.time.LocalDate
-import java.time.ZoneId
-import java.util.UUID
-import org.json.JSONObject
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
-import org.skyscreamer.jsonassert.JSONAssert
 
 // TODO[tmpl] test maps keys
 internal class SerializerTest {

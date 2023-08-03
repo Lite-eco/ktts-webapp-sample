@@ -1,10 +1,10 @@
 package templatesample.serialization
 
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import templatesample.domain.TestIds.emptyUuid0
 import templatesample.domain.TestUuidId
 import templatesample.utils.toTypeId
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
 internal class TemplateSampleUuidIdDeserializerTest {
 

@@ -1,5 +1,8 @@
 package templatesample.service.changepassword
 
+import mu.KotlinLogging
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.stereotype.Service
 import templatesample.config.ApplicationConstants
 import templatesample.config.Routes
 import templatesample.controller.IndexController
@@ -11,9 +14,6 @@ import templatesample.service.ApplicationInstance
 import templatesample.service.HttpService
 import templatesample.service.MailService
 import templatesample.service.user.MagicLinkTokenService
-import mu.KotlinLogging
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.stereotype.Service
 
 @Service
 class LostPasswordMailSenderService(

@@ -1,14 +1,5 @@
 package templatesample.controller
 
-import templatesample.config.Routes
-import templatesample.domain.ApplicationBootstrapData
-import templatesample.domain.UserInfos
-import templatesample.repository.user.UserDao
-import templatesample.serialization.Serializer.serialize
-import templatesample.service.ApplicationInstance
-import templatesample.service.user.MagicLinkTokenService
-import templatesample.service.user.UserSessionService
-import templatesample.utils.TemplateSampleStringUtils
 import freemarker.ext.beans.BeansWrapperBuilder
 import freemarker.template.Configuration
 import java.io.File
@@ -21,6 +12,15 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.servlet.ModelAndView
+import templatesample.config.Routes
+import templatesample.domain.ApplicationBootstrapData
+import templatesample.domain.UserInfos
+import templatesample.repository.user.UserDao
+import templatesample.serialization.Serializer.serialize
+import templatesample.service.ApplicationInstance
+import templatesample.service.user.MagicLinkTokenService
+import templatesample.service.user.UserSessionService
+import templatesample.utils.TemplateSampleStringUtils
 
 @Controller
 class IndexController(

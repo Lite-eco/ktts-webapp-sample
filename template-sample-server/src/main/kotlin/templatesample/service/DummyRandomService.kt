@@ -1,7 +1,7 @@
 package templatesample.service
 
-import templatesample.utils.TemplateSampleStringUtils
 import java.util.concurrent.atomic.AtomicInteger
+import templatesample.utils.TemplateSampleStringUtils
 
 class DummyRandomService(idLogService: IdLogService? = null) : RandomService(idLogService) {
 

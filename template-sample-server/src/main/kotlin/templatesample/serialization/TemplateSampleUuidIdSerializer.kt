@@ -6,7 +6,8 @@ import com.fasterxml.jackson.databind.ser.std.StdSerializer
 import templatesample.domain.TemplateSampleUuidId
 import templatesample.utils.TemplateSampleStringUtils
 
-class TemplateSampleUuidIdSerializer : StdSerializer<TemplateSampleUuidId>(TemplateSampleUuidId::class.java) {
+class TemplateSampleUuidIdSerializer :
+    StdSerializer<TemplateSampleUuidId>(TemplateSampleUuidId::class.java) {
 
     companion object {
         fun serialize(value: TemplateSampleUuidId) =
@@ -14,6 +15,9 @@ class TemplateSampleUuidIdSerializer : StdSerializer<TemplateSampleUuidId>(Templ
                 TemplateSampleStringUtils.serializeUuid(value.rawId)
     }
 
-    override fun serialize(value: TemplateSampleUuidId, gen: JsonGenerator, provider: SerializerProvider) =
-        gen.writeString(serialize(value))
+    override fun serialize(
+        value: TemplateSampleUuidId,
+        gen: JsonGenerator,
+        provider: SerializerProvider
+    ) = gen.writeString(serialize(value))
 }

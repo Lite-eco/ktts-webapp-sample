@@ -1,11 +1,11 @@
 package templatesample.service.utils
 
-import templatesample.utils.TemplateSampleStringUtils
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
 import java.util.UUID
 import org.jetbrains.annotations.TestOnly
+import templatesample.utils.TemplateSampleStringUtils
 
 object ObjectToPropertiesHelper {
 

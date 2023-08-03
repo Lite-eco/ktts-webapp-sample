@@ -1,12 +1,12 @@
 package templatesample.repository.user
 
+import java.time.Instant
+import org.jooq.DSLContext
+import org.springframework.stereotype.Repository
 import templatesample.domain.UserId
 import templatesample.jooq.generated.Tables.MAGIC_LINK_TOKEN
 import templatesample.jooq.generated.tables.records.MagicLinkTokenRecord
 import templatesample.utils.toTypeId
-import java.time.Instant
-import org.jooq.DSLContext
-import org.springframework.stereotype.Repository
 
 @Repository
 class MagicLinkTokenDao(private val jooq: DSLContext) {

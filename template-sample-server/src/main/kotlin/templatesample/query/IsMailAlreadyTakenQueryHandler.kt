@@ -1,7 +1,7 @@
 package templatesample.query
 
-import templatesample.repository.user.UserDao
 import org.springframework.stereotype.Service
+import templatesample.repository.user.UserDao
 
 @Service
 class IsMailAlreadyTakenQueryHandler(private val userDao: UserDao) :

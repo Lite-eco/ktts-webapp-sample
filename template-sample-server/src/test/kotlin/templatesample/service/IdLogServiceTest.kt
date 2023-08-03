@@ -1,14 +1,14 @@
 package templatesample.service
 
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Test
 import templatesample.domain.TestPrefixSecurityString
 import templatesample.domain.TestPrefixStringId
 import templatesample.domain.TestPrefixUuidId
 import templatesample.domain.TestSecurityString
 import templatesample.domain.TestStringId
 import templatesample.domain.TestUuidId
-import org.junit.jupiter.api.Assertions
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Test
 
 internal class IdLogServiceTest {
 

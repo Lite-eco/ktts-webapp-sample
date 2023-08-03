@@ -1,8 +1,5 @@
 package templatesample.error
 
-import templatesample.config.Routes
-import templatesample.domain.RequestErrorId
-import templatesample.service.RandomService
 import java.util.Date
 import javax.servlet.http.HttpServletResponse
 import mu.KotlinLogging
@@ -13,6 +10,9 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import org.springframework.web.context.request.WebRequest
 import org.springframework.web.servlet.ModelAndView
+import templatesample.config.Routes
+import templatesample.domain.RequestErrorId
+import templatesample.service.RandomService
 
 @RestController
 class ApplicationErrorController(
