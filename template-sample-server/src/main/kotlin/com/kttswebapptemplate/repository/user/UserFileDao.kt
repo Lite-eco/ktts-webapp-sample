@@ -1,5 +1,6 @@
 package com.kttswebapptemplate.repository.user
 
+import com.kttswebapptemplate.domain.MimeType
 import com.kttswebapptemplate.domain.UserFileData
 import com.kttswebapptemplate.domain.UserFileId
 import com.kttswebapptemplate.domain.UserFileReference
@@ -35,7 +36,7 @@ class UserFileDao(private val jooq: DSLContext) {
                 id = r.id.rawId
                 userId = r.userId.rawId
                 fileContent = bytes
-                contentType = r.contentType
+                contentType = r.contentType.fullType
                 originalFilename = r.originalFilename
                 uploadDate = r.uploadDate
             }
@@ -72,7 +73,7 @@ class UserFileDao(private val jooq: DSLContext) {
         return UserFileReference(
             id = r.id.toTypeId(),
             userId = r.userId.toTypeId(),
-            contentType = r.contentType,
+            contentType = MimeType.of(r.contentType),
             originalFilename = r.originalFilename,
             uploadDate = r.uploadDate)
     }
