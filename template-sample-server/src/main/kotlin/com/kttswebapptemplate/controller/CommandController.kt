@@ -13,6 +13,8 @@ import com.kttswebapptemplate.command.LoginCommand
 import com.kttswebapptemplate.command.LoginCommandHandler
 import com.kttswebapptemplate.command.RegisterCommand
 import com.kttswebapptemplate.command.RegisterCommandHandler
+import com.kttswebapptemplate.command.UpdatePasswordCommand
+import com.kttswebapptemplate.command.UpdatePasswordCommandHandler
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.repository.log.CommandLogDao
 import com.kttswebapptemplate.serialization.Serializer
@@ -42,6 +44,7 @@ class CommandController(
     private val devLoginCommandHandler: DevLoginCommandHandler,
     private val loginCommandHandler: LoginCommandHandler,
     private val registerCommandHandler: RegisterCommandHandler,
+    private val updatePasswordCommandHandler: UpdatePasswordCommandHandler,
     private val transactionIsolationService: TransactionIsolationService,
 ) {
 
@@ -119,6 +122,7 @@ class CommandController(
             is AdminUpdateRolesCommand -> adminUpdateRolesCommandHandler
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
+            is UpdatePasswordCommand -> updatePasswordCommandHandler
             is RegisterCommand -> registerCommandHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as CommandHandler<Command, CommandResponse>) }
 
@@ -127,6 +131,7 @@ class CommandController(
         when (command) {
             is DevLoginCommand,
             is LoginCommand,
+            is UpdatePasswordCommand,
             is RegisterCommand -> null
             is AdminUpdateRolesCommand -> command.userId
         }
