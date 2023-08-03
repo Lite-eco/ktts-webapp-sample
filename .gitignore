@@ -3,6 +3,8 @@
 /build
 /jooq-lib/build
 /template-sample-client/.gradle
+# TODO clean when build tool chosen
+/template-sample-client/.yarn
 /template-sample-client/build
 /template-sample-server/build
 
