@@ -1,25 +1,18 @@
 package templatesample.service
 
-import com.google.common.io.CharStreams
 import templatesample.utils.TemplateSampleStringUtils
-import java.io.InputStreamReader
 import java.util.concurrent.atomic.AtomicInteger
 
 class DummyRandomService(idLogService: IdLogService? = null) : RandomService(idLogService) {
 
     val uuids by lazy {
-        CharStreams.toString(
-                InputStreamReader(
-                    javaClass.classLoader.getResourceAsStream("test-uuids"), Charsets.UTF_8))
-            .split("\n")
-            .map { TemplateSampleStringUtils.deserializeUuid(it) }
+        javaClass.classLoader.getResource("test-uuids").readText().split("\n").map {
+            TemplateSampleStringUtils.deserializeUuid(it)
+        }
     }
 
     val stringIds by lazy {
-        CharStreams.toString(
-                InputStreamReader(
-                    javaClass.classLoader.getResourceAsStream("test-string-ids"), Charsets.UTF_8))
-            .split("\n")
+        javaClass.classLoader.getResource("test-string-ids").readText().split("\n")
     }
 
     val uuidsCursor = AtomicInteger(0)
