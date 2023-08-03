@@ -46,7 +46,6 @@ tasks {
         val gitRevision by lazy { "git rev-parse HEAD".runCommand() }
         from("template-sample-server/src/main/resources") {
             include("*.yaml", "*.xml", "*.properties")
-            filter { it.replace("GRADLE_BUILD_GIT_REVISION", shortGitRevision) }
         }
         into("build")
         doLast {
