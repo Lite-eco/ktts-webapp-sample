@@ -1,13 +1,6 @@
 package templatesample.controller
 
-import templatesample.query.GetUsersListQuery
-import templatesample.query.GetUsersListQueryHandler
-import templatesample.query.IsMailAlreadyTakenQuery
-import templatesample.query.IsMailAlreadyTakenQueryHandler
-import templatesample.query.Query
-import templatesample.query.QueryConfiguration
-import templatesample.query.QueryHandler
-import templatesample.query.QueryResponse
+import templatesample.query.*
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer
 import templatesample.service.user.UserSessionService
@@ -21,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController
 class QueryController(
     val userDao: UserDao,
     val userSessionService: UserSessionService,
+    val getUserInfosQueryHandler: GetUserInfosQueryHandler,
     val getUsersListQueryHandler: GetUsersListQueryHandler,
     val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler,
     val transactionIsolationService: TransactionIsolationService,
@@ -40,6 +34,7 @@ class QueryController(
 
     private fun handler(query: Query) =
         when (query) {
+            is GetUserInfosQuery -> getUserInfosQueryHandler
             is GetUsersListQuery -> getUsersListQueryHandler
             is IsMailAlreadyTakenQuery -> isMailAlreadyTakenQueryHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as QueryHandler<Query, QueryResponse>) }

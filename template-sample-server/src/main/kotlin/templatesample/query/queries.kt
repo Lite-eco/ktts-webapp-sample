@@ -1,6 +1,7 @@
 package templatesample.query
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import templatesample.domain.UserId
 import templatesample.domain.UserInfos
 import kttots.Shared
 
@@ -10,6 +11,10 @@ import kttots.Shared
 sealed class Query
 
 @Shared sealed class QueryResponse
+
+data class GetUserInfosQuery(val userId: UserId) : Query()
+
+data class GetUserInfosQueryResponse(val userInfos: UserInfos?) : QueryResponse()
 
 class GetUsersListQuery : Query()
 
