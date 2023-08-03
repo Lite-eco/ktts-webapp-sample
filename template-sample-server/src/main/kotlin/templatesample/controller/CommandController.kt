@@ -6,11 +6,14 @@ import templatesample.command.CommandHandler
 import templatesample.command.CommandResponse
 import templatesample.command.DevLoginCommand
 import templatesample.command.DevLoginCommandHandler
+import templatesample.command.DevLoginCommandResponse
 import templatesample.command.EmptyCommandResponse
 import templatesample.command.LoginCommand
 import templatesample.command.LoginCommandHandler
+import templatesample.command.LoginCommandResponse
 import templatesample.command.RegisterCommand
 import templatesample.command.RegisterCommandHandler
+import templatesample.command.RegisterCommandResponse
 import templatesample.domain.CommandLogId
 import templatesample.repository.log.CommandLogDao
 import templatesample.repository.user.UserDao
@@ -88,6 +91,13 @@ class CommandController(
             try {
                 commandLogDao.updateResult(
                     commandLogId,
+                    // TODO[tmpl] verify
+                    when (result) {
+                        is DevLoginCommandResponse -> result.userinfos.id
+                        is LoginCommandResponse -> result.userinfos?.id
+                        is RegisterCommandResponse -> result.userinfos?.id
+                        else -> null
+                    }?.let { it to userSessionService.getUserSession().sessionId },
                     idLogService.getIdsString(),
                     if (result !is EmptyCommandResponse) Serializer.serialize(result) else null,
                     dateService.now())
