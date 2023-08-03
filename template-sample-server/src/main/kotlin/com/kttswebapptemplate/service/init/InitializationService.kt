@@ -1,9 +1,9 @@
 package com.kttswebapptemplate.service.init
 
+import com.kttswebapptemplate.database.ResetDatabase
+import com.kttswebapptemplate.database.domain.PsqlDatabaseConfiguration
+import com.kttswebapptemplate.database.psqlDatabaseConfiguration
 import com.kttswebapptemplate.domain.ApplicationEnvironment
-import com.kttswebapptemplate.jooqlib.ResetDatabase
-import com.kttswebapptemplate.jooqlib.domain.PsqlDatabaseConfiguration
-import com.kttswebapptemplate.jooqlib.psqlDatabaseConfiguration
 import com.kttswebapptemplate.repository.log.DeploymentLogDao
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService

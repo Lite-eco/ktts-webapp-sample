@@ -1,7 +1,7 @@
 rootProject.name = "template-sample"
 
 include(
-    "jooq-lib",
+    "database-lib",
     "template-sample-client",
     "template-sample-server",
     "tooling",

@@ -32,7 +32,7 @@ tasks {
         dependsOn(
             ":clean",
             ":template-sample-client:build",
-            ":jooq-lib:build",
+            ":database-lib:build",
             ":template-sample-server:build",
             ":copyConfigurationFiles")
     }

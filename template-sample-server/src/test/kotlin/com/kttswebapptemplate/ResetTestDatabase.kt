@@ -1,8 +1,8 @@
 package com.kttswebapptemplate
 
-import com.kttswebapptemplate.jooqlib.ResetDatabase
-import com.kttswebapptemplate.jooqlib.psqlDatabaseConfiguration
-import com.kttswebapptemplate.jooqlib.utils.SpringLikeYamlConfigUtils
+import com.kttswebapptemplate.database.ResetDatabase
+import com.kttswebapptemplate.database.psqlDatabaseConfiguration
+import com.kttswebapptemplate.database.utils.SpringLikeYamlConfigUtils
 
 object ResetTestDatabase {
 
