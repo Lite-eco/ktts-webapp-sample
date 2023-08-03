@@ -1,17 +1,3 @@
-# Gradle
 /.gradle
-/build
-/jooq-lib/build
-/template-sample-client/.gradle
-# TODO[tmpl] clean when build tool chosen
-/template-sample-client/.yarn
-/template-sample-client/build
-/template-sample-server/build
-/tooling/build
-/kt-to-ts-annotations/build
-
-# Intellj
 /.idea
-
-# npm
-/template-sample-client/node_modules
+/build
