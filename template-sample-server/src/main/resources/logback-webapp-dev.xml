@@ -3,7 +3,7 @@
 <configuration>
     <appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
         <encoder name="enc" class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-            <layout class="templatesample.utils.logback.LogbackPatternLayout">
+            <layout class="com.kttswebapptemplate.utils.logback.LogbackPatternLayout">
                 <!-- @formatter:off -->
                 <pattern>%d{MM-dd HH:mm:ss} %highlight(%-5level) %cyan(%-36logger{36}) %m %magenta(%userSession){}%blue(%ip){}%n</pattern>
                 <!-- @formatter:on -->
@@ -16,11 +16,11 @@
         <!--<appender-ref ref="sentry"/>-->
     </root>
 
-    <logger name="templatesample" level="INFO"/>
-    <!--    <logger name="templatesample" level="TRACE"/>-->
+    <logger name="com.kttswebapptemplate" level="INFO"/>
+    <!--    <logger name="com.kttswebapptemplate" level="TRACE"/>-->
 
-    <logger name="templatesample.error.ApplicationExceptionHandlerExceptionResolver" level="WARN"/>
-    <logger name="templatesample.error.ApplicationExceptionHandlerExceptionResolver" level="WARN"/>
+    <logger name="com.kttswebapptemplate.error.ApplicationExceptionHandlerExceptionResolver" level="WARN"/>
+    <logger name="com.kttswebapptemplate.error.ApplicationExceptionHandlerExceptionResolver" level="WARN"/>
     <!-- Spring noise -->
     <logger name="org.spring.aop.framework.CglibAopProxy" level="INFO"/>
     <!-- Spring noise - check [d8bc54] -->

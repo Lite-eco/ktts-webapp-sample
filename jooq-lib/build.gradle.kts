@@ -19,11 +19,11 @@ kotlin {
 tasks {
     withType<KotlinCompile> { kotlinOptions.jvmTarget = "15" }
     register<JavaExec>("generateJooq") {
-        main = "templatesample.jooqlib.GenerateJooqAndDiffKt"
+        main = "com.kttswebapptemplate.jooqlib.GenerateJooqAndDiffKt"
         classpath = sourceSets["main"].runtimeClasspath
     }
     register<JavaExec>("resetDatabase") {
-        main = "templatesample.jooqlib.ResetDatabaseKt"
+        main = "com.kttswebapptemplate.jooqlib.ResetDatabaseKt"
         classpath = sourceSets["main"].runtimeClasspath
     }
 }

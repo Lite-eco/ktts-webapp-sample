@@ -11,6 +11,6 @@
         <appender-ref ref="stdout"/>
     </root>
 
-    <logger name="templatesample" level="INFO"/>
+    <logger name="com.kttswebapptemplate" level="INFO"/>
     <logger name="jooqutils" level="INFO"/>
 </configuration>

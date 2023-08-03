@@ -62,7 +62,7 @@ ksp {
     arg("ktToTs:mappings", "$rootDir/template-sample-client/kt-to-ts-mappings.json")
     arg(
         "ktToTs:nominalStringMappings",
-        "templatesample.domain.SerializeAsString" +
+        "com.kttswebapptemplate.domain.SerializeAsString" +
             "|templatesample.domain.TemplateSampleId" +
             "|templatesample.domain.PlainStringPassword")
     // can  arg("ktToTsNominalStringImport", "utils/nominal-class.ts.MyNominalString")
