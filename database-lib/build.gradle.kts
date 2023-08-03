@@ -8,11 +8,11 @@ val jooqVersion = "3.18.4"
 tasks {
     withType<KotlinCompile> { kotlinOptions.jvmTarget = "17" }
     register<JavaExec>("generateJooq") {
-        main = "com.kttswebapptemplate.database.GenerateJooqAndDiffKt"
+        mainClass.set("com.kttswebapptemplate.database.GenerateJooqAndDiffKt")
         classpath = sourceSets["main"].runtimeClasspath
     }
     register<JavaExec>("resetDatabase") {
-        main = "com.kttswebapptemplate.database.ResetDatabaseKt"
+        mainClass.set("com.kttswebapptemplate.database.ResetDatabaseKt")
         classpath = sourceSets["main"].runtimeClasspath
     }
     test {
