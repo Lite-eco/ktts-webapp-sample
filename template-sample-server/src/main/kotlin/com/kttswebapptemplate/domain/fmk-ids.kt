@@ -1,6 +1,6 @@
 package com.kttswebapptemplate.domain
 
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
+import com.kttswebapptemplate.utils.stringUuid
 import java.util.UUID
 
 interface TemplateSampleId<T> {
@@ -8,8 +8,9 @@ interface TemplateSampleId<T> {
 }
 
 abstract class TemplateSampleUuidId : TemplateSampleId<UUID> {
-    final override fun toString() =
-        "${javaClass.simpleName}(${TemplateSampleStringUtils.serializeUuid(rawId)})"
+    final override fun toString() = "${javaClass.simpleName}(${stringUuid()})"
+
+    fun stringUuid() = rawId.stringUuid()
 }
 
 abstract class TemplateSampleStringId : TemplateSampleId<String> {

@@ -9,8 +9,8 @@ import com.kttswebapptemplate.domain.TestSerializeAsString
 import com.kttswebapptemplate.domain.TestStringId
 import com.kttswebapptemplate.domain.TestUuidId
 import com.kttswebapptemplate.service.utils.random.DummyRandomService
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 import com.kttswebapptemplate.utils.TemplateSampleStringUtils.filteredPassword
+import com.kttswebapptemplate.utils.uuid
 import java.time.Instant
 import java.time.LocalDate
 import java.time.ZoneId
@@ -67,7 +67,7 @@ internal class SerializerTest {
                 randomService.securityString(TestStringId.length),
                 LocalDate.of(2021, 9, 17),
                 PlainStringPassword("mon mot de passe secret"),
-                TemplateSampleStringUtils.deserializeUuid("a8f088f151794107a30b1eaaa6519c98"),
+                "a8f088f151794107a30b1eaaa6519c98".uuid(),
                 ZoneId.of("Europe/Paris"))
         println(Serializer.serialize(s))
         val expectedJson =

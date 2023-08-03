@@ -1,6 +1,6 @@
 package com.kttswebapptemplate.service.utils
 
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
+import com.kttswebapptemplate.utils.stringUuid
 import java.time.LocalDate
 import java.time.LocalTime
 import java.time.ZoneId
@@ -33,7 +33,7 @@ object ObjectToPropertiesHelper {
             is LocalDate,
             is LocalTime,
             is ZoneId -> listOf(path to value.toString())
-            is UUID -> listOf(path to TemplateSampleStringUtils.serializeUuid(value))
+            is UUID -> listOf(path to value.stringUuid())
             is List<*> ->
                 value
                     .mapIndexed { index, value ->

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonParser
 import com.fasterxml.jackson.databind.DeserializationContext
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer
 import com.kttswebapptemplate.domain.TemplateSampleUuidId
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
+import com.kttswebapptemplate.utils.uuid
 import kotlin.reflect.KClass
 
 class TemplateSampleUuidIdDeserializer<T : TemplateSampleUuidId>(
@@ -17,8 +17,7 @@ class TemplateSampleUuidIdDeserializer<T : TemplateSampleUuidId>(
             value: String
         ): T =
             TemplateSampleSerializationPrefixUtils.removePrefix(templateSampleUuidIdClass, value)
-                .let { TemplateSampleStringUtils.deserializeUuid(it) }
-                .let { templateSampleUuidIdClass.constructors.first().call(it) }
+                .let { templateSampleUuidIdClass.constructors.first().call(it.uuid()) }
     }
 
     override fun deserialize(p: JsonParser, ctxt: DeserializationContext): T =

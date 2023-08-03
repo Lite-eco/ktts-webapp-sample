@@ -1,14 +1,12 @@
 package com.kttswebapptemplate.service.utils.random
 
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
+import com.kttswebapptemplate.utils.uuid
 import java.util.concurrent.atomic.AtomicInteger
 
 class DummyRandomService(idLogService: IdLogService? = null) : RandomService(idLogService) {
 
     val uuids by lazy {
-        javaClass.classLoader.getResource("test-uuids").readText().split("\n").map {
-            TemplateSampleStringUtils.deserializeUuid(it)
-        }
+        javaClass.classLoader.getResource("test-uuids").readText().split("\n").map { it.uuid() }
     }
 
     val stringIds by lazy {

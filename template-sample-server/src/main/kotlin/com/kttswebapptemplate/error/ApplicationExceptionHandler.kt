@@ -10,7 +10,6 @@ import com.kttswebapptemplate.service.user.UserSessionService
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.random.RandomService
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 import freemarker.ext.beans.BeansWrapperBuilder
 import freemarker.template.Configuration
 import javax.servlet.http.HttpServletResponse
@@ -127,8 +126,7 @@ class ApplicationExceptionHandler(
                 mav.model["stackTrace"] = stackTrace
             }
         } else {
-            mav.model["requestErrorIdAsString"] =
-                TemplateSampleStringUtils.serializeUuid(requestError.id.rawId)
+            mav.model["requestErrorIdAsString"] = requestError.id.stringUuid()
             mav.model["requestError"] = requestError
             if (ApplicationInstance.env == ApplicationEnvironment.Dev && stackTrace != null) {
                 mav.model[ApplicationConstants.springMvcModelKeyStackTrace] =

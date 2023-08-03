@@ -2,7 +2,6 @@ package com.kttswebapptemplate.controller
 
 import com.kttswebapptemplate.domain.UserFileId
 import com.kttswebapptemplate.repository.user.UserFileDao
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 import com.kttswebapptemplate.utils.toTypeId
 import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
@@ -18,7 +17,7 @@ class UserFileController(private val userFileDao: UserFileDao) {
     @GetMapping("/user-file/{id}")
     fun getUserFile(@PathVariable id: String): ResponseEntity<ByteArray> {
         // TODO[tmpl][secu]
-        val userFileId = TemplateSampleStringUtils.deserializeUuid(id).toTypeId<UserFileId>()
+        val userFileId = id.toTypeId<UserFileId>()
         val userFile =
             userFileDao.fetchDataOrNull(userFileId) ?: return ResponseEntity(HttpStatus.NOT_FOUND)
         val headers = HttpHeaders()

@@ -8,7 +8,6 @@ import com.kttswebapptemplate.serialization.Serializer.serialize
 import com.kttswebapptemplate.service.user.MagicLinkTokenService
 import com.kttswebapptemplate.service.user.UserSessionService
 import com.kttswebapptemplate.service.utils.ApplicationInstance
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 import freemarker.ext.beans.BeansWrapperBuilder
 import freemarker.template.Configuration
 import java.io.File
@@ -93,8 +92,7 @@ class IndexController(
             } else null
         mav.model["bootstrapData"] =
             serialize(ApplicationBootstrapData(ApplicationInstance.env, userInfos))
-        mav.model["deploymentId"] =
-            TemplateSampleStringUtils.serializeUuid(ApplicationInstance.deploymentLogId.rawId)
+        mav.model["deploymentId"] = ApplicationInstance.deploymentLogId.stringUuid()
         mav.model["gitRevisionLabel"] = ApplicationInstance.gitRevisionLabel
         mav.model["jsAssets"] = jsAssets(request)
         mav.model["cssAssets"] = cssAssets

@@ -1,7 +1,7 @@
 package com.kttswebapptemplate.service.utils.random
 
 import com.kttswebapptemplate.domain.TemplateSampleId
-import com.kttswebapptemplate.utils.TemplateSampleStringUtils
+import com.kttswebapptemplate.utils.stringUuid
 import java.util.UUID
 
 class IdLogService {
@@ -40,7 +40,7 @@ class IdLogService {
                 val rawIdString =
                     it.rawId.let {
                         when (it) {
-                            is UUID -> TemplateSampleStringUtils.serializeUuid(it)
+                            is UUID -> it.stringUuid()
                             else -> it.toString()
                         }
                     }
