@@ -16,6 +16,7 @@ import templatesample.tooling.kttots.Debug
 import templatesample.tooling.kttots.ImportWriter.fileToPath
 import templatesample.tooling.kttots.ImportWriter.relativePath
 import templatesample.tooling.kttots.KtToTsConfiguration
+import templatesample.tooling.kttots.ShellRunner
 import templatesample.tooling.kttots.prettyPrint
 import java.nio.file.Files
 import java.time.LocalDateTime
@@ -78,10 +79,7 @@ class KtToTsSymbolProcessor(
                 ksFile to parsingResult.filter { it.type.declaration in ksFile.declarations }
             }
             .forEach { (ksFile, parsed) ->
-                val file =
-                    configuration.destinationSrc
-                        .resolve(configuration.generatedDirectory)
-                        .resolve(clientFile(ksFile))
+                val file = configuration.generatedDirectory.resolve(clientFile(ksFile))
                 //                debugReport?.appendLine("$file")
                 file.parent.toFile().mkdirs()
                 // TODO[tmpl] an imports writer...
@@ -164,6 +162,7 @@ class KtToTsSymbolProcessor(
             configuration.debugFile.writeText(debugReport.toString())
         }
         val unableToProcess = symbols.filterNot { it.validate() }.toList()
+        ShellRunner.run(configuration.clientDirectory, "yarn prettier")
         return unableToProcess
     }
 
