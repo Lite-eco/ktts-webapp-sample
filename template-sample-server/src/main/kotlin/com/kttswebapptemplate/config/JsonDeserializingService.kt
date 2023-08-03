@@ -1,7 +1,7 @@
 package com.kttswebapptemplate.config
 
 import com.kttswebapptemplate.domain.Session
-import com.kttswebapptemplate.serialization.Serializer.deserialize
+import com.kttswebapptemplate.serialization.Serializer
 import java.util.Arrays
 import org.springframework.core.convert.converter.Converter
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -21,7 +21,7 @@ class JsonDeserializingService : Converter<ByteArray, Any> {
                     "Couldn't convert to string ${Arrays.toString(source)}", e)
             }
         return try {
-            val session = deserialize<Session>(json)
+            val session = Serializer.deserialize<Session>(json)
             SecurityContextImpl().apply {
                 authentication = UsernamePasswordAuthenticationToken(session, null, null)
             }
