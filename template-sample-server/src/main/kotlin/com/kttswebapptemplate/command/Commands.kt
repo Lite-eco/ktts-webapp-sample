@@ -19,11 +19,11 @@ sealed class Command
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 sealed class CommandResponse
 
-object EmptyCommandResponse : CommandResponse()
+data object EmptyCommandResponse : CommandResponse()
 
 data class AdminUpdateRolesCommand(val userId: UserId, val roles: Set<Role>) : Command()
 
-class AdminUpdateSessions : Command()
+data object AdminUpdateSessions : Command()
 
 data class DevLoginCommand(val username: String) : Command()
 
