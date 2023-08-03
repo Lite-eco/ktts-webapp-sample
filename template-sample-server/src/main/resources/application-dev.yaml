@@ -1,6 +1,6 @@
 # TODO[tmpl][config] no / in urls end ?
 # configuration validation
-app.url: http://kttswebapptemplate:8123
+app.url: http://devkttswebapptemplate:8123
 #---------------------------------------------------------------------------
 insertInitialData: true
 #---------------------------------------------------------------------------
