@@ -11,6 +11,7 @@ import com.kttswebapptemplate.command.LoginCommand
 import com.kttswebapptemplate.command.LoginCommandHandler
 import com.kttswebapptemplate.command.RegisterCommand
 import com.kttswebapptemplate.command.RegisterCommandHandler
+import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.repository.log.CommandLogDao
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.serialization.Serializer
@@ -59,10 +60,11 @@ class CommandController(
         val filteredJsonCommand = Serializer.serialize(command)
         // TODO[tmpl][test] make an only insert at the end, with no update ?
         // or make an insert first to protect from some errors (? isolate its transactionl)
-        val commandLog =
+        val draftCommandLog =
             CommandLogDao.Record(
                 id = randomService.id(),
-                userId = null,
+                userId = null, // set later
+                affectedUserId = affectedUserId(command),
                 deploymentLogId = ApplicationInstance.deploymentLogId,
                 commandClass = command.javaClass,
                 jsonCommand = filteredJsonCommand,
@@ -85,7 +87,7 @@ class CommandController(
             // [doc] because of login, register...
             val updatedSession = getSession()
             commandLogDao.insert(
-                commandLog.copy(
+                draftCommandLog.copy(
                     userId = updatedSession?.userId,
                     userSessionId = updatedSession?.sessionId,
                     idsLog = idLogService.getIdsString(),
@@ -96,7 +98,7 @@ class CommandController(
         } catch (e: Exception) {
             val updatedSession = getSession()
             commandLogDao.insert(
-                commandLog.copy(
+                draftCommandLog.copy(
                     userId = updatedSession?.userId,
                     userSessionId = updatedSession?.sessionId,
                     idsLog = idLogService.getIdsString(),
@@ -117,4 +119,12 @@ class CommandController(
             is LoginCommand -> loginCommandHandler
             is RegisterCommand -> registerCommandHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as CommandHandler<Command, CommandResponse>) }
+
+    // for admin commands, should return the affected user when there's one
+    private fun affectedUserId(command: Command): UserId? =
+        when (command) {
+            is DevLoginCommand,
+            is LoginCommand,
+            is RegisterCommand -> null
+        }
 }
