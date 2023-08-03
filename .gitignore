@@ -7,6 +7,8 @@
 /template-sample-client/.yarn
 /template-sample-client/build
 /template-sample-server/build
+/tooling/build
+/kt-to-ts-annotations/build
 
 # Intellj
 /.idea

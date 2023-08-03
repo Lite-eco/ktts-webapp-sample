@@ -5,12 +5,14 @@ import templatesample.domain.LoginResult
 import templatesample.domain.PlainStringPassword
 import templatesample.domain.RegisterResult
 import templatesample.domain.UserInfos
+import kttots.Shared
 
+@Shared
 @JsonTypeInfo(
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 sealed class Command
 
-sealed class CommandResponse
+@Shared sealed class CommandResponse
 
 object EmptyCommandResponse : CommandResponse()
 

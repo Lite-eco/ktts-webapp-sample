@@ -1,6 +1,6 @@
 rootProject.name = "template-sample"
 
-include("template-sample-client", "jooq-lib", "template-sample-server")
+include("jooq-lib", "template-sample-client", "template-sample-server", "tooling", "kt-to-ts-annotations")
 
 pluginManagement {
     repositories {
