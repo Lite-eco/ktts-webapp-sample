@@ -6,9 +6,7 @@ import templatesample.domain.UserInfos
 import templatesample.repository.user.UserDao
 import templatesample.serialization.Serializer.serialize
 import templatesample.service.ApplicationInstance
-import templatesample.service.LocaleService
 import templatesample.service.user.MagicLinkTokenService
-import templatesample.service.user.UserService
 import templatesample.service.user.UserSessionService
 import templatesample.utils.TemplateSampleStringUtils
 import freemarker.ext.beans.BeansWrapperBuilder
@@ -29,9 +27,6 @@ class IndexController(
     @Value("\${assets.webpackDevPort}") val assetsWebpackDevPort: String,
     @Value("\${assets.useBuildFiles}") val assetsUseBuildFiles: Boolean,
     val userDao: UserDao,
-    val localeService: LocaleService,
-    val userService: UserService,
-    val applicationInstance: ApplicationInstance,
     val magicLinkTokenService: MagicLinkTokenService,
     val userSessionService: UserSessionService
 ) {
@@ -99,8 +94,8 @@ class IndexController(
         mav.model["bootstrapData"] =
             serialize(ApplicationBootstrapData(ApplicationInstance.env, userInfos))
         mav.model["deploymentId"] =
-            TemplateSampleStringUtils.serializeUuid(applicationInstance.deploymentId.rawId)
-        mav.model["gitRevisionLabel"] = applicationInstance.gitRevisionLabel
+            TemplateSampleStringUtils.serializeUuid(ApplicationInstance.deploymentLogId.rawId)
+        mav.model["gitRevisionLabel"] = ApplicationInstance.gitRevisionLabel
         mav.model["jsAssets"] = jsAssets(request)
         mav.model["cssAssets"] = cssAssets
         mav.model["statics"] = statics
