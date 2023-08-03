@@ -1,0 +1,3 @@
+mail:
+  devDestination: dev+log-template-sample@example.com
+pgquarrel: /Users/mlo/git/pgquarrel/pgquarrel

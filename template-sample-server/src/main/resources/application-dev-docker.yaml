@@ -1,0 +1,11 @@
+database:
+  host: template-sample-psql
+  user: docker-psql-user
+  password: docker-psql-password
+# TODO[tmpl] param docker compose
+mail:
+  devDestination: dev+log-template-sample@example.com
+pgquarrel:
+assets:
+  webpackDevPort: 3123
+  webpackDevHost: template-sample-client

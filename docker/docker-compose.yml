@@ -1,0 +1,23 @@
+services:
+  template-sample-client:
+    build: template-sample-client
+    ports:
+      - "3123:3123"
+    volumes:
+      - ../:/repo
+  template-sample-server:
+    build: template-sample-server
+    ports:
+      - "8123:8123"
+    depends_on:
+      - template-sample-psql
+    environment:
+      TEMPLATE_SAMPLE_DEV_ADDITIONAL_CONFIG: dev-docker
+    volumes:
+      - ../:/repo
+  template-sample-psql:
+    image: postgres:13.3
+    environment:
+      POSTGRES_USER: docker-psql-user
+      POSTGRES_DB: templatesample
+      POSTGRES_PASSWORD: docker-psql-password

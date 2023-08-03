@@ -1,0 +1,13 @@
+# Gradle
+/.gradle
+/build
+/jooq-lib/build
+/template-sample-client/.gradle
+/template-sample-client/build
+/template-sample-server/build
+
+# Intellj
+/.idea
+
+# npm
+/template-sample-client/node_modules
