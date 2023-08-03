@@ -5,12 +5,12 @@ package templatesample.jooq.generated;
 
 
 import templatesample.jooq.generated.tables.AppUserTable;
-import templatesample.jooq.generated.tables.AuthLogTable;
 import templatesample.jooq.generated.tables.CommandLogTable;
 import templatesample.jooq.generated.tables.DeploymentLogTable;
 import templatesample.jooq.generated.tables.MagicLinkTokenTable;
 import templatesample.jooq.generated.tables.MailLogTable;
 import templatesample.jooq.generated.tables.UserFileTable;
+import templatesample.jooq.generated.tables.UserMailLogTable;
 import templatesample.jooq.generated.tables.UserSessionLogTable;
 
 import java.util.Arrays;
@@ -42,11 +42,6 @@ public class PublicTable extends SchemaImpl {
     public final AppUserTable APP_USER = AppUserTable.APP_USER;
 
     /**
-     * The table <code>public.auth_log</code>.
-     */
-    public final AuthLogTable AUTH_LOG = AuthLogTable.AUTH_LOG;
-
-    /**
      * The table <code>public.command_log</code>.
      */
     public final CommandLogTable COMMAND_LOG = CommandLogTable.COMMAND_LOG;
@@ -72,6 +67,11 @@ public class PublicTable extends SchemaImpl {
     public final UserFileTable USER_FILE = UserFileTable.USER_FILE;
 
     /**
+     * The table <code>public.user_mail_log</code>.
+     */
+    public final UserMailLogTable USER_MAIL_LOG = UserMailLogTable.USER_MAIL_LOG;
+
+    /**
      * The table <code>public.user_session_log</code>.
      */
     public final UserSessionLogTable USER_SESSION_LOG = UserSessionLogTable.USER_SESSION_LOG;
@@ -95,12 +95,12 @@ public class PublicTable extends SchemaImpl {
     public final List<Table<?>> getTables() {
         return Arrays.<Table<?>>asList(
             AppUserTable.APP_USER,
-            AuthLogTable.AUTH_LOG,
             CommandLogTable.COMMAND_LOG,
             DeploymentLogTable.DEPLOYMENT_LOG,
             MagicLinkTokenTable.MAGIC_LINK_TOKEN,
             MailLogTable.MAIL_LOG,
             UserFileTable.USER_FILE,
+            UserMailLogTable.USER_MAIL_LOG,
             UserSessionLogTable.USER_SESSION_LOG);
     }
 }
