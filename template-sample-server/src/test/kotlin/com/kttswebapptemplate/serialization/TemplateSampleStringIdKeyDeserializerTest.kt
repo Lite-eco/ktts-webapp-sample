@@ -1,8 +1,6 @@
 package com.kttswebapptemplate.serialization
 
-import com.kttswebapptemplate.domain.TestIds.sampleStringId
 import com.kttswebapptemplate.domain.TestStringId
-import com.kttswebapptemplate.utils.toTypeId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -13,11 +11,11 @@ internal class TemplateSampleStringIdKeyDeserializerTest {
         val json =
             """
             {
-                "$sampleStringId": "coucou"
+                "${TestStringId.sample().rawId}": "coucou"
             }
             """
         val map = Serializer.deserialize<Map<TestStringId, String>>(json)
-        val expectedMap = mapOf(sampleStringId.toTypeId<TestStringId>() to "coucou")
+        val expectedMap = mapOf(TestStringId.sample() to "coucou")
         assertEquals(expectedMap, map)
     }
 }

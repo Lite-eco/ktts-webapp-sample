@@ -1,8 +1,7 @@
 package com.kttswebapptemplate.serialization
 
-import com.kttswebapptemplate.domain.TestIds.emptyUuid0
+import com.kttswebapptemplate.domain.TestIds.sampleNodesUuidId
 import com.kttswebapptemplate.domain.TestUuidId
-import com.kttswebapptemplate.utils.toTypeId
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
@@ -17,7 +16,7 @@ internal class TemplateSampleUuidIdKeyDeserializerTest {
             }
             """
         val map = Serializer.deserialize<Map<TestUuidId, String>>(json)
-        val expectedMap = mapOf(emptyUuid0.toTypeId<TestUuidId>() to "coucou")
+        val expectedMap = mapOf(sampleNodesUuidId<TestUuidId>() to "coucou")
         assertEquals(expectedMap, map)
     }
 }
