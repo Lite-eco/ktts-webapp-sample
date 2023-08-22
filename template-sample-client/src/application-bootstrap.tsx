@@ -1,6 +1,5 @@
-import { Root } from './components/containers/Root';
-import { ApplicationRouter } from './components/routing/ApplicationRouter';
-import * as React from 'react';
+import { ApplicationRouter } from './routing/ApplicationRouter';
+import { Root } from './views/containers/Root';
 import { createRoot } from 'react-dom/client';
 import { RecoilRoot } from 'recoil';
 
