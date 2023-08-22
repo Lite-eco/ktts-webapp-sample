@@ -27,16 +27,9 @@ export class Dict<K extends DictKey, T> {
   private _typeGuardValue!: T;
 }
 
-export const dict = <K extends DictKey, T>(
-  pairs: [K, T][] = []
-): Dict<K, T> => {
-  const d = {} as Dict<K, T>;
-  pairs.forEach(pair => {
-    // @ts-ignore
-    d[pair[0]] = pair[1];
-  });
-  return d;
-};
+export const dict = <K extends DictKey, T>(pairs: [K, T][] = []): Dict<K, T> =>
+  // @ts-ignore
+  Object.fromEntries(pairs) as Dict<K, T>;
 
 export const get = <K extends DictKey, T>(
   dict: Dict<K, T>,
