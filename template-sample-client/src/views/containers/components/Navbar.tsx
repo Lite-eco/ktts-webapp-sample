@@ -91,7 +91,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'UsersManagement'
+                  name: 'Admin/UsersManagement'
                 }}
               >
                 {t.UsersManagement()}
@@ -102,7 +102,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'AdminManualCommand'
+                  name: 'Admin/ManualCommand'
                 }}
               >
                 {t.ManualCommands()}

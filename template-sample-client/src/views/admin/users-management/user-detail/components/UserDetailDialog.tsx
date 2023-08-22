@@ -33,7 +33,7 @@ export const UserDetailDialog = (props: {
   loadingUserInfos: LoadingState;
 }) => {
   const goTo = useGoTo();
-  const close = () => goTo({ name: 'UsersManagement' });
+  const close = () => goTo({ name: 'Admin/UsersManagement' });
   return (
     <Dialog
       open={true}
@@ -135,7 +135,7 @@ export const UserDetailDialog = (props: {
                           element="Button"
                           variant="outlined"
                           route={{
-                            name: 'UsersManagement/UserDetail/EditRoles',
+                            name: 'Admin/UsersManagement/UserDetail/EditRoles',
                             userId: props.userInfos.id
                           }}
                         >

@@ -2,20 +2,39 @@ import { UserId } from '../generated/domain/Ids.generated';
 
 export type ApplicationRoute =
   | AccountRoute
+  | AdminRoute
   | AdminManualCommandRoute
+  | AdminUsersManagementRoute
+  | AdminUsersManagementUserDetailRoute
+  | AdminUsersManagementUserDetailEditRolesRoute
   | LoginRoute
   | RegisterRoute
-  | RootRoute
-  | UsersManagementRoute
-  | UsersManagementUserDetailRoute
-  | UsersManagementUserDetailEditRolesRoute;
+  | RootRoute;
 
 interface AccountRoute {
   name: 'Account';
 }
 
+interface AdminRoute {
+  name: 'Admin';
+}
+
 interface AdminManualCommandRoute {
-  name: 'AdminManualCommand';
+  name: 'Admin/ManualCommand';
+}
+
+interface AdminUsersManagementRoute {
+  name: 'Admin/UsersManagement';
+}
+
+export interface AdminUsersManagementUserDetailRoute {
+  name: 'Admin/UsersManagement/UserDetail';
+  userId: UserId;
+}
+
+export interface AdminUsersManagementUserDetailEditRolesRoute {
+  name: 'Admin/UsersManagement/UserDetail/EditRoles';
+  userId: UserId;
 }
 
 interface LoginRoute {
@@ -28,18 +47,4 @@ interface RegisterRoute {
 
 interface RootRoute {
   name: 'Root';
-}
-
-interface UsersManagementRoute {
-  name: 'UsersManagement';
-}
-
-export interface UsersManagementUserDetailRoute {
-  name: 'UsersManagement/UserDetail';
-  userId: UserId;
-}
-
-export interface UsersManagementUserDetailEditRolesRoute {
-  name: 'UsersManagement/UserDetail/EditRoles';
-  userId: UserId;
 }

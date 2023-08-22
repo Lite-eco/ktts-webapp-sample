@@ -3,14 +3,15 @@ import { ApplicationRoute } from './ApplicationRoute';
 
 export const routePathMap = dict<ApplicationRoute['name'], string>([
   ['Account', '/account'],
-  ['AdminManualCommand', '/admin/manual-command'],
+  ['Admin', '/admin'],
+  ['Admin/ManualCommand', '/admin/manual-command'],
+  ['Admin/UsersManagement', '/admin/users-management'],
+  ['Admin/UsersManagement/UserDetail', '/admin/users-management/:userId'],
+  [
+    'Admin/UsersManagement/UserDetail/EditRoles',
+    '/admin/users-management/:userId/edit-roles'
+  ],
   ['Login', '/login'],
   ['Register', '/register'],
-  ['Root', '/'],
-  ['UsersManagement', '/users-management'],
-  ['UsersManagement/UserDetail', '/users-management/:userId'],
-  [
-    'UsersManagement/UserDetail/EditRoles',
-    '/users-management/:userId/edit-roles'
-  ]
+  ['Root', '/']
 ]);

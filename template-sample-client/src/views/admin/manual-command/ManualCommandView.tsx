@@ -5,8 +5,7 @@ import {
 } from '../../../generated/command/Commands.generated';
 import { RequestError } from '../../../generated/error/Exceptions.generated';
 import { appContext } from '../../../services/ApplicationContext';
-import { MainContainer } from '../../containers/MainContainer';
-import { t } from './AdminManualCommandView.i18n';
+import { t } from './ManualCommandView.i18n';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
 import * as React from 'react';
@@ -25,7 +24,7 @@ const docResponse = (response: CommandResponse) => {
   }
 };
 
-export const AdminManualCommandView = () => {
+export const ManualCommandView = () => {
   const commandTextArea = useRef<HTMLTextAreaElement | null>(null);
   const [previousSubmitedValue, setPreviousSubmitedValue] = useState<string>();
   const [okCommandCount, setOkCommandCount] = useState<number>();
@@ -86,86 +85,84 @@ export const AdminManualCommandView = () => {
   };
 
   return (
-    <MainContainer>
+    <div
+      css={css`
+        display: flex;
+
+        & > div {
+          margin: 0 5px;
+        }
+
+        pre {
+          padding: 10px;
+          color: #333;
+          word-break: break-all;
+          word-wrap: break-word;
+          background-color: #f5f5f5;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+
+        h3 {
+          font-size: 1.1rem;
+        }
+      `}
+    >
       <div
         css={css`
-          display: flex;
-
-          & > div {
-            margin: 0 5px;
-          }
-
-          pre {
-            padding: 10px;
-            color: #333;
-            word-break: break-all;
-            word-wrap: break-word;
-            background-color: #f5f5f5;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-          }
-
-          h3 {
-            font-size: 1.1rem;
-          }
+          flex: 1;
         `}
       >
-        <div
+        <h1>{t.Command()}</h1>
+        <textarea
+          ref={commandTextArea}
+          rows={16}
           css={css`
-            flex: 1;
+            width: 100%;
           `}
-        >
-          <h1>{t.Command()}</h1>
-          <textarea
-            ref={commandTextArea}
-            rows={16}
+        />
+        <br />
+        <button onClick={handleCommand}>{t.SendCommand()}</button>
+        {okCommandCount !== undefined && totalCommandCount !== undefined && (
+          <p
             css={css`
-              width: 100%;
+              font-weight: bold;
             `}
-          />
-          <br />
-          <button onClick={handleCommand}>{t.SendCommand()}</button>
-          {okCommandCount !== undefined && totalCommandCount !== undefined && (
-            <p
-              css={css`
-                font-weight: bold;
-              `}
-            >
-              {okCommandCount} / {totalCommandCount} {t.ok()}
-            </p>
-          )}
-          {commandResults.map((r, i) => (
-            <p key={i}>
-              <h3>{docResponse(r)}</h3>
-              <pre>{JSON.stringify(r, null, 2)}</pre>
-            </p>
-          ))}
-        </div>
-        <div
-          css={css`
-            flex: 1;
-          `}
-        >
-          <h2>{t.Commands()}</h2>
-          <h3>{t.UpdateSessions()}</h3>
-          <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
-        </div>
-        <div
-          css={css`
-            flex: 1;
-          `}
-        >
-          <h2>{t.BatchCommands()}</h2>
-          <p>{t.CommandsCanBeSentInGroup()}</p>
-          <pre>
-            {JSON.stringify(
-              [sampleAdminUpdateSessions, sampleAdminUpdateSessions],
-              null,
-              2
-            )}
-          </pre>
-        </div>
+          >
+            {okCommandCount} / {totalCommandCount} {t.ok()}
+          </p>
+        )}
+        {commandResults.map((r, i) => (
+          <p key={i}>
+            <h3>{docResponse(r)}</h3>
+            <pre>{JSON.stringify(r, null, 2)}</pre>
+          </p>
+        ))}
       </div>
-    </MainContainer>
+      <div
+        css={css`
+          flex: 1;
+        `}
+      >
+        <h2>{t.Commands()}</h2>
+        <h3>{t.UpdateSessions()}</h3>
+        <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
+      </div>
+      <div
+        css={css`
+          flex: 1;
+        `}
+      >
+        <h2>{t.BatchCommands()}</h2>
+        <p>{t.CommandsCanBeSentInGroup()}</p>
+        <pre>
+          {JSON.stringify(
+            [sampleAdminUpdateSessions, sampleAdminUpdateSessions],
+            null,
+            2
+          )}
+        </pre>
+      </div>
+    </div>
   );
 };

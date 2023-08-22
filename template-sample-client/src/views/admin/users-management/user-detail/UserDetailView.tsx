@@ -2,7 +2,7 @@
 import { UserInfos } from '../../../../generated/domain/User.generated';
 import { GetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
 import { LoadingState } from '../../../../interfaces';
-import { UsersManagementUserDetailRoute } from '../../../../routing/ApplicationRoute';
+import { AdminUsersManagementUserDetailRoute } from '../../../../routing/ApplicationRoute';
 import { useTypedParams } from '../../../../routing/routing-utils';
 import { appContext } from '../../../../services/ApplicationContext';
 import { UsersManagementOutletContext } from '../UsersManagementView';
@@ -17,7 +17,7 @@ export interface UsersManagementUserDetailOutletContext {
 }
 
 export const UserDetailView = () => {
-  const params = useTypedParams<UsersManagementUserDetailRoute>();
+  const params = useTypedParams<AdminUsersManagementUserDetailRoute>();
   const outletContext = useOutletContext<UsersManagementOutletContext>();
   const [userInfos, setUserInfos] = useState<UserInfos>();
   const [loadingUserInfos, setLoadingUserInfos] =

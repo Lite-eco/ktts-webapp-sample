@@ -80,7 +80,7 @@ export const UsersManagementTable = (props: {
           element="Button"
           variant="outlined"
           route={{
-            name: 'UsersManagement/UserDetail',
+            name: 'Admin/UsersManagement/UserDetail',
             userId: p.row.id
           }}
         >

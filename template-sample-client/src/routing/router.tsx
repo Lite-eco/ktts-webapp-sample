@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { AccountView } from '../views/account/AccountView';
-import { AdminManualCommandView } from '../views/admin/manual-command/AdminManualCommandView';
+import { AdminView } from '../views/admin/AdminView';
+import { ManualCommandView } from '../views/admin/manual-command/ManualCommandView';
 import { UsersManagementView } from '../views/admin/users-management/UsersManagementView';
 import { UserDetailView } from '../views/admin/users-management/user-detail/UserDetailView';
 import { EditRolesView } from '../views/admin/users-management/user-detail/edit-roles/EditRolesView';
@@ -18,8 +19,34 @@ export const router = createBrowserRouter([
   },
   {
     id: 'Admin',
-    path: 'admin/manual-command',
-    element: <AdminManualCommandView />
+    path: 'admin',
+    element: <AdminView />,
+    children: [
+      {
+        id: 'Admin/ManualCommand',
+        path: 'manual-command',
+        element: <ManualCommandView />
+      },
+      {
+        id: 'Admin/UsersManagement',
+        path: 'users-management',
+        element: <UsersManagementView />,
+        children: [
+          {
+            id: 'Admin/UsersManagement/UserDetail',
+            path: ':userId',
+            element: <UserDetailView />,
+            children: [
+              {
+                id: 'Admin/UsersManagement/UserDetail/EditRoles',
+                path: 'edit-roles',
+                element: <EditRolesView />
+              }
+            ]
+          }
+        ]
+      }
+    ]
   },
   {
     id: 'Login',
@@ -35,25 +62,6 @@ export const router = createBrowserRouter([
     id: 'Root',
     path: '/',
     element: <RootView />
-  },
-  {
-    id: 'UsersManagement',
-    path: 'users-management',
-    element: <UsersManagementView />,
-    children: [
-      {
-        id: 'UsersManagement/UserDetail',
-        path: ':userId',
-        element: <UserDetailView />,
-        children: [
-          {
-            id: 'UsersManagement/UserDetail/EditRoles',
-            path: 'edit-roles',
-            element: <EditRolesView />
-          }
-        ]
-      }
-    ]
   },
   {
     id: 'NotFound',

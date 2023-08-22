@@ -3,7 +3,6 @@ import { UserInfos } from '../../../generated/domain/User.generated';
 import { GetUsersQueryResponse } from '../../../generated/query/Queries.generated';
 import { LoadingState } from '../../../interfaces';
 import { appContext } from '../../../services/ApplicationContext';
-import { MainContainer } from '../../containers/MainContainer';
 import { t } from './UsersManagementView.i18n';
 import { UsersManagementTable } from './components/UsersManagementTable';
 import { css } from '@emotion/react';
@@ -49,18 +48,16 @@ export const UsersManagementView = () => {
   }, [enqueueSnackbar]);
   const context: UsersManagementOutletContext = { updateUserInfos };
   return (
-    <MainContainer>
-      <div
-        css={css`
-          display: flex;
-          flex-direction: column;
-          height: 100%;
-        `}
-      >
-        <h1>{t.UsersManagement()}</h1>
-        <UsersManagementTable users={users} loading={loading} />
-        <Outlet context={context} />
-      </div>
-    </MainContainer>
+    <div
+      css={css`
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+      `}
+    >
+      <h1>{t.UsersManagement()}</h1>
+      <UsersManagementTable users={users} loading={loading} />
+      <Outlet context={context} />
+    </div>
   );
 };

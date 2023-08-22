@@ -45,7 +45,7 @@ export const UserEditRolesDialog = (props: {
   }
   useEffect(() => setRoles(props.userInfos?.roles ?? []), [props.userInfos]);
   const close = () =>
-    goTo({ name: 'UsersManagement/UserDetail', userId: props.userId });
+    goTo({ name: 'Admin/UsersManagement/UserDetail', userId: props.userId });
   const save = () => {
     const userInfos = props.userInfos;
     if (!userInfos) {
