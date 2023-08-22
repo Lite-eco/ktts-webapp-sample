@@ -34,7 +34,7 @@ export const Navbar = () => {
           text-transform: uppercase;
         `}
         route={{
-          name: 'RootRoute'
+          name: 'Root'
         }}
       >
         {t.TemplateSample()}
@@ -58,7 +58,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'LoginRoute'
+                  name: 'Login'
                 }}
               >
                 {t.Login()}
@@ -69,7 +69,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'RegisterRoute'
+                  name: 'Register'
                 }}
               >
                 {t.Register()}
@@ -80,7 +80,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'AccountRoute'
+                  name: 'Account'
                 }}
               >
                 {t.Account()}
@@ -91,7 +91,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'UsersManagementRoute'
+                  name: 'UsersManagement'
                 }}
               >
                 {t.UsersManagement()}
@@ -102,7 +102,7 @@ export const Navbar = () => {
             <MenuItem>
               <RouteLink
                 route={{
-                  name: 'AdminManualCommandRoute'
+                  name: 'AdminManualCommand'
                 }}
               >
                 {t.ManualCommands()}

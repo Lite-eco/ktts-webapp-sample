@@ -25,7 +25,7 @@ export const LoginView = () => {
   const connect = (userInfos: UserInfos) => {
     setUserInfos(userInfos);
     goTo(
-      { name: 'RootRoute' },
+      { name: 'Root' },
       {
         useTargetPath: true
       }

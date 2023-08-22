@@ -1,15 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import { LoadingStateButton } from '../../../../common-components/LoadingButton';
-import { roleEnumValues } from '../../../../domain/enums';
-import { Errors } from '../../../../errors';
-import { UserId } from '../../../../generated/domain/Ids.generated';
-import { Role, UserInfos } from '../../../../generated/domain/User.generated';
-import { GetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
-import { LoadingState } from '../../../../interfaces';
-import { useGoTo } from '../../../../routing/routing-utils';
-import { appContext } from '../../../../services/ApplicationContext';
-import { state } from '../../../../state/state';
-import { colors } from '../../../../styles/vars';
+import { LoadingStateButton } from '../../../../../../common-components/LoadingButton';
+import { roleEnumValues } from '../../../../../../domain/enums';
+import { Errors } from '../../../../../../errors';
+import { UserId } from '../../../../../../generated/domain/Ids.generated';
+import {
+  Role,
+  UserInfos
+} from '../../../../../../generated/domain/User.generated';
+import { LoadingState } from '../../../../../../interfaces';
+import { useGoTo } from '../../../../../../routing/routing-utils';
+import { appContext } from '../../../../../../services/ApplicationContext';
+import { state } from '../../../../../../state/state';
+import { colors } from '../../../../../../styles/vars';
 import { t } from './UserEditRolesDialog.i18n';
 import { css } from '@emotion/react';
 import { Warning as WarningIcon } from '@mui/icons-material';
@@ -28,56 +30,33 @@ import {
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-// TODO find a dedicated name ? it's almost a DialogView
 export const UserEditRolesDialog = (props: {
-  userId: UserId | undefined;
+  userId: UserId;
+  userInfos: UserInfos | undefined;
   updateUserInfos: (user: UserInfos) => void;
+  loadingUserInfos: LoadingState;
 }) => {
-  const [userInfos, setUserInfos] = useState<UserInfos | undefined>();
   const [roles, setRoles] = useState<Role[]>([]);
-  const [queryLoading, setQueryLoading] = useState<LoadingState>('Idle');
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
   const goTo = useGoTo();
   const loggedInUserInfos = useRecoilValue(state.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._fe2e1fc7();
   }
-  useEffect(() => {
-    if (props.userId) {
-      // keep after if (props.userId) for dialog disappearing animation
-      setUserInfos(undefined);
-      setRoles([]);
-      setQueryLoading('Loading');
-      appContext.queryService
-        .send<GetUserInfosQueryResponse>({
-          objectType: 'GetUserInfosQuery',
-          userId: props.userId
-        })
-        .then(r => {
-          setQueryLoading('Idle');
-          setUserInfos(r.userInfos);
-          setRoles(r.userInfos?.roles ?? []);
-        });
-    }
-  }, [props.userId]);
-  const close = () => {
-    if (props.userId) {
-      goTo({ name: 'UsersManagementUserRoute', userId: props.userId });
-    }
-  };
+  useEffect(() => setRoles(props.userInfos?.roles ?? []), [props.userInfos]);
+  const close = () =>
+    goTo({ name: 'UsersManagement/UserDetail', userId: props.userId });
   const save = () => {
+    const userInfos = props.userInfos;
     if (!userInfos) {
       throw Errors._8ab803a9();
-    }
-    if (!props.userId) {
-      throw Errors._d4c0ce89();
     }
     if (roles !== userInfos.roles) {
       setUpdateLoading('Loading');
       appContext.commandService
         .send({
           objectType: 'AdminUpdateRolesCommand',
-          userId: props.userId,
+          userId: userInfos.id,
           roles
         })
         .then(() => {
@@ -89,7 +68,7 @@ export const UserEditRolesDialog = (props: {
   };
   return (
     <Dialog
-      open={!!props.userId}
+      open={true}
       onClose={close}
       maxWidth={'lg'}
       fullWidth={true}
@@ -98,7 +77,7 @@ export const UserEditRolesDialog = (props: {
       <DialogTitle>{t.EditUserRoles()}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {queryLoading === 'Loading' && (
+          {props.loadingUserInfos === 'Loading' && (
             <div
               css={css`
                 text-align: center;
@@ -116,12 +95,12 @@ export const UserEditRolesDialog = (props: {
               renderInput={params => <TextField {...params} />}
               onChange={(_, roles) => setRoles(roles)}
             />
-            {userInfos &&
-              loggedInUserInfos.id === userInfos.id &&
+            {props.userInfos &&
+              loggedInUserInfos.id === props.userInfos.id &&
               !roles.includes('Admin') && (
                 <WarningMessage>{t.WarningAdmin()}</WarningMessage>
               )}
-            {userInfos &&
+            {props.userInfos &&
               !roles.includes('User') &&
               roles.includes('Admin') && (
                 <WarningMessage>{t.WarningAdminWithNoUser()}</WarningMessage>

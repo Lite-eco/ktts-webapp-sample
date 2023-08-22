@@ -1,6 +1,23 @@
 import { getValue } from '../utils/nominal-class';
-import { ApplicationRoute, routePathMap } from './routes';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { ApplicationRoute } from './ApplicationRoute';
+import { routePathMap } from './routePathMap';
+import {
+  useLocation,
+  useMatches,
+  useNavigate,
+  useParams
+} from 'react-router-dom';
+
+export const useTypedParams = <T extends ApplicationRoute>(): Omit<T, 'name'> =>
+  useParams() as Omit<T, 'name'>;
+
+export const useTypedMatches = () => {
+  const matches = useMatches();
+  return matches.map(m => ({
+    ...m,
+    id: m.id as ApplicationRoute['name']
+  }));
+};
 
 export const buildPath = (route: ApplicationRoute) => {
   let path = getValue(routePathMap, route.name);

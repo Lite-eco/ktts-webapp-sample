@@ -12,7 +12,7 @@ export const RootView = () => {
       {!userInfos && (
         <RouteLink
           route={{
-            name: 'LoginRoute'
+            name: 'Login'
           }}
         >
           {t.Login()}

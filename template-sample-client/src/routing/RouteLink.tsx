@@ -2,7 +2,8 @@
 import { EmotionStyles } from '../interfaces';
 import { assertUnreachable } from '../utils';
 import { getValue } from '../utils/nominal-class';
-import { ApplicationRoute, routePathMap } from './routes';
+import { ApplicationRoute } from './ApplicationRoute';
+import { routePathMap } from './routePathMap';
 import { buildPath } from './routing-utils';
 import { css } from '@emotion/react';
 import { Button, ButtonTypeMap } from '@mui/material';
@@ -28,6 +29,7 @@ const RouteLinkBase = (
       css`
         font-weight: ${props.doesMatch ? 'bold' : 'normal'};
         text-decoration: ${props.doesMatch ? 'underline' : 'none'};
+
         &:hover {
           text-decoration: underline;
         }

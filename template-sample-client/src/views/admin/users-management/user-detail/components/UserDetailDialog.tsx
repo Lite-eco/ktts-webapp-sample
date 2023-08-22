@@ -1,14 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { CopyContentWidget } from '../../../../common-components/CopyContentWidget';
-import { UserId } from '../../../../generated/domain/Ids.generated';
-import { UserInfos } from '../../../../generated/domain/User.generated';
-import { GetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
-import { LoadingState } from '../../../../interfaces';
-import { RouteLink } from '../../../../routing/RouteLink';
-import { useGoTo } from '../../../../routing/routing-utils';
-import { appContext } from '../../../../services/ApplicationContext';
+import { CopyContentWidget } from '../../../../../common-components/CopyContentWidget';
+import { UserInfos } from '../../../../../generated/domain/User.generated';
+import { LoadingState } from '../../../../../interfaces';
+import { RouteLink } from '../../../../../routing/RouteLink';
+import { useGoTo } from '../../../../../routing/routing-utils';
+import { RoleChip } from '../../components/UsersManagementTable';
 import { t } from './UserDetailDialog.i18n';
-import { RoleChip } from './UsersManagementTable';
 import { css } from '@emotion/react';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import {
@@ -30,33 +27,16 @@ import {
   TableHead,
   TableRow
 } from '@mui/material';
-import { useEffect, useState } from 'react';
 
-// TODO find a dedicated name ? it's almost a DialogView
-export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
-  const [userInfos, setUserInfos] = useState<UserInfos>();
-  const [loading, setLoading] = useState<LoadingState>('Idle');
+export const UserDetailDialog = (props: {
+  userInfos: UserInfos | undefined;
+  loadingUserInfos: LoadingState;
+}) => {
   const goTo = useGoTo();
-  useEffect(() => {
-    if (props.userId) {
-      // keep after if (props.userId) for dialog disappearing animation
-      setUserInfos(undefined);
-      setLoading('Loading');
-      appContext.queryService
-        .send<GetUserInfosQueryResponse>({
-          objectType: 'GetUserInfosQuery',
-          userId: props.userId
-        })
-        .then(r => {
-          setLoading('Idle');
-          setUserInfos(r.userInfos);
-        });
-    }
-  }, [props.userId]);
-  const close = () => goTo({ name: 'UsersManagementRoute' });
+  const close = () => goTo({ name: 'UsersManagement' });
   return (
     <Dialog
-      open={!!props.userId}
+      open={true}
       onClose={close}
       maxWidth={'lg'}
       fullWidth={true}
@@ -65,7 +45,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
       <DialogTitle>{t.UserDetails()}</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          {loading === 'Loading' && (
+          {props.loadingUserInfos === 'Loading' && (
             <div
               css={css`
                 text-align: center;
@@ -74,7 +54,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
               <CircularProgress size={18} />
             </div>
           )}
-          {userInfos && (
+          {props.userInfos && (
             <>
               <TableContainer component={Paper}>
                 <Table>
@@ -98,7 +78,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
                         {t.id()}
                       </TableCell>
                       <TableCell align="left">
-                        <CopyContentWidget text={userInfos.id} />
+                        <CopyContentWidget text={props.userInfos.id} />
                       </TableCell>
                       <TableCell align="left" />
                     </TableRow>
@@ -114,7 +94,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
                         {t.mail()}
                       </TableCell>
                       <TableCell align="left">
-                        <CopyContentWidget text={userInfos.mail} />
+                        <CopyContentWidget text={props.userInfos.mail} />
                       </TableCell>
                       <TableCell align="left" />
                     </TableRow>
@@ -130,7 +110,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
                         {t.displayName()}
                       </TableCell>
                       <TableCell align="left">
-                        {userInfos.displayName}
+                        {props.userInfos.displayName}
                       </TableCell>
                       <TableCell align="left" />
                     </TableRow>
@@ -146,7 +126,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
                         {t.roles()}
                       </TableCell>
                       <TableCell align="left">
-                        {userInfos.roles.map(r => (
+                        {props.userInfos.roles.map(r => (
                           <RoleChip key={r} role={r} />
                         ))}
                       </TableCell>
@@ -155,8 +135,8 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
                           element="Button"
                           variant="outlined"
                           route={{
-                            name: 'UsersManagementUserEditRolesRoute',
-                            userId: userInfos.id
+                            name: 'UsersManagement/UserDetail/EditRoles',
+                            userId: props.userInfos.id
                           }}
                         >
                           {t.Edit()}
@@ -176,7 +156,7 @@ export const UserDetailDialog = (props: { userId: UserId | undefined }) => {
                     {t.RawJson()}
                   </AccordionSummary>
                   <AccordionDetails>
-                    <pre>{JSON.stringify(userInfos, null, 2)}</pre>
+                    <pre>{JSON.stringify(props.userInfos, null, 2)}</pre>
                   </AccordionDetails>
                 </Accordion>
               </div>

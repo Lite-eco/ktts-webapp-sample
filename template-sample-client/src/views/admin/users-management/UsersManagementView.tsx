@@ -2,27 +2,20 @@
 import { UserInfos } from '../../../generated/domain/User.generated';
 import { GetUsersQueryResponse } from '../../../generated/query/Queries.generated';
 import { LoadingState } from '../../../interfaces';
-import {
-  UsersManagementRoute,
-  UsersManagementUserEditRolesRoute,
-  UsersManagementUserRoute
-} from '../../../routing/routes';
 import { appContext } from '../../../services/ApplicationContext';
 import { MainContainer } from '../../containers/MainContainer';
 import { t } from './UsersManagementView.i18n';
-import { UserDetailDialog } from './components/UserDetailDialog';
-import { UserEditRolesDialog } from './components/UserEditRolesDialog';
 import { UsersManagementTable } from './components/UsersManagementTable';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
+import { Outlet } from 'react-router-dom';
 
-export const UsersManagementView = (props: {
-  route:
-    | UsersManagementRoute
-    | UsersManagementUserEditRolesRoute
-    | UsersManagementUserRoute;
-}) => {
+export interface UsersManagementOutletContext {
+  updateUserInfos: (userInfos: UserInfos) => void;
+}
+
+export const UsersManagementView = () => {
   const [users, setUsers] = useState<UserInfos[]>([]);
   const [loading, setLoading] = useState<LoadingState>('Idle');
   const { enqueueSnackbar } = useSnackbar();
@@ -54,14 +47,7 @@ export const UsersManagementView = (props: {
         });
       });
   }, [enqueueSnackbar]);
-  const displayDetailsUserId =
-    props.route.name === 'UsersManagementUserRoute'
-      ? props.route.userId
-      : undefined;
-  const displayEditRolesUserId =
-    props.route.name === 'UsersManagementUserEditRolesRoute'
-      ? props.route.userId
-      : undefined;
+  const context: UsersManagementOutletContext = { updateUserInfos };
   return (
     <MainContainer>
       <div
@@ -73,11 +59,7 @@ export const UsersManagementView = (props: {
       >
         <h1>{t.UsersManagement()}</h1>
         <UsersManagementTable users={users} loading={loading} />
-        <UserDetailDialog userId={displayDetailsUserId} />
-        <UserEditRolesDialog
-          userId={displayEditRolesUserId}
-          updateUserInfos={updateUserInfos}
-        />
+        <Outlet context={context} />
       </div>
     </MainContainer>
   );
