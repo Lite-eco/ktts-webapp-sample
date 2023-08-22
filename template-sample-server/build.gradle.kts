@@ -78,7 +78,7 @@ dependencies {
 
     // database
     implementation("org.postgresql:postgresql:42.5.4")
-    implementation("org.jooq:jooq:3.18.3")
+    implementation("org.jooq:jooq:3.18.4")
 
     // logs
     implementation("io.github.microutils:kotlin-logging:3.0.5")
@@ -86,7 +86,7 @@ dependencies {
     // utils
     implementation("org.apache.commons:commons-lang3:3.12.0")
     implementation("org.apache.commons:commons-text:1.10.0")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.14.2")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.15.2")
     implementation("org.reflections:reflections") {
         // [doc] BEWARE reflections version 0.10.2 breaks id deserialization when deployed
         version { strictly("0.9.12") }
