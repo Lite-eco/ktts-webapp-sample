@@ -3,10 +3,10 @@ import { RouteLink } from '../../routing/RouteLink';
 import { state } from '../../state/state';
 import { MainContainer } from '../containers/MainContainer';
 import { t } from './RootView.i18n';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 export const RootView = () => {
-  const [userInfos] = useRecoilState(state.userInfos);
+  const userInfos = useRecoilValue(state.userInfos);
   return (
     <MainContainer>
       {!userInfos && (

@@ -9,10 +9,10 @@ import { Menu as MenuIcon } from '@mui/icons-material';
 import { Menu, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { useRef, useState } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
 export const Navbar = () => {
-  const [userInfos] = useRecoilState(state.userInfos);
+  const userInfos = useRecoilValue(state.userInfos);
   const buttonElement = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
