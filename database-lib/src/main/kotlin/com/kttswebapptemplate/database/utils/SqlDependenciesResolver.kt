@@ -1,6 +1,5 @@
 package com.kttswebapptemplate.database.utils
 
-import com.kttswebapptemplate.database.utils.SqlDependenciesResolver.ParseResult
 import net.sf.jsqlparser.parser.CCJSqlParserUtil
 import net.sf.jsqlparser.statement.alter.Alter
 import net.sf.jsqlparser.statement.create.table.CreateTable
