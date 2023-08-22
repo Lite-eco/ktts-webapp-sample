@@ -1,6 +1,11 @@
-import { UserId } from '../domain/Ids';
-import { PlainStringPassword } from '../domain/Security';
-import { LoginResult, RegisterResult, Role, UserInfos } from '../domain/User';
+import { UserId } from '../domain/Ids.generated';
+import { PlainStringPassword } from '../domain/Security.generated';
+import {
+  LoginResult,
+  RegisterResult,
+  Role,
+  UserInfos
+} from '../domain/User.generated';
 
 export type Command =
   | AdminUpdateRolesCommand
