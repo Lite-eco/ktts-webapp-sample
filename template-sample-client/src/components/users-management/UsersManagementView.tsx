@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { UserInfos } from '../../generated/domain/User';
-import { GetUsersQueryResponse } from '../../generated/query/Queries';
+import { UserInfos } from '../../generated/domain/User.generated';
+import { GetUsersQueryResponse } from '../../generated/query/Queries.generated';
 import { LoadingState } from '../../interfaces';
 import { appContext } from '../../services/ApplicationContext';
 import { MainContainer } from '../containers/MainContainer';
@@ -15,7 +15,6 @@ import { UsersManagementTable } from './UsersManagementTable';
 import { t } from './UsersManagementView.i18n';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
-import * as React from 'react';
 import { useEffect, useState } from 'react';
 
 export const UsersManagementView = (props: {

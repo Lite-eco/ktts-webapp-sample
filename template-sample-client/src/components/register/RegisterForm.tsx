@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { PlainStringPassword } from '../../generated/domain/Security';
-import { IsMailAlreadyTakenQueryResponse } from '../../generated/query/Queries';
+import { PlainStringPassword } from '../../generated/domain/Security.generated';
+import { IsMailAlreadyTakenQueryResponse } from '../../generated/query/Queries.generated';
 import { LoadingState } from '../../interfaces';
 import { appContext } from '../../services/ApplicationContext';
 import { asNominalString } from '../../utils/nominal-class';
@@ -10,8 +10,8 @@ import { ControlledTextInput } from '../common/form/ControlledTextInput';
 import { colors } from '../styles/vars';
 import { t } from './RegisterForm.i18n';
 import { css } from '@emotion/react';
-import * as React from 'react';
 import { ChangeEvent, useState } from 'react';
+import * as React from 'react';
 import { useForm } from 'react-hook-form';
 
 export interface RegisterFormInput {

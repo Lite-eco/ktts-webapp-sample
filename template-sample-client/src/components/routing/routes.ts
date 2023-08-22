@@ -1,5 +1,5 @@
-import { UserId } from '../../generated/domain/Ids';
-import { Role } from '../../generated/domain/User';
+import { UserId } from '../../generated/domain/Ids.generated';
+import { Role } from '../../generated/domain/User.generated';
 import { dict, Dict, flatMap } from '../../utils/nominal-class';
 import { AccountView } from '../account/AccountView';
 import { AdminManualCommandView } from '../admin/AdminManualCommandView';
