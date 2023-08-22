@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { AdminUsersManagementUserDetailEditRolesRoute } from '../../../../../routing/ApplicationRoute';
+import { AdminUsersManagementUserDetailEditRolesRoute } from '../../../../../routing/ApplicationRoute.generated';
 import { useTypedParams } from '../../../../../routing/routing-utils';
 import { UsersManagementUserDetailOutletContext } from '../UserDetailView';
 import { UserEditRolesDialog } from './components/UserEditRolesDialog';

@@ -1,6 +1,6 @@
 import { getValue } from '../utils/nominal-class';
-import { ApplicationRoute } from './ApplicationRoute';
-import { routePathMap } from './routePathMap';
+import { ApplicationRoute } from './ApplicationRoute.generated';
+import { routePathMap } from './routePathMap.generated';
 import {
   useLocation,
   useMatches,

@@ -1,4 +1,4 @@
-import { router } from './routing/router';
+import { router } from './routing/router.generated';
 import { Root } from './views/containers/Root';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';

@@ -2,7 +2,7 @@
 import { UserInfos } from '../../../../generated/domain/User.generated';
 import { GetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
 import { LoadingState } from '../../../../interfaces';
-import { AdminUsersManagementUserDetailRoute } from '../../../../routing/ApplicationRoute';
+import { AdminUsersManagementUserDetailRoute } from '../../../../routing/ApplicationRoute.generated';
 import { useTypedParams } from '../../../../routing/routing-utils';
 import { appContext } from '../../../../services/ApplicationContext';
 import { UsersManagementOutletContext } from '../UsersManagementView';

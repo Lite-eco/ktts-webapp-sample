@@ -1,5 +1,5 @@
 import { dict } from '../utils/nominal-class';
-import { ApplicationRoute } from './ApplicationRoute';
+import { ApplicationRoute } from './ApplicationRoute.generated';
 
 export const routePathMap = dict<ApplicationRoute['name'], string>([
   ['Account', '/account'],

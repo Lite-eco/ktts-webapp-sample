@@ -2,8 +2,8 @@
 import { EmotionStyles } from '../interfaces';
 import { assertUnreachable } from '../utils';
 import { getValue } from '../utils/nominal-class';
-import { ApplicationRoute } from './ApplicationRoute';
-import { routePathMap } from './routePathMap';
+import { ApplicationRoute } from './ApplicationRoute.generated';
+import { routePathMap } from './routePathMap.generated';
 import { buildPath } from './routing-utils';
 import { css } from '@emotion/react';
 import { Button, ButtonTypeMap } from '@mui/material';
