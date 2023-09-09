@@ -88,10 +88,10 @@ class CommandController(
                 exceptionStackTrace = null,
                 startDate = dateService.now(),
                 endDate = Instant.ofEpochMilli(0))
+        idLogService.enableLogging()
         try {
             userSessionService.verifyStatusAndRole(
                 CommandConfiguration.role(command), request.remoteAddr, command.javaClass)
-            idLogService.enableLogging()
             val result =
                 transactionIsolationService.execute {
                     handler.handle(command, getSession(), request, response)

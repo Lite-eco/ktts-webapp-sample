@@ -36,6 +36,10 @@ class UserSessionService(
 
     val logger = KotlinLogging.logger {}
 
+    companion object {
+        const val anonymousUser = "anonymousUser"
+    }
+
     data class SessionConvertion(val needsUpdate: Boolean, val session: UserSession)
 
     // TODO[tmpl][secu] ?
@@ -79,11 +83,16 @@ class UserSessionService(
         }
 
     fun verifyStatusAndRole(expectedRole: Role?, logIp: String, logClass: Class<Any>) {
+        val userSession = if (isAuthenticated()) getUserSession() else null
+        // one could argue that a loggedin user has the same rights as an anonymous, but handlers
+        // could actually make a difference between both
+        if (userSession?.status == UserStatus.Disabled) {
+            throw TemplateSampleSecurityException("$logIp ${logClass.simpleName}")
+        }
         if (expectedRole != null) {
-            if (!isAuthenticated()) {
+            if (userSession == null) {
                 throw TemplateSampleSecurityException("$logIp ${logClass.simpleName}")
             }
-            val userSession = getUserSession()
             if (userSession.status != UserStatus.Active) {
                 throw TemplateSampleSecurityException("$logIp ${logClass.simpleName}")
             }
@@ -105,7 +114,8 @@ class UserSessionService(
                 // & then securityContextRepository.saveContext()
                 is Session -> convert(it).session
                 // TODO[tmpl][secu] do 403 if anonymousUser
-                is AnonymousAuthenticationToken -> throw AppErrors.NotConnectedUser()
+                is AnonymousAuthenticationToken,
+                anonymousUser -> throw AppErrors.NotConnectedUser()
                 // TODO[tmpl][secu] log ?
                 else -> throw IllegalStateException("Unexpected principal type ${it.javaClass} $it")
             }
