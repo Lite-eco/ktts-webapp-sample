@@ -2,6 +2,8 @@ package com.kttswebapptemplate.controller
 
 import com.kttswebapptemplate.query.GetUserInfosQuery
 import com.kttswebapptemplate.query.GetUserInfosQueryHandler
+import com.kttswebapptemplate.query.GetUserStatusQuery
+import com.kttswebapptemplate.query.GetUserStatusQueryHandler
 import com.kttswebapptemplate.query.GetUsersQuery
 import com.kttswebapptemplate.query.GetUsersQueryHandler
 import com.kttswebapptemplate.query.IsMailAlreadyTakenQuery
@@ -24,6 +26,7 @@ class QueryController(
     private val userSessionService: UserSessionService,
     private val getUserInfosQueryHandler: GetUserInfosQueryHandler,
     private val getUsersQueryHandler: GetUsersQueryHandler,
+    private val getUserStatusQueryHandler: GetUserStatusQueryHandler,
     private val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler,
 ) {
 
@@ -43,6 +46,7 @@ class QueryController(
         when (query) {
             is GetUserInfosQuery -> getUserInfosQueryHandler
             is GetUsersQuery -> getUsersQueryHandler
+            is GetUserStatusQuery -> getUserStatusQueryHandler
             is IsMailAlreadyTakenQuery -> isMailAlreadyTakenQueryHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as QueryHandler<Query, QueryResponse>) }
 }

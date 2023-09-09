@@ -3,6 +3,7 @@ package com.kttswebapptemplate.query
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserInfos
+import com.kttswebapptemplate.domain.UserStatus
 import kt2ts.annotation.GenerateTypescript
 
 @GenerateTypescript
@@ -19,6 +20,10 @@ data class GetUserInfosQueryResponse(val userInfos: UserInfos?) : QueryResponse(
 data object GetUsersQuery : Query()
 
 data class GetUsersQueryResponse(val users: List<UserInfos>) : QueryResponse()
+
+data object GetUserStatusQuery : Query()
+
+data class GetUserStatusQueryResponse(val status: UserStatus) : QueryResponse()
 
 data class IsMailAlreadyTakenQuery(val mail: String) : Query()
 

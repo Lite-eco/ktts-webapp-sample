@@ -1,10 +1,15 @@
 import { UserId } from '../domain/Ids.generated';
-import { UserInfos } from '../domain/User.generated';
+import { UserInfos, UserStatus } from '../domain/User.generated';
 
-export type Query = GetUserInfosQuery | GetUsersQuery | IsMailAlreadyTakenQuery;
+export type Query =
+  | GetUserInfosQuery
+  | GetUserStatusQuery
+  | GetUsersQuery
+  | IsMailAlreadyTakenQuery;
 
 export type QueryResponse =
   | GetUserInfosQueryResponse
+  | GetUserStatusQueryResponse
   | GetUsersQueryResponse
   | IsMailAlreadyTakenQueryResponse;
 
@@ -25,6 +30,15 @@ export interface GetUsersQuery {
 export interface GetUsersQueryResponse {
   objectType: 'GetUsersQueryResponse';
   users: UserInfos[];
+}
+
+export interface GetUserStatusQuery {
+  objectType: 'GetUserStatusQuery';
+}
+
+export interface GetUserStatusQueryResponse {
+  objectType: 'GetUserStatusQueryResponse';
+  status: UserStatus;
 }
 
 export interface IsMailAlreadyTakenQuery {

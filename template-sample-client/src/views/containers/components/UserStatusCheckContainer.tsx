@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { UserStatus } from '../../../generated/domain/User.generated';
+import { GetUserStatusQueryResponse } from '../../../generated/query/Queries.generated';
 import { useGoTo } from '../../../routing/routing-utils';
 import { appContext } from '../../../services/ApplicationContext';
 import { state } from '../../../state/state';
@@ -14,7 +15,7 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
-import { PropsWithChildren, ReactNode, useState } from 'react';
+import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
 const userStatusContent = (
@@ -38,6 +39,24 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
   const [userInfos, setUserInfos] = useRecoilState(state.userInfos);
   const [displayPopup, setDisplayPopup] = useState(false);
   const goTo = useGoTo();
+  useEffect(() => {
+    if (userInfos?.status === 'MailValidationPending') {
+      const intervalId = setInterval(() => {
+        appContext.queryService
+          .send<GetUserStatusQueryResponse>({
+            objectType: 'GetUserStatusQuery'
+          })
+          .then(r => {
+            if (r.status !== 'MailValidationPending') {
+              clearInterval(intervalId);
+            }
+            setUserInfos({ ...userInfos, status: r.status });
+          });
+      }, 2000);
+      return () => clearInterval(intervalId); //This is important
+    }
+    return () => {};
+  }, [userInfos, setUserInfos]);
   const mailValidationToken = new URLSearchParams(window.location.search).get(
     'mailValidation'
   );
