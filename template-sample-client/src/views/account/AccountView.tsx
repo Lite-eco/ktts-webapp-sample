@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { appContext } from '../../services/ApplicationContext';
-import { MainContainer } from '../containers/MainContainer';
+import { MainViewContainer } from '../containers/MainViewContainer';
 import { PasswordFormInput } from './components/PasswordForm';
 import { UpdatePasswordDialogButton } from './components/UpdatePasswordDialogButton';
 
@@ -13,8 +13,8 @@ export const AccountView = () => {
       })
       .then(() => {});
   return (
-    <MainContainer>
+    <MainViewContainer>
       <UpdatePasswordDialogButton onSubmit={onSubmit} />
-    </MainContainer>
+    </MainViewContainer>
   );
 };

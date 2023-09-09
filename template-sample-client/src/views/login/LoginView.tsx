@@ -10,7 +10,7 @@ import { useGoTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { assertUnreachable } from '../../utils';
-import { MainContainer } from '../containers/MainContainer';
+import { MainViewContainer } from '../containers/MainViewContainer';
 import { t } from './LoginView.i18n';
 import { LoginForm, LoginFormInput } from './components/LoginForm';
 import { css } from '@emotion/react';
@@ -61,7 +61,7 @@ export const LoginView = () => {
       })
       .then(r => connect(r.userInfos));
   return (
-    <MainContainer>
+    <MainViewContainer>
       <div
         css={css`
           margin: auto;
@@ -123,6 +123,6 @@ export const LoginView = () => {
           )}
         </div>
       </div>
-    </MainContainer>
+    </MainViewContainer>
   );
 };

@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import { RouteLink } from '../../routing/RouteLink';
 import { state } from '../../state/state';
-import { MainContainer } from '../containers/MainContainer';
+import { MainViewContainer } from '../containers/MainViewContainer';
 import { t } from './RootView.i18n';
 import { useRecoilValue } from 'recoil';
 
 export const RootView = () => {
   const userInfos = useRecoilValue(state.userInfos);
   return (
-    <MainContainer>
+    <MainViewContainer>
       {!userInfos && (
         <RouteLink
           route={{
@@ -19,6 +19,6 @@ export const RootView = () => {
         </RouteLink>
       )}
       {userInfos && <div>{t.YouAreConnected()}</div>}
-    </MainContainer>
+    </MainViewContainer>
   );
 };

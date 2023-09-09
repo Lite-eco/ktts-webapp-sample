@@ -7,7 +7,6 @@ import {
   ThemeProvider
 } from '@mui/material';
 import StylesProvider from '@mui/styles/StylesProvider';
-import { SnackbarProvider } from 'notistack';
 import { PropsWithChildren } from 'react';
 
 const muiTheme = createTheme({
@@ -16,14 +15,12 @@ const muiTheme = createTheme({
     // htmlFontSize: fonts.baseSize
   }
 });
-export const Root = (props: PropsWithChildren) => (
+export const StylesProviderContainer = (props: PropsWithChildren) => (
   <>
     <Global styles={[globalStyles]} />
     <StylesProvider injectFirst>
       <StyledEngineProvider injectFirst>
-        <ThemeProvider theme={muiTheme}>
-          <SnackbarProvider maxSnack={3}>{props.children}</SnackbarProvider>
-        </ThemeProvider>
+        <ThemeProvider theme={muiTheme}>{props.children}</ThemeProvider>
       </StyledEngineProvider>
     </StylesProvider>
   </>

@@ -1,5 +1,6 @@
 import { router } from './routing/router.generated';
-import { Root } from './views/containers/Root';
+import { StylesProviderContainer } from './views/containers/StylesProviderContainer';
+import { SnackbarProvider } from 'notistack';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
@@ -10,9 +11,11 @@ const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(
     <RecoilRoot>
-      <Root>
-        <RouterProvider router={router} />
-      </Root>
+      <StylesProviderContainer>
+        <SnackbarProvider maxSnack={3}>
+          <RouterProvider router={router} />
+        </SnackbarProvider>
+      </StylesProviderContainer>
     </RecoilRoot>
   );
 }

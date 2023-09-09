@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { RouteLink } from '../../routing/RouteLink';
 import { state } from '../../state/state';
-import { MainContainer } from '../containers/MainContainer';
+import { MainViewContainer } from '../containers/MainViewContainer';
 import { NotFoundView } from '../not-found/NotFoundView';
 import { t } from './AdminView.i18n';
 import { Outlet, useMatches } from 'react-router-dom';
@@ -15,7 +15,7 @@ export const AdminView = () => {
     return <NotFoundView />;
   }
   return (
-    <MainContainer>
+    <MainViewContainer>
       {displayLinks && (
         <>
           <RouteLink route={{ name: 'Admin/ManualCommand' }}>
@@ -28,6 +28,6 @@ export const AdminView = () => {
         </>
       )}
       <Outlet />
-    </MainContainer>
+    </MainViewContainer>
   );
 };

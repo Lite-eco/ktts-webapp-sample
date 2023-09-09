@@ -3,7 +3,7 @@ import { Navbar } from './components/Navbar';
 import { css } from '@emotion/react';
 import { PropsWithChildren } from 'react';
 
-export const MainContainer = (props: PropsWithChildren) => (
+export const MainViewContainer = (props: PropsWithChildren) => (
   <div
     css={css`
       width: 100vw;

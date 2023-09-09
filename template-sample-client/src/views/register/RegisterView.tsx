@@ -6,7 +6,7 @@ import { useGoTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { assertUnreachable } from '../../utils';
-import { MainContainer } from '../containers/MainContainer';
+import { MainViewContainer } from '../containers/MainViewContainer';
 import { t } from './RegisterView.i18n';
 import { RegisterForm, RegisterFormInput } from './components/RegisterForm';
 import { css } from '@emotion/react';
@@ -40,7 +40,7 @@ export const RegisterView = () => {
         setRegisterResult(r.result);
       });
   return (
-    <MainContainer>
+    <MainViewContainer>
       <div
         css={css`
           margin: auto;
@@ -76,6 +76,6 @@ export const RegisterView = () => {
           )}
         </div>
       </div>
-    </MainContainer>
+    </MainViewContainer>
   );
 };
