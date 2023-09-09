@@ -25,6 +25,20 @@ class MailService(
     private val randomService: RandomService,
 ) {
 
+    companion object {
+        fun extractMailPrefixSuffix(mail: String): Pair<String, String> {
+            val arobaseIndex =
+                mail.indexOf('@').apply {
+                    if (this == -1) {
+                        return mail to ""
+                    }
+                }
+            val plusIndex = mail.indexOf('+').let { if (it == -1) arobaseIndex else it }
+            return mail.substring(0, min(arobaseIndex, plusIndex)) to
+                mail.substring(max(arobaseIndex, plusIndex))
+        }
+    }
+
     fun sendMail(
         sender: Mail.Contact,
         recipient: Mail.Contact,
@@ -64,17 +78,5 @@ class MailService(
                 date = dateService.now())
         mailingLogDao.insert(log)
         fakeSaasMailService.sendMail(Mail(sender, recipient, subject, content), log.id)
-    }
-
-    fun extractMailPrefixSuffix(mail: String): Pair<String, String> {
-        val arobaseIndex =
-            mail.indexOf('@').apply {
-                if (this == -1) {
-                    return mail to ""
-                }
-            }
-        val plusIndex = mail.indexOf('+').let { if (it == -1) arobaseIndex else it }
-        return mail.substring(0, min(arobaseIndex, plusIndex)) to
-            mail.substring(max(arobaseIndex, plusIndex))
     }
 }

@@ -21,7 +21,6 @@ class DevInitialDataInjectorService(
     private val dateService: DateService,
     private val randomService: RandomService,
     private val userService: UserService,
-    private val mailService: MailService,
     private val transactionIsolationService: TransactionIsolationService
 ) {
 
@@ -54,7 +53,7 @@ class DevInitialDataInjectorService(
     }
 
     fun devUserMail(username: String): String {
-        val (mailPrefix, mailSuffix) = mailService.extractMailPrefixSuffix(developerDestinationMail)
+        val (mailPrefix, mailSuffix) = MailService.extractMailPrefixSuffix(developerDestinationMail)
         // not a problem if there's multiple '+'
         return "$mailPrefix+$username$mailSuffix"
     }
