@@ -1,35 +1,35 @@
 import { UserId } from '../domain/Ids.generated';
-import { UserInfos, UserStatus } from '../domain/User.generated';
+import { AdminUserInfos, UserStatus } from '../domain/User.generated';
 
 export type Query =
-  | GetUserInfosQuery
+  | AdminGetUserInfosQuery
+  | AdminGetUsersQuery
   | GetUserStatusQuery
-  | GetUsersQuery
   | IsMailAlreadyTakenQuery;
 
 export type QueryResponse =
-  | GetUserInfosQueryResponse
+  | AdminGetUserInfosQueryResponse
+  | AdminGetUsersQueryResponse
   | GetUserStatusQueryResponse
-  | GetUsersQueryResponse
   | IsMailAlreadyTakenQueryResponse;
 
-export interface GetUserInfosQuery {
-  objectType: 'GetUserInfosQuery';
+export interface AdminGetUserInfosQuery {
+  objectType: 'AdminGetUserInfosQuery';
   userId: UserId;
 }
 
-export interface GetUserInfosQueryResponse {
-  objectType: 'GetUserInfosQueryResponse';
-  userInfos?: UserInfos;
+export interface AdminGetUserInfosQueryResponse {
+  objectType: 'AdminGetUserInfosQueryResponse';
+  userInfos?: AdminUserInfos;
 }
 
-export interface GetUsersQuery {
-  objectType: 'GetUsersQuery';
+export interface AdminGetUsersQuery {
+  objectType: 'AdminGetUsersQuery';
 }
 
-export interface GetUsersQueryResponse {
-  objectType: 'GetUsersQueryResponse';
-  users: UserInfos[];
+export interface AdminGetUsersQueryResponse {
+  objectType: 'AdminGetUsersQueryResponse';
+  users: AdminUserInfos[];
 }
 
 export interface GetUserStatusQuery {

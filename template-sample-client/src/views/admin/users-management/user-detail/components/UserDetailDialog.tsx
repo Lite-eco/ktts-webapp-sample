@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { CopyContentWidget } from '../../../../../common-components/CopyContentWidget';
-import { UserInfos } from '../../../../../generated/domain/User.generated';
+import { AdminUserInfos } from '../../../../../generated/domain/User.generated';
 import { useI18n } from '../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../interfaces';
 import { RouteLink } from '../../../../../routing/RouteLink';
@@ -30,7 +30,7 @@ import {
 } from '@mui/material';
 
 export const UserDetailDialog = (props: {
-  userInfos: UserInfos | undefined;
+  userInfos: AdminUserInfos | undefined;
   loadingUserInfos: LoadingState;
 }) => {
   const goTo = useGoTo();

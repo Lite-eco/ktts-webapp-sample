@@ -4,5 +4,6 @@ export const UsersManagementTableI18n = {
   DisplayName: () => 'Display name',
   Status: () => 'Status',
   Role: () => 'Role',
+  SignupDate: () => 'Signup date',
   Details: () => 'Details'
 };

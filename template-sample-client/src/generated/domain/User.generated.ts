@@ -1,3 +1,4 @@
+import { Instant } from '../../domain/datetime';
 import { UserId } from './Ids.generated';
 
 export type UserStatus = 'MailValidationPending' | 'Active' | 'Disabled';
@@ -10,6 +11,15 @@ export interface UserInfos {
   displayName: string;
   status: UserStatus;
   role: Role;
+}
+
+export interface AdminUserInfos {
+  id: UserId;
+  mail: string;
+  displayName: string;
+  status: UserStatus;
+  role: Role;
+  signupDate: Instant;
 }
 
 export type LoginResult = 'LoggedIn' | 'MailNotFound' | 'BadPassword';

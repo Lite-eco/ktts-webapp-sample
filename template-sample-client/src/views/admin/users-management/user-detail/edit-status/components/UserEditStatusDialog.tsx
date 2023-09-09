@@ -4,10 +4,10 @@ import { statusEnumValues } from '../../../../../../domain/enums';
 import { Errors } from '../../../../../../errors';
 import { UserId } from '../../../../../../generated/domain/Ids.generated';
 import {
-  UserInfos,
+  AdminUserInfos,
   UserStatus
 } from '../../../../../../generated/domain/User.generated';
-import { GetUserInfosQueryResponse } from '../../../../../../generated/query/Queries.generated';
+import { AdminGetUserInfosQueryResponse } from '../../../../../../generated/query/Queries.generated';
 import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
 import { useGoTo } from '../../../../../../routing/routing-utils';
@@ -31,9 +31,9 @@ import { useRecoilValue } from 'recoil';
 
 export const UserEditStatusDialog = (props: {
   userId: UserId;
-  updateUserInfos: (user: UserInfos) => void;
+  updateUserInfos: (user: AdminUserInfos) => void;
 }) => {
-  const [userInfos, setUserInfos] = useState<UserInfos | undefined>();
+  const [userInfos, setUserInfos] = useState<AdminUserInfos | undefined>();
   const [status, setStatus] = useState<UserStatus | undefined>();
   const [queryLoading, setQueryLoading] = useState<LoadingState>('Idle');
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
@@ -49,8 +49,8 @@ export const UserEditStatusDialog = (props: {
       setStatus(undefined);
       setQueryLoading('Loading');
       appContext.queryService
-        .send<GetUserInfosQueryResponse>({
-          objectType: 'GetUserInfosQuery',
+        .send<AdminGetUserInfosQueryResponse>({
+          objectType: 'AdminGetUserInfosQuery',
           userId: props.userId
         })
         .then(r => {

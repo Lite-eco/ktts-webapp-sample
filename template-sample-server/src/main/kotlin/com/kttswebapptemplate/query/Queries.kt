@@ -1,8 +1,8 @@
 package com.kttswebapptemplate.query
 
 import com.fasterxml.jackson.annotation.JsonTypeInfo
+import com.kttswebapptemplate.domain.AdminUserInfos
 import com.kttswebapptemplate.domain.UserId
-import com.kttswebapptemplate.domain.UserInfos
 import com.kttswebapptemplate.domain.UserStatus
 import kt2ts.annotation.GenerateTypescript
 
@@ -13,13 +13,13 @@ sealed class Query
 
 @GenerateTypescript sealed class QueryResponse
 
-data class GetUserInfosQuery(val userId: UserId) : Query()
+data class AdminGetUserInfosQuery(val userId: UserId) : Query()
 
-data class GetUserInfosQueryResponse(val userInfos: UserInfos?) : QueryResponse()
+data class AdminGetUserInfosQueryResponse(val userInfos: AdminUserInfos?) : QueryResponse()
 
-data object GetUsersQuery : Query()
+data object AdminGetUsersQuery : Query()
 
-data class GetUsersQueryResponse(val users: List<UserInfos>) : QueryResponse()
+data class AdminGetUsersQueryResponse(val users: List<AdminUserInfos>) : QueryResponse()
 
 data object GetUserStatusQuery : Query()
 

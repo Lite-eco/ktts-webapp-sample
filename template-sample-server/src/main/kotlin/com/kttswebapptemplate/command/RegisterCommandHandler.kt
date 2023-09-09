@@ -53,6 +53,6 @@ class RegisterCommandHandler(
                 return RegisterCommandResponse(RegisterResult.MailAlreadyExists, null)
             }
         userSessionService.authenticateUser(user, request, response)
-        return RegisterCommandResponse(RegisterResult.Registered, UserInfos.fromUser(user))
+        return RegisterCommandResponse(RegisterResult.Registered, UserInfos.from(user))
     }
 }

@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { UserInfos } from '../../../../generated/domain/User.generated';
-import { GetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
+import { AdminUserInfos } from '../../../../generated/domain/User.generated';
+import { AdminGetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
 import { LoadingState } from '../../../../interfaces';
 import { AdminUsersManagementUserDetailRoute } from '../../../../routing/ApplicationRoute.generated';
 import { useTypedParams } from '../../../../routing/routing-utils';
@@ -11,18 +11,18 @@ import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 
 export interface UsersManagementUserDetailOutletContext {
-  userInfos: UserInfos | undefined;
-  updateUserInfos: (userInfos: UserInfos) => void;
+  userInfos: AdminUserInfos | undefined;
+  updateUserInfos: (userInfos: AdminUserInfos) => void;
   loadingUserInfos: LoadingState;
 }
 
 export const UserDetailView = () => {
   const params = useTypedParams<AdminUsersManagementUserDetailRoute>();
   const outletContext = useOutletContext<UsersManagementOutletContext>();
-  const [userInfos, setUserInfos] = useState<UserInfos>();
+  const [userInfos, setUserInfos] = useState<AdminUserInfos>();
   const [loadingUserInfos, setLoadingUserInfos] =
     useState<LoadingState>('Idle');
-  const updateUserInfos = (userInfos: UserInfos) => {
+  const updateUserInfos = (userInfos: AdminUserInfos) => {
     outletContext.updateUserInfos(userInfos);
     setUserInfos(userInfos);
   };
@@ -30,8 +30,8 @@ export const UserDetailView = () => {
     setUserInfos(undefined);
     setLoadingUserInfos('Loading');
     appContext.queryService
-      .send<GetUserInfosQueryResponse>({
-        objectType: 'GetUserInfosQuery',
+      .send<AdminGetUserInfosQueryResponse>({
+        objectType: 'AdminGetUserInfosQuery',
         userId: params.userId
       })
       .then(r => {

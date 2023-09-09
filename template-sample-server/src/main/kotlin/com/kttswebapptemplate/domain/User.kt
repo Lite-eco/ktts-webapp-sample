@@ -3,6 +3,7 @@ package com.kttswebapptemplate.domain
 import com.fasterxml.jackson.annotation.JsonTypeInfo
 import com.fasterxml.jackson.annotation.JsonTypeName
 import com.kttswebapptemplate.repository.user.UserDao
+import java.time.Instant
 
 enum class Language {
     En,
@@ -24,19 +25,27 @@ data class UserInfos(
     val id: UserId,
     val mail: String,
     val displayName: String,
-    //    val zoneId: ZoneId,
     val status: UserStatus,
     val role: Role
 ) {
     companion object {
-        fun fromUser(user: UserDao.Record) =
-            UserInfos(
-                user.id,
-                user.mail,
-                user.displayName,
-                //            user.zoneId,
-                user.status,
-                user.role)
+        fun from(user: UserDao.Record) =
+            UserInfos(user.id, user.mail, user.displayName, user.status, user.role)
+    }
+}
+
+data class AdminUserInfos(
+    val id: UserId,
+    val mail: String,
+    val displayName: String,
+    val status: UserStatus,
+    val role: Role,
+    val signupDate: Instant
+) {
+    companion object {
+        fun from(user: UserDao.Record) =
+            AdminUserInfos(
+                user.id, user.mail, user.displayName, user.status, user.role, user.signupDate)
     }
 }
 

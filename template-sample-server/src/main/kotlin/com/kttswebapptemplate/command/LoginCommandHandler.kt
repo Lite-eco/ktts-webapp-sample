@@ -38,6 +38,6 @@ class LoginCommandHandler(
             return LoginCommandResponse(LoginResult.BadPassword, null)
         }
         userSessionService.authenticateUser(user, request, response)
-        return LoginCommandResponse(LoginResult.LoggedIn, UserInfos.fromUser(user))
+        return LoginCommandResponse(LoginResult.LoggedIn, UserInfos.from(user))
     }
 }

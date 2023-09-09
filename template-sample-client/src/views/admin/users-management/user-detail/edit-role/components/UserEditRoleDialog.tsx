@@ -4,8 +4,8 @@ import { roleEnumValues } from '../../../../../../domain/enums';
 import { Errors } from '../../../../../../errors';
 import { UserId } from '../../../../../../generated/domain/Ids.generated';
 import {
-  Role,
-  UserInfos
+  AdminUserInfos,
+  Role
 } from '../../../../../../generated/domain/User.generated';
 import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
@@ -33,8 +33,8 @@ import { useRecoilValue } from 'recoil';
 
 export const UserEditRoleDialog = (props: {
   userId: UserId;
-  userInfos: UserInfos | undefined;
-  updateUserInfos: (user: UserInfos) => void;
+  userInfos: AdminUserInfos | undefined;
+  updateUserInfos: (user: AdminUserInfos) => void;
   loadingUserInfos: LoadingState;
 }) => {
   const [role, setRole] = useState<Role | undefined>();

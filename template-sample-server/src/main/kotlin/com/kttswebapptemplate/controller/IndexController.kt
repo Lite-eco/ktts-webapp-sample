@@ -66,7 +66,7 @@ class IndexController(
         val userInfos =
             userSessionService.getUserSessionIfAuthenticated()?.let {
                 val user = userDao.fetch(it.userId)
-                UserInfos.fromUser(user)
+                UserInfos.from(user)
             }
         mav.model["bootstrapData"] =
             serialize(ApplicationBootstrapData(ApplicationInstance.env, userInfos))

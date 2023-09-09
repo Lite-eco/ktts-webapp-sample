@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { UserInfos } from '../../../generated/domain/User.generated';
-import { GetUsersQueryResponse } from '../../../generated/query/Queries.generated';
+import { AdminUserInfos } from '../../../generated/domain/User.generated';
+import { AdminGetUsersQueryResponse } from '../../../generated/query/Queries.generated';
 import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
 import { appContext } from '../../../services/ApplicationContext';
@@ -12,15 +12,15 @@ import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
 
 export interface UsersManagementOutletContext {
-  updateUserInfos: (userInfos: UserInfos) => void;
+  updateUserInfos: (userInfos: AdminUserInfos) => void;
 }
 
 export const UsersManagementView = () => {
-  const [users, setUsers] = useState<UserInfos[]>([]);
+  const [users, setUsers] = useState<AdminUserInfos[]>([]);
   const [loading, setLoading] = useState<LoadingState>('Idle');
   const { enqueueSnackbar } = useSnackbar();
   // TODO would probably be better to reload data
-  const updateUserInfos = (userInfos: UserInfos) =>
+  const updateUserInfos = (userInfos: AdminUserInfos) =>
     setUsers([
       ...users.map(u => {
         if (u.id === userInfos.id) {
@@ -34,8 +34,8 @@ export const UsersManagementView = () => {
   useEffect(() => {
     setLoading('Loading');
     appContext.queryService
-      .send<GetUsersQueryResponse>({
-        objectType: 'GetUsersQuery'
+      .send<AdminGetUsersQueryResponse>({
+        objectType: 'AdminGetUsersQuery'
       })
       .then(r => {
         setUsers(r.users);

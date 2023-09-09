@@ -1,11 +1,11 @@
 package com.kttswebapptemplate.controller
 
-import com.kttswebapptemplate.query.GetUserInfosQuery
-import com.kttswebapptemplate.query.GetUserInfosQueryHandler
+import com.kttswebapptemplate.query.AdminGetUserInfosQuery
+import com.kttswebapptemplate.query.AdminGetUserInfosQueryHandler
+import com.kttswebapptemplate.query.AdminGetUsersQuery
+import com.kttswebapptemplate.query.AdminGetUsersQueryHandler
 import com.kttswebapptemplate.query.GetUserStatusQuery
 import com.kttswebapptemplate.query.GetUserStatusQueryHandler
-import com.kttswebapptemplate.query.GetUsersQuery
-import com.kttswebapptemplate.query.GetUsersQueryHandler
 import com.kttswebapptemplate.query.IsMailAlreadyTakenQuery
 import com.kttswebapptemplate.query.IsMailAlreadyTakenQueryHandler
 import com.kttswebapptemplate.query.Query
@@ -24,8 +24,8 @@ import org.springframework.web.bind.annotation.RestController
 class QueryController(
     private val transactionIsolationService: TransactionIsolationService,
     private val userSessionService: UserSessionService,
-    private val getUserInfosQueryHandler: GetUserInfosQueryHandler,
-    private val getUsersQueryHandler: GetUsersQueryHandler,
+    private val adminGetUserInfosQueryHandler: AdminGetUserInfosQueryHandler,
+    private val adminGetUsersQueryHandler: AdminGetUsersQueryHandler,
     private val getUserStatusQueryHandler: GetUserStatusQueryHandler,
     private val isMailAlreadyTakenQueryHandler: IsMailAlreadyTakenQueryHandler,
 ) {
@@ -43,8 +43,8 @@ class QueryController(
 
     private fun handler(query: Query) =
         when (query) {
-            is GetUserInfosQuery -> getUserInfosQueryHandler
-            GetUsersQuery -> getUsersQueryHandler
+            is AdminGetUserInfosQuery -> adminGetUserInfosQueryHandler
+            AdminGetUsersQuery -> adminGetUsersQueryHandler
             GetUserStatusQuery -> getUserStatusQueryHandler
             is IsMailAlreadyTakenQuery -> isMailAlreadyTakenQueryHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as QueryHandler<Query, QueryResponse>) }
