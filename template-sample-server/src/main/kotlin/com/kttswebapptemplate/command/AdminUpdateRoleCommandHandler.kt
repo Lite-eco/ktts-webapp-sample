@@ -8,7 +8,8 @@ class AdminUpdateRoleCommandHandler(private val userService: UserService) :
     CommandHandler.Handler<AdminUpdateRoleCommand, EmptyCommandResponse>() {
 
     override fun handle(command: AdminUpdateRoleCommand): EmptyCommandResponse {
-        userService.updateStatusOrRole(userId = command.userId, status = null, role = command.role)
+        userService.updateStatusOrRoleIfNotNull(
+            userId = command.userId, status = null, role = command.role)
         return EmptyCommandResponse
     }
 }

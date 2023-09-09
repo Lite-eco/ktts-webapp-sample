@@ -136,7 +136,8 @@ class UserService(
                 TODO() // update user
             } else {
                 // the user is validating his "first" email
-                updateStatusOrRole(userId = t.userId, status = UserStatus.Active, role = null)
+                updateStatusOrRoleIfNotNull(
+                    userId = t.userId, status = UserStatus.Active, role = null)
             }
         }
     }
@@ -164,7 +165,11 @@ class UserService(
         userDao.updatePassword(userId, hashPassword(password), dateService.now())
     }
 
-    fun updateStatusOrRole(userId: UserId, status: UserStatus?, role: Role?) =
+    /**
+     * Update UserStatus if set, and Role if set. One fonction for both (instead of 2 functions)
+     * because of synchronization.
+     */
+    fun updateStatusOrRoleIfNotNull(userId: UserId, status: UserStatus?, role: Role?) =
         synchronized(userId) {
             val user = userDao.fetch(userId)
             if (status != null) {
