@@ -31,7 +31,7 @@ class QueryController(
     fun handle(request: HttpServletRequest): QueryResponse {
         val jsonQuery = URLDecoder.decode(request.queryString, Charsets.UTF_8.name())
         val query = Serializer.deserialize<Query>(jsonQuery)
-        userSessionService.verifyRoleOrFail(
+        userSessionService.verifyStatusAndRole(
             QueryConfiguration.role(query), request.remoteAddr, query.javaClass)
         val handler = handler(query)
         val userSession =

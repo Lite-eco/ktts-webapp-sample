@@ -4,6 +4,7 @@ import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.Session
 import com.kttswebapptemplate.domain.UserSession
 import com.kttswebapptemplate.domain.UserSessionId
+import com.kttswebapptemplate.domain.UserStatus
 import com.kttswebapptemplate.error.AppErrors
 import com.kttswebapptemplate.error.TemplateSampleSecurityException
 import com.kttswebapptemplate.repository.user.UserDao
@@ -58,7 +59,7 @@ class UserSessionService(
             UserSessionLogDao.Record(
                 sessionId, session.id, user.id, ApplicationInstance.deploymentLogId, now, ip))
 
-        val userSession = UserSession(sessionId, user.id, user.roles)
+        val userSession = UserSession(sessionId, user.id, user.status, user.role)
         val springAuthentication = UsernamePasswordAuthenticationToken(userSession, null, null)
         SecurityContextHolder.getContext().let {
             it.authentication = springAuthentication
@@ -77,21 +78,22 @@ class UserSessionService(
             it != null && it !is AnonymousAuthenticationToken && it.isAuthenticated
         }
 
-    fun hasRole(role: Role): Boolean =
-        if (!isAuthenticated()) {
-            false
-        } else {
-            role in getUserSession().roles
-        }
-
-    fun verifyRoleOrFail(role: Role?, logIp: String, logClass: Class<Any>) {
-        if (role != null) {
+    fun verifyStatusAndRole(expectedRole: Role?, logIp: String, logClass: Class<Any>) {
+        if (expectedRole != null) {
             if (!isAuthenticated()) {
                 throw TemplateSampleSecurityException("$logIp ${logClass.simpleName}")
             }
             val userSession = getUserSession()
-            if (role !in userSession.roles) {
-                throw TemplateSampleSecurityException("$userSession $logIp ${logClass.simpleName}")
+            if (userSession.status != UserStatus.Active) {
+                throw TemplateSampleSecurityException("$logIp ${logClass.simpleName}")
+            }
+            when (expectedRole) {
+                Role.User -> {}
+                Role.Admin ->
+                    if (userSession.role != Role.Admin) {
+                        throw TemplateSampleSecurityException(
+                            "$userSession $logIp ${logClass.simpleName}")
+                    }
             }
         }
     }
@@ -118,7 +120,7 @@ class UserSessionService(
         //    val user = userDao.fetch(s.userId) ?: throw IllegalStateException("$s")
         //    SessionConvertion(
         //        true,
-        //        UserSession(s.sessionId, s.userId, user.roles)
+        //        UserSession(s.sessionId, s.userId, user.status, user.role)
         //    )
         // }
         }

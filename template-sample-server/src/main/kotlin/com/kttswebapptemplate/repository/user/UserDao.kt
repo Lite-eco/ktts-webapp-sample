@@ -4,6 +4,7 @@ import com.kttswebapptemplate.domain.HashedPassword
 import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.UserId
+import com.kttswebapptemplate.domain.UserStatus
 import com.kttswebapptemplate.error.MailAlreadyRegisteredException
 import com.kttswebapptemplate.jooq.generated.keys.APP_USER_MAIL_KEY
 import com.kttswebapptemplate.jooq.generated.tables.records.AppUserRecord
@@ -23,7 +24,8 @@ class UserDao(private val jooq: DSLContext) {
         val mail: String,
         val displayName: String,
         val language: Language,
-        val roles: Set<Role>,
+        val status: UserStatus,
+        val role: Role,
         val signupDate: Instant,
         val lastUpdate: Instant
     ) {
@@ -41,7 +43,8 @@ class UserDao(private val jooq: DSLContext) {
                         password = hashedPassword.hash,
                         displayName = r.displayName,
                         language = r.language.name,
-                        roles = r.roles.map { it.name }.toTypedArray(),
+                        status = r.status.name,
+                        role = r.role.name,
                         signupDate = r.signupDate,
                         lastUpdate = r.lastUpdate))
                 .execute()
@@ -83,10 +86,19 @@ class UserDao(private val jooq: DSLContext) {
             .execute()
     }
 
-    fun updateRoles(id: UserId, roles: Set<Role>, lastUpdateDate: Instant) {
+    fun updateRole(id: UserId, role: Role, lastUpdateDate: Instant) {
         jooq
             .update(APP_USER)
-            .set(APP_USER.ROLES, roles.map { it.name }.toTypedArray())
+            .set(APP_USER.ROLE, role.name)
+            .set(APP_USER.LAST_UPDATE, lastUpdateDate)
+            .where(APP_USER.ID.equal(id.rawId))
+            .execute()
+    }
+
+    fun updateStatus(id: UserId, status: UserStatus, lastUpdateDate: Instant) {
+        jooq
+            .update(APP_USER)
+            .set(APP_USER.STATUS, status.name)
             .set(APP_USER.LAST_UPDATE, lastUpdateDate)
             .where(APP_USER.ID.equal(id.rawId))
             .execute()
@@ -135,7 +147,8 @@ class UserDao(private val jooq: DSLContext) {
             mail = r.mail,
             displayName = r.displayName,
             language = Language.valueOf(r.language),
-            roles = r.roles.map { Role.valueOf(requireNotNull(it)) }.toSet(),
+            status = UserStatus.valueOf(r.status),
+            role = Role.valueOf(r.role),
             signupDate = r.signupDate,
             lastUpdate = r.lastUpdate)
 }

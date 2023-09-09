@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { AdminUsersManagementUserDetailEditRolesRoute } from '../../../../../routing/ApplicationRoute.generated';
+import { AdminUsersManagementUserDetailEditRoleRoute } from '../../../../../routing/ApplicationRoute.generated';
 import { useTypedParams } from '../../../../../routing/routing-utils';
 import { UsersManagementUserDetailOutletContext } from '../UserDetailView';
-import { UserEditRolesDialog } from './components/UserEditRolesDialog';
+import { UserEditRoleDialog } from './components/UserEditRoleDialog';
 import { useOutletContext } from 'react-router-dom';
 
-export const EditRolesView = () => {
-  const params = useTypedParams<AdminUsersManagementUserDetailEditRolesRoute>();
+export const EditRoleView = () => {
+  const params = useTypedParams<AdminUsersManagementUserDetailEditRoleRoute>();
   const outletContext =
     useOutletContext<UsersManagementUserDetailOutletContext>();
   return (
-    <UserEditRolesDialog
+    <UserEditRoleDialog
       userId={params.userId}
       userInfos={outletContext.userInfos}
       updateUserInfos={outletContext.updateUserInfos}

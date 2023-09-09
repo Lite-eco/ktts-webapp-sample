@@ -9,6 +9,12 @@ enum class Language {
     Test
 }
 
+enum class UserStatus {
+    MailValidationPending,
+    Active,
+    Disabled,
+}
+
 enum class Role {
     User,
     Admin
@@ -24,7 +30,8 @@ data class UserInfos(
     val mail: String,
     val displayName: String,
     //    val zoneId: ZoneId,
-    val roles: Set<Role>
+    val status: UserStatus,
+    val role: Role
 ) {
     companion object {
         fun fromUser(user: UserDao.Record) =
@@ -33,7 +40,8 @@ data class UserInfos(
                 user.mail,
                 user.displayName,
                 //            user.zoneId,
-                user.roles)
+                user.status,
+                user.role)
     }
 }
 
@@ -51,8 +59,12 @@ sealed class Session
  * * update UserSessionHelper.getUserSession (should fail)
  */
 @JsonTypeName("UserSession-v0")
-data class UserSession(val sessionId: UserSessionId, val userId: UserId, val roles: Set<Role>) :
-    Session() {
+data class UserSession(
+    val sessionId: UserSessionId,
+    val userId: UserId,
+    val status: UserStatus,
+    val role: Role
+) : Session() {
     // [doc] for logback and spring sessions
     override fun toString() = "[$sessionId|$userId]"
 }
@@ -66,14 +78,4 @@ enum class LoginResult {
 enum class RegisterResult {
     Registered,
     MailAlreadyExists
-}
-
-enum class UpdateIdentityResult {
-    Updated,
-    MailAlreadyExists
-}
-
-enum class SendLostPasswordMailResponse {
-    UnknownLogin,
-    Ok
 }

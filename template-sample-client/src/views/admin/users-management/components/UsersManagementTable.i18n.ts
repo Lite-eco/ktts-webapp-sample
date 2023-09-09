@@ -4,6 +4,7 @@ export const t = i18n({
   UserId: () => 'User id',
   Email: () => 'Email',
   DisplayName: () => 'Display name',
-  Roles: () => 'Roles',
+  Status: () => 'Status',
+  Role: () => 'Role',
   Details: () => 'Details'
 });

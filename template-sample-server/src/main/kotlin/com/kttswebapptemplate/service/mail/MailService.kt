@@ -1,220 +1,80 @@
 package com.kttswebapptemplate.service.mail
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.databind.PropertyNamingStrategy
-import com.fasterxml.jackson.databind.SerializationFeature
-import com.fasterxml.jackson.databind.cfg.MapperConfig
-import com.fasterxml.jackson.databind.introspect.AnnotatedField
-import com.fasterxml.jackson.databind.introspect.AnnotatedMethod
 import com.kttswebapptemplate.domain.ApplicationEnvironment
-import com.kttswebapptemplate.domain.DeploymentLogId
-import com.kttswebapptemplate.domain.MailLogId
-import com.kttswebapptemplate.domain.MailReference
-import com.kttswebapptemplate.domain.MimeType
-import com.kttswebapptemplate.domain.Uri
+import com.kttswebapptemplate.domain.Language
+import com.kttswebapptemplate.domain.Mail
+import com.kttswebapptemplate.domain.MailData
 import com.kttswebapptemplate.domain.UserId
-import com.kttswebapptemplate.error.MessageNotSentException
-import com.kttswebapptemplate.repository.log.MailLogDao
+import com.kttswebapptemplate.repository.log.MailingLogDao
+import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
-import com.kttswebapptemplate.service.utils.HttpService
 import com.kttswebapptemplate.service.utils.random.RandomService
-import java.util.Base64
-import mu.KotlinLogging
-import okhttp3.Credentials
+import kotlin.math.max
+import kotlin.math.min
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
 class MailService(
-    @Value("\${mailjet.url}") private val url: Uri,
-    @Value("\${mailjet.apiKey}") private val apiKey: String,
-    @Value("\${mailjet.secretKey}") private val secretKey: String,
     @Value("\${mail.devLogSender}") private val devLogSenderMail: String,
-    private val httpService: HttpService,
-    private val mailLogDao: MailLogDao,
+    @Value("\${mail.devDestination}") private val devDestinationMail: String,
+    private val mailingLogDao: MailingLogDao,
     private val dateService: DateService,
-    private val randomService: RandomService
+    private val fakeSaasMailService: FakeSaasMailService,
+    private val randomService: RandomService,
 ) {
 
-    private val logger = KotlinLogging.logger {}
-
-    companion object {
-        val mailJetObjectMapper by lazy {
-            ObjectMapper().apply {
-                propertyNamingStrategy = MyPropertyNamingStrategy()
-                enable(SerializationFeature.INDENT_OUTPUT)
-            }
-        }
-    }
-
-    // TODO[tmpl][mail] the uppercase on first letter: ask it to the serializer ?
-    data class MailJetMail(val Email: String, val Name: String)
-
-    // TODO[tmpl][mail] is it possible to limit the strings here ?
-    data class MailJetAttachment(
-        val ContentType: String,
-        val Filename: String,
-        val Base64Content: String
-    )
-
-    private data class MailJetMessage(
-        val From: MailJetMail,
-        val To: List<MailJetMail>,
-        val Subject: String,
-        // TODO[tmpl] ?
-        //                          val TextPart: String,
-        val HTMLPart: String,
-        val Attachments: List<MailJetAttachment>,
-        val CustomID: String,
-        val CustomCampaign: String,
-        val EventPayload: String
-    )
-
-    private data class MailJetMessages(val Messages: List<MailJetMessage>)
-
-    // TODO[tmpl][mail][doc] this informations is here to display the environnement which sent the
-    // mail in mailjet ui
-    private data class MailJetEventPayload(val env: String)
-
-    // TODO[tmpl][mail] check this... + uppercase first letter handled here ?
-    private class MyPropertyNamingStrategy : PropertyNamingStrategy() {
-        override fun nameForField(
-            config: MapperConfig<*>?,
-            field: AnnotatedField,
-            defaultName: String
-        ) = convert(field.name)
-
-        override fun nameForGetterMethod(
-            config: MapperConfig<*>?,
-            method: AnnotatedMethod,
-            defaultName: String
-        ) = convert(method.name.toString())
-
-        override fun nameForSetterMethod(
-            config: MapperConfig<*>?,
-            method: AnnotatedMethod,
-            defaultName: String
-        ) = convert(method.name.toString())
-
-        private fun convert(input: String) = input.substring(3)
-    }
-
-    enum class MailLog {
-        DoLog,
-        DoNotLog
-    }
-
-    data class MailLogProperties(
-        val deploymentLogId: DeploymentLogId,
-        val userId: UserId,
-        val jsonData: String
-    )
-
-    class Attachment(val filename: String, val content: ByteArray, val contentType: MimeType)
-
     fun sendMail(
-        senderName: String,
-        senderMail: String,
-        recipientName: String,
-        recipientMail: String,
-        mailSubject: String,
-        mailContent: String,
-        mailReference: MailReference,
-        logMail: MailLog,
-        mailLogProperties: MailLogProperties? = null,
-        attachments: List<Attachment>? = null
-    ): MailLogId? {
-        if (ApplicationInstance.env == ApplicationEnvironment.Dev &&
-            recipientMail != devLogSenderMail) {
-            throw IllegalArgumentException("Mail send canceled en env dev to ${recipientMail}")
+        sender: Mail.Contact,
+        recipient: Mail.Contact,
+        mailData: MailData,
+        userId: UserId,
+        language: Language
+    ) {
+        if (ApplicationInstance.env == ApplicationEnvironment.Dev) {
+            val (mailPrefix, mailSuffix) = extractMailPrefixSuffix(recipient.mail)
+            val (devMailPrefix, devMailSuffix) = extractMailPrefixSuffix(devDestinationMail)
+            if (mailPrefix != devMailPrefix || mailSuffix != devMailSuffix)
+                throw IllegalArgumentException(
+                    "Mail send canceled in dev env to ${recipient.mail} (expect $devLogSenderMail only)")
         }
-        val mailLogId = randomService.id<MailLogId>()
-        val payload =
-            mailJetObjectMapper.writeValueAsString(
-                MailJetEventPayload(ApplicationInstance.env.name))
-        val subject =
-            if (ApplicationInstance.env == ApplicationEnvironment.Prod) mailSubject
-            else "[${ApplicationInstance.env}] $mailSubject"
-        val mailJetAttachments =
-            (attachments ?: emptyList()).map {
-                MailJetAttachment(
-                    it.contentType.type,
-                    it.filename,
-                    Base64.getEncoder().encodeToString(it.content))
-            }
-        val campaignName =
-            mailReference.name +
-                (if (ApplicationInstance.env != ApplicationEnvironment.Prod)
-                    "-${ApplicationInstance.env}"
-                else "")
-        val body =
-            MailJetMessages(
-                listOf(
-                    MailJetMessage(
-                        MailJetMail(senderMail, senderName),
-                        listOf(MailJetMail(recipientMail, recipientName)),
-                        subject,
-                        mailContent,
-                        mailJetAttachments,
-                        mailLogIdToString(mailLogId),
-                        campaignName,
-                        payload)))
-        val json = mailJetObjectMapper.writeValueAsString(body)
-        val response =
-            try {
-                httpService.execute(
-                    HttpMethod.POST,
-                    url,
-                    json,
-                    HttpService.Header.Authorization to Credentials.basic(apiKey, secretKey))
-            } catch (e: Exception) {
-                logger.error {
-                    "Failed to send mail to $recipientMail. Mail log properties & content is following =>"
-                }
-                logger.info { mailLogProperties }
-                logger.info { mailContent }
-                throw e
-            }
-        if (response.code != HttpStatus.OK) {
-            logger.trace { response }
-            throw MessageNotSentException("${response.code} $recipientMail $mailSubject")
-        }
-        return when (logMail) {
-            MailLog.DoLog -> {
-                mailLogProperties ?: throw IllegalArgumentException("$recipientMail $mailSubject")
-                try {
-                    mailLogDao.insert(
-                        MailLogDao.Record(
-                            mailLogId,
-                            mailLogProperties.deploymentLogId,
-                            mailLogProperties.userId,
-                            mailReference,
-                            recipientMail,
-                            mailLogProperties.jsonData,
-                            subject,
-                            mailContent,
-                            dateService.now()))
-                    logger.info { "Mail sent & logged to $recipientMail" }
-                } catch (e: Exception) {
-                    logger.error {
-                        "Mail sent but failed to log mail to $recipientMail. Mail log properties & content is " +
-                            "following =>"
+        val (subject, content) =
+            MailTemplates.mailSubjectAndData(mailData, language).let { (subject, content) ->
+                val finalSubject =
+                    when (ApplicationInstance.env) {
+                        ApplicationEnvironment.Prod -> subject
+                        ApplicationEnvironment.Dev,
+                        ApplicationEnvironment.Staging,
+                        ApplicationEnvironment.Test -> "[${ApplicationInstance.env}] $subject"
                     }
-                    logger.info { mailLogProperties }
-                    logger.info { mailContent }
-                    throw e
-                }
-                mailLogId
+                finalSubject to content
             }
-            MailLog.DoNotLog -> {
-                logger.info { "Mail sent (no log) to $recipientMail" }
-                null
-            }
-        }
+        val log =
+            MailingLogDao.Record(
+                id = randomService.id(),
+                userId = userId,
+                senderName = sender.name,
+                senderMail = sender.mail,
+                recipientName = recipient.name,
+                recipientMail = recipient.mail,
+                subject = subject,
+                content = content,
+                data = Serializer.serialize(mailData),
+                date = dateService.now())
+        mailingLogDao.insert(log)
+        fakeSaasMailService.sendMail(Mail(sender, recipient, subject, content), log.id)
     }
 
-    fun mailLogIdToString(mailLogId: MailLogId) = mailLogId.rawId.toString()
+    fun extractMailPrefixSuffix(mail: String): Pair<String, String> {
+        val arobaseIndex =
+            mail.indexOf('@').apply {
+                if (this == -1) {
+                    return mail to ""
+                }
+            }
+        val plusIndex = mail.indexOf('+').let { if (it == -1) arobaseIndex else it }
+        return mail.substring(0, min(arobaseIndex, plusIndex)) to
+            mail.substring(max(arobaseIndex, plusIndex))
+    }
 }

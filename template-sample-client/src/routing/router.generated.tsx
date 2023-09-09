@@ -4,7 +4,8 @@ import { AdminView } from '../views/admin/AdminView';
 import { ManualCommandView } from '../views/admin/manual-command/ManualCommandView';
 import { UsersManagementView } from '../views/admin/users-management/UsersManagementView';
 import { UserDetailView } from '../views/admin/users-management/user-detail/UserDetailView';
-import { EditRolesView } from '../views/admin/users-management/user-detail/edit-roles/EditRolesView';
+import { EditRoleView } from '../views/admin/users-management/user-detail/edit-role/EditRoleView';
+import { EditStatusView } from '../views/admin/users-management/user-detail/edit-status/EditStatusView';
 import { LoginView } from '../views/login/LoginView';
 import { NotFoundView } from '../views/not-found/NotFoundView';
 import { RegisterView } from '../views/register/RegisterView';
@@ -38,9 +39,14 @@ export const router = createBrowserRouter([
             element: <UserDetailView />,
             children: [
               {
-                id: 'Admin/UsersManagement/UserDetail/EditRoles',
-                path: 'edit-roles',
-                element: <EditRolesView />
+                id: 'Admin/UsersManagement/UserDetail/EditRole',
+                path: 'edit-role',
+                element: <EditRoleView />
+              },
+              {
+                id: 'Admin/UsersManagement/UserDetail/EditStatus',
+                path: 'edit-status',
+                element: <EditStatusView />
               }
             ]
           }

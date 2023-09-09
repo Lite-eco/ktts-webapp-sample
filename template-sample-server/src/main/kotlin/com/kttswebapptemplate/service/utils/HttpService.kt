@@ -1,33 +1,25 @@
 package com.kttswebapptemplate.service.utils
 
 import com.kttswebapptemplate.domain.Uri
-import okhttp3.MediaType.Companion.toMediaType
+import com.kttswebapptemplate.domain.http.HttpHeader
+import com.kttswebapptemplate.domain.http.HttpMethod
+import com.kttswebapptemplate.domain.http.HttpStatus
 import okhttp3.OkHttpClient
 import okhttp3.Request
 import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import okhttp3.ResponseBody
-import org.springframework.http.HttpHeaders
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
-class HttpService(private val okHttpClient: OkHttpClient) {
+class HttpService(val okHttpClient: OkHttpClient) {
 
     companion object {
-        val jsonMediaType = "application/json; charset=utf-8".toMediaType()
-    }
-
-    data class Header(val header: String) {
-        companion object {
-            val Authorization = Header(HttpHeaders.AUTHORIZATION)
-            val Accept = Header(HttpHeaders.ACCEPT)
-            val ContentType = Header(HttpHeaders.CONTENT_TYPE)
-        }
+        const val jsonMediaType = "application/json; charset=utf-8"
     }
 
     data class Response(val code: HttpStatus, private val responseBody: ResponseBody?) {
+        // [doc] let it NOT lazy, OkHttp closes body after execute()
         private val buffer = responseBody?.bytes()
 
         val body: ByteArray?
@@ -37,28 +29,33 @@ class HttpService(private val okHttpClient: OkHttpClient) {
             get() = buffer?.toString(Charsets.UTF_8)
     }
 
-    fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<Header, String>) =
+    data class EmptyResponse(val code: Int)
+
+    open fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<HttpHeader, String>) =
         execute(method, url, null, *headers)
 
-    fun execute(method: HttpMethod, url: Uri, body: String, vararg headers: Pair<Header, String>) =
-        execute(method, url, body.toRequestBody(), *headers)
+    open fun execute(
+        method: HttpMethod,
+        url: Uri,
+        body: String,
+        vararg headers: Pair<HttpHeader, String>
+    ) = execute(method, url, body.toRequestBody(), *headers)
 
-    fun execute(
+    open fun execute(
         method: HttpMethod,
         url: Uri,
         body: RequestBody?,
-        vararg headers: Pair<Header, String>
+        vararg headers: Pair<HttpHeader, String>
     ): Response =
         Request.Builder()
             .apply {
                 url(url.path)
-                header(Header.Accept.header, jsonMediaType.toString())
-                header(Header.ContentType.header, jsonMediaType.toString())
+                header(HttpHeader.Accept.header, jsonMediaType)
+                header(HttpHeader.ContentType.header, jsonMediaType)
                 headers.forEach { header(it.first.header, it.second) }
-                method(method.name(), body)
+                method(method.method, body)
             }
-            .build()
-            .let { okHttpClient.newCall(it) }
+            .let { okHttpClient.newCall(it.build()) }
             .execute()
-            .use { r -> Response(HttpStatus.valueOf(r.code), r.body) }
+            .use { Response(HttpStatus.of(it.code), it.body) }
 }

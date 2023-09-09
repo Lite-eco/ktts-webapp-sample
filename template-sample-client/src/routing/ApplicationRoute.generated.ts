@@ -6,7 +6,8 @@ export type ApplicationRoute =
   | AdminManualCommandRoute
   | AdminUsersManagementRoute
   | AdminUsersManagementUserDetailRoute
-  | AdminUsersManagementUserDetailEditRolesRoute
+  | AdminUsersManagementUserDetailEditRoleRoute
+  | AdminUsersManagementUserDetailEditStatusRoute
   | LoginRoute
   | RegisterRoute
   | RootRoute;
@@ -32,8 +33,13 @@ export interface AdminUsersManagementUserDetailRoute {
   userId: UserId;
 }
 
-export interface AdminUsersManagementUserDetailEditRolesRoute {
-  name: 'Admin/UsersManagement/UserDetail/EditRoles';
+export interface AdminUsersManagementUserDetailEditRoleRoute {
+  name: 'Admin/UsersManagement/UserDetail/EditRole';
+  userId: UserId;
+}
+
+export interface AdminUsersManagementUserDetailEditStatusRoute {
+  name: 'Admin/UsersManagement/UserDetail/EditStatus';
   userId: UserId;
 }
 

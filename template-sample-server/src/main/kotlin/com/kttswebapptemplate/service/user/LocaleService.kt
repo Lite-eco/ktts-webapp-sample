@@ -13,10 +13,11 @@ class LocaleService(private val notificationService: NotificationService) {
             return Language.En
         }
         locales.forEach { locale ->
-            val language = Language.values().find { it.name == locale.language }
-            if (language != null) {
-                return language
-            }
+            Language.entries
+                .find { it.name.lowercase() == locale.language }
+                ?.let {
+                    return it
+                }
         }
         notificationService.notify(
             "No locale found in user locales $locales", NotificationService.Channel.Info)

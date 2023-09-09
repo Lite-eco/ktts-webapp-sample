@@ -3,7 +3,9 @@ package com.kttswebapptemplate.service.init
 import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.PlainStringPassword
 import com.kttswebapptemplate.domain.Role
+import com.kttswebapptemplate.domain.UserStatus
 import com.kttswebapptemplate.repository.user.UserDao
+import com.kttswebapptemplate.service.mail.MailService
 import com.kttswebapptemplate.service.user.UserService
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.TransactionIsolationService
@@ -19,19 +21,20 @@ class DevInitialDataInjectorService(
     private val dateService: DateService,
     private val randomService: RandomService,
     private val userService: UserService,
+    private val mailService: MailService,
     private val transactionIsolationService: TransactionIsolationService
 ) {
 
     fun initiateDevData() {
         transactionIsolationService.execute {
-            insertUser("user", false)
-            insertUser("admin", true)
+            insertUser("user", Role.User)
+            insertUser("admin", Role.Admin)
         }
     }
 
     private fun insertUser(
         username: String,
-        admin: Boolean,
+        role: Role,
     ) {
         val mail = devUserMail(username)
         if (userDao.fetchOrNullByMail(mail) == null) {
@@ -42,7 +45,8 @@ class DevInitialDataInjectorService(
                     mail = mail,
                     displayName = username,
                     language = Language.En,
-                    roles = setOf(Role.User).let { if (admin) it + Role.Admin else it },
+                    role = role,
+                    status = UserStatus.Active,
                     signupDate = now,
                     lastUpdate = now),
                 userService.hashPassword(PlainStringPassword(username)))
@@ -50,10 +54,8 @@ class DevInitialDataInjectorService(
     }
 
     fun devUserMail(username: String): String {
-        // FIXME[tmpl] double + if some + in conf (which is the case...) !
-        val arobaseIndex = developerDestinationMail.indexOf('@')
-        val mailPrefix = developerDestinationMail.substring(0, arobaseIndex)
-        val mailSuffix = developerDestinationMail.substring(arobaseIndex)
+        val (mailPrefix, mailSuffix) = mailService.extractMailPrefixSuffix(developerDestinationMail)
+        // not a problem if there's multiple '+'
         return "$mailPrefix+$username$mailSuffix"
     }
 }

@@ -59,13 +59,21 @@ export const UsersManagementTable = (props: {
       filterable: false
     },
     {
-      field: 'roles',
-      headerName: t.Roles(),
+      field: 'status',
+      headerName: t.Status(),
+      renderCell: (p: GridRenderCellParams<UserInfos>) => (
+        <div>{p.row.status}</div>
+      ),
+      flex: 1,
+      sortable: false,
+      filterable: false
+    },
+    {
+      field: 'role',
+      headerName: t.Role(),
       renderCell: (p: GridRenderCellParams<UserInfos>) => (
         <div>
-          {p.row.roles.map(r => (
-            <RoleChip key={r} role={r} />
-          ))}
+          <RoleChip role={p.row.role} />
         </div>
       ),
       flex: 1,

@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { space } from '../../common-components/component-utils';
 import { Errors } from '../../errors';
 import {
   DevLoginCommandResponse,
@@ -9,6 +8,7 @@ import { LoginResult, UserInfos } from '../../generated/domain/User.generated';
 import { useGoTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
+import { colors } from '../../styles/vars';
 import { assertUnreachable } from '../../utils';
 import { MainViewContainer } from '../containers/MainViewContainer';
 import { t } from './LoginView.i18n';
@@ -85,10 +85,25 @@ export const LoginView = () => {
                 margin-top: 20px;
               `}
             >
-              {t.devUserAuthent()}
-              {space}
-              <Button onClick={() => devLogin('user')}>{t.user()}</Button>
-              <Button onClick={() => devLogin('admin')}>{t.admin()}</Button>
+              <div
+                css={css`
+                  display: inline;
+                  background: ${colors.clearGrey};
+                  border-radius: 4px;
+                  padding: 12px 20px;
+                  vertical-align: center;
+                `}
+              >
+                <span
+                  css={css`
+                    padding: 0 20px 0 0;
+                  `}
+                >
+                  {t.devUserAuthent()}
+                </span>
+                <Button onClick={() => devLogin('user')}>{t.user()}</Button>
+                <Button onClick={() => devLogin('admin')}>{t.admin()}</Button>
+              </div>
             </div>
           )}
           {userInfos && (

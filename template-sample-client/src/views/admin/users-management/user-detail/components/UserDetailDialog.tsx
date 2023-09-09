@@ -123,19 +123,44 @@ export const UserDetailDialog = (props: {
                       `}
                     >
                       <TableCell component="th" scope="row">
-                        {t.roles()}
+                        {t.status()}
                       </TableCell>
                       <TableCell align="left">
-                        {props.userInfos.roles.map(r => (
-                          <RoleChip key={r} role={r} />
-                        ))}
+                        {props.userInfos.status}
                       </TableCell>
                       <TableCell align="left">
                         <RouteLink
                           element="Button"
                           variant="outlined"
                           route={{
-                            name: 'Admin/UsersManagement/UserDetail/EditRoles',
+                            name: 'Admin/UsersManagement/UserDetail/EditStatus',
+                            userId: props.userInfos.id
+                          }}
+                        >
+                          {t.Edit()}
+                        </RouteLink>
+                      </TableCell>
+                    </TableRow>
+                    <TableRow
+                      css={css`
+                        &:last-child td,
+                        &:last-child th {
+                          border: 0;
+                        }
+                      `}
+                    >
+                      <TableCell component="th" scope="row">
+                        {t.role()}
+                      </TableCell>
+                      <TableCell align="left">
+                        <RoleChip role={props.userInfos.role} />
+                      </TableCell>
+                      <TableCell align="left">
+                        <RouteLink
+                          element="Button"
+                          variant="outlined"
+                          route={{
+                            name: 'Admin/UsersManagement/UserDetail/EditRole',
                             userId: props.userInfos.id
                           }}
                         >

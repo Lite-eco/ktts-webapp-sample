@@ -76,7 +76,7 @@ export const Navbar = () => {
               </RouteLink>
             </MenuItem>
           )}
-          {userInfos && (
+          {userInfos?.status === 'Active' && (
             <MenuItem>
               <RouteLink
                 route={{
@@ -87,7 +87,7 @@ export const Navbar = () => {
               </RouteLink>
             </MenuItem>
           )}
-          {userInfos && userInfos.roles.includes('Admin') && (
+          {userInfos?.role === 'Admin' && (
             <MenuItem>
               <RouteLink
                 route={{
@@ -98,7 +98,7 @@ export const Navbar = () => {
               </RouteLink>
             </MenuItem>
           )}
-          {userInfos && userInfos.roles.includes('Admin') && (
+          {userInfos?.role === 'Admin' && (
             <MenuItem>
               <RouteLink
                 route={{

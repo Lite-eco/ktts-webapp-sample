@@ -47,9 +47,10 @@ ksp {
     arg(
         "kt2ts:nominalStringMappings",
         listOf(
+                "com.kttswebapptemplate.domain.PlainStringPassword",
                 "com.kttswebapptemplate.domain.SerializeAsString",
                 "com.kttswebapptemplate.domain.TemplateSampleId",
-                "com.kttswebapptemplate.domain.PlainStringPassword")
+                "com.kttswebapptemplate.domain.TemplateSampleSecurityString")
             .joinToString(separator = "|"))
     arg("kt2ts:nominalStringImport", "utils/nominal-class.ts")
     arg("kt2ts:debugFile", "$rootDir/template-sample-client/build/debug-generation.html")

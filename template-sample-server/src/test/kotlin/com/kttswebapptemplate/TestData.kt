@@ -4,6 +4,7 @@ import com.kttswebapptemplate.config.ApplicationConstants
 import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.UserId
+import com.kttswebapptemplate.domain.UserStatus
 import com.kttswebapptemplate.repository.user.UserDao
 import java.time.LocalDateTime
 
@@ -18,7 +19,8 @@ object TestData {
             mail = "mail",
             displayName = "displayName",
             language = Language.En,
-            roles = setOf(Role.User),
+            status = UserStatus.Active,
+            role = Role.User,
             signupDate = date,
             lastUpdate = date)
     }

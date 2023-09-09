@@ -11,6 +11,6 @@ class GetUserInfosQueryHandler(private val userDao: UserDao) :
     override fun handle(query: GetUserInfosQuery) =
         GetUserInfosQueryResponse(
             userDao.fetchOrNull(query.userId)?.let {
-                UserInfos(it.id, it.mail, it.displayName, it.roles)
+                UserInfos(it.id, it.mail, it.displayName, it.status, it.role)
             })
 }

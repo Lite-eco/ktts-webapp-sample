@@ -12,7 +12,7 @@ import { useGoTo } from '../../../../../../routing/routing-utils';
 import { appContext } from '../../../../../../services/ApplicationContext';
 import { state } from '../../../../../../state/state';
 import { colors } from '../../../../../../styles/vars';
-import { t } from './UserEditRolesDialog.i18n';
+import { t } from './UserEditRoleDialog.i18n';
 import { css } from '@emotion/react';
 import { Warning as WarningIcon } from '@mui/icons-material';
 import {
@@ -30,20 +30,20 @@ import {
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 
-export const UserEditRolesDialog = (props: {
+export const UserEditRoleDialog = (props: {
   userId: UserId;
   userInfos: UserInfos | undefined;
   updateUserInfos: (user: UserInfos) => void;
   loadingUserInfos: LoadingState;
 }) => {
-  const [roles, setRoles] = useState<Role[]>([]);
+  const [role, setRole] = useState<Role | undefined>();
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
   const goTo = useGoTo();
   const loggedInUserInfos = useRecoilValue(state.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._fe2e1fc7();
   }
-  useEffect(() => setRoles(props.userInfos?.roles ?? []), [props.userInfos]);
+  useEffect(() => setRole(props.userInfos?.role), [props.userInfos]);
   const close = () =>
     goTo({ name: 'Admin/UsersManagement/UserDetail', userId: props.userId });
   const save = () => {
@@ -51,30 +51,32 @@ export const UserEditRolesDialog = (props: {
     if (!userInfos) {
       throw Errors._8ab803a9();
     }
-    if (roles !== userInfos.roles) {
+    if (role && role !== userInfos.role) {
       setUpdateLoading('Loading');
       appContext.commandService
         .send({
-          objectType: 'AdminUpdateRolesCommand',
+          objectType: 'AdminUpdateRoleCommand',
           userId: userInfos.id,
-          roles
+          role
         })
         .then(() => {
           setUpdateLoading('Idle');
-          props.updateUserInfos({ ...userInfos, roles });
+          props.updateUserInfos({ ...userInfos, role });
           close();
         });
+    } else {
+      close();
     }
   };
   return (
     <Dialog
       open={true}
       onClose={close}
-      maxWidth={'lg'}
+      maxWidth={'md'}
       fullWidth={true}
       scroll="body"
     >
-      <DialogTitle>{t.EditUserRoles()}</DialogTitle>
+      <DialogTitle>{t.EditUserRole()}</DialogTitle>
       <DialogContent>
         <DialogContentText>
           {props.loadingUserInfos === 'Loading' && (
@@ -87,23 +89,19 @@ export const UserEditRolesDialog = (props: {
             </div>
           )}
           <div>
-            <Autocomplete
-              multiple
-              options={roleEnumValues}
-              getOptionLabel={role => role as any}
-              value={roles as any[]}
-              renderInput={params => <TextField {...params} />}
-              onChange={(_, roles) => setRoles(roles)}
-            />
+            {role && (
+              <Autocomplete
+                options={roleEnumValues}
+                value={role}
+                renderInput={params => <TextField {...params} />}
+                onChange={(_, role) => setRole(role)}
+                disableClearable={true}
+              />
+            )}
             {props.userInfos &&
               loggedInUserInfos.id === props.userInfos.id &&
-              !roles.includes('Admin') && (
+              role !== 'Admin' && (
                 <WarningMessage>{t.WarningAdmin()}</WarningMessage>
-              )}
-            {props.userInfos &&
-              !roles.includes('User') &&
-              roles.includes('Admin') && (
-                <WarningMessage>{t.WarningAdminWithNoUser()}</WarningMessage>
               )}
           </div>
         </DialogContentText>

@@ -4,16 +4,20 @@ import {
   LoginResult,
   RegisterResult,
   Role,
-  UserInfos
+  UserInfos,
+  UserStatus
 } from '../domain/User.generated';
+import { UserAccountOperationToken } from '../domain/UserAccountOperationToken.generated';
 
 export type Command =
-  | AdminUpdateRolesCommand
+  | AdminUpdateRoleCommand
   | AdminUpdateSessions
+  | AdminUpdateStatusCommand
   | DevLoginCommand
   | LoginCommand
   | RegisterCommand
-  | UpdatePasswordCommand;
+  | UpdatePasswordCommand
+  | ValidateMailCommand;
 
 export type CommandResponse =
   | DevLoginCommandResponse
@@ -25,14 +29,20 @@ export interface EmptyCommandResponse {
   objectType: 'EmptyCommandResponse';
 }
 
-export interface AdminUpdateRolesCommand {
-  objectType: 'AdminUpdateRolesCommand';
+export interface AdminUpdateRoleCommand {
+  objectType: 'AdminUpdateRoleCommand';
   userId: UserId;
-  roles: Role[];
+  role: Role;
 }
 
 export interface AdminUpdateSessions {
   objectType: 'AdminUpdateSessions';
+}
+
+export interface AdminUpdateStatusCommand {
+  objectType: 'AdminUpdateStatusCommand';
+  userId: UserId;
+  status: UserStatus;
 }
 
 export interface DevLoginCommand {
@@ -57,11 +67,6 @@ export interface LoginCommandResponse {
   userInfos?: UserInfos;
 }
 
-export interface UpdatePasswordCommand {
-  objectType: 'UpdatePasswordCommand';
-  password: PlainStringPassword;
-}
-
 export interface RegisterCommand {
   objectType: 'RegisterCommand';
   mail: string;
@@ -73,4 +78,14 @@ export interface RegisterCommandResponse {
   objectType: 'RegisterCommandResponse';
   result: RegisterResult;
   userInfos?: UserInfos;
+}
+
+export interface UpdatePasswordCommand {
+  objectType: 'UpdatePasswordCommand';
+  password: PlainStringPassword;
+}
+
+export interface ValidateMailCommand {
+  objectType: 'ValidateMailCommand';
+  token: UserAccountOperationToken;
 }

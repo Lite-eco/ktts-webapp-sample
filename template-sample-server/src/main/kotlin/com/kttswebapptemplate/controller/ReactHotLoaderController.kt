@@ -3,6 +3,8 @@ package com.kttswebapptemplate.controller
 import com.kttswebapptemplate.domain.ApplicationEnvironment
 import com.kttswebapptemplate.domain.MimeType
 import com.kttswebapptemplate.domain.Uri
+import com.kttswebapptemplate.domain.http.HttpMethod
+import com.kttswebapptemplate.domain.http.HttpStatus
 import com.kttswebapptemplate.error.TemplateSampleNotFoundException
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.HttpService
@@ -11,8 +13,6 @@ import jakarta.servlet.http.HttpServletResponse
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression
-import org.springframework.http.HttpMethod
-import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 
@@ -41,8 +41,8 @@ class ReactHotLoaderController(
             } else {
                 MimeType.ApplicationJson.type
             }
-        val r = httpService.execute(HttpMethod.GET, baseUrl.resolve(path))
-        if (r.code == HttpStatus.OK) {
+        val r = httpService.execute(HttpMethod.Get, baseUrl.resolve(path))
+        if (r.code == HttpStatus.Ok) {
             response.writer.print(r.bodyString)
         } else {
             logger.error { "Error webpack hot update $r" }

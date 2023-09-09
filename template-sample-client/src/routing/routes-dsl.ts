@@ -4,7 +4,8 @@ import { AdminView } from '../views/admin/AdminView';
 import { ManualCommandView } from '../views/admin/manual-command/ManualCommandView';
 import { UsersManagementView } from '../views/admin/users-management/UsersManagementView';
 import { UserDetailView } from '../views/admin/users-management/user-detail/UserDetailView';
-import { EditRolesView } from '../views/admin/users-management/user-detail/edit-roles/EditRolesView';
+import { EditRoleView } from '../views/admin/users-management/user-detail/edit-role/EditRoleView';
+import { EditStatusView } from '../views/admin/users-management/user-detail/edit-status/EditStatusView';
 import { LoginView } from '../views/login/LoginView';
 import { NotFoundView } from '../views/not-found/NotFoundView';
 import { RegisterView } from '../views/register/RegisterView';
@@ -41,9 +42,14 @@ type routesDsl = [
             };
             subRoutes: [
               {
-                name: 'EditRoles';
-                path: 'edit-roles';
-                component: typeof EditRolesView;
+                name: 'EditRole';
+                path: 'edit-role';
+                component: typeof EditRoleView;
+              },
+              {
+                name: 'EditStatus';
+                path: 'edit-status';
+                component: typeof EditStatusView;
               }
             ];
           }

@@ -18,7 +18,6 @@ assets:
   webpackDevPort: 3123
   webpackDevHost: localhost
 #---------------------------------------------------------------------------
-mailjet:
-  apiKey:
-  secretKey:
+mail:
+  devDestination: ${DEV_MAIL}
 #---------------------------------------------------------------------------

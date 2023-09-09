@@ -1,5 +1,6 @@
 package com.kttswebapptemplate.config
 
+import com.kttswebapptemplate.domain.Mail
 import java.time.ZoneId
 
 object ApplicationConstants {
@@ -10,10 +11,8 @@ object ApplicationConstants {
     const val resourcesPath = "/static"
 
     // TODO[tmpl] naming... Monitoring ?
-    const val applicationMailSenderName = "Automatic email TemplateSample"
-
-    // FIXME[tmpl] mail !
-    const val applicationMail = ""
+    val applicationMailSenderContact =
+        Mail.Contact("TemplateSample", "dev+log-template-sample@example.com")
 
     val parisZoneId = ZoneId.of("Europe/Paris")
 }

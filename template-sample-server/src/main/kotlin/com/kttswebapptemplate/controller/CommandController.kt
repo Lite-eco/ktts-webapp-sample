@@ -1,9 +1,11 @@
 package com.kttswebapptemplate.controller
 
-import com.kttswebapptemplate.command.AdminUpdateRolesCommand
-import com.kttswebapptemplate.command.AdminUpdateRolesCommandHandler
+import com.kttswebapptemplate.command.AdminUpdateRoleCommand
+import com.kttswebapptemplate.command.AdminUpdateRoleCommandHandler
 import com.kttswebapptemplate.command.AdminUpdateSessions
 import com.kttswebapptemplate.command.AdminUpdateSessionsCommandHandler
+import com.kttswebapptemplate.command.AdminUpdateStatusCommand
+import com.kttswebapptemplate.command.AdminUpdateStatusCommandHandler
 import com.kttswebapptemplate.command.Command
 import com.kttswebapptemplate.command.CommandConfiguration
 import com.kttswebapptemplate.command.CommandHandler
@@ -17,6 +19,8 @@ import com.kttswebapptemplate.command.RegisterCommand
 import com.kttswebapptemplate.command.RegisterCommandHandler
 import com.kttswebapptemplate.command.UpdatePasswordCommand
 import com.kttswebapptemplate.command.UpdatePasswordCommandHandler
+import com.kttswebapptemplate.command.ValidateMailCommand
+import com.kttswebapptemplate.command.ValidateMailCommandHandler
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.repository.log.CommandLogDao
 import com.kttswebapptemplate.serialization.Serializer
@@ -43,12 +47,14 @@ class CommandController(
     private val randomService: RandomService,
     private val transactionIsolationService: TransactionIsolationService,
     private val userSessionService: UserSessionService,
-    private val adminUpdateRolesCommandHandler: AdminUpdateRolesCommandHandler,
+    private val adminUpdateRoleCommandHandler: AdminUpdateRoleCommandHandler,
     private val adminUpdateSessionsCommandHandler: AdminUpdateSessionsCommandHandler,
+    private val adminUpdateStatusCommandHandler: AdminUpdateStatusCommandHandler,
     private val devLoginCommandHandler: DevLoginCommandHandler,
     private val loginCommandHandler: LoginCommandHandler,
     private val registerCommandHandler: RegisterCommandHandler,
     private val updatePasswordCommandHandler: UpdatePasswordCommandHandler,
+    private val validateMailCommandHandler: ValidateMailCommandHandler
 ) {
 
     // TODO[tmpl][test] test these transactions & stacktrace logging !
@@ -82,7 +88,7 @@ class CommandController(
                 startDate = dateService.now(),
                 endDate = Instant.ofEpochMilli(0))
         try {
-            userSessionService.verifyRoleOrFail(
+            userSessionService.verifyStatusAndRole(
                 CommandConfiguration.role(command), request.remoteAddr, command.javaClass)
             idLogService.enableLogging()
             val result =
@@ -126,12 +132,14 @@ class CommandController(
 
     private fun handler(command: Command) =
         when (command) {
-            is AdminUpdateRolesCommand -> adminUpdateRolesCommandHandler
+            is AdminUpdateRoleCommand -> adminUpdateRoleCommandHandler
             is AdminUpdateSessions -> adminUpdateSessionsCommandHandler
+            is AdminUpdateStatusCommand -> adminUpdateStatusCommandHandler
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
             is RegisterCommand -> registerCommandHandler
             is UpdatePasswordCommand -> updatePasswordCommandHandler
+            is ValidateMailCommand -> validateMailCommandHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as CommandHandler<Command, CommandResponse>) }
 
     // for admin commands, should return the affected user when there's one
@@ -141,7 +149,9 @@ class CommandController(
             is DevLoginCommand,
             is LoginCommand,
             is RegisterCommand,
-            is UpdatePasswordCommand -> null
-            is AdminUpdateRolesCommand -> command.userId
+            is UpdatePasswordCommand,
+            is ValidateMailCommand -> null
+            is AdminUpdateRoleCommand -> command.userId
+            is AdminUpdateStatusCommand -> command.userId
         }
 }

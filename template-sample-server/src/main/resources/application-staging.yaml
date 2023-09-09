@@ -14,8 +14,3 @@ assets:
   webpackDevPort:
   webpackDevHost:
 #---------------------------------------------------------------------------
-mailjet:
-  url: https://api.mailjet.com/v3.1/send
-  apiKey:
-  secretKey:
-#---------------------------------------------------------------------------

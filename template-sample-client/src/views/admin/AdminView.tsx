@@ -11,7 +11,7 @@ export const AdminView = () => {
   const matches = useMatches();
   const displayLinks = matches.length === 1;
   const userInfos = useRecoilValue(state.userInfos);
-  if (!userInfos || !userInfos.roles.includes('Admin')) {
+  if (!userInfos || userInfos.role !== 'Admin') {
     return <NotFoundView />;
   }
   return (

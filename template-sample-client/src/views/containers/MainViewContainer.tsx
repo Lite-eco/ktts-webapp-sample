@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { Navbar } from './components/Navbar';
+import { UserStatusCheckContainer } from './components/UserStatusCheckContainer';
 import { css } from '@emotion/react';
 import { PropsWithChildren } from 'react';
 
@@ -20,7 +21,7 @@ export const MainViewContainer = (props: PropsWithChildren) => (
         padding: 10px;
       `}
     >
-      {props.children}
+      <UserStatusCheckContainer>{props.children}</UserStatusCheckContainer>
     </div>
   </div>
 );

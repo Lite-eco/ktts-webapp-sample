@@ -5,13 +5,11 @@ import com.kttswebapptemplate.domain.ApplicationBootstrapData
 import com.kttswebapptemplate.domain.UserInfos
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.serialization.Serializer.serialize
-import com.kttswebapptemplate.service.user.MagicLinkTokenService
 import com.kttswebapptemplate.service.user.UserSessionService
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import java.io.File
-import java.net.URLEncoder
 import java.nio.file.Files
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Value
@@ -24,13 +22,10 @@ class IndexController(
     @Value("\${assets.webpackDevPort}") private val assetsWebpackDevPort: String,
     @Value("\${assets.useBuildFiles}") private val assetsUseBuildFiles: Boolean,
     private val userDao: UserDao,
-    private val magicLinkTokenService: MagicLinkTokenService,
     private val userSessionService: UserSessionService
 ) {
 
     companion object {
-        const val magicTokenParameterName = "magicToken"
-
         fun extractDomain(url: String) =
             url.substring(url.indexOf("://") + 3).let {
                 val domainLength =
@@ -68,15 +63,6 @@ class IndexController(
         response: HttpServletResponse,
         mav: ModelAndView
     ): ModelAndView {
-        val magicToken = request.getParameter(magicTokenParameterName)
-        if (magicToken != null) {
-            val queryString = rewriteQueryString(request.parameterMap)
-            magicLinkTokenService.connectUser(magicToken, request, response)
-            return ModelAndView(
-                "redirect:" +
-                    request.requestURI +
-                    if (queryString.isNotBlank()) "?$queryString" else "")
-        }
         val userInfos =
             if (userSessionService.isAuthenticated()) {
                 val userSession = userSessionService.getUserSession()
@@ -102,25 +88,4 @@ class IndexController(
                 "$domain:$assetsWebpackDevPort/static/js/$it"
             }
         }
-
-    fun rewriteQueryString(parameterMap: Map<String, Array<String>>): String {
-        val params = parameterMap.keys.filter { it != magicTokenParameterName }
-        return if (params.isEmpty()) {
-            ""
-        } else {
-            params
-                .flatMap { paramName ->
-                    // TODO[tmpl] works correctly ? is needed ?
-                    // srsly test & compare with UriEncoder
-                    // + test smthg= (with emtpy string)
-                    val paramValues = parameterMap.getValue(paramName)
-                    paramValues.map {
-                        URLEncoder.encode(paramName, Charsets.UTF_8.name()) +
-                            "=" +
-                            URLEncoder.encode(it, Charsets.UTF_8.name())
-                    }
-                }
-                .reduce { acc, s -> acc + "&" + s }
-        }
-    }
 }
