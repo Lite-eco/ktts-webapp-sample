@@ -110,6 +110,15 @@ val USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_ID_FKEY:
         com.kttswebapptemplate.jooq.generated.keys.APP_USER_PKEY,
         arrayOf(AppUserTable.APP_USER.ID),
         true)
+val USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_MAIL_LOG_ID_FKEY:
+    ForeignKey<UserAccountOperationTokenRecord, UserMailLogRecord> =
+    Internal.createForeignKey(
+        UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN,
+        DSL.name("user_account_operation_token_user_mail_log_id_fkey"),
+        arrayOf(UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.USER_MAIL_LOG_ID),
+        com.kttswebapptemplate.jooq.generated.keys.USER_MAIL_LOG_PKEY,
+        arrayOf(UserMailLogTable.USER_MAIL_LOG.ID),
+        true)
 val USER_FILE__USER_FILE_USER_ID_FKEY: ForeignKey<UserFileRecord, AppUserRecord> =
     Internal.createForeignKey(
         UserFileTable.USER_FILE,

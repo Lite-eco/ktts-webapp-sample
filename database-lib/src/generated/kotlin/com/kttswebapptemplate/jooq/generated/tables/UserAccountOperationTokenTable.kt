@@ -7,6 +7,7 @@ import com.kttswebapptemplate.database.jooq.converter.TimestampWithTimeZoneToIns
 import com.kttswebapptemplate.jooq.generated.PublicTable
 import com.kttswebapptemplate.jooq.generated.keys.USER_ACCOUNT_OPERATION_TOKEN_PKEY
 import com.kttswebapptemplate.jooq.generated.keys.USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_ID_FKEY
+import com.kttswebapptemplate.jooq.generated.keys.USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_MAIL_LOG_ID_FKEY
 import com.kttswebapptemplate.jooq.generated.tables.records.UserAccountOperationTokenRecord
 import java.time.Instant
 import java.util.UUID
@@ -16,7 +17,7 @@ import org.jooq.ForeignKey
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row4
+import org.jooq.Row5
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -69,6 +70,10 @@ open class UserAccountOperationTokenTable(
     val USER_ID: TableField<UserAccountOperationTokenRecord, UUID?> =
         createField(DSL.name("user_id"), SQLDataType.UUID.nullable(false), this, "")
 
+    /** The column <code>public.user_account_operation_token.user_mail_log_id</code>. */
+    val USER_MAIL_LOG_ID: TableField<UserAccountOperationTokenRecord, UUID?> =
+        createField(DSL.name("user_mail_log_id"), SQLDataType.UUID, this, "")
+
     /** The column <code>public.user_account_operation_token.creation_date</code>. */
     val CREATION_DATE: TableField<UserAccountOperationTokenRecord, Instant?> =
         createField(
@@ -105,9 +110,12 @@ open class UserAccountOperationTokenTable(
     override fun getPrimaryKey(): UniqueKey<UserAccountOperationTokenRecord> =
         USER_ACCOUNT_OPERATION_TOKEN_PKEY
     override fun getReferences(): List<ForeignKey<UserAccountOperationTokenRecord, *>> =
-        listOf(USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_ID_FKEY)
+        listOf(
+            USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_ID_FKEY,
+            USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_MAIL_LOG_ID_FKEY)
 
     private lateinit var _appUser: AppUserTable
+    private lateinit var _userMailLog: UserMailLogTable
 
     /** Get the implicit join path to the <code>public.app_user</code> table. */
     fun appUser(): AppUserTable {
@@ -121,6 +129,20 @@ open class UserAccountOperationTokenTable(
 
     val appUser: AppUserTable
         get(): AppUserTable = appUser()
+
+    /** Get the implicit join path to the <code>public.user_mail_log</code> table. */
+    fun userMailLog(): UserMailLogTable {
+        if (!this::_userMailLog.isInitialized)
+            _userMailLog =
+                UserMailLogTable(
+                    this,
+                    USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_MAIL_LOG_ID_FKEY)
+
+        return _userMailLog
+    }
+
+    val userMailLog: UserMailLogTable
+        get(): UserMailLogTable = userMailLog()
     override fun `as`(alias: String): UserAccountOperationTokenTable =
         UserAccountOperationTokenTable(DSL.name(alias), this)
     override fun `as`(alias: Name): UserAccountOperationTokenTable =
@@ -141,18 +163,18 @@ open class UserAccountOperationTokenTable(
         UserAccountOperationTokenTable(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row4 type methods
+    // Row5 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row4<String?, String?, UUID?, Instant?> =
-        super.fieldsRow() as Row4<String?, String?, UUID?, Instant?>
+    override fun fieldsRow(): Row5<String?, String?, UUID?, UUID?, Instant?> =
+        super.fieldsRow() as Row5<String?, String?, UUID?, UUID?, Instant?>
 
     /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
-    fun <U> mapping(from: (String?, String?, UUID?, Instant?) -> U): SelectField<U> =
+    fun <U> mapping(from: (String?, String?, UUID?, UUID?, Instant?) -> U): SelectField<U> =
         convertFrom(Records.mapping(from))
 
     /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
     fun <U> mapping(
         toType: Class<U>,
-        from: (String?, String?, UUID?, Instant?) -> U
+        from: (String?, String?, UUID?, UUID?, Instant?) -> U
     ): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }
