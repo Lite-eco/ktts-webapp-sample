@@ -94,10 +94,14 @@ class CommandController(
                 CommandConfiguration.role(command), request.remoteAddr, command.javaClass)
             val result =
                 transactionIsolationService.execute {
-                    handler.handle(command, getSession(), request, response)
+                    handler.handle(
+                        command,
+                        userSessionService.getUserSessionIfAuthenticated(),
+                        request,
+                        response)
                 }
-            // [doc] because of login, register...
-            val updatedSession = getSession()
+            // [doc] updated session because of login, register...
+            val updatedSession = userSessionService.getUserSessionIfAuthenticated()
             commandLogDao.insert(
                 draftCommandLog.copy(
                     userId = updatedSession?.userId,
@@ -108,7 +112,7 @@ class CommandController(
                     endDate = dateService.now()))
             return result
         } catch (e: Exception) {
-            val updatedSession = getSession()
+            val updatedSession = userSessionService.getUserSessionIfAuthenticated()
             commandLogDao.insert(
                 draftCommandLog.copy(
                     userId = updatedSession?.userId,
@@ -127,9 +131,6 @@ class CommandController(
                 ?: throw RuntimeException()
         }
     }
-
-    private fun getSession() =
-        if (userSessionService.isAuthenticated()) userSessionService.getUserSession() else null
 
     private fun handler(command: Command) =
         when (command) {

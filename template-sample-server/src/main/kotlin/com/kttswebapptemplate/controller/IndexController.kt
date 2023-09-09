@@ -64,11 +64,10 @@ class IndexController(
         mav: ModelAndView
     ): ModelAndView {
         val userInfos =
-            if (userSessionService.isAuthenticated()) {
-                val userSession = userSessionService.getUserSession()
-                val user = userDao.fetch(userSession.userId)
+            userSessionService.getUserSessionIfAuthenticated()?.let {
+                val user = userDao.fetch(it.userId)
                 UserInfos.fromUser(user)
-            } else null
+            }
         mav.model["bootstrapData"] =
             serialize(ApplicationBootstrapData(ApplicationInstance.env, userInfos))
         mav.model["deploymentId"] = ApplicationInstance.deploymentLogId.stringUuid()

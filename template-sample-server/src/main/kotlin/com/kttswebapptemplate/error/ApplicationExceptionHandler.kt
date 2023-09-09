@@ -63,6 +63,7 @@ class ApplicationExceptionHandler(
             }
             else -> {
                 if (userSessionService.isAuthenticated()) {
+                    // TODO duplicates with LogbackUserSessionConverter ?
                     logger.warn(exception) {
                         "Unhandled exception [$id] for user ${userSessionService.getUserSession()}"
                     }

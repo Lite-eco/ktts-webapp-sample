@@ -37,8 +37,7 @@ class QueryController(
         userSessionService.verifyStatusAndRole(
             QueryConfiguration.role(query), request.remoteAddr, query.javaClass)
         val handler = handler(query)
-        val userSession =
-            if (userSessionService.isAuthenticated()) userSessionService.getUserSession() else null
+        val userSession = userSessionService.getUserSessionIfAuthenticated()
         return transactionIsolationService.executeReadOnly { handler.doHandle(query, userSession) }
     }
 

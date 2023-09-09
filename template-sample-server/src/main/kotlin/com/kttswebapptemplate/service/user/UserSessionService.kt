@@ -83,7 +83,7 @@ class UserSessionService(
         }
 
     fun verifyStatusAndRole(expectedRole: Role?, logIp: String, logClass: Class<Any>) {
-        val userSession = if (isAuthenticated()) getUserSession() else null
+        val userSession = getUserSessionIfAuthenticated()
         // one could argue that a loggedin user has the same rights as an anonymous, but handlers
         // could actually make a difference between both
         if (userSession?.status == UserStatus.Disabled) {
@@ -106,6 +106,8 @@ class UserSessionService(
             }
         }
     }
+
+    fun getUserSessionIfAuthenticated() = if (isAuthenticated()) getUserSession() else null
 
     fun getUserSession(): UserSession =
         SecurityContextHolder.getContext().authentication.principal.let {
