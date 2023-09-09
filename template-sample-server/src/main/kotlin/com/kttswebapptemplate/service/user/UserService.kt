@@ -117,9 +117,12 @@ class UserService(
     }
 
     fun validateMail(token: UserAccountOperationToken) {
-        val t = accountTokenDao.fetchOrNull(token, UserAccountOperationTokenType.ValidateMail)
-        if (t == null || !validateToken(t, mailValidationTokenValidityDuration)) {
-            throw IllegalArgumentException()
+        val t =
+            accountTokenDao.fetchOrNull(token, UserAccountOperationTokenType.ValidateMail)
+                ?: throw IllegalArgumentException("$token")
+        if (!validateToken(t, mailValidationTokenValidityDuration)) {
+            // TODO information to the user
+            throw IllegalArgumentException("$token")
         }
         synchronized(t.userId) {
             val lastUserMailLog = userMailLogDao.fetchLastByUserId(t.userId)
