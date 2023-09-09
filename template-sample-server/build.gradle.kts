@@ -1,5 +1,3 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins {
     kotlin("jvm")
     id("io.spring.dependency-management") version "1.1.0"
@@ -12,7 +10,6 @@ plugins {
 val kotlinVersion = "1.9.0"
 
 tasks {
-    withType<KotlinCompile> { kotlinOptions.jvmTarget = "17" }
     test {
         useJUnitPlatform()
         addTestListener(
