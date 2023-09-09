@@ -5,6 +5,7 @@ export const routePathMap = dict<ApplicationRoute['name'], string>([
   ['Account', '/account'],
   ['Admin', '/admin'],
   ['Admin/ManualCommand', '/admin/manual-command'],
+  ['Admin/RouteListing', '/admin/routes-listing'],
   ['Admin/UsersManagement', '/admin/users-management'],
   ['Admin/UsersManagement/UserDetail', '/admin/users-management/:userId'],
   [

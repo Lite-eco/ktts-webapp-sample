@@ -109,6 +109,17 @@ export const Navbar = () => {
               </RouteLink>
             </MenuItem>
           )}
+          {userInfos?.role === 'Admin' && (
+            <MenuItem>
+              <RouteLink
+                route={{
+                  name: 'Admin/RouteListing'
+                }}
+              >
+                {t.RoutesListing()}
+              </RouteLink>
+            </MenuItem>
+          )}
           {userInfos && (
             <MenuItem>
               <LogoutButton />

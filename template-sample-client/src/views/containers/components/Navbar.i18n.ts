@@ -5,6 +5,7 @@ export const t = i18n({
   Login: () => 'Login',
   Register: () => 'Register',
   Account: () => 'Account',
-  UsersManagement: () => 'Users management',
-  ManualCommands: () => 'Manual commands'
+  UsersManagement: () => '[admin] Users management',
+  ManualCommands: () => '[admin] Manual commands',
+  RoutesListing: () => '[admin] Routes listing'
 });

@@ -2,6 +2,7 @@ import { UserId } from '../generated/domain/Ids.generated';
 import { AccountView } from '../views/account/AccountView';
 import { AdminView } from '../views/admin/AdminView';
 import { ManualCommandView } from '../views/admin/manual-command/ManualCommandView';
+import { RoutesListingView } from '../views/admin/routes-listing/RoutesListingView';
 import { UsersManagementView } from '../views/admin/users-management/UsersManagementView';
 import { UserDetailView } from '../views/admin/users-management/user-detail/UserDetailView';
 import { EditRoleView } from '../views/admin/users-management/user-detail/edit-role/EditRoleView';
@@ -27,6 +28,11 @@ type routesDsl = [
         name: 'ManualCommand';
         path: 'manual-command';
         component: typeof ManualCommandView;
+      },
+      {
+        name: 'RouteListing';
+        path: 'routes-listing';
+        component: typeof RoutesListingView;
       },
       {
         name: 'UsersManagement';

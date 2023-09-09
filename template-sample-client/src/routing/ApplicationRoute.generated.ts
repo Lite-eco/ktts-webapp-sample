@@ -4,6 +4,7 @@ export type ApplicationRoute =
   | AccountRoute
   | AdminRoute
   | AdminManualCommandRoute
+  | AdminRouteListingRoute
   | AdminUsersManagementRoute
   | AdminUsersManagementUserDetailRoute
   | AdminUsersManagementUserDetailEditRoleRoute
@@ -22,6 +23,10 @@ interface AdminRoute {
 
 interface AdminManualCommandRoute {
   name: 'Admin/ManualCommand';
+}
+
+interface AdminRouteListingRoute {
+  name: 'Admin/RouteListing';
 }
 
 interface AdminUsersManagementRoute {
