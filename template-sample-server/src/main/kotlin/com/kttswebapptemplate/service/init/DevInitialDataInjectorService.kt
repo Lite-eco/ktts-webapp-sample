@@ -55,6 +55,6 @@ class DevInitialDataInjectorService(
     fun devUserMail(username: String): String {
         val (mailPrefix, mailSuffix) = MailService.extractMailPrefixSuffix(developerDestinationMail)
         // not a problem if there's multiple '+'
-        return "$mailPrefix+$username$mailSuffix"
+        return "$mailPrefix+$username@$mailSuffix"
     }
 }

@@ -11,5 +11,8 @@ class MailServiceCompanionTest {
         assertEquals("roger" to "", extractMailPrefixSuffix("roger+test"))
         assertEquals("roger" to "gmail.com", extractMailPrefixSuffix("roger@gmail.com"))
         assertEquals("roger" to "gmail.com", extractMailPrefixSuffix("roger+test@gmail.com"))
+        assertEquals("roger" to "gmail+test.com", extractMailPrefixSuffix("roger@gmail+test.com"))
+        assertEquals(
+            "roger" to "gmail+test.com", extractMailPrefixSuffix("roger+test@gmail+test.com"))
     }
 }

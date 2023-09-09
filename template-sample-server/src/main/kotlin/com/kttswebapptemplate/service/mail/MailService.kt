@@ -10,7 +10,6 @@ import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.random.RandomService
-import kotlin.math.max
 import kotlin.math.min
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -27,15 +26,10 @@ class MailService(
 
     companion object {
         fun extractMailPrefixSuffix(mail: String): Pair<String, String> {
-            val arobaseIndex =
-                mail.indexOf('@').apply {
-                    if (this == -1) {
-                        return mail to ""
-                    }
-                }
-            val plusIndex = mail.indexOf('+').let { if (it == -1) arobaseIndex else it }
-            return mail.substring(0, min(arobaseIndex, plusIndex)) to
-                mail.substring(max(arobaseIndex, plusIndex))
+            val arobaseLimit = mail.indexOf('@').let { if (it != -1) it else mail.length }
+            val plusLimit = mail.indexOf('+').let { if (it != -1) it else mail.length }
+            return mail.substring(0, min(arobaseLimit, plusLimit)) to
+                mail.substring(min(arobaseLimit + 1, mail.length))
         }
     }
 
