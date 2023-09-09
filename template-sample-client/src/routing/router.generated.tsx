@@ -11,9 +11,8 @@ import { LoginView } from '../views/login/LoginView';
 import { NotFoundView } from '../views/not-found/NotFoundView';
 import { RegisterView } from '../views/register/RegisterView';
 import { RootView } from '../views/root/RootView';
-import { createBrowserRouter } from 'react-router-dom';
 
-export const router = createBrowserRouter([
+export const router = [
   {
     id: 'Account',
     path: 'account',
@@ -80,4 +79,4 @@ export const router = createBrowserRouter([
     path: '*',
     element: <NotFoundView />
   }
-]);
+];

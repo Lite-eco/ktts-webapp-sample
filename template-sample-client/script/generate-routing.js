@@ -129,13 +129,12 @@ if (resultRoutes.length !== 0) {
   const imports = new Set(resultRoutes.flatMap(r => extractComponents(r)));
   let source = '/** @jsxImportSource @emotion/react */\n';
   source += printImports(imports);
-  source += '\nimport {createBrowserRouter} from "react-router-dom";';
   source += '\n\n';
-  source += 'export const router = createBrowserRouter([\n';
+  source += 'export const router = [\n';
   resultRoutes.forEach(r => {
     source += printRoute(r);
   });
-  source += '])';
+  source += ']';
   fs.writeFile('./src/routing/router.generated.tsx', source, err => {
     if (err) {
       throw err;
