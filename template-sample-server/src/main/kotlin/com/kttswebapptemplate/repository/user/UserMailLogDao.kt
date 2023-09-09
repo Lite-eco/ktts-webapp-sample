@@ -1,10 +1,10 @@
 package com.kttswebapptemplate.repository.user
 
-import com.kttswebapptemplate.domain.AuthLogType
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserMailLogId
 import com.kttswebapptemplate.jooq.generated.tables.records.UserMailLogRecord
 import com.kttswebapptemplate.jooq.generated.tables.references.USER_MAIL_LOG
+import com.kttswebapptemplate.utils.toTypeId
 import java.time.Instant
 import org.jooq.DSLContext
 import org.springframework.stereotype.Repository
@@ -16,7 +16,8 @@ class UserMailLogDao(private val jooq: DSLContext) {
         val id: UserMailLogId,
         val userId: UserId,
         val mail: String,
-        val type: AuthLogType,
+        val dirtyMail: String?,
+        val validated: Boolean,
         val creationDate: Instant
     )
 
@@ -28,8 +29,27 @@ class UserMailLogDao(private val jooq: DSLContext) {
                     id = r.id.rawId,
                     userId = r.userId.rawId,
                     mail = r.mail,
-                    type = r.type.name,
+                    dirtyMail = r.dirtyMail,
+                    validated = r.validated,
                     creationDate = r.creationDate))
             .execute()
     }
+
+    fun fetchLastByUserId(userId: UserId) =
+        jooq
+            .selectFrom(USER_MAIL_LOG)
+            .where(USER_MAIL_LOG.USER_ID.equal(userId.rawId))
+            .orderBy(USER_MAIL_LOG.CREATION_DATE.desc())
+            .limit(1)
+            .fetchSingle()
+            .let(this::map)
+
+    fun map(r: UserMailLogRecord) =
+        Record(
+            id = r.id.toTypeId(),
+            userId = r.userId.toTypeId(),
+            mail = r.mail,
+            dirtyMail = r.dirtyMail,
+            validated = r.validated,
+            creationDate = r.creationDate)
 }

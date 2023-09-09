@@ -3,6 +3,7 @@ package com.kttswebapptemplate.repository.user
 import com.kttswebapptemplate.domain.UserAccountOperationToken
 import com.kttswebapptemplate.domain.UserAccountOperationTokenType
 import com.kttswebapptemplate.domain.UserId
+import com.kttswebapptemplate.domain.UserMailLogId
 import com.kttswebapptemplate.jooq.generated.tables.records.UserAccountOperationTokenRecord
 import com.kttswebapptemplate.jooq.generated.tables.references.USER_ACCOUNT_OPERATION_TOKEN
 import com.kttswebapptemplate.utils.toSecurityString
@@ -18,6 +19,7 @@ class UserAccountOperationTokenDao(private val jooq: DSLContext) {
         val token: UserAccountOperationToken,
         val tokenType: UserAccountOperationTokenType,
         val userId: UserId,
+        val userMailLogId: UserMailLogId?,
         val creationDate: Instant
     )
 
@@ -29,6 +31,7 @@ class UserAccountOperationTokenDao(private val jooq: DSLContext) {
                     token = r.token.rawString,
                     tokenType = r.tokenType.name,
                     userId = r.userId.rawId,
+                    userMailLogId = r.userMailLogId?.rawId,
                     creationDate = r.creationDate))
             .execute()
     }
@@ -49,5 +52,6 @@ class UserAccountOperationTokenDao(private val jooq: DSLContext) {
             token = r.token.toSecurityString(),
             tokenType = UserAccountOperationTokenType.valueOf(r.tokenType),
             userId = r.userId.toTypeId(),
+            userMailLogId = r.userMailLogId?.toTypeId(),
             creationDate = r.creationDate)
 }

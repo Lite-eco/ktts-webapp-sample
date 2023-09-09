@@ -2,7 +2,6 @@ package com.kttswebapptemplate.service.user
 
 import com.kttswebapptemplate.config.ApplicationConstants
 import com.kttswebapptemplate.config.SafeSessionRepository
-import com.kttswebapptemplate.domain.AuthLogType
 import com.kttswebapptemplate.domain.HashedPassword
 import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.Mail
@@ -80,8 +79,8 @@ class UserService(
         displayName: String,
         language: Language,
     ): UserDao.Record {
-        val (cleanMail, dirtyMail) = cleanMailAndReturnDirty(mail)
         val now = dateService.now()
+        val (cleanMail, dirtyMail) = cleanMailAndReturnDirty(mail)
         val user =
             UserDao.Record(
                 id = randomService.id(),
@@ -93,11 +92,9 @@ class UserService(
                 signupDate = now,
                 lastUpdate = now)
         userDao.insert(user, hashedPassword)
-        if (dirtyMail != null) {
-            userMailLogDao.insert(
-                UserMailLogDao.Record(
-                    randomService.id(), user.id, dirtyMail, AuthLogType.DirtyMail, now))
-        }
+        val mailLog =
+            UserMailLogDao.Record(randomService.id(), user.id, cleanMail, dirtyMail, false, now)
+        userMailLogDao.insert(mailLog)
         notificationService.notify(
             "${user.mail} just subscribed.", NotificationService.Channel.NewUser)
         val token =
@@ -105,6 +102,7 @@ class UserService(
                 randomService.securityString(UserAccountOperationToken.length),
                 UserAccountOperationTokenType.ValidateMail,
                 user.id,
+                mailLog.id,
                 now)
         accountTokenDao.insert(token)
         val validateMailUrl =
@@ -123,7 +121,21 @@ class UserService(
         if (t == null || !validateToken(t, mailValidationTokenValidityDuration)) {
             throw IllegalArgumentException()
         }
-        updateStatusOrRole(userId = t.userId, status = UserStatus.Active, role = null)
+        synchronized(t.userId) {
+            val lastUserMailLog = userMailLogDao.fetchLastByUserId(t.userId)
+            // only the last mail should be validated
+            if (lastUserMailLog.id != requireNotNull(t.userMailLogId) { "${t.token}" }) {
+                throw IllegalArgumentException("${t.token} ${t.userId}")
+            }
+            val userMail = userDao.fetch(t.userId)
+            if (userMail.mail != lastUserMailLog.mail) {
+                // the user is changing his email
+                TODO() // update user
+            } else {
+                // the user is validating his "first" email
+                updateStatusOrRole(userId = t.userId, status = UserStatus.Active, role = null)
+            }
+        }
     }
 
     fun updateMail(userId: UserId, mail: String) {
@@ -133,21 +145,16 @@ class UserService(
         // [doc] Is done first on purpose. If user has tried to use é@gmail.com, it has been change
         // to e@gmail.com, if he retries we should re-log
         // TODO[tmpl] need integration tests !
-        if (newDirtyMail != null) {
-            userMailLogDao.insert(
-                UserMailLogDao.Record(
-                    randomService.id(), userId, newDirtyMail, AuthLogType.DirtyMail, now))
-        }
         if (newMail == formerMail) {
             // TODO[tmpl] user should be warned (maybe he tried a cleaned email)
             // (can be an accidental double click too)
             return
         }
-        logger.info { "Update mail $userId $formerMail => $newMail" }
-        userDao.updateMail(userId, newMail, now)
         userMailLogDao.insert(
-            UserMailLogDao.Record(
-                randomService.id(), userId, formerMail, AuthLogType.FormerMail, now))
+            UserMailLogDao.Record(randomService.id(), userId, newMail, newDirtyMail, false, now))
+        logger.info { "Update mail $userId $formerMail => $newMail" }
+        // TODO nop, needs validation first
+        //        userDao.updateMail(userId, newMail, now)
     }
 
     fun updatePassword(userId: UserId, password: PlainStringPassword) {

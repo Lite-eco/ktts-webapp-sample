@@ -20,11 +20,6 @@ enum class Role {
     Admin
 }
 
-enum class AuthLogType {
-    DirtyMail,
-    FormerMail
-}
-
 data class UserInfos(
     val id: UserId,
     val mail: String,
