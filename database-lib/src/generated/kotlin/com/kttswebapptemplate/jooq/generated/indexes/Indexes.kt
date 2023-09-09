@@ -4,7 +4,6 @@
 package com.kttswebapptemplate.jooq.generated.indexes
 
 import com.kttswebapptemplate.jooq.generated.tables.AppUserTable
-import com.kttswebapptemplate.jooq.generated.tables.MailLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserSessionLogTable
 import org.jooq.Index
@@ -20,12 +19,6 @@ val APP_USER_MAIL_IDX: Index =
         DSL.name("app_user_mail_idx"),
         AppUserTable.APP_USER,
         arrayOf(AppUserTable.APP_USER.MAIL),
-        false)
-val MAIL_LOG_USER_ID_IDX: Index =
-    Internal.createIndex(
-        DSL.name("mail_log_user_id_idx"),
-        MailLogTable.MAIL_LOG,
-        arrayOf(MailLogTable.MAIL_LOG.USER_ID),
         false)
 val USER_MAIL_LOG_USER_ID_IDX: Index =
     Internal.createIndex(

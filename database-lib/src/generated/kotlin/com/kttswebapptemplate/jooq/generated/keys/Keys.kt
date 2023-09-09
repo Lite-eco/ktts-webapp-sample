@@ -6,16 +6,16 @@ package com.kttswebapptemplate.jooq.generated.keys
 import com.kttswebapptemplate.jooq.generated.tables.AppUserTable
 import com.kttswebapptemplate.jooq.generated.tables.CommandLogTable
 import com.kttswebapptemplate.jooq.generated.tables.DeploymentLogTable
-import com.kttswebapptemplate.jooq.generated.tables.MagicLinkTokenTable
-import com.kttswebapptemplate.jooq.generated.tables.MailLogTable
+import com.kttswebapptemplate.jooq.generated.tables.MailingLogTable
+import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTable
 import com.kttswebapptemplate.jooq.generated.tables.UserFileTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserSessionLogTable
 import com.kttswebapptemplate.jooq.generated.tables.records.AppUserRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.CommandLogRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.DeploymentLogRecord
-import com.kttswebapptemplate.jooq.generated.tables.records.MagicLinkTokenRecord
-import com.kttswebapptemplate.jooq.generated.tables.records.MailLogRecord
+import com.kttswebapptemplate.jooq.generated.tables.records.MailingLogRecord
+import com.kttswebapptemplate.jooq.generated.tables.records.UserAccountOperationTokenRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.UserFileRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.UserMailLogRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.UserSessionLogRecord
@@ -49,15 +49,18 @@ val DEPLOYMENT_LOG_PKEY: UniqueKey<DeploymentLogRecord> =
         DSL.name("deployment_log_pkey"),
         arrayOf(DeploymentLogTable.DEPLOYMENT_LOG.ID),
         true)
-val MAGIC_LINK_TOKEN_PKEY: UniqueKey<MagicLinkTokenRecord> =
+val MAILING_LOG_PKEY: UniqueKey<MailingLogRecord> =
     Internal.createUniqueKey(
-        MagicLinkTokenTable.MAGIC_LINK_TOKEN,
-        DSL.name("magic_link_token_pkey"),
-        arrayOf(MagicLinkTokenTable.MAGIC_LINK_TOKEN.TOKEN),
+        MailingLogTable.MAILING_LOG,
+        DSL.name("mailing_log_pkey"),
+        arrayOf(MailingLogTable.MAILING_LOG.ID),
         true)
-val MAIL_LOG_PKEY: UniqueKey<MailLogRecord> =
+val USER_ACCOUNT_OPERATION_TOKEN_PKEY: UniqueKey<UserAccountOperationTokenRecord> =
     Internal.createUniqueKey(
-        MailLogTable.MAIL_LOG, DSL.name("mail_log_pkey"), arrayOf(MailLogTable.MAIL_LOG.ID), true)
+        UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN,
+        DSL.name("user_account_operation_token_pkey"),
+        arrayOf(UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.TOKEN),
+        true)
 val USER_FILE_PKEY: UniqueKey<UserFileRecord> =
     Internal.createUniqueKey(
         UserFileTable.USER_FILE,
@@ -90,22 +93,22 @@ val COMMAND_LOG__COMMAND_LOG_DEPLOYMENT_LOG_ID_FKEY:
         com.kttswebapptemplate.jooq.generated.keys.DEPLOYMENT_LOG_PKEY,
         arrayOf(DeploymentLogTable.DEPLOYMENT_LOG.ID),
         true)
-val MAGIC_LINK_TOKEN__MAGIC_LINK_TOKEN_USER_ID_FKEY:
-    ForeignKey<MagicLinkTokenRecord, AppUserRecord> =
+val MAILING_LOG__MAILING_LOG_USER_ID_FKEY: ForeignKey<MailingLogRecord, AppUserRecord> =
     Internal.createForeignKey(
-        MagicLinkTokenTable.MAGIC_LINK_TOKEN,
-        DSL.name("magic_link_token_user_id_fkey"),
-        arrayOf(MagicLinkTokenTable.MAGIC_LINK_TOKEN.USER_ID),
+        MailingLogTable.MAILING_LOG,
+        DSL.name("mailing_log_user_id_fkey"),
+        arrayOf(MailingLogTable.MAILING_LOG.USER_ID),
         com.kttswebapptemplate.jooq.generated.keys.APP_USER_PKEY,
         arrayOf(AppUserTable.APP_USER.ID),
         true)
-val MAIL_LOG__MAIL_LOG_DEPLOYMENT_LOG_ID_FKEY: ForeignKey<MailLogRecord, DeploymentLogRecord> =
+val USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_ID_FKEY:
+    ForeignKey<UserAccountOperationTokenRecord, AppUserRecord> =
     Internal.createForeignKey(
-        MailLogTable.MAIL_LOG,
-        DSL.name("mail_log_deployment_log_id_fkey"),
-        arrayOf(MailLogTable.MAIL_LOG.DEPLOYMENT_LOG_ID),
-        com.kttswebapptemplate.jooq.generated.keys.DEPLOYMENT_LOG_PKEY,
-        arrayOf(DeploymentLogTable.DEPLOYMENT_LOG.ID),
+        UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN,
+        DSL.name("user_account_operation_token_user_id_fkey"),
+        arrayOf(UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.USER_ID),
+        com.kttswebapptemplate.jooq.generated.keys.APP_USER_PKEY,
+        arrayOf(AppUserTable.APP_USER.ID),
         true)
 val USER_FILE__USER_FILE_USER_ID_FKEY: ForeignKey<UserFileRecord, AppUserRecord> =
     Internal.createForeignKey(

@@ -6,8 +6,8 @@ package com.kttswebapptemplate.jooq.generated
 import com.kttswebapptemplate.jooq.generated.tables.AppUserTable
 import com.kttswebapptemplate.jooq.generated.tables.CommandLogTable
 import com.kttswebapptemplate.jooq.generated.tables.DeploymentLogTable
-import com.kttswebapptemplate.jooq.generated.tables.MagicLinkTokenTable
-import com.kttswebapptemplate.jooq.generated.tables.MailLogTable
+import com.kttswebapptemplate.jooq.generated.tables.MailingLogTable
+import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTable
 import com.kttswebapptemplate.jooq.generated.tables.UserFileTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserSessionLogTable
@@ -37,13 +37,13 @@ open class PublicTable : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val DEPLOYMENT_LOG: DeploymentLogTable
         get() = DeploymentLogTable.DEPLOYMENT_LOG
 
-    /** The table <code>public.magic_link_token</code>. */
-    val MAGIC_LINK_TOKEN: MagicLinkTokenTable
-        get() = MagicLinkTokenTable.MAGIC_LINK_TOKEN
+    /** The table <code>public.mailing_log</code>. */
+    val MAILING_LOG: MailingLogTable
+        get() = MailingLogTable.MAILING_LOG
 
-    /** The table <code>public.mail_log</code>. */
-    val MAIL_LOG: MailLogTable
-        get() = MailLogTable.MAIL_LOG
+    /** The table <code>public.user_account_operation_token</code>. */
+    val USER_ACCOUNT_OPERATION_TOKEN: UserAccountOperationTokenTable
+        get() = UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN
 
     /** The table <code>public.user_file</code>. */
     val USER_FILE: UserFileTable
@@ -64,8 +64,8 @@ open class PublicTable : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
             AppUserTable.APP_USER,
             CommandLogTable.COMMAND_LOG,
             DeploymentLogTable.DEPLOYMENT_LOG,
-            MagicLinkTokenTable.MAGIC_LINK_TOKEN,
-            MailLogTable.MAIL_LOG,
+            MailingLogTable.MAILING_LOG,
+            UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN,
             UserFileTable.USER_FILE,
             UserMailLogTable.USER_MAIL_LOG,
             UserSessionLogTable.USER_SESSION_LOG)

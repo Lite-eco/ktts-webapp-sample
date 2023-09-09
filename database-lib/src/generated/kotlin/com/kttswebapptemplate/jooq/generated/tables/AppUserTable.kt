@@ -18,7 +18,7 @@ import org.jooq.Index
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row8
+import org.jooq.Row9
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -77,9 +77,13 @@ open class AppUserTable(
     val LANGUAGE: TableField<AppUserRecord, String?> =
         createField(DSL.name("language"), SQLDataType.VARCHAR(2).nullable(false), this, "")
 
-    /** The column <code>public.app_user.roles</code>. */
-    val ROLES: TableField<AppUserRecord, Array<String?>?> =
-        createField(DSL.name("roles"), SQLDataType.VARCHAR(255).nullable(false).array(), this, "")
+    /** The column <code>public.app_user.status</code>. */
+    val STATUS: TableField<AppUserRecord, String?> =
+        createField(DSL.name("status"), SQLDataType.VARCHAR(255).nullable(false), this, "")
+
+    /** The column <code>public.app_user.role</code>. */
+    val ROLE: TableField<AppUserRecord, String?> =
+        createField(DSL.name("role"), SQLDataType.VARCHAR(255).nullable(false), this, "")
 
     /** The column <code>public.app_user.signup_date</code>. */
     val SIGNUP_DATE: TableField<AppUserRecord, Instant?> =
@@ -140,21 +144,21 @@ open class AppUserTable(
     override fun rename(name: Table<*>): AppUserTable = AppUserTable(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row8 type methods
+    // Row9 type methods
     // -------------------------------------------------------------------------
     override fun fieldsRow():
-        Row8<UUID?, String?, String?, String?, String?, Array<String?>?, Instant?, Instant?> =
+        Row9<UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?> =
         super.fieldsRow()
-            as Row8<UUID?, String?, String?, String?, String?, Array<String?>?, Instant?, Instant?>
+            as Row9<UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?>
 
     /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
     fun <U> mapping(
-        from: (UUID?, String?, String?, String?, String?, Array<String?>?, Instant?, Instant?) -> U
+        from: (UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?) -> U
     ): SelectField<U> = convertFrom(Records.mapping(from))
 
     /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
     fun <U> mapping(
         toType: Class<U>,
-        from: (UUID?, String?, String?, String?, String?, Array<String?>?, Instant?, Instant?) -> U
+        from: (UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?) -> U
     ): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }
