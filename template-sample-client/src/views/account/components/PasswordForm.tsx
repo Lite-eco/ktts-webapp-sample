@@ -2,8 +2,9 @@
 import { ControlledPasswordInput } from '../../../common-components/form/ControlledPasswordInput';
 import { ClientUid } from '../../../domain/client-ids';
 import { PlainStringPassword } from '../../../generated/domain/Security.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { asNominalString } from '../../../utils/nominal-class';
-import { t } from './PasswordForm.i18n';
+import { PasswordFormI18n } from './PasswordForm.i18n';
 import { css } from '@emotion/react';
 import { useForm } from 'react-hook-form';
 
@@ -26,6 +27,7 @@ export const PasswordForm = (props: {
     control,
     formState: { errors }
   } = useForm<PasswordFormRawInput>();
+  const t = useI18n(PasswordFormI18n);
   return (
     <form
       id={props.formId}

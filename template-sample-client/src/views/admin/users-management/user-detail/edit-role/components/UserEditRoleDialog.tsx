@@ -7,12 +7,13 @@ import {
   Role,
   UserInfos
 } from '../../../../../../generated/domain/User.generated';
+import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
 import { useGoTo } from '../../../../../../routing/routing-utils';
 import { appContext } from '../../../../../../services/ApplicationContext';
 import { state } from '../../../../../../state/state';
 import { colors } from '../../../../../../styles/vars';
-import { t } from './UserEditRoleDialog.i18n';
+import { UserEditRoleDialogI18n } from './UserEditRoleDialog.i18n';
 import { css } from '@emotion/react';
 import { Warning as WarningIcon } from '@mui/icons-material';
 import {
@@ -68,6 +69,7 @@ export const UserEditRoleDialog = (props: {
       close();
     }
   };
+  const t = useI18n(UserEditRoleDialogI18n);
   return (
     <Dialog
       open={true}

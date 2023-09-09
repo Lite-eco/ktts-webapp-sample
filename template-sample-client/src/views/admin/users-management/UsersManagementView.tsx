@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { UserInfos } from '../../../generated/domain/User.generated';
 import { GetUsersQueryResponse } from '../../../generated/query/Queries.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
 import { appContext } from '../../../services/ApplicationContext';
-import { t } from './UsersManagementView.i18n';
+import { UsersManagementViewI18n } from './UsersManagementView.i18n';
 import { UsersManagementTable } from './components/UsersManagementTable';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
@@ -29,6 +30,7 @@ export const UsersManagementView = () => {
         }
       })
     ]);
+  const t = useI18n(UsersManagementViewI18n);
   useEffect(() => {
     setLoading('Loading');
     appContext.queryService
@@ -45,7 +47,7 @@ export const UsersManagementView = () => {
           variant: 'error'
         });
       });
-  }, [enqueueSnackbar]);
+  }, [enqueueSnackbar, t]);
   const context: UsersManagementOutletContext = { updateUserInfos };
   return (
     <div

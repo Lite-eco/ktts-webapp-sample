@@ -3,9 +3,10 @@ import { LoadingStateButton } from '../../../common-components/LoadingButton';
 import { ControlledPasswordInput } from '../../../common-components/form/ControlledPasswordInput';
 import { ControlledTextInput } from '../../../common-components/form/ControlledTextInput';
 import { PlainStringPassword } from '../../../generated/domain/Security.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
 import { asNominalString } from '../../../utils/nominal-class';
-import { t } from './LoginForm.i18n';
+import { LoginFormI18n } from './LoginForm.i18n';
 import { css } from '@emotion/react';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -29,6 +30,7 @@ export const LoginForm = (props: {
     formState: { errors }
   } = useForm<LoginFormRawInput>();
   const [loading, setLoading] = useState<LoadingState>('Idle');
+  const t = useI18n(LoginFormI18n);
   return (
     <form
       onSubmit={handleSubmit(input => {

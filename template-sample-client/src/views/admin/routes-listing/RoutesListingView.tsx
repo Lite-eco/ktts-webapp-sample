@@ -1,16 +1,18 @@
 /** @jsxImportSource @emotion/react */
+import { useI18n } from '../../../hooks/i18n';
 import { ApplicationRoute } from '../../../routing/ApplicationRoute.generated';
 import { RouteLink } from '../../../routing/RouteLink';
 import { router } from '../../../routing/router.generated';
 import { state } from '../../../state/state';
 import { colors } from '../../../styles/vars';
-import { t } from './RoutesListingView.i18n';
+import { RoutesListingViewI18n } from './RoutesListingView.i18n';
 import { css } from '@emotion/react';
 import { Link, RouteObject } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 export const RoutesListingView = () => {
   const userInfos = useRecoilValue(state.userInfos);
+  const t = useI18n(RoutesListingViewI18n);
   if (userInfos?.role !== 'Admin') {
     return null;
   }

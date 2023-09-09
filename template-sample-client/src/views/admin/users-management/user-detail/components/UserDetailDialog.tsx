@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { CopyContentWidget } from '../../../../../common-components/CopyContentWidget';
 import { UserInfos } from '../../../../../generated/domain/User.generated';
+import { useI18n } from '../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../interfaces';
 import { RouteLink } from '../../../../../routing/RouteLink';
 import { useGoTo } from '../../../../../routing/routing-utils';
 import { RoleChip } from '../../components/UsersManagementTable';
-import { t } from './UserDetailDialog.i18n';
+import { UserDetailDialogI18n } from './UserDetailDialog.i18n';
 import { css } from '@emotion/react';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import {
@@ -34,6 +35,7 @@ export const UserDetailDialog = (props: {
 }) => {
   const goTo = useGoTo();
   const close = () => goTo({ name: 'Admin/UsersManagement' });
+  const t = useI18n(UserDetailDialogI18n);
   return (
     <Dialog
       open={true}

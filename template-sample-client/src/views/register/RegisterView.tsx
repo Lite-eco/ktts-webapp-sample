@@ -2,12 +2,13 @@
 import { Errors } from '../../errors';
 import { RegisterCommandResponse } from '../../generated/command/Commands.generated';
 import { RegisterResult } from '../../generated/domain/User.generated';
+import { useI18n } from '../../hooks/i18n';
 import { useGoTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { assertUnreachable } from '../../utils';
 import { MainViewContainer } from '../containers/MainViewContainer';
-import { t } from './RegisterView.i18n';
+import { RegisterViewI18n } from './RegisterView.i18n';
 import { RegisterForm, RegisterFormInput } from './components/RegisterForm';
 import { css } from '@emotion/react';
 import { useState } from 'react';
@@ -39,6 +40,7 @@ export const RegisterView = () => {
         }
         setRegisterResult(r.result);
       });
+  const t = useI18n(RegisterViewI18n);
   return (
     <MainViewContainer>
       <div

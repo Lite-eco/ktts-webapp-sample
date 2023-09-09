@@ -1,5 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { t } from './ControlledPasswordInput.i18n';
+import { useI18n } from '../../hooks/i18n';
+import { ControlledPasswordInputI18n } from './ControlledPasswordInput.i18n';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
@@ -27,6 +28,7 @@ export const ControlledPasswordInput = <
   ) => {
     event.preventDefault();
   };
+  const t = useI18n(ControlledPasswordInputI18n);
   return (
     <Controller
       name={props.name}

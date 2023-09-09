@@ -1,4 +1,5 @@
-import { t } from './ControlledTextInput.i18n';
+import { useI18n } from '../../hooks/i18n';
+import { ControlledTextInputI18n } from './ControlledTextInput.i18n';
 import { TextField } from '@mui/material';
 import { ChangeEvent } from 'react';
 import { Controller, FieldPath } from 'react-hook-form';
@@ -31,6 +32,7 @@ export const ControlledTextInput = <
   if (!props.multiline && props.multilineDefaultRows) {
     throw Error();
   }
+  const t = useI18n(ControlledTextInputI18n);
   return (
     <Controller
       name={props.name}

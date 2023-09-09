@@ -4,8 +4,9 @@ import {
   CommandResponse
 } from '../../../generated/command/Commands.generated';
 import { RequestError } from '../../../generated/error/Exceptions.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { appContext } from '../../../services/ApplicationContext';
-import { t } from './ManualCommandView.i18n';
+import { ManualCommandViewI18n } from './ManualCommandView.i18n';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
@@ -15,8 +16,9 @@ const sampleAdminUpdateSessions: AdminUpdateSessions = {
 };
 
 /** Should explain data in the response */
-const docResponse = (response: CommandResponse) => {
-  const objectType = response.objectType;
+const DocResponse = (props: { response: CommandResponse }) => {
+  const objectType = props.response.objectType;
+  const t = useI18n(ManualCommandViewI18n);
   switch (objectType) {
     default:
       return t.Result();
@@ -82,7 +84,7 @@ export const ManualCommandView = () => {
         );
     });
   };
-
+  const t = useI18n(ManualCommandViewI18n);
   return (
     <div
       css={css`
@@ -133,7 +135,9 @@ export const ManualCommandView = () => {
         )}
         {commandResults.map((r, i) => (
           <p key={i}>
-            <h3>{docResponse(r)}</h3>
+            <h3>
+              <DocResponse response={r} />
+            </h3>
             <pre>{JSON.stringify(r, null, 2)}</pre>
           </p>
         ))}

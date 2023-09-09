@@ -5,13 +5,14 @@ import {
   LoginCommandResponse
 } from '../../generated/command/Commands.generated';
 import { LoginResult, UserInfos } from '../../generated/domain/User.generated';
+import { useI18n } from '../../hooks/i18n';
 import { useGoTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { colors } from '../../styles/vars';
 import { assertUnreachable } from '../../utils';
 import { MainViewContainer } from '../containers/MainViewContainer';
-import { t } from './LoginView.i18n';
+import { LoginViewI18n } from './LoginView.i18n';
 import { LoginForm, LoginFormInput } from './components/LoginForm';
 import { css } from '@emotion/react';
 import Button from '@mui/material/Button';
@@ -60,6 +61,7 @@ export const LoginView = () => {
         username
       })
       .then(r => connect(r.userInfos));
+  const t = useI18n(LoginViewI18n);
   return (
     <MainViewContainer>
       <div

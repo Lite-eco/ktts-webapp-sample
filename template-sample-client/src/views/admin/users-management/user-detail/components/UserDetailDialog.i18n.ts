@@ -1,7 +1,4 @@
-/** @jsxImportSource @emotion/react */
-import { i18n } from '../../../../../i18n';
-
-export const t = i18n({
+export const UserDetailDialogI18n = {
   UserDetails: () => 'User details',
   Field: () => 'Field',
   Value: () => 'Value',
@@ -13,4 +10,4 @@ export const t = i18n({
   Edit: () => 'Edit',
   RawJson: () => 'Raw JSON',
   Close: () => 'Close'
-});
+};

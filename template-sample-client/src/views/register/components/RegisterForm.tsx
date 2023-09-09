@@ -4,11 +4,12 @@ import { ControlledPasswordInput } from '../../../common-components/form/Control
 import { ControlledTextInput } from '../../../common-components/form/ControlledTextInput';
 import { PlainStringPassword } from '../../../generated/domain/Security.generated';
 import { IsMailAlreadyTakenQueryResponse } from '../../../generated/query/Queries.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
 import { appContext } from '../../../services/ApplicationContext';
 import { colors } from '../../../styles/vars';
 import { asNominalString } from '../../../utils/nominal-class';
-import { t } from './RegisterForm.i18n';
+import { RegisterFormI18n } from './RegisterForm.i18n';
 import { css } from '@emotion/react';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -49,6 +50,7 @@ export const RegisterForm = (props: {
     formState: { errors }
   } = useForm<RegisterFormRawInput>();
   const [loading, setLoading] = useState<LoadingState>('Idle');
+  const t = useI18n(RegisterFormI18n);
   return (
     <form
       onSubmit={handleSubmit(input => {

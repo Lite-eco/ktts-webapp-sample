@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { UserStatus } from '../../../generated/domain/User.generated';
 import { GetUserStatusQueryResponse } from '../../../generated/query/Queries.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { useGoTo } from '../../../routing/routing-utils';
 import { appContext } from '../../../services/ApplicationContext';
 import { state } from '../../../state/state';
 import { assertUnreachable } from '../../../utils';
 import { asNominalString } from '../../../utils/nominal-class';
-import { t } from './UserStatusCheckContainer.i18n';
+import { UserStatusCheckContainerI18n } from './UserStatusCheckContainer.i18n';
 import {
   Button,
   Dialog,
@@ -15,23 +16,23 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
-import { PropsWithChildren, ReactNode, useEffect, useState } from 'react';
+import { PropsWithChildren, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-const userStatusContent = (
-  status: UserStatus | undefined,
-  children: ReactNode
+const UserStatusContent = (
+  props: PropsWithChildren<{ status: UserStatus | undefined }>
 ) => {
-  switch (status) {
+  const t = useI18n(UserStatusCheckContainerI18n);
+  switch (props.status) {
     case undefined:
     case 'Active':
-      return children;
+      return props.children;
     case 'MailValidationPending':
       return <div>{t.MailMustBeValidated()}</div>;
     case 'Disabled':
       return <div>{t.DisabledAccount()}</div>;
     default:
-      assertUnreachable(status);
+      assertUnreachable(props.status);
   }
 };
 
@@ -80,9 +81,12 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
         setDisplayPopup(true);
       });
   }
+  const t = useI18n(UserStatusCheckContainerI18n);
   return (
     <>
-      {userStatusContent(userInfos?.status, props.children)}
+      <UserStatusContent status={userInfos?.status}>
+        {props.children}
+      </UserStatusContent>
       <Dialog open={displayPopup} onClose={() => setDisplayPopup(false)}>
         <DialogTitle>{t.UserAccountMailValidation()}</DialogTitle>
         <DialogContent>

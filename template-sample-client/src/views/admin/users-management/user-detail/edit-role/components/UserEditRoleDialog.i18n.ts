@@ -1,6 +1,4 @@
-import { i18n } from '../../../../../../i18n';
-
-export const t = i18n({
+export const UserEditRoleDialogI18n = {
   EditUserRole: () => 'Edit user role',
   WarningAdmin: () =>
     "By removing your Admin role you instantly won't have admin \n" +
@@ -8,4 +6,4 @@ export const t = i18n({
     'back.',
   Close: () => 'Close',
   Save: () => 'Save'
-});
+};

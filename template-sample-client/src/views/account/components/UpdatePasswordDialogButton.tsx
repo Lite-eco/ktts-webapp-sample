@@ -1,11 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { LoadingStateButton } from '../../../common-components/LoadingButton';
 import { UpdatePasswordResult } from '../../../generated/domain/User.generated';
+import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
 import { colors } from '../../../styles/vars';
 import { assertUnreachable, clientUid } from '../../../utils';
 import { PasswordForm, PasswordFormInput } from './PasswordForm';
-import { t } from './UpdatePasswordDialogButton.i18n';
+import { UpdatePasswordDialogButtonI18n } from './UpdatePasswordDialogButton.i18n';
 import { css } from '@emotion/react';
 import {
   Button,
@@ -42,6 +43,7 @@ export const UpdatePasswordDialogButton = (props: {
     });
   };
   const formId = clientUid();
+  const t = useI18n(UpdatePasswordDialogButtonI18n);
   return (
     <>
       <Button onClick={() => setOpen(true)}>{t.UpdatePassword()}</Button>

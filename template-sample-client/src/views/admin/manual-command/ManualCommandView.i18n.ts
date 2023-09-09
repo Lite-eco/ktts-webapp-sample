@@ -1,6 +1,4 @@
-import { i18n } from '../../../i18n';
-
-export const t = i18n({
+export const ManualCommandViewI18n = {
   Result: () => 'Result:',
   NoCommand: () => 'No command.',
   CommandAlreadyHandled: () => 'Command already handled.',
@@ -14,4 +12,4 @@ export const t = i18n({
   BatchCommands: () => '"Batch" commands',
   CommandsCanBeSentInGroup: () =>
     'Commands can be sent in group (they are sent & handled one by one to the backend)'
-});
+};

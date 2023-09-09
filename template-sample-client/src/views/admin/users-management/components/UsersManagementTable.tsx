@@ -2,10 +2,11 @@
 import { CopyContentWidget } from '../../../../common-components/CopyContentWidget';
 import { adminIdDisplayChars } from '../../../../domain/admin';
 import { Role, UserInfos } from '../../../../generated/domain/User.generated';
+import { useI18n } from '../../../../hooks/i18n';
 import { LoadingState } from '../../../../interfaces';
 import { RouteLink } from '../../../../routing/RouteLink';
 import { colors } from '../../../../styles/vars';
-import { t } from './UsersManagementTable.i18n';
+import { UsersManagementTableI18n } from './UsersManagementTable.i18n';
 import { css } from '@emotion/react';
 import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 
@@ -26,6 +27,7 @@ export const UsersManagementTable = (props: {
   users: UserInfos[];
   loading: LoadingState;
 }) => {
+  const t = useI18n(UsersManagementTableI18n);
   const columns: GridColDef[] = [
     {
       field: 'id',

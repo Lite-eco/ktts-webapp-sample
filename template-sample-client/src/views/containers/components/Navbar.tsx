@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { LogoutButton } from '../../../common-components/form/LogoutButton';
+import { useI18n } from '../../../hooks/i18n';
 import { RouteLink } from '../../../routing/RouteLink';
 import { state } from '../../../state/state';
 import { colors } from '../../../styles/vars';
-import { t } from './Navbar.i18n';
+import { NavbarI18n } from './Navbar.i18n';
 import { css } from '@emotion/react';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { Menu, MenuItem } from '@mui/material';
@@ -16,6 +17,7 @@ export const Navbar = () => {
   const buttonElement = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);
+  const t = useI18n(NavbarI18n);
   return (
     <div
       css={css`

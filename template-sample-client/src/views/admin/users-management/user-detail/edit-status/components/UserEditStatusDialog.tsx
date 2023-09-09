@@ -8,11 +8,12 @@ import {
   UserStatus
 } from '../../../../../../generated/domain/User.generated';
 import { GetUserInfosQueryResponse } from '../../../../../../generated/query/Queries.generated';
+import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
 import { useGoTo } from '../../../../../../routing/routing-utils';
 import { appContext } from '../../../../../../services/ApplicationContext';
 import { state } from '../../../../../../state/state';
-import { t } from './UserEditStatusDialog.i18n';
+import { UserEditStatusDialogI18n } from './UserEditStatusDialog.i18n';
 import { css } from '@emotion/react';
 import {
   Autocomplete,
@@ -88,6 +89,7 @@ export const UserEditStatusDialog = (props: {
       close();
     }
   };
+  const t = useI18n(UserEditStatusDialogI18n);
   return (
     <Dialog
       open={true}

@@ -1,6 +1,4 @@
-import { i18n } from '../../../i18n';
-
-export const t = i18n({
+export const NavbarI18n = {
   TemplateSample: () => 'Template sample',
   Login: () => 'Login',
   Register: () => 'Register',
@@ -8,4 +6,4 @@ export const t = i18n({
   UsersManagement: () => '[admin] Users management',
   ManualCommands: () => '[admin] Manual commands',
   RoutesListing: () => '[admin] Routes listing'
-});
+};
