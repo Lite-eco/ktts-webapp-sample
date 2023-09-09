@@ -8,9 +8,9 @@ object QueryConfiguration {
     fun role(query: Query): Role? =
         when (query) {
             is GetUserInfosQuery -> Admin
-            is GetUsersQuery -> Admin
+            GetUsersQuery -> Admin
             // do not put User because it's a query for non-validated-mail users
-            is GetUserStatusQuery -> null
+            GetUserStatusQuery -> null
             is IsMailAlreadyTakenQuery -> null
         }
 }

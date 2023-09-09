@@ -135,7 +135,7 @@ class CommandController(
     private fun handler(command: Command) =
         when (command) {
             is AdminUpdateRoleCommand -> adminUpdateRoleCommandHandler
-            is AdminUpdateSessions -> adminUpdateSessionsCommandHandler
+            AdminUpdateSessions -> adminUpdateSessionsCommandHandler
             is AdminUpdateStatusCommand -> adminUpdateStatusCommandHandler
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
@@ -148,7 +148,7 @@ class CommandController(
     // for admin commands, should return the affected user when there's one
     private fun affectedUserId(command: Command): UserId? =
         when (command) {
-            is AdminUpdateSessions,
+            AdminUpdateSessions,
             is DevLoginCommand,
             is LoginCommand,
             is RegisterCommand,

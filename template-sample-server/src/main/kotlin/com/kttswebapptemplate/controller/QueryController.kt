@@ -44,8 +44,8 @@ class QueryController(
     private fun handler(query: Query) =
         when (query) {
             is GetUserInfosQuery -> getUserInfosQueryHandler
-            is GetUsersQuery -> getUsersQueryHandler
-            is GetUserStatusQuery -> getUserStatusQueryHandler
+            GetUsersQuery -> getUsersQueryHandler
+            GetUserStatusQuery -> getUserStatusQueryHandler
             is IsMailAlreadyTakenQuery -> isMailAlreadyTakenQueryHandler
         }.let { @Suppress("UNCHECKED_CAST") (it as QueryHandler<Query, QueryResponse>) }
 }
