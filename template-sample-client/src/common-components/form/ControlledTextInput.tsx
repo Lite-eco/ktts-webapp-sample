@@ -1,6 +1,5 @@
 import { t } from './ControlledTextInput.i18n';
 import { TextField } from '@mui/material';
-import * as React from 'react';
 import { ChangeEvent } from 'react';
 import { Controller, FieldPath } from 'react-hook-form';
 import { Control, FieldValues } from 'react-hook-form/dist/types';

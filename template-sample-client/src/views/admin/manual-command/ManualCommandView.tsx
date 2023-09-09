@@ -8,7 +8,6 @@ import { appContext } from '../../../services/ApplicationContext';
 import { t } from './ManualCommandView.i18n';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
-import * as React from 'react';
 import { useRef, useState } from 'react';
 
 const sampleAdminUpdateSessions: AdminUpdateSessions = {

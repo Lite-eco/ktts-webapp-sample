@@ -7,7 +7,6 @@ import com.kttswebapptemplate.domain.MailData
 import com.kttswebapptemplate.domain.Uri
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.service.mail.MailService
-import com.kttswebapptemplate.service.utils.HttpService
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Service
 @Service
 class LostPasswordMailSenderService(
     @Value("\${app.url}") private val appUrl: Uri,
-    private val httpService: HttpService,
     private val mailService: MailService,
 ) {
 
