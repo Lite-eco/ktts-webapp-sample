@@ -76,8 +76,8 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
         bean { TomcatServletWebServerFactory().apply { addContextValves(TomcatValve()) } }
         bean {
             val http = ref<HttpSecurity>()
-            http.invoke {
-                csrf { csrfTokenRepository = CookieCsrfTokenRepository.withHttpOnlyFalse() }
+            http {
+                csrf { csrfTokenRepository = CookieCsrfTokenRepository() }
                 exceptionHandling {
                     // [doc] disable Spring default login page
                     authenticationEntryPoint = AuthenticationEntryPoint { _, response, _ ->
