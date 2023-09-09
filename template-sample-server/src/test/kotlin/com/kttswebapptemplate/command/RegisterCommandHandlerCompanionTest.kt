@@ -1,9 +1,8 @@
 package com.kttswebapptemplate.command
 
 import com.kttswebapptemplate.domain.PlainStringPassword
-import org.hamcrest.MatcherAssert
-import org.hamcrest.Matchers
-import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 import org.junit.jupiter.api.Test
 
 internal class RegisterCommandHandlerCompanionTest {
@@ -26,32 +25,30 @@ internal class RegisterCommandHandlerCompanionTest {
     @Test
     fun `validate mail validation`() {
         val exceptionThatWasThrown =
-            Assertions.assertThrows(IllegalArgumentException::class.java) {
+            assertThrows(IllegalArgumentException::class.java) {
                 RegisterCommandHandler.validateRegisterCommand(
                     sampleRegisterCommand.copy(mail = " "))
             }
-        MatcherAssert.assertThat(exceptionThatWasThrown.message, Matchers.equalTo("Mail is blank"))
+        assertEquals("Mail is blank", exceptionThatWasThrown.message)
     }
 
     @Test
     fun `validate password validation`() {
         val exceptionThatWasThrown =
-            Assertions.assertThrows(IllegalArgumentException::class.java) {
+            assertThrows(IllegalArgumentException::class.java) {
                 RegisterCommandHandler.validateRegisterCommand(
                     sampleRegisterCommand.copy(password = PlainStringPassword(" ")))
             }
-        MatcherAssert.assertThat(
-            exceptionThatWasThrown.message, Matchers.equalTo("Password is blank"))
+        assertEquals("Password is blank", exceptionThatWasThrown.message)
     }
 
     @Test
     fun `validate displayName validation`() {
         val exceptionThatWasThrown =
-            Assertions.assertThrows(IllegalArgumentException::class.java) {
+            assertThrows(IllegalArgumentException::class.java) {
                 RegisterCommandHandler.validateRegisterCommand(
                     sampleRegisterCommand.copy(displayName = " "))
             }
-        MatcherAssert.assertThat(
-            exceptionThatWasThrown.message, Matchers.equalTo("Display name is blank"))
+        assertEquals("Display name is blank", exceptionThatWasThrown.message)
     }
 }
