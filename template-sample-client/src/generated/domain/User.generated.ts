@@ -15,3 +15,5 @@ export interface UserInfos {
 export type LoginResult = 'LoggedIn' | 'MailNotFound' | 'BadPassword';
 
 export type RegisterResult = 'Registered' | 'MailAlreadyExists';
+
+export type UpdatePasswordResult = 'BadPassword' | 'PasswordChanged';

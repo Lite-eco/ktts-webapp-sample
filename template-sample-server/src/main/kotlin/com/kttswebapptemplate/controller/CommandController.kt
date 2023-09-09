@@ -17,6 +17,7 @@ import com.kttswebapptemplate.command.LoginCommand
 import com.kttswebapptemplate.command.LoginCommandHandler
 import com.kttswebapptemplate.command.RegisterCommand
 import com.kttswebapptemplate.command.RegisterCommandHandler
+import com.kttswebapptemplate.command.UpdateLostPasswordCommand
 import com.kttswebapptemplate.command.UpdatePasswordCommand
 import com.kttswebapptemplate.command.UpdatePasswordCommandHandler
 import com.kttswebapptemplate.command.ValidateMailCommand
@@ -140,6 +141,7 @@ class CommandController(
             is RegisterCommand -> registerCommandHandler
             is UpdatePasswordCommand -> updatePasswordCommandHandler
             is ValidateMailCommand -> validateMailCommandHandler
+            is UpdateLostPasswordCommand -> TODO()
         }.let { @Suppress("UNCHECKED_CAST") (it as CommandHandler<Command, CommandResponse>) }
 
     // for admin commands, should return the affected user when there's one
@@ -153,5 +155,6 @@ class CommandController(
             is ValidateMailCommand -> null
             is AdminUpdateRoleCommand -> command.userId
             is AdminUpdateStatusCommand -> command.userId
+            is UpdateLostPasswordCommand -> TODO()
         }
 }

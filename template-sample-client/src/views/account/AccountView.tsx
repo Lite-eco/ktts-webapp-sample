@@ -1,4 +1,5 @@
 /** @jsxImportSource @emotion/react */
+import { UpdatePasswordCommandResponse } from '../../generated/command/Commands.generated';
 import { appContext } from '../../services/ApplicationContext';
 import { MainViewContainer } from '../containers/MainViewContainer';
 import { PasswordFormInput } from './components/PasswordForm';
@@ -7,11 +8,11 @@ import { UpdatePasswordDialogButton } from './components/UpdatePasswordDialogBut
 export const AccountView = () => {
   const onSubmit = (dto: PasswordFormInput) =>
     appContext.commandService
-      .send({
+      .send<UpdatePasswordCommandResponse>({
         objectType: 'UpdatePasswordCommand',
-        password: dto.password
+        ...dto
       })
-      .then(() => {});
+      .then(r => r.result);
   return (
     <MainViewContainer>
       <UpdatePasswordDialogButton onSubmit={onSubmit} />

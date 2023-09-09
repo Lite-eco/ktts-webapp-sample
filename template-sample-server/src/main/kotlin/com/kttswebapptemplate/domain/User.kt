@@ -74,3 +74,8 @@ enum class RegisterResult {
     Registered,
     MailAlreadyExists
 }
+
+enum class UpdatePasswordResult {
+    BadPassword,
+    PasswordChanged
+}

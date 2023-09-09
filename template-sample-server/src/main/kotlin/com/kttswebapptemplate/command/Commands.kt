@@ -5,6 +5,7 @@ import com.kttswebapptemplate.domain.LoginResult
 import com.kttswebapptemplate.domain.PlainStringPassword
 import com.kttswebapptemplate.domain.RegisterResult
 import com.kttswebapptemplate.domain.Role
+import com.kttswebapptemplate.domain.UpdatePasswordResult
 import com.kttswebapptemplate.domain.UserAccountOperationToken
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.domain.UserInfos
@@ -47,6 +48,16 @@ data class RegisterCommand(
 data class RegisterCommandResponse(val result: RegisterResult, val userInfos: UserInfos?) :
     CommandResponse()
 
-data class UpdatePasswordCommand(val password: PlainStringPassword) : Command()
+data class UpdateLostPasswordCommand(
+    val token: UserAccountOperationToken,
+    val newPassword: PlainStringPassword
+) : Command()
+
+data class UpdatePasswordCommand(
+    val currentPassword: PlainStringPassword,
+    val newPassword: PlainStringPassword
+) : Command()
+
+data class UpdatePasswordCommandResponse(val result: UpdatePasswordResult) : CommandResponse()
 
 data class ValidateMailCommand(val token: UserAccountOperationToken) : Command()

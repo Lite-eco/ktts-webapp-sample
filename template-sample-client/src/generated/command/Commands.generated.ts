@@ -4,6 +4,7 @@ import {
   LoginResult,
   RegisterResult,
   Role,
+  UpdatePasswordResult,
   UserInfos,
   UserStatus
 } from '../domain/User.generated';
@@ -16,6 +17,7 @@ export type Command =
   | DevLoginCommand
   | LoginCommand
   | RegisterCommand
+  | UpdateLostPasswordCommand
   | UpdatePasswordCommand
   | ValidateMailCommand;
 
@@ -23,7 +25,8 @@ export type CommandResponse =
   | DevLoginCommandResponse
   | EmptyCommandResponse
   | LoginCommandResponse
-  | RegisterCommandResponse;
+  | RegisterCommandResponse
+  | UpdatePasswordCommandResponse;
 
 export interface EmptyCommandResponse {
   objectType: 'EmptyCommandResponse';
@@ -80,9 +83,21 @@ export interface RegisterCommandResponse {
   userInfos?: UserInfos;
 }
 
+export interface UpdateLostPasswordCommand {
+  objectType: 'UpdateLostPasswordCommand';
+  token: UserAccountOperationToken;
+  newPassword: PlainStringPassword;
+}
+
 export interface UpdatePasswordCommand {
   objectType: 'UpdatePasswordCommand';
-  password: PlainStringPassword;
+  currentPassword: PlainStringPassword;
+  newPassword: PlainStringPassword;
+}
+
+export interface UpdatePasswordCommandResponse {
+  objectType: 'UpdatePasswordCommandResponse';
+  result: UpdatePasswordResult;
 }
 
 export interface ValidateMailCommand {

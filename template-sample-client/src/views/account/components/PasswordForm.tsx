@@ -8,11 +8,13 @@ import { css } from '@emotion/react';
 import { useForm } from 'react-hook-form';
 
 export interface PasswordFormInput {
-  password: PlainStringPassword;
+  currentPassword: PlainStringPassword;
+  newPassword: PlainStringPassword;
 }
 
 export interface PasswordFormRawInput {
-  password: string;
+  currentPassword: string;
+  newPassword: string;
 }
 
 export const PasswordForm = (props: {
@@ -29,7 +31,8 @@ export const PasswordForm = (props: {
       id={props.formId}
       onSubmit={handleSubmit(input =>
         props.onSubmit({
-          password: asNominalString(input.password)
+          currentPassword: asNominalString(input.currentPassword),
+          newPassword: asNominalString(input.newPassword)
         })
       )}
     >
@@ -39,7 +42,19 @@ export const PasswordForm = (props: {
         `}
       >
         <ControlledPasswordInput
-          name="password"
+          name="currentPassword"
+          label={t.CurrentPassword()}
+          control={control}
+          errors={errors}
+        />
+      </div>
+      <div
+        css={css`
+          margin: 10px 0;
+        `}
+      >
+        <ControlledPasswordInput
+          name="newPassword"
           label={t.NewPassword()}
           control={control}
           errors={errors}
