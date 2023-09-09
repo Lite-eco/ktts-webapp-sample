@@ -5,7 +5,8 @@ CREATE TABLE app_user
     password VARCHAR(60) NOT NULL,
     display_name VARCHAR(255) NOT NULL,
     language VARCHAR(2) NOT NULL,
-    roles VARCHAR(255)[] NOT NULL,
+    status VARCHAR(255) NOT NULL,
+    role VARCHAR(255) NOT NULL,
     signup_date TIMESTAMPTZ NOT NULL,
     last_update TIMESTAMPTZ NOT NULL
 );
