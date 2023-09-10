@@ -6,6 +6,8 @@ export const typescriptPrinter = ts.createPrinter({
   newLine: ts.NewLineKind.LineFeed
 });
 
+export const compareByString = l => (o1, o2) => l(o1).localeCompare(l(o2));
+
 export class Collections {
   static groupBy = (a, key) => {
     const map = {};

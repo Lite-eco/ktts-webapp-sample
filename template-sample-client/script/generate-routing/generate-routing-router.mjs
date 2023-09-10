@@ -1,6 +1,16 @@
 import { Collections } from './generate-routing-utils.mjs';
 import fs from 'fs';
 
+const sortByIdWithNotFoundLast = (r1, r2) => {
+  if (r1.id === 'NotFound') {
+    return 1;
+  } else if (r2.id === 'NotFound') {
+    return -1;
+  } else {
+    return r1.id.localeCompare(r2.id);
+  }
+};
+
 export const generateRouter = (file, resultRoutes, interfacesImports) => {
   if (resultRoutes.length !== 0) {
     const extractComponents = r => [
@@ -13,9 +23,9 @@ export const generateRouter = (file, resultRoutes, interfacesImports) => {
     source += "\nimport { RouteObject } from 'react-router-dom';";
     source += '\n\n';
     source += 'export const routes: RouteObject[] = [\n';
-    resultRoutes.forEach(r => {
-      source += printRoute(r);
-    });
+    resultRoutes
+      .sort(sortByIdWithNotFoundLast)
+      .forEach(r => (source += printRoute(r)));
     source += ']';
     fs.writeFile(file, source, err => {
       if (err) {
@@ -48,7 +58,13 @@ const printRoute = r => {
   }
   res += `element: <${r.component} />,\n`;
   if (r.subRoutes) {
-    res += 'children: [' + r.subRoutes.map(r => printRoute(r)).join('\n') + ']';
+    res +=
+      'children: [' +
+      r.subRoutes
+        .sort(sortByIdWithNotFoundLast)
+        .map(r => printRoute(r))
+        .join('\n') +
+      ']';
   }
   return res + '},';
 };

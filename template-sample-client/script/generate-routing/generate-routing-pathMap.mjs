@@ -1,4 +1,4 @@
-import { notFoundPath } from './generate-routing-utils.mjs';
+import { compareByString, notFoundPath } from './generate-routing-utils.mjs';
 import fs from 'fs';
 
 const extractPairs = routes =>
@@ -20,6 +20,7 @@ export const generatePathMap = (file, resultRoutes) => {
       .filter(r => r[0])
       // take off Not Found
       .filter(r => r[1] !== notFoundPath)
+      .sort(compareByString(r => r[0]))
       .map(r => `['${r[0]}', '/${r[1]}'],`)
       .join('\n');
     source += '])';

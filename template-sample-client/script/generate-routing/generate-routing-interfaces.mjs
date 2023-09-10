@@ -1,5 +1,8 @@
 import { printImports } from './generate-routing-router.mjs';
-import { typescriptPrinter } from './generate-routing-utils.mjs';
+import {
+  compareByString,
+  typescriptPrinter
+} from './generate-routing-utils.mjs';
 import fs from 'fs';
 import ts from 'typescript';
 
@@ -9,7 +12,8 @@ const extractInterfaces = routes =>
       r.params ? [r.name, r.params] : undefined,
       ...extractInterfaces(r.subRoutes ?? [])
     ])
-    .filter(r => !!r);
+    .filter(r => !!r)
+    .sort(compareByString(r => r[0]));
 
 export const generateInterfaces = (file, resultRoutes, interfacesImports) => {
   const interfaces = extractInterfaces(resultRoutes);
