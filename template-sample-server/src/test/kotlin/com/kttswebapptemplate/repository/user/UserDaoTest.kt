@@ -28,9 +28,7 @@ internal class UserDaoTest(
     fun `test update mail conflict`() {
         val u1 = TestData.dummyUser(randomService.id())
         userDao.insert(u1, HashedPassword("sdv"))
-        val u2 =
-            TestData.dummyUser(randomService.id())
-                .copy(mail = "another mail", displayName = "another")
+        val u2 = TestData.dummyUser(randomService.id()).copy(mail = "another mail")
         userDao.insert(u2, HashedPassword("sdv"))
         Assertions.assertThrows(MailAlreadyRegisteredException::class.java) {
             userDao.updateMail(u2.id, u1.mail, dateService.now())
