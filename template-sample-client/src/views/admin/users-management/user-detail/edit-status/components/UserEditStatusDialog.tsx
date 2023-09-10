@@ -10,7 +10,7 @@ import {
 import { AdminGetUserInfosQueryResponse } from '../../../../../../generated/query/Queries.generated';
 import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
-import { useGoTo } from '../../../../../../routing/routing-utils';
+import { navigateTo } from '../../../../../../routing/routing-utils';
 import { appContext } from '../../../../../../services/ApplicationContext';
 import { state } from '../../../../../../state/state';
 import { UserEditStatusDialogI18n } from './UserEditStatusDialog.i18n';
@@ -37,7 +37,6 @@ export const UserEditStatusDialog = (props: {
   const [status, setStatus] = useState<UserStatus | undefined>();
   const [queryLoading, setQueryLoading] = useState<LoadingState>('Idle');
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
-  const goTo = useGoTo();
   const loggedInUserInfos = useRecoilValue(state.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._fe2e1fc7();
@@ -62,7 +61,10 @@ export const UserEditStatusDialog = (props: {
   }, [props.userId]);
   const close = () => {
     if (props.userId) {
-      goTo({ name: 'Admin/UsersManagement/UserDetail', userId: props.userId });
+      navigateTo({
+        name: 'Admin/UsersManagement/UserDetail',
+        userId: props.userId
+      });
     }
   };
   const save = () => {

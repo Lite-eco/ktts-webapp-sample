@@ -2,7 +2,7 @@
 import { UserStatus } from '../../../generated/domain/User.generated';
 import { GetUserStatusQueryResponse } from '../../../generated/query/Queries.generated';
 import { useI18n } from '../../../hooks/i18n';
-import { useGoTo } from '../../../routing/routing-utils';
+import { navigateTo } from '../../../routing/routing-utils';
 import { appContext } from '../../../services/ApplicationContext';
 import { state } from '../../../state/state';
 import { assertUnreachable } from '../../../utils';
@@ -39,7 +39,6 @@ const UserStatusContent = (
 export const UserStatusCheckContainer = (props: PropsWithChildren) => {
   const [userInfos, setUserInfos] = useRecoilState(state.userInfos);
   const [displayPopup, setDisplayPopup] = useState(false);
-  const goTo = useGoTo();
   useEffect(() => {
     if (userInfos?.status === 'MailValidationPending') {
       const intervalId = setInterval(() => {
@@ -77,7 +76,7 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
             status: 'Active'
           });
         }
-        goTo({ name: 'Root' }, { replace: true });
+        navigateTo({ name: 'Root' }, true);
         setDisplayPopup(true);
       });
   }

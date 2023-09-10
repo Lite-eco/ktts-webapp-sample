@@ -6,7 +6,7 @@ import {
 } from '../../generated/command/Commands.generated';
 import { LoginResult, UserInfos } from '../../generated/domain/User.generated';
 import { useI18n } from '../../hooks/i18n';
-import { useGoTo } from '../../routing/routing-utils';
+import { navigateTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { colors } from '../../styles/vars';
@@ -21,15 +21,9 @@ import { useRecoilState } from 'recoil';
 export const LoginView = () => {
   const [userInfos, setUserInfos] = useRecoilState(state.userInfos);
   const [loginResult, setLoginResult] = useState<LoginResult>();
-  const goTo = useGoTo();
   const connect = (userInfos: UserInfos) => {
     setUserInfos(userInfos);
-    goTo(
-      { name: 'Root' },
-      {
-        useTargetPath: true
-      }
-    );
+    navigateTo({ name: 'Root' });
   };
   const login = (input: LoginFormInput) =>
     appContext.commandService

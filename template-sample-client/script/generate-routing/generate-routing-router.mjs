@@ -20,13 +20,15 @@ export const generateRouter = (file, resultRoutes, interfacesImports) => {
     const imports = new Set(resultRoutes.flatMap(r => extractComponents(r)));
     let source = '/** @jsxImportSource @emotion/react */\n';
     source += printImports(interfacesImports, imports);
-    source += "\nimport { RouteObject } from 'react-router-dom';";
+    source +=
+      "\nimport { createBrowserRouter, RouteObject } from 'react-router-dom';";
     source += '\n\n';
     source += 'export const routes: RouteObject[] = [\n';
     resultRoutes
       .sort(sortByIdWithNotFoundLast)
       .forEach(r => (source += printRoute(r)));
-    source += ']';
+    source += ']\n';
+    source += 'export const router = createBrowserRouter(routes);';
     fs.writeFile(file, source, err => {
       if (err) {
         throw err;

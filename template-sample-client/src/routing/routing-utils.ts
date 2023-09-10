@@ -1,12 +1,8 @@
 import { getValue } from '../utils/nominal-class';
 import { ApplicationRoute } from './ApplicationRoute.generated';
 import { routePathMap } from './routePathMap.generated';
-import {
-  useLocation,
-  useMatches,
-  useNavigate,
-  useParams
-} from 'react-router-dom';
+import { router } from './router.generated';
+import { useMatches, useParams } from 'react-router-dom';
 
 export const useTypedParams = <T extends ApplicationRoute>(): Omit<T, 'name'> =>
   useParams() as Omit<T, 'name'>;
@@ -18,6 +14,16 @@ export const useTypedMatches = () => {
     id: m.id as ApplicationRoute['name']
   }));
 };
+
+// because of https://github.com/remix-run/react-router/issues/7634
+// solution in comment #issuecomment-1306650156
+export const navigateTo = (
+  route: ApplicationRoute,
+  replaceState: boolean = false
+) =>
+  router.navigate(buildPath(route), {
+    replace: replaceState
+  });
 
 export const buildPath = (route: ApplicationRoute) => {
   let path = getValue(routePathMap, route.name);
@@ -32,36 +38,4 @@ export const buildPath = (route: ApplicationRoute) => {
       path = path.replace(':' + k, param);
     });
   return path;
-};
-
-export const useGoTo = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
-  return (
-    route: ApplicationRoute,
-    options?: {
-      replace?: boolean;
-      targetPath?: string;
-      useTargetPath?: boolean;
-    }
-  ) => {
-    if (options?.targetPath && options?.useTargetPath) {
-      throw Error();
-    }
-    if (options?.useTargetPath) {
-      const targetPath =
-        (location.state as any | undefined)?.targetPath ?? buildPath(route);
-      navigate(targetPath, {
-        replace: options.replace ?? false,
-        state: undefined
-      });
-    } else {
-      navigate(buildPath(route), {
-        replace: options?.replace ?? false,
-        state: options?.targetPath
-          ? { targetPath: options.targetPath }
-          : undefined
-      });
-    }
-  };
 };

@@ -9,7 +9,7 @@ import {
 } from '../../../../../../generated/domain/User.generated';
 import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
-import { useGoTo } from '../../../../../../routing/routing-utils';
+import { navigateTo } from '../../../../../../routing/routing-utils';
 import { appContext } from '../../../../../../services/ApplicationContext';
 import { state } from '../../../../../../state/state';
 import { colors } from '../../../../../../styles/vars';
@@ -39,14 +39,16 @@ export const UserEditRoleDialog = (props: {
 }) => {
   const [role, setRole] = useState<Role | undefined>();
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
-  const goTo = useGoTo();
   const loggedInUserInfos = useRecoilValue(state.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._fe2e1fc7();
   }
   useEffect(() => setRole(props.userInfos?.role), [props.userInfos]);
   const close = () =>
-    goTo({ name: 'Admin/UsersManagement/UserDetail', userId: props.userId });
+    navigateTo({
+      name: 'Admin/UsersManagement/UserDetail',
+      userId: props.userId
+    });
   const save = () => {
     const userInfos = props.userInfos;
     if (!userInfos) {
