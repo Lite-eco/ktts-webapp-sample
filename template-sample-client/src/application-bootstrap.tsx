@@ -1,4 +1,4 @@
-import { router } from './routing/router.generated';
+import { routes } from './routing/router.generated';
 import { I18nProvider } from './views/containers/I18nProvider';
 import { StylesProviderContainer } from './views/containers/StylesProviderContainer';
 import { SnackbarProvider } from 'notistack';
@@ -15,7 +15,7 @@ if (root) {
       <StylesProviderContainer>
         <I18nProvider>
           <SnackbarProvider maxSnack={3}>
-            <RouterProvider router={createBrowserRouter(router)} />
+            <RouterProvider router={createBrowserRouter(routes)} />
           </SnackbarProvider>
         </I18nProvider>
       </StylesProviderContainer>

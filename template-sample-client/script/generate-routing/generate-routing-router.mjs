@@ -12,7 +12,7 @@ export const generateRouter = (file, resultRoutes, interfacesImports) => {
     source += printImports(interfacesImports, imports);
     source += "\nimport { RouteObject } from 'react-router-dom';";
     source += '\n\n';
-    source += 'export const router: RouteObject[] = [\n';
+    source += 'export const routes: RouteObject[] = [\n';
     resultRoutes.forEach(r => {
       source += printRoute(r);
     });

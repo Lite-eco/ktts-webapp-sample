@@ -2,7 +2,7 @@
 import { useI18n } from '../../../hooks/i18n';
 import { ApplicationRoute } from '../../../routing/ApplicationRoute.generated';
 import { RouteLink } from '../../../routing/RouteLink';
-import { router } from '../../../routing/router.generated';
+import { routes } from '../../../routing/router.generated';
 import { state } from '../../../state/state';
 import { colors } from '../../../styles/vars';
 import { RoutesListingViewI18n } from './RoutesListingView.i18n';
@@ -25,17 +25,9 @@ export const RoutesListingView = () => {
       `}
     >
       <h1>{t.RoutesListing()}</h1>
-      {router.map(route => (
+      {routes.map(route => (
         <RouteListingItem key={route.id} route={route} parentPath={''} />
       ))}
-      <div
-        css={css`
-          margin-top: 20px;
-          padding: 10px;
-        `}
-      >
-        + <Link to={Math.random().toString()}>{t._404page()}</Link>
-      </div>
     </div>
   );
 };
@@ -45,6 +37,7 @@ const RouteListingItem = (props: {
   parentPath: string;
 }) => {
   const path = props.route.path;
+  const t = useI18n(RoutesListingViewI18n);
   // if path is empty it's a container
   if (!path) {
     return (
@@ -64,7 +57,7 @@ const RouteListingItem = (props: {
         </div>
         <div
           css={css`
-            padding-left: 10px;
+            padding: 20px;
           `}
         >
           {(props.route.children ?? []).map(subRoute => (
@@ -79,9 +72,6 @@ const RouteListingItem = (props: {
     );
   }
   const name = props.route.id as ApplicationRoute['name'] | 'NotFound';
-  if (name === 'NotFound') {
-    return null;
-  }
   const fullPath = (props.parentPath + '/' + path).replace('//', '/');
   return (
     <div>
@@ -90,12 +80,18 @@ const RouteListingItem = (props: {
           padding: 10px;
         `}
       >
-        {!fullPath.includes(':') ? (
+        {name !== 'NotFound' && !fullPath.includes(':') && (
           <RouteLink route={{ name } as ApplicationRoute}>
             <RouteLinkComp name={name} path={fullPath} />
           </RouteLink>
-        ) : (
+        )}
+        {name !== 'NotFound' && fullPath.includes(':') && (
           <RouteLinkComp name={name} path={fullPath} />
+        )}
+        {name === 'NotFound' && (
+          <Link to={`/not-found`}>
+            <RouteLinkComp name={t._404page()} path={'/not-found'} />
+          </Link>
         )}
       </div>
       <div
@@ -115,10 +111,7 @@ const RouteListingItem = (props: {
   );
 };
 
-const RouteLinkComp = (props: {
-  name: ApplicationRoute['name'];
-  path: string;
-}) => (
+const RouteLinkComp = (props: { name: string; path: string }) => (
   <div>
     <div
       css={css`

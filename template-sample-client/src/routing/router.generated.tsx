@@ -14,7 +14,7 @@ import { RegisterView } from '../views/register/RegisterView';
 import { RootView } from '../views/root/RootView';
 import { RouteObject } from 'react-router-dom';
 
-export const router: RouteObject[] = [
+export const routes: RouteObject[] = [
   {
     id: 'MainViewContainer',
     element: <MainViewContainer />,
