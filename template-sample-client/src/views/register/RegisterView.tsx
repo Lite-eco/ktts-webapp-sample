@@ -7,7 +7,6 @@ import { useGoTo } from '../../routing/routing-utils';
 import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { assertUnreachable } from '../../utils';
-import { MainViewContainer } from '../containers/MainViewContainer';
 import { RegisterViewI18n } from './RegisterView.i18n';
 import { RegisterForm, RegisterFormInput } from './components/RegisterForm';
 import { css } from '@emotion/react';
@@ -42,42 +41,40 @@ export const RegisterView = () => {
       });
   const t = useI18n(RegisterViewI18n);
   return (
-    <MainViewContainer>
-      <div
+    <div
+      css={css`
+        margin: auto;
+        max-width: 400px;
+      `}
+    >
+      <h1
         css={css`
-          margin: auto;
-          max-width: 400px;
+          text-align: center;
         `}
       >
-        <h1
-          css={css`
-            text-align: center;
-          `}
-        >
-          {t.Register()}
-        </h1>
-        <div
-          css={css`
-            width: 400px;
-          `}
-        >
-          {registerResult !== 'Registered' && !userInfos && (
-            <RegisterForm
-              onSubmit={register}
-              mailIsAlreadyTaken={registerResult === 'MailAlreadyExists'}
-            />
-          )}
-          {userInfos && (
-            <div
-              css={css`
-                text-align: center;
-              `}
-            >
-              {t.YouAreLoggedIn()}
-            </div>
-          )}
-        </div>
+        {t.Register()}
+      </h1>
+      <div
+        css={css`
+          width: 400px;
+        `}
+      >
+        {registerResult !== 'Registered' && !userInfos && (
+          <RegisterForm
+            onSubmit={register}
+            mailIsAlreadyTaken={registerResult === 'MailAlreadyExists'}
+          />
+        )}
+        {userInfos && (
+          <div
+            css={css`
+              text-align: center;
+            `}
+          >
+            {t.YouAreLoggedIn()}
+          </div>
+        )}
       </div>
-    </MainViewContainer>
+    </div>
   );
 };

@@ -25,11 +25,9 @@ export const RoutesListingView = () => {
       `}
     >
       <h1>{t.RoutesListing()}</h1>
-      {router
-        .filter(r => r.id !== 'NotFound')
-        .map(route => (
-          <RouteListingItem key={route.id} route={route} parentPath={''} />
-        ))}
+      {router.map(route => (
+        <RouteListingItem key={route.id} route={route} parentPath={''} />
+      ))}
       <div
         css={css`
           margin-top: 20px;
@@ -46,9 +44,42 @@ const RouteListingItem = (props: {
   route: RouteObject;
   parentPath: string;
 }) => {
-  const name = props.route.id as ApplicationRoute['name'] | undefined;
   const path = props.route.path;
-  if (!name || !path) {
+  // if path is empty it's a container
+  if (!path) {
+    return (
+      <div
+        css={css`
+          margin: 4px 0;
+          border: 1px solid ${colors.grey};
+        `}
+      >
+        <div
+          css={css`
+            padding: 6px 20px;
+            border-bottom: 1px solid ${colors.grey};
+          `}
+        >
+          {props.route.id}
+        </div>
+        <div
+          css={css`
+            padding-left: 10px;
+          `}
+        >
+          {(props.route.children ?? []).map(subRoute => (
+            <RouteListingItem
+              key={subRoute.id}
+              route={subRoute}
+              parentPath={''}
+            />
+          ))}
+        </div>
+      </div>
+    );
+  }
+  const name = props.route.id as ApplicationRoute['name'] | 'NotFound';
+  if (name === 'NotFound') {
     return null;
   }
   const fullPath = (props.parentPath + '/' + path).replace('//', '/');

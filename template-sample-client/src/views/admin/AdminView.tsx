@@ -1,23 +1,23 @@
 /** @jsxImportSource @emotion/react */
 import { useI18n } from '../../hooks/i18n';
 import { RouteLink } from '../../routing/RouteLink';
+import { useTypedMatches } from '../../routing/routing-utils';
 import { state } from '../../state/state';
-import { MainViewContainer } from '../containers/MainViewContainer';
 import { NotFoundView } from '../not-found/NotFoundView';
 import { AdminViewI18n } from './AdminView.i18n';
-import { Outlet, useMatches } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 export const AdminView = () => {
-  const matches = useMatches();
-  const displayLinks = matches.length === 1;
+  const matches = useTypedMatches();
+  const displayLinks = matches[matches.length - 1].id === 'Admin';
   const userInfos = useRecoilValue(state.userInfos);
   const t = useI18n(AdminViewI18n);
   if (!userInfos || userInfos.role !== 'Admin') {
     return <NotFoundView />;
   }
   return (
-    <MainViewContainer>
+    <>
       {displayLinks && (
         <>
           <RouteLink route={{ name: 'Admin/ManualCommand' }}>
@@ -30,6 +30,6 @@ export const AdminView = () => {
         </>
       )}
       <Outlet />
-    </MainViewContainer>
+    </>
   );
 };

@@ -10,42 +10,57 @@ let resultRoutes = [];
 
 const notFoundPath = '*';
 
+const groupBy = (a, key) => {
+  const map = {};
+  a.forEach(item => {
+    const k = key(item);
+    const existing = map[k];
+    const list = existing ? existing : [];
+    if (!existing) {
+      map[k] = list;
+    }
+    list.push(item);
+  });
+  return map;
+};
+
 // utils
 const extractElement = (node, fieldName) =>
-  node.members.find(m => m?.name?.escapedText === fieldName);
+  node.type.members.find(m => m?.name?.escapedText === fieldName);
 
-const parseElements = (elements, parentName, parentPath, parentParams) =>
-  elements.map(e => {
-    const name = extractElement(e, 'name').type.literal.text;
-    const fullName = parentName ? `${parentName}/${name}` : name;
-    console.log('[debug] parsing route ' + fullName);
-    const path = extractElement(e, 'path').type.literal.text;
-    const fullPath = parentPath ? parentPath + '/' + path : path;
-    const component = extractElement(e, 'component').type.exprName.escapedText;
-    const result = {
-      name: fullName,
-      path: path ? path : '/',
-      fullPath: fullPath,
-      component
-    };
-    const params = [
-      ...(parentParams ?? []),
-      ...(extractElement(e, 'params')?.type?.members ?? [])
-    ];
-    if (path !== notFoundPath) {
-      interfaces.push([fullName, params]);
-    }
-    const subRoutes = extractElement(e, 'subRoutes');
-    if (subRoutes) {
-      result['subRoutes'] = parseElements(
-        subRoutes.type.elements,
-        fullName,
-        fullPath,
-        params
-      );
-    }
-    return result;
-  });
+const parseMember = (member, parentName, parentPath, parentParams) => {
+  const name = member.name.escapedText;
+  const fullName = parentName ? `${parentName}/${name}` : name;
+  console.log('[debug] parsing route ' + fullName);
+  const path = extractElement(member, 'path').type.literal.text;
+  const fullPath = parentPath ? parentPath + '/' + path : path;
+  const component = extractElement(member, 'component').type.exprName
+    .escapedText;
+  const container = extractElement(member, 'container')?.type.exprName
+    .escapedText;
+  const result = {
+    id: fullName,
+    name: fullName,
+    path: path ? path : '/',
+    fullPath: fullPath,
+    component,
+    container
+  };
+  const params = [
+    ...(parentParams ?? []),
+    ...(extractElement(member, 'params')?.type?.members ?? [])
+  ];
+  if (path !== notFoundPath) {
+    interfaces.push([fullName, params]);
+  }
+  const subRoutes = extractElement(member, 'subRoutes');
+  if (subRoutes) {
+    result['subRoutes'] = subRoutes.type.members.map(m =>
+      parseMember(m, fullName, fullPath, params)
+    );
+  }
+  return result;
+};
 
 // read route-dsl.ts content
 const node = ts.createSourceFile(
@@ -74,7 +89,18 @@ node.statements.forEach(s => {
   }
   // parse routes
   if (s.name.escapedText === 'routesDsl') {
-    resultRoutes = parseElements(s.type.elements);
+    const rawResults = s.type.members.map(m => parseMember(m));
+    // containers are at level 0 only, no need to recursively groupBy
+    const gp = groupBy(rawResults, c => c.container ?? '_noContainer');
+    const containerResults = Object.entries(gp)
+      .filter(([key]) => key !== '')
+      .map(([key, value]) => ({
+        id: key,
+        // container has no name and no path
+        component: key,
+        subRoutes: value
+      }));
+    resultRoutes = [...containerResults, ...(gp['_noContainer'] ?? [])];
   }
 });
 
@@ -82,20 +108,6 @@ const extractComponents = r => [
   r.component,
   ...(r.subRoutes ?? []).flatMap(s => extractComponents(s))
 ];
-
-const groupBy = (a, key) => {
-  const map = {};
-  a.forEach(item => {
-    const k = key(item);
-    const existing = map[k];
-    const list = existing ? existing : [];
-    if (!existing) {
-      map[k] = list;
-    }
-    list.push(item);
-  });
-  return map;
-};
 
 const printImports = imports => {
   const i = interfacesImports.filter(o => imports.has(o[0]));
@@ -114,10 +126,11 @@ const printImports = imports => {
 };
 
 const printRoute = r => {
-  let res = `{
-    id: "${r.name}",
-    path: "${r.path}",
-    element: <${r.component} />,\n`;
+  let res = `{\nid: "${r.id}",\n`;
+  if (r.path) {
+    res += `path: "${r.path}",\n`;
+  }
+  res += `element: <${r.component} />,\n`;
   if (r.subRoutes) {
     res += 'children: [' + r.subRoutes.map(r => printRoute(r)).join('\n') + ']';
   }
@@ -129,8 +142,9 @@ if (resultRoutes.length !== 0) {
   const imports = new Set(resultRoutes.flatMap(r => extractComponents(r)));
   let source = '/** @jsxImportSource @emotion/react */\n';
   source += printImports(imports);
+  source += "\nimport { RouteObject } from 'react-router-dom';";
   source += '\n\n';
-  source += 'export const router = [\n';
+  source += 'export const router: RouteObject[] = [\n';
   resultRoutes.forEach(r => {
     source += printRoute(r);
   });
@@ -144,10 +158,9 @@ if (resultRoutes.length !== 0) {
 
 const extractPairs = routes =>
   routes.flatMap(r => [
-    `['${r.name}', '/${r.fullPath}'],`,
+    [r.name, r.fullPath],
     ...extractPairs(r.subRoutes ?? [])
   ]);
-
 // generate routePathMap
 if (resultRoutes.length !== 0) {
   let source = "import { dict } from '../utils/nominal-class';\n";
@@ -156,11 +169,13 @@ if (resultRoutes.length !== 0) {
   source += '\n\n';
   source +=
     "export const routePathMap = dict<ApplicationRoute['name'], string>([\n";
-  source += extractPairs(
-    resultRoutes
-      // take off Not Found
-      .filter(r => r.path !== notFoundPath)
-  ).join('\n');
+  source += extractPairs(resultRoutes)
+    // take off containers
+    .filter(r => r[0])
+    // take off Not Found
+    .filter(r => r[1] !== notFoundPath)
+    .map(r => `['${r[0]}', '/${r[1]}'],`)
+    .join('\n');
   source += '])';
   fs.writeFile('./src/routing/routePathMap.generated.ts', source, err => {
     if (err) {

@@ -2,9 +2,9 @@
 import { Navbar } from './components/Navbar';
 import { UserStatusCheckContainer } from './components/UserStatusCheckContainer';
 import { css } from '@emotion/react';
-import { PropsWithChildren } from 'react';
+import { Outlet } from 'react-router-dom';
 
-export const MainViewContainer = (props: PropsWithChildren) => (
+export const MainViewContainer = () => (
   <div
     css={css`
       width: 100vw;
@@ -21,7 +21,9 @@ export const MainViewContainer = (props: PropsWithChildren) => (
         padding: 10px;
       `}
     >
-      <UserStatusCheckContainer>{props.children}</UserStatusCheckContainer>
+      <UserStatusCheckContainer>
+        <Outlet />
+      </UserStatusCheckContainer>
     </div>
   </div>
 );

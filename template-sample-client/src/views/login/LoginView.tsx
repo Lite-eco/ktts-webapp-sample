@@ -11,7 +11,6 @@ import { appContext } from '../../services/ApplicationContext';
 import { state } from '../../state/state';
 import { colors } from '../../styles/vars';
 import { assertUnreachable } from '../../utils';
-import { MainViewContainer } from '../containers/MainViewContainer';
 import { LoginViewI18n } from './LoginView.i18n';
 import { LoginForm, LoginFormInput } from './components/LoginForm';
 import { css } from '@emotion/react';
@@ -63,83 +62,81 @@ export const LoginView = () => {
       .then(r => connect(r.userInfos));
   const t = useI18n(LoginViewI18n);
   return (
-    <MainViewContainer>
-      <div
+    <div
+      css={css`
+        margin: auto;
+        max-width: 400px;
+      `}
+    >
+      <h1
         css={css`
-          margin: auto;
-          max-width: 400px;
+          text-align: center;
         `}
       >
-        <h1
-          css={css`
-            text-align: center;
-          `}
-        >
-          {t.Login()}
-        </h1>
-        <div>
-          {loginResult !== 'LoggedIn' && !userInfos && (
-            <LoginForm onSubmit={login} />
-          )}
-          {!userInfos && bootstrapData.env === 'Dev' && (
+        {t.Login()}
+      </h1>
+      <div>
+        {loginResult !== 'LoggedIn' && !userInfos && (
+          <LoginForm onSubmit={login} />
+        )}
+        {!userInfos && bootstrapData.env === 'Dev' && (
+          <div
+            css={css`
+              margin-top: 20px;
+            `}
+          >
             <div
               css={css`
-                margin-top: 20px;
+                display: inline;
+                background: ${colors.clearGrey};
+                border-radius: 4px;
+                padding: 12px 20px;
+                vertical-align: center;
               `}
             >
-              <div
+              <span
                 css={css`
-                  display: inline;
-                  background: ${colors.clearGrey};
-                  border-radius: 4px;
-                  padding: 12px 20px;
-                  vertical-align: center;
+                  padding: 0 20px 0 0;
                 `}
               >
-                <span
-                  css={css`
-                    padding: 0 20px 0 0;
-                  `}
-                >
-                  {t.devUserAuthent()}
-                </span>
-                <Button onClick={() => devLogin('user')}>{t.user()}</Button>
-                <Button onClick={() => devLogin('admin')}>{t.admin()}</Button>
-              </div>
+                {t.devUserAuthent()}
+              </span>
+              <Button onClick={() => devLogin('user')}>{t.user()}</Button>
+              <Button onClick={() => devLogin('admin')}>{t.admin()}</Button>
             </div>
-          )}
-          {userInfos && (
-            <div
-              css={css`
-                text-align: center;
-              `}
-            >
-              {t.YouAreLoggedIn()}
-            </div>
-          )}
-          {loginResult && (
-            <div
-              css={css`
-                text-align: center;
-                margin-top: 20px;
-              `}
-            >
-              {(() => {
-                switch (loginResult) {
-                  case 'LoggedIn':
-                    return null;
-                  case 'MailNotFound':
-                    return <div>{t.UserNotFound()}</div>;
-                  case 'BadPassword':
-                    return <div>{t.BadPassword()}</div>;
-                  default:
-                    assertUnreachable(loginResult);
-                }
-              })()}
-            </div>
-          )}
-        </div>
+          </div>
+        )}
+        {userInfos && (
+          <div
+            css={css`
+              text-align: center;
+            `}
+          >
+            {t.YouAreLoggedIn()}
+          </div>
+        )}
+        {loginResult && (
+          <div
+            css={css`
+              text-align: center;
+              margin-top: 20px;
+            `}
+          >
+            {(() => {
+              switch (loginResult) {
+                case 'LoggedIn':
+                  return null;
+                case 'MailNotFound':
+                  return <div>{t.UserNotFound()}</div>;
+                case 'BadPassword':
+                  return <div>{t.BadPassword()}</div>;
+                default:
+                  assertUnreachable(loginResult);
+              }
+            })()}
+          </div>
+        )}
       </div>
-    </MainViewContainer>
+    </div>
   );
 };

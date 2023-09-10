@@ -7,80 +7,75 @@ import { UsersManagementView } from '../views/admin/users-management/UsersManage
 import { UserDetailView } from '../views/admin/users-management/user-detail/UserDetailView';
 import { EditRoleView } from '../views/admin/users-management/user-detail/edit-role/EditRoleView';
 import { EditStatusView } from '../views/admin/users-management/user-detail/edit-status/EditStatusView';
+import { MainViewContainer } from '../views/containers/MainViewContainer';
 import { LoginView } from '../views/login/LoginView';
 import { NotFoundView } from '../views/not-found/NotFoundView';
 import { RegisterView } from '../views/register/RegisterView';
 import { RootView } from '../views/root/RootView';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-type routesDsl = [
-  {
-    name: 'Account';
+type routesDsl = {
+  Account: {
     path: 'account';
+    container: typeof MainViewContainer;
     component: typeof AccountView;
-  },
-  {
-    name: 'Admin';
+  };
+  Admin: {
     path: 'admin';
+    container: typeof MainViewContainer;
     component: typeof AdminView;
-    subRoutes: [
-      {
-        name: 'ManualCommand';
+    subRoutes: {
+      ManualCommand: {
         path: 'manual-command';
         component: typeof ManualCommandView;
-      },
-      {
-        name: 'RouteListing';
+      };
+      RouteListing: {
         path: 'routes-listing';
         component: typeof RoutesListingView;
-      },
-      {
-        name: 'UsersManagement';
+      };
+      UsersManagement: {
         path: 'users-management';
         component: typeof UsersManagementView;
-        subRoutes: [
-          {
-            name: 'UserDetail';
+        subRoutes: {
+          UserDetail: {
             path: ':userId';
             component: typeof UserDetailView;
             params: {
               userId: UserId;
             };
-            subRoutes: [
-              {
-                name: 'EditRole';
+            subRoutes: {
+              EditRole: {
                 path: 'edit-role';
                 component: typeof EditRoleView;
-              },
-              {
-                name: 'EditStatus';
+              };
+              EditStatus: {
                 path: 'edit-status';
                 component: typeof EditStatusView;
-              }
-            ];
-          }
-        ];
-      }
-    ];
-  },
-  {
-    name: 'Login';
+              };
+            };
+          };
+        };
+      };
+    };
+  };
+  Login: {
     path: 'login';
+    container: typeof MainViewContainer;
     component: typeof LoginView;
-  },
-  {
-    name: 'Register';
+  };
+  Register: {
     path: 'register';
+    container: typeof MainViewContainer;
     component: typeof RegisterView;
-  },
-  {
-    name: 'Root';
+  };
+  Root: {
     path: '';
+    container: typeof MainViewContainer;
     component: typeof RootView;
-  },
-  {
-    name: 'NotFound';
+  };
+  NotFound: {
     path: '*';
+    container: typeof MainViewContainer;
     component: typeof NotFoundView;
-  }
-];
+  };
+};
