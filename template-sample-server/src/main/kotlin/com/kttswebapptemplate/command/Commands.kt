@@ -17,10 +17,8 @@ import kt2ts.annotation.GenerateTypescript
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 sealed class Command
 
-@GenerateTypescript
-@JsonTypeInfo(
-    use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
-sealed class CommandResponse
+// [doc] is sealed for generation selection
+@GenerateTypescript sealed class CommandResponse
 
 data object EmptyCommandResponse : CommandResponse()
 

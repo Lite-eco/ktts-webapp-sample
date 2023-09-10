@@ -11,6 +11,7 @@ import kt2ts.annotation.GenerateTypescript
     use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "objectType")
 sealed class Query
 
+// [doc] is sealed for generation selection
 @GenerateTypescript sealed class QueryResponse
 
 data class AdminGetUserInfosQuery(val userId: UserId) : Query()
