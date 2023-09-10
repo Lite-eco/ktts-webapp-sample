@@ -8,7 +8,7 @@ import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
 import { appContext } from '../../../services/ApplicationContext';
 import { colors } from '../../../styles/vars';
-import { asNominalString } from '../../../utils/nominal-class';
+import { nominal } from '../../../utils/nominal-class';
 import { RegisterFormI18n } from './RegisterForm.i18n';
 import { css } from '@emotion/react';
 import { ChangeEvent, useState } from 'react';
@@ -58,7 +58,7 @@ export const RegisterForm = (props: {
         props
           .onSubmit({
             mail: input.mail,
-            password: asNominalString(input.password),
+            password: nominal(input.password),
             displayName: input.displayName
           })
           .then(() => setLoading('Idle'))

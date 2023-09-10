@@ -3,7 +3,7 @@ import { ControlledPasswordInput } from '../../../common-components/form/Control
 import { ClientUid } from '../../../domain/client-ids';
 import { PlainStringPassword } from '../../../generated/domain/Security.generated';
 import { useI18n } from '../../../hooks/i18n';
-import { asNominalString } from '../../../utils/nominal-class';
+import { nominal } from '../../../utils/nominal-class';
 import { PasswordFormI18n } from './PasswordForm.i18n';
 import { css } from '@emotion/react';
 import { useForm } from 'react-hook-form';
@@ -33,8 +33,8 @@ export const PasswordForm = (props: {
       id={props.formId}
       onSubmit={handleSubmit(input =>
         props.onSubmit({
-          currentPassword: asNominalString(input.currentPassword),
-          newPassword: asNominalString(input.newPassword)
+          currentPassword: nominal(input.currentPassword),
+          newPassword: nominal(input.newPassword)
         })
       )}
     >

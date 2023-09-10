@@ -5,7 +5,7 @@ import { ControlledTextInput } from '../../../common-components/form/ControlledT
 import { PlainStringPassword } from '../../../generated/domain/Security.generated';
 import { useI18n } from '../../../hooks/i18n';
 import { LoadingState } from '../../../interfaces';
-import { asNominalString } from '../../../utils/nominal-class';
+import { nominal } from '../../../utils/nominal-class';
 import { LoginFormI18n } from './LoginForm.i18n';
 import { css } from '@emotion/react';
 import { useState } from 'react';
@@ -38,7 +38,7 @@ export const LoginForm = (props: {
         props
           .onSubmit({
             mail: input.mail,
-            password: asNominalString(input.password)
+            password: nominal(input.password)
           })
           .then(() => setLoading('Idle'))
           .catch(() => setLoading('Error'));

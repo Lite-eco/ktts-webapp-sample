@@ -6,7 +6,7 @@ import { useGoTo } from '../../../routing/routing-utils';
 import { appContext } from '../../../services/ApplicationContext';
 import { state } from '../../../state/state';
 import { assertUnreachable } from '../../../utils';
-import { asNominalString } from '../../../utils/nominal-class';
+import { nominal } from '../../../utils/nominal-class';
 import { UserStatusCheckContainerI18n } from './UserStatusCheckContainer.i18n';
 import {
   Button,
@@ -66,7 +66,7 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
     appContext.commandService
       .send({
         objectType: 'ValidateMailCommand',
-        token: asNominalString(token)
+        token: nominal(token)
       })
       .then(() => {
         // validation is done whether the user is connected or not

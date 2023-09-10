@@ -1,5 +1,5 @@
 import { ClientUid } from './domain/client-ids';
-import { asNominalString } from './utils/nominal-class';
+import { nominal } from './utils/nominal-class';
 
 export function assertUnreachable(x: never): never {
   throw new Error(`Expected unreachable code ! Value: "${JSON.stringify(x)}"`);
@@ -7,7 +7,7 @@ export function assertUnreachable(x: never): never {
 
 let uniqueIdIndex = 0;
 export const clientUid = () =>
-  asNominalString<ClientUid>('ClientUid_' + uniqueIdIndex++);
+  nominal<ClientUid>('ClientUid_' + uniqueIdIndex++);
 
 // TODO[tmpl][naming] sort in name
 // usage : items.sort(compareByString(item => item.sortLabel))

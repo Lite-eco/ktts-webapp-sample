@@ -3,22 +3,23 @@ export type NominalItem = NominalString<any> | NominalNumber<any>;
 export type NominalString<T extends string> = string &
   TypeGuardedNominalString<T>;
 
-class TypeGuardedNominalString<T extends string> {
+abstract class TypeGuardedNominalString<T extends string> {
   private _typeGuard!: T;
 }
 
 export type NominalNumber<T extends string> = number &
   TypeGuardedNominalNumber<T>;
 
-export abstract class TypeGuardedNominalNumber<T extends string> {
+abstract class TypeGuardedNominalNumber<T extends string> {
   private _typeGuard!: T;
 }
 
-export const asNominalString = <T extends NominalString<any>>(value: string) =>
-  value as unknown as T;
-
-export const asNominalNumber = <T extends NominalNumber<any>>(value: number) =>
-  value as unknown as T;
+// [doc] undefined is needed for interfaces with nullable Nominal
+export const nominal = <
+  T extends NominalNumber<any> | NominalString<any> | undefined
+>(
+  value: string | number
+) => value as unknown as T;
 
 type DictKey = NominalItem | string;
 
