@@ -1,15 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { LogoutButton } from '../../../common-components/form/LogoutButton';
+import { LogoutMenuItem } from '../../../common-components/form/LogoutMenuItem';
 import { useI18n } from '../../../hooks/i18n';
+import { ApplicationRoute } from '../../../routing/ApplicationRoute.generated';
 import { RouteLink } from '../../../routing/RouteLink';
+import { buildPath } from '../../../routing/routing-utils';
 import { state } from '../../../state/state';
 import { colors } from '../../../styles/vars';
 import { NavbarI18n } from './Navbar.i18n';
 import { css } from '@emotion/react';
 import { Menu as MenuIcon } from '@mui/icons-material';
-import { Menu, MenuItem } from '@mui/material';
+import { ListItemButton, ListItemText, Menu, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
-import { useRef, useState } from 'react';
+import { PropsWithChildren, useRef, useState } from 'react';
+import { Link as RouterLink, useMatches } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 
 export const Navbar = () => {
@@ -57,78 +60,75 @@ export const Navbar = () => {
         </IconButton>
         <Menu anchorEl={buttonElement.current} open={open} onClose={close}>
           {!userInfos && (
-            <MenuItem>
-              <RouteLink
-                route={{
-                  name: 'Login'
-                }}
-              >
-                {t.Login()}
-              </RouteLink>
-            </MenuItem>
+            <MenuLink
+              route={{
+                name: 'Login'
+              }}
+              label={t.Login()}
+            />
           )}
           {!userInfos && (
-            <MenuItem>
-              <RouteLink
-                route={{
-                  name: 'Register'
-                }}
-              >
-                {t.Register()}
-              </RouteLink>
-            </MenuItem>
+            <MenuLink
+              route={{
+                name: 'Register'
+              }}
+              label={t.Register()}
+            />
           )}
           {userInfos?.status === 'Active' && (
-            <MenuItem>
-              <RouteLink
-                route={{
-                  name: 'Account'
-                }}
-              >
-                {t.Account()}
-              </RouteLink>
-            </MenuItem>
+            <MenuLink
+              route={{
+                name: 'Account'
+              }}
+              label={t.Account()}
+            />
           )}
           {userInfos?.role === 'Admin' && (
-            <MenuItem>
-              <RouteLink
-                route={{
-                  name: 'Admin/UsersManagement'
-                }}
-              >
-                {t.UsersManagement()}
-              </RouteLink>
-            </MenuItem>
+            <MenuLink
+              route={{
+                name: 'Admin'
+              }}
+              label={t.Admin()}
+            />
           )}
-          {userInfos?.role === 'Admin' && (
-            <MenuItem>
-              <RouteLink
-                route={{
-                  name: 'Admin/ManualCommand'
-                }}
-              >
-                {t.ManualCommands()}
-              </RouteLink>
-            </MenuItem>
-          )}
-          {userInfos?.role === 'Admin' && (
-            <MenuItem>
-              <RouteLink
-                route={{
-                  name: 'Admin/RouteListing'
-                }}
-              >
-                {t.RoutesListing()}
-              </RouteLink>
-            </MenuItem>
-          )}
-          {userInfos && (
-            <MenuItem>
-              <LogoutButton />
-            </MenuItem>
-          )}
+          {userInfos && <LogoutMenuItem />}
         </Menu>
       </div>
+    </div>
+  );
+};
+
+const MenuLink = (props: { route: ApplicationRoute; label: string }) => {
+  return (
+    <MenuItem component={MatchRouterLink} route={props.route}>
+      <ListItemButton>
+        <ListItemText primary={props.label} />
+      </ListItemButton>
+    </MenuItem>
+  );
+};
+
+const MatchRouterLink = (
+  props: PropsWithChildren<{ route: ApplicationRoute }>
+) => {
+  const matches = useMatches();
+  const to = buildPath(props.route);
+  const doesMatch = matches[matches.length - 1].pathname === to;
+  return (
+    <div
+      css={css`
+        background: ${doesMatch ? colors.clearGrey : 'white'};
+      `}
+    >
+      <RouterLink
+        to={to}
+        css={css`
+          color: ${colors.grey};
+          text-decoration: none;
+        `}
+      >
+        {props.children}
+      </RouterLink>
     </div>
   );
 };
