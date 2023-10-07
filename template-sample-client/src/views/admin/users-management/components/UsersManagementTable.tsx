@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { CopyContentWidget } from '../../../../common-components/CopyContentWidget';
 import { adminIdDisplayChars } from '../../../../domain/admin';
 import {
   AdminUserInfos,
@@ -9,6 +8,7 @@ import { useI18n } from '../../../../hooks/i18n';
 import { LoadingState } from '../../../../interfaces';
 import { RouteLink } from '../../../../routing/RouteLink';
 import { colors } from '../../../../styles/vars';
+import { CopyContentWidget } from './CopyContentWidget';
 import { UsersManagementTableI18n } from './UsersManagementTable.i18n';
 import { css } from '@emotion/react';
 import {

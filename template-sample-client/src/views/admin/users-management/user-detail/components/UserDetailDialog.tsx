@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { CopyContentWidget } from '../../../../../common-components/CopyContentWidget';
 import { AdminUserInfos } from '../../../../../generated/domain/User.generated';
 import { useI18n } from '../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../interfaces';
 import { RouteLink } from '../../../../../routing/RouteLink';
 import { navigateTo } from '../../../../../routing/routing-utils';
+import { CopyContentWidget } from '../../components/CopyContentWidget';
 import { RoleChip } from '../../components/UsersManagementTable';
 import { UserDetailDialogI18n } from './UserDetailDialog.i18n';
 import { css } from '@emotion/react';

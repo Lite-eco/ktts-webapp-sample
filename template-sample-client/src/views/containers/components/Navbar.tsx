@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { LogoutMenuItem } from '../../../common-components/form/LogoutMenuItem';
 import { useI18n } from '../../../hooks/i18n';
 import { ApplicationRoute } from '../../../routing/ApplicationRoute.generated';
 import { RouteLink } from '../../../routing/RouteLink';
 import { buildPath } from '../../../routing/routing-utils';
 import { state } from '../../../state/state';
 import { colors } from '../../../styles/vars';
+import { LogoutMenuItem } from './LogoutMenuItem';
 import { NavbarI18n } from './Navbar.i18n';
 import { css } from '@emotion/react';
 import { Menu as MenuIcon } from '@mui/icons-material';

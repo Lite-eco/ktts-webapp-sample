@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { clientUid } from '../utils';
-import { pipe } from '../utils/Pipe';
-import { NominalString } from '../utils/nominal-class';
+import { clientUid } from '../../../../utils';
+import { pipe } from '../../../../utils/Pipe';
+import { NominalString } from '../../../../utils/nominal-class';
 import { css } from '@emotion/react';
 import { FileCopy } from '@mui/icons-material';
 import { useState } from 'react';
