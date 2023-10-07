@@ -12,7 +12,7 @@ class ContainerInitializer : ApplicationContextInitializer<ConfigurableApplicati
     private val logger = KotlinLogging.logger {}
 
     companion object {
-        val psql = PostgreSQLContainer("postgres:15.0").also { it.start() }
+        val psql by lazy { PostgreSQLContainer("postgres:15.0").also { it.start() } }
     }
 
     override fun initialize(context: ConfigurableApplicationContext) {
