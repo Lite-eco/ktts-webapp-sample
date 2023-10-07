@@ -15,6 +15,7 @@ export const generateRouter = (file, resultRoutes, interfacesImports) => {
   if (resultRoutes.length !== 0) {
     const extractComponents = r => [
       r.component,
+      r.rootComponent,
       ...(r.subRoutes ?? []).flatMap(s => extractComponents(s))
     ];
     const imports = new Set(resultRoutes.flatMap(r => extractComponents(r)));
@@ -63,13 +64,16 @@ const printRoute = r => {
   }
   res += `element: <${r.component} />,\n`;
   if (r.subRoutes) {
-    res +=
-      'children: [' +
-      r.subRoutes
-        .sort(sortByIdWithNotFoundLast)
-        .map(r => printRoute(r))
-        .join('\n') +
-      ']';
+    res += 'children: [';
+    if (r.rootComponent) {
+      // TODO remove '_' by controlling '/' presence ?
+      res += `{id: '${r.id}/_', path: '', element: <${r.rootComponent} />},`;
+    }
+    res += r.subRoutes
+      .sort(sortByIdWithNotFoundLast)
+      .map(r => printRoute(r))
+      .join('\n');
+    res += ']';
   }
   return res + '},';
 };

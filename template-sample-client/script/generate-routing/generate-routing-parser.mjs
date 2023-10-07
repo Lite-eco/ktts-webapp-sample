@@ -16,6 +16,8 @@ class Parser {
       .exprName.escapedText;
     const layout = Parser.extractTypeMember(member, 'layout')?.type.exprName
       .escapedText;
+    const rootComponent = Parser.extractTypeMember(member, 'rootComponent')
+      ?.type.exprName.escapedText;
     const params =
       path !== notFoundPath
         ? [
@@ -31,6 +33,7 @@ class Parser {
       fullPath: fullPath,
       component,
       layout,
+      rootComponent,
       params
     };
     const subRoutes = Parser.extractTypeMember(member, 'subRoutes');

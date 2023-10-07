@@ -1,6 +1,7 @@
 import { MainLayout } from './common-components/layout/MainLayout';
 import { UserId } from './generated/domain/Ids.generated';
 import { AccountRoute } from './view/account/AccountRoute';
+import { AdminRootRoute } from './view/admin/AdminRootRoute';
 import { AdminRoute } from './view/admin/AdminRoute';
 import { ManualCommandRoute } from './view/admin/manual-command/ManualCommandRoute';
 import { RoutesListingRoute } from './view/admin/routes-listing/RoutesListingRoute';
@@ -24,6 +25,7 @@ type routesDsl = {
     path: 'admin';
     layout: typeof MainLayout;
     component: typeof AdminRoute;
+    rootComponent: typeof AdminRootRoute;
     subRoutes: {
       ManualCommand: {
         path: 'manual-command';

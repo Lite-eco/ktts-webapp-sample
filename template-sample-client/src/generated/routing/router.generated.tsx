@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { MainLayout } from '../../common-components/layout/MainLayout';
 import { AccountRoute } from '../../view/account/AccountRoute';
+import { AdminRootRoute } from '../../view/admin/AdminRootRoute';
 import { AdminRoute } from '../../view/admin/AdminRoute';
 import { ManualCommandRoute } from '../../view/admin/manual-command/ManualCommandRoute';
 import { RoutesListingRoute } from '../../view/admin/routes-listing/RoutesListingRoute';
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
         path: 'admin',
         element: <AdminRoute />,
         children: [
+          { id: 'Admin/_', path: '', element: <AdminRootRoute /> },
           {
             id: 'Admin/ManualCommand',
             path: 'manual-command',
