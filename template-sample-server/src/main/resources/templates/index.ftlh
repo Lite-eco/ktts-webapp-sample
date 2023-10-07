@@ -1,5 +1,5 @@
-<!DOCTYPE html>
 <#-- @formatter:off -->
+<!DOCTYPE html>
 <html lang="fr">
 <head>
 <!-- ${gitRevisionLabel?no_esc} -->
