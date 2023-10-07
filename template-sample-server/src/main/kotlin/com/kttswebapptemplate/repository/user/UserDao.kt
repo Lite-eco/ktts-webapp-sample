@@ -11,7 +11,6 @@ import com.kttswebapptemplate.jooq.generated.tables.records.AppUserRecord
 import com.kttswebapptemplate.jooq.generated.tables.references.APP_USER
 import com.kttswebapptemplate.utils.toTypeId
 import java.time.Instant
-import kotlin.streams.asSequence
 import org.jooq.DSLContext
 import org.springframework.dao.DuplicateKeyException
 import org.springframework.stereotype.Repository
@@ -138,8 +137,7 @@ class UserDao(private val jooq: DSLContext) {
             ?.value1()
             .let { requireNotNull(it) { "$id" } }
 
-    fun <T> streamAll(handle: (r: Sequence<Record>) -> T): T =
-        jooq.selectFrom(APP_USER).stream().use { it.asSequence().map(this::map).let(handle) }
+    fun fetchAll(): List<Record> = jooq.selectFrom(APP_USER).fetch().map(this::map)
 
     fun map(r: AppUserRecord) =
         Record(
