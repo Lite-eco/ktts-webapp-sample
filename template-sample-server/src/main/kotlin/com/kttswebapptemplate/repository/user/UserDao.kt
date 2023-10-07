@@ -138,8 +138,8 @@ class UserDao(private val jooq: DSLContext) {
             ?.value1()
             .let { requireNotNull(it) { "$id" } }
 
-    fun streamAll(): Sequence<Record> =
-        jooq.selectFrom(APP_USER).stream().asSequence().map(this::map)
+    fun <T> streamAll(handle: (r: Sequence<Record>) -> T): T =
+        jooq.selectFrom(APP_USER).stream().use { it.asSequence().map(this::map).let(handle) }
 
     fun map(r: AppUserRecord) =
         Record(

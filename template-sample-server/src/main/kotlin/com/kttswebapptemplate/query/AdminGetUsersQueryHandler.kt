@@ -10,9 +10,7 @@ class AdminGetUsersQueryHandler(private val userDao: UserDao) :
 
     override fun handle(query: AdminGetUsersQuery) =
         AdminGetUsersQueryResponse(
-            userDao
-                .streamAll()
-                .map { AdminUserInfos.from(it) }
-                .toList()
-                .sortedByDescending { it.signupDate })
+            userDao.streamAll {
+                it.map { AdminUserInfos.from(it) }.toList().sortedByDescending { it.signupDate }
+            })
 }
