@@ -127,8 +127,7 @@ class CommandController(
             // this code permits to update the token in the front
             (request.getAttribute("_csrf") as? CsrfToken)?.let {
                 response.setHeader(it.headerName, it.token)
-            }
-                ?: throw RuntimeException()
+            } ?: throw RuntimeException()
         }
     }
 

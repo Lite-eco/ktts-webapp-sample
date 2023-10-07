@@ -85,6 +85,7 @@ open class MailingLogRecord private constructor() :
                 String?,
                 String?,
                 Instant?>
+
     override fun valuesRow():
         Row10<
             UUID?, UUID?, String?, String?, String?, String?, String?, String?, String?, Instant?> =
@@ -101,35 +102,65 @@ open class MailingLogRecord private constructor() :
                 String?,
                 String?,
                 Instant?>
+
     override fun field1(): Field<UUID?> = MailingLogTable.MAILING_LOG.ID
+
     override fun field2(): Field<UUID?> = MailingLogTable.MAILING_LOG.USER_ID
+
     override fun field3(): Field<String?> = MailingLogTable.MAILING_LOG.SENDER_NAME
+
     override fun field4(): Field<String?> = MailingLogTable.MAILING_LOG.SENDER_MAIL
+
     override fun field5(): Field<String?> = MailingLogTable.MAILING_LOG.RECIPIENT_NAME
+
     override fun field6(): Field<String?> = MailingLogTable.MAILING_LOG.RECIPIENT_MAIL
+
     override fun field7(): Field<String?> = MailingLogTable.MAILING_LOG.SUBJECT
+
     override fun field8(): Field<String?> = MailingLogTable.MAILING_LOG.CONTENT
+
     override fun field9(): Field<String?> = MailingLogTable.MAILING_LOG.DATA
+
     override fun field10(): Field<Instant?> = MailingLogTable.MAILING_LOG.DATE
+
     override fun component1(): UUID = id
+
     override fun component2(): UUID = userId
+
     override fun component3(): String = senderName
+
     override fun component4(): String = senderMail
+
     override fun component5(): String = recipientName
+
     override fun component6(): String = recipientMail
+
     override fun component7(): String = subject
+
     override fun component8(): String = content
+
     override fun component9(): String = `data`
+
     override fun component10(): Instant = date
+
     override fun value1(): UUID = id
+
     override fun value2(): UUID = userId
+
     override fun value3(): String = senderName
+
     override fun value4(): String = senderMail
+
     override fun value5(): String = recipientName
+
     override fun value6(): String = recipientMail
+
     override fun value7(): String = subject
+
     override fun value8(): String = content
+
     override fun value9(): String = `data`
+
     override fun value10(): Instant = date
 
     override fun value1(value: UUID?): MailingLogRecord {

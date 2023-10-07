@@ -87,6 +87,7 @@ open class DeploymentLogTable(
         alias: Name,
         aliased: Table<DeploymentLogRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<DeploymentLogRecord>?,
@@ -106,10 +107,15 @@ open class DeploymentLogTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, DeploymentLogRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, DEPLOYMENT_LOG, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getPrimaryKey(): UniqueKey<DeploymentLogRecord> = DEPLOYMENT_LOG_PKEY
+
     override fun `as`(alias: String): DeploymentLogTable = DeploymentLogTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): DeploymentLogTable = DeploymentLogTable(alias, this)
+
     override fun `as`(alias: Table<*>): DeploymentLogTable =
         DeploymentLogTable(alias.getQualifiedName(), this)
 

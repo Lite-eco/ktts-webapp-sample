@@ -30,8 +30,7 @@ object GenerateJooqAndDiff {
                     "/template-sample-server",
                 )
                 .firstOrNull { userDir.endsWith(it) }
-                ?.let { userDir.dropLast(it.length) }
-                ?: userDir
+                ?.let { userDir.dropLast(it.length) } ?: userDir
         }
         Paths.get(rootDir).also { logger.info { "Project dir is $it" } }
     }

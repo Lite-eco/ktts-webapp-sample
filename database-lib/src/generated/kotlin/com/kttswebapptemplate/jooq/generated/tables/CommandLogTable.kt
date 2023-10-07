@@ -121,6 +121,7 @@ open class CommandLogTable(
         alias: Name,
         aliased: Table<CommandLogRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<CommandLogRecord>?,
@@ -140,8 +141,11 @@ open class CommandLogTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, CommandLogRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, COMMAND_LOG, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getPrimaryKey(): UniqueKey<CommandLogRecord> = COMMAND_LOG_PKEY
+
     override fun getReferences(): List<ForeignKey<CommandLogRecord, *>> =
         listOf(COMMAND_LOG__COMMAND_LOG_DEPLOYMENT_LOG_ID_FKEY)
 
@@ -158,8 +162,11 @@ open class CommandLogTable(
 
     val deploymentLog: DeploymentLogTable
         get(): DeploymentLogTable = deploymentLog()
+
     override fun `as`(alias: String): CommandLogTable = CommandLogTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): CommandLogTable = CommandLogTable(alias, this)
+
     override fun `as`(alias: Table<*>): CommandLogTable =
         CommandLogTable(alias.getQualifiedName(), this)
 

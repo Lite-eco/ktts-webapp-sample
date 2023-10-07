@@ -54,25 +54,44 @@ open class UserSessionLogRecord private constructor() :
 
     override fun fieldsRow(): Row6<UUID?, String?, UUID?, UUID?, Instant?, String?> =
         super.fieldsRow() as Row6<UUID?, String?, UUID?, UUID?, Instant?, String?>
+
     override fun valuesRow(): Row6<UUID?, String?, UUID?, UUID?, Instant?, String?> =
         super.valuesRow() as Row6<UUID?, String?, UUID?, UUID?, Instant?, String?>
+
     override fun field1(): Field<UUID?> = UserSessionLogTable.USER_SESSION_LOG.ID
+
     override fun field2(): Field<String?> = UserSessionLogTable.USER_SESSION_LOG.SPRING_SESSION_ID
+
     override fun field3(): Field<UUID?> = UserSessionLogTable.USER_SESSION_LOG.USER_ID
+
     override fun field4(): Field<UUID?> = UserSessionLogTable.USER_SESSION_LOG.DEPLOYMENT_LOG_ID
+
     override fun field5(): Field<Instant?> = UserSessionLogTable.USER_SESSION_LOG.CREATION_DATE
+
     override fun field6(): Field<String?> = UserSessionLogTable.USER_SESSION_LOG.IP
+
     override fun component1(): UUID = id
+
     override fun component2(): String = springSessionId
+
     override fun component3(): UUID = userId
+
     override fun component4(): UUID = deploymentLogId
+
     override fun component5(): Instant = creationDate
+
     override fun component6(): String = ip
+
     override fun value1(): UUID = id
+
     override fun value2(): String = springSessionId
+
     override fun value3(): UUID = userId
+
     override fun value4(): UUID = deploymentLogId
+
     override fun value5(): Instant = creationDate
+
     override fun value6(): String = ip
 
     override fun value1(value: UUID?): UserSessionLogRecord {

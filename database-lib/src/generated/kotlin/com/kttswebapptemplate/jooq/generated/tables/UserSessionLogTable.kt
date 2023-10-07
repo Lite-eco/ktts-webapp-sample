@@ -91,6 +91,7 @@ open class UserSessionLogTable(
         alias: Name,
         aliased: Table<UserSessionLogRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<UserSessionLogRecord>?,
@@ -110,9 +111,13 @@ open class UserSessionLogTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, UserSessionLogRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, USER_SESSION_LOG, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getIndexes(): List<Index> = listOf(USER_SESSION_LOG_USER_ID_IDX)
+
     override fun getPrimaryKey(): UniqueKey<UserSessionLogRecord> = USER_SESSION_LOG_PKEY
+
     override fun getReferences(): List<ForeignKey<UserSessionLogRecord, *>> =
         listOf(USER_SESSION_LOG__USER_SESSION_LOG_USER_ID_FKEY)
 
@@ -128,9 +133,12 @@ open class UserSessionLogTable(
 
     val appUser: AppUserTable
         get(): AppUserTable = appUser()
+
     override fun `as`(alias: String): UserSessionLogTable =
         UserSessionLogTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): UserSessionLogTable = UserSessionLogTable(alias, this)
+
     override fun `as`(alias: Table<*>): UserSessionLogTable =
         UserSessionLogTable(alias.getQualifiedName(), this)
 

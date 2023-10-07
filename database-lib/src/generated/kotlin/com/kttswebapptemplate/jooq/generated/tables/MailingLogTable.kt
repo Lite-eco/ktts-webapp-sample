@@ -104,6 +104,7 @@ open class MailingLogTable(
         alias: Name,
         aliased: Table<MailingLogRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<MailingLogRecord>?,
@@ -123,8 +124,11 @@ open class MailingLogTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, MailingLogRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, MAILING_LOG, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getPrimaryKey(): UniqueKey<MailingLogRecord> = MAILING_LOG_PKEY
+
     override fun getReferences(): List<ForeignKey<MailingLogRecord, *>> =
         listOf(MAILING_LOG__MAILING_LOG_USER_ID_FKEY)
 
@@ -140,8 +144,11 @@ open class MailingLogTable(
 
     val appUser: AppUserTable
         get(): AppUserTable = appUser()
+
     override fun `as`(alias: String): MailingLogTable = MailingLogTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): MailingLogTable = MailingLogTable(alias, this)
+
     override fun `as`(alias: Table<*>): MailingLogTable =
         MailingLogTable(alias.getQualifiedName(), this)
 

@@ -124,6 +124,7 @@ open class CommandLogRecord private constructor() :
                 String?,
                 Instant?,
                 Instant?>
+
     override fun valuesRow():
         Row13<
             UUID?,
@@ -155,44 +156,83 @@ open class CommandLogRecord private constructor() :
                 String?,
                 Instant?,
                 Instant?>
+
     override fun field1(): Field<UUID?> = CommandLogTable.COMMAND_LOG.ID
+
     override fun field2(): Field<UUID?> = CommandLogTable.COMMAND_LOG.USER_ID
+
     override fun field3(): Field<UUID?> = CommandLogTable.COMMAND_LOG.AFFECTED_USER_ID
+
     override fun field4(): Field<UUID?> = CommandLogTable.COMMAND_LOG.DEPLOYMENT_LOG_ID
+
     override fun field5(): Field<String?> = CommandLogTable.COMMAND_LOG.COMMAND_CLASS
+
     override fun field6(): Field<String?> = CommandLogTable.COMMAND_LOG.JSON_COMMAND
+
     override fun field7(): Field<String?> = CommandLogTable.COMMAND_LOG.IP
+
     override fun field8(): Field<UUID?> = CommandLogTable.COMMAND_LOG.USER_SESSION_ID
+
     override fun field9(): Field<String?> = CommandLogTable.COMMAND_LOG.IDS_LOG
+
     override fun field10(): Field<String?> = CommandLogTable.COMMAND_LOG.JSON_RESULT
+
     override fun field11(): Field<String?> = CommandLogTable.COMMAND_LOG.EXCEPTION_STACK_TRACE
+
     override fun field12(): Field<Instant?> = CommandLogTable.COMMAND_LOG.START_DATE
+
     override fun field13(): Field<Instant?> = CommandLogTable.COMMAND_LOG.END_DATE
+
     override fun component1(): UUID = id
+
     override fun component2(): UUID? = userId
+
     override fun component3(): UUID? = affectedUserId
+
     override fun component4(): UUID = deploymentLogId
+
     override fun component5(): String = commandClass
+
     override fun component6(): String = jsonCommand
+
     override fun component7(): String = ip
+
     override fun component8(): UUID? = userSessionId
+
     override fun component9(): String = idsLog
+
     override fun component10(): String? = jsonResult
+
     override fun component11(): String? = exceptionStackTrace
+
     override fun component12(): Instant = startDate
+
     override fun component13(): Instant = endDate
+
     override fun value1(): UUID = id
+
     override fun value2(): UUID? = userId
+
     override fun value3(): UUID? = affectedUserId
+
     override fun value4(): UUID = deploymentLogId
+
     override fun value5(): String = commandClass
+
     override fun value6(): String = jsonCommand
+
     override fun value7(): String = ip
+
     override fun value8(): UUID? = userSessionId
+
     override fun value9(): String = idsLog
+
     override fun value10(): String? = jsonResult
+
     override fun value11(): String? = exceptionStackTrace
+
     override fun value12(): Instant = startDate
+
     override fun value13(): Instant = endDate
 
     override fun value1(value: UUID?): CommandLogRecord {

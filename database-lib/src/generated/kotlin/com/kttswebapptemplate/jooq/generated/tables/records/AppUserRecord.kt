@@ -68,36 +68,64 @@ open class AppUserRecord private constructor() :
         Row9<UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?> =
         super.fieldsRow()
             as Row9<UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?>
+
     override fun valuesRow():
         Row9<UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?> =
         super.valuesRow()
             as Row9<UUID?, String?, String?, String?, String?, String?, String?, Instant?, Instant?>
+
     override fun field1(): Field<UUID?> = AppUserTable.APP_USER.ID
+
     override fun field2(): Field<String?> = AppUserTable.APP_USER.MAIL
+
     override fun field3(): Field<String?> = AppUserTable.APP_USER.PASSWORD
+
     override fun field4(): Field<String?> = AppUserTable.APP_USER.DISPLAY_NAME
+
     override fun field5(): Field<String?> = AppUserTable.APP_USER.LANGUAGE
+
     override fun field6(): Field<String?> = AppUserTable.APP_USER.STATUS
+
     override fun field7(): Field<String?> = AppUserTable.APP_USER.ROLE
+
     override fun field8(): Field<Instant?> = AppUserTable.APP_USER.SIGNUP_DATE
+
     override fun field9(): Field<Instant?> = AppUserTable.APP_USER.LAST_UPDATE
+
     override fun component1(): UUID = id
+
     override fun component2(): String = mail
+
     override fun component3(): String = password
+
     override fun component4(): String = displayName
+
     override fun component5(): String = language
+
     override fun component6(): String = status
+
     override fun component7(): String = role
+
     override fun component8(): Instant = signupDate
+
     override fun component9(): Instant = lastUpdate
+
     override fun value1(): UUID = id
+
     override fun value2(): String = mail
+
     override fun value3(): String = password
+
     override fun value4(): String = displayName
+
     override fun value5(): String = language
+
     override fun value6(): String = status
+
     override fun value7(): String = role
+
     override fun value8(): Instant = signupDate
+
     override fun value9(): Instant = lastUpdate
 
     override fun value1(value: UUID?): AppUserRecord {

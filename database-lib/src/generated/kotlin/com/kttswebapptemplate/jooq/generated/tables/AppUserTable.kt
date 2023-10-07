@@ -107,6 +107,7 @@ open class AppUserTable(
         alias: Name,
         aliased: Table<AppUserRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<AppUserRecord>?,
@@ -126,12 +127,19 @@ open class AppUserTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, AppUserRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, APP_USER, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getIndexes(): List<Index> = listOf(APP_USER_MAIL_IDX)
+
     override fun getPrimaryKey(): UniqueKey<AppUserRecord> = APP_USER_PKEY
+
     override fun getUniqueKeys(): List<UniqueKey<AppUserRecord>> = listOf(APP_USER_MAIL_KEY)
+
     override fun `as`(alias: String): AppUserTable = AppUserTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): AppUserTable = AppUserTable(alias, this)
+
     override fun `as`(alias: Table<*>): AppUserTable = AppUserTable(alias.getQualifiedName(), this)
 
     /** Rename this table */

@@ -21,6 +21,5 @@ object TemplateSampleSerializationPrefixUtils {
                 throw IllegalArgumentException("Missing id prefix $prefix on $itemClass: $value")
             }
             value.substring(prefix.length + 1)
-        }
-            ?: value
+        } ?: value
 }

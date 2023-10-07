@@ -31,8 +31,7 @@ class IndexController(
                 val domainLength =
                     listOf(it.indexOf("/"), it.indexOf(":"), it.length)
                         .filter { it >= 0 }
-                        .minOrNull()
-                        ?: throw IllegalArgumentException()
+                        .minOrNull() ?: throw IllegalArgumentException()
                 it.substring(0, domainLength)
             }
     }

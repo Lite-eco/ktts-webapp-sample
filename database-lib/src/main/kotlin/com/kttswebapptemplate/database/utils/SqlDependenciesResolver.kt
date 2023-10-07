@@ -14,11 +14,13 @@ object SqlDependenciesResolver {
         // exists to be compared in collection operations
         // (CreateTable.table != ForeignKeyIndex.table)
         data class Table(val name: String)
+
         data class CreateTable(
             val table: Table,
             val foreignKeys: List<ForeignKeyIndex>,
             val createTableSql: String
         ) : ParseResult()
+
         data class PostponeSql(val sql: String) : ParseResult()
     }
 

@@ -88,6 +88,7 @@ open class UserFileTable(
         alias: Name,
         aliased: Table<UserFileRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<UserFileRecord>?,
@@ -107,8 +108,11 @@ open class UserFileTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, UserFileRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, USER_FILE, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getPrimaryKey(): UniqueKey<UserFileRecord> = USER_FILE_PKEY
+
     override fun getReferences(): List<ForeignKey<UserFileRecord, *>> =
         listOf(USER_FILE__USER_FILE_USER_ID_FKEY)
 
@@ -124,8 +128,11 @@ open class UserFileTable(
 
     val appUser: AppUserTable
         get(): AppUserTable = appUser()
+
     override fun `as`(alias: String): UserFileTable = UserFileTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): UserFileTable = UserFileTable(alias, this)
+
     override fun `as`(alias: Table<*>): UserFileTable =
         UserFileTable(alias.getQualifiedName(), this)
 

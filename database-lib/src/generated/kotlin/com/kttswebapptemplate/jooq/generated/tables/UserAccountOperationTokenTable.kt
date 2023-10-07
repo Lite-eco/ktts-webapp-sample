@@ -87,6 +87,7 @@ open class UserAccountOperationTokenTable(
         alias: Name,
         aliased: Table<UserAccountOperationTokenRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<UserAccountOperationTokenRecord>?,
@@ -106,9 +107,12 @@ open class UserAccountOperationTokenTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, UserAccountOperationTokenRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, USER_ACCOUNT_OPERATION_TOKEN, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getPrimaryKey(): UniqueKey<UserAccountOperationTokenRecord> =
         USER_ACCOUNT_OPERATION_TOKEN_PKEY
+
     override fun getReferences(): List<ForeignKey<UserAccountOperationTokenRecord, *>> =
         listOf(
             USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_ID_FKEY,
@@ -143,10 +147,13 @@ open class UserAccountOperationTokenTable(
 
     val userMailLog: UserMailLogTable
         get(): UserMailLogTable = userMailLog()
+
     override fun `as`(alias: String): UserAccountOperationTokenTable =
         UserAccountOperationTokenTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): UserAccountOperationTokenTable =
         UserAccountOperationTokenTable(alias, this)
+
     override fun `as`(alias: Table<*>): UserAccountOperationTokenTable =
         UserAccountOperationTokenTable(alias.getQualifiedName(), this)
 

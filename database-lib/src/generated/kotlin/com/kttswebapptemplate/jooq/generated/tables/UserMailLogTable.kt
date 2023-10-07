@@ -90,6 +90,7 @@ open class UserMailLogTable(
         alias: Name,
         aliased: Table<UserMailLogRecord>?
     ) : this(alias, null, null, aliased, null)
+
     private constructor(
         alias: Name,
         aliased: Table<UserMailLogRecord>?,
@@ -109,9 +110,13 @@ open class UserMailLogTable(
         child: Table<out Record>,
         key: ForeignKey<out Record, UserMailLogRecord>
     ) : this(Internal.createPathAlias(child, key), child, key, USER_MAIL_LOG, null)
+
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
+
     override fun getIndexes(): List<Index> = listOf(USER_MAIL_LOG_USER_ID_IDX)
+
     override fun getPrimaryKey(): UniqueKey<UserMailLogRecord> = USER_MAIL_LOG_PKEY
+
     override fun getReferences(): List<ForeignKey<UserMailLogRecord, *>> =
         listOf(USER_MAIL_LOG__USER_MAIL_LOG_USER_ID_FKEY)
 
@@ -127,8 +132,11 @@ open class UserMailLogTable(
 
     val appUser: AppUserTable
         get(): AppUserTable = appUser()
+
     override fun `as`(alias: String): UserMailLogTable = UserMailLogTable(DSL.name(alias), this)
+
     override fun `as`(alias: Name): UserMailLogTable = UserMailLogTable(alias, this)
+
     override fun `as`(alias: Table<*>): UserMailLogTable =
         UserMailLogTable(alias.getQualifiedName(), this)
 

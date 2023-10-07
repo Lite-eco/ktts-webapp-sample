@@ -54,25 +54,44 @@ open class UserMailLogRecord private constructor() :
 
     override fun fieldsRow(): Row6<UUID?, UUID?, String?, String?, Boolean?, Instant?> =
         super.fieldsRow() as Row6<UUID?, UUID?, String?, String?, Boolean?, Instant?>
+
     override fun valuesRow(): Row6<UUID?, UUID?, String?, String?, Boolean?, Instant?> =
         super.valuesRow() as Row6<UUID?, UUID?, String?, String?, Boolean?, Instant?>
+
     override fun field1(): Field<UUID?> = UserMailLogTable.USER_MAIL_LOG.ID
+
     override fun field2(): Field<UUID?> = UserMailLogTable.USER_MAIL_LOG.USER_ID
+
     override fun field3(): Field<String?> = UserMailLogTable.USER_MAIL_LOG.MAIL
+
     override fun field4(): Field<String?> = UserMailLogTable.USER_MAIL_LOG.DIRTY_MAIL
+
     override fun field5(): Field<Boolean?> = UserMailLogTable.USER_MAIL_LOG.VALIDATED
+
     override fun field6(): Field<Instant?> = UserMailLogTable.USER_MAIL_LOG.CREATION_DATE
+
     override fun component1(): UUID = id
+
     override fun component2(): UUID = userId
+
     override fun component3(): String = mail
+
     override fun component4(): String? = dirtyMail
+
     override fun component5(): Boolean = validated
+
     override fun component6(): Instant = creationDate
+
     override fun value1(): UUID = id
+
     override fun value2(): UUID = userId
+
     override fun value3(): String = mail
+
     override fun value4(): String? = dirtyMail
+
     override fun value5(): Boolean = validated
+
     override fun value6(): Instant = creationDate
 
     override fun value1(value: UUID?): UserMailLogRecord {

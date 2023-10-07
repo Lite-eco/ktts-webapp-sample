@@ -54,25 +54,44 @@ open class UserFileRecord private constructor() :
 
     override fun fieldsRow(): Row6<UUID?, UUID?, ByteArray?, String?, String?, Instant?> =
         super.fieldsRow() as Row6<UUID?, UUID?, ByteArray?, String?, String?, Instant?>
+
     override fun valuesRow(): Row6<UUID?, UUID?, ByteArray?, String?, String?, Instant?> =
         super.valuesRow() as Row6<UUID?, UUID?, ByteArray?, String?, String?, Instant?>
+
     override fun field1(): Field<UUID?> = UserFileTable.USER_FILE.ID
+
     override fun field2(): Field<UUID?> = UserFileTable.USER_FILE.USER_ID
+
     override fun field3(): Field<ByteArray?> = UserFileTable.USER_FILE.FILE_CONTENT
+
     override fun field4(): Field<String?> = UserFileTable.USER_FILE.CONTENT_TYPE
+
     override fun field5(): Field<String?> = UserFileTable.USER_FILE.ORIGINAL_FILENAME
+
     override fun field6(): Field<Instant?> = UserFileTable.USER_FILE.UPLOAD_DATE
+
     override fun component1(): UUID = id
+
     override fun component2(): UUID = userId
+
     override fun component3(): ByteArray = fileContent
+
     override fun component4(): String = contentType
+
     override fun component5(): String = originalFilename
+
     override fun component6(): Instant = uploadDate
+
     override fun value1(): UUID = id
+
     override fun value2(): UUID = userId
+
     override fun value3(): ByteArray = fileContent
+
     override fun value4(): String = contentType
+
     override fun value5(): String = originalFilename
+
     override fun value6(): Instant = uploadDate
 
     override fun value1(value: UUID?): UserFileRecord {

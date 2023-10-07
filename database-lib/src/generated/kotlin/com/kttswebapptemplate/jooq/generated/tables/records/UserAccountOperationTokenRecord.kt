@@ -51,27 +51,43 @@ open class UserAccountOperationTokenRecord private constructor() :
 
     override fun fieldsRow(): Row5<String?, String?, UUID?, UUID?, Instant?> =
         super.fieldsRow() as Row5<String?, String?, UUID?, UUID?, Instant?>
+
     override fun valuesRow(): Row5<String?, String?, UUID?, UUID?, Instant?> =
         super.valuesRow() as Row5<String?, String?, UUID?, UUID?, Instant?>
+
     override fun field1(): Field<String?> =
         UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.TOKEN
+
     override fun field2(): Field<String?> =
         UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.TOKEN_TYPE
+
     override fun field3(): Field<UUID?> =
         UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.USER_ID
+
     override fun field4(): Field<UUID?> =
         UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.USER_MAIL_LOG_ID
+
     override fun field5(): Field<Instant?> =
         UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN.CREATION_DATE
+
     override fun component1(): String = token
+
     override fun component2(): String = tokenType
+
     override fun component3(): UUID = userId
+
     override fun component4(): UUID? = userMailLogId
+
     override fun component5(): Instant = creationDate
+
     override fun value1(): String = token
+
     override fun value2(): String = tokenType
+
     override fun value3(): UUID = userId
+
     override fun value4(): UUID? = userMailLogId
+
     override fun value5(): Instant = creationDate
 
     override fun value1(value: String?): UserAccountOperationTokenRecord {

@@ -50,22 +50,38 @@ open class DeploymentLogRecord private constructor() :
 
     override fun fieldsRow(): Row5<UUID?, String?, String?, Instant?, Instant?> =
         super.fieldsRow() as Row5<UUID?, String?, String?, Instant?, Instant?>
+
     override fun valuesRow(): Row5<UUID?, String?, String?, Instant?, Instant?> =
         super.valuesRow() as Row5<UUID?, String?, String?, Instant?, Instant?>
+
     override fun field1(): Field<UUID?> = DeploymentLogTable.DEPLOYMENT_LOG.ID
+
     override fun field2(): Field<String?> = DeploymentLogTable.DEPLOYMENT_LOG.BUILD_VERSION
+
     override fun field3(): Field<String?> = DeploymentLogTable.DEPLOYMENT_LOG.SYSTEM_ZONE_ID
+
     override fun field4(): Field<Instant?> = DeploymentLogTable.DEPLOYMENT_LOG.STARTUP_DATE
+
     override fun field5(): Field<Instant?> = DeploymentLogTable.DEPLOYMENT_LOG.SHUTDOWN_DATE
+
     override fun component1(): UUID = id
+
     override fun component2(): String = buildVersion
+
     override fun component3(): String = systemZoneId
+
     override fun component4(): Instant = startupDate
+
     override fun component5(): Instant? = shutdownDate
+
     override fun value1(): UUID = id
+
     override fun value2(): String = buildVersion
+
     override fun value3(): String = systemZoneId
+
     override fun value4(): Instant = startupDate
+
     override fun value5(): Instant? = shutdownDate
 
     override fun value1(value: UUID?): DeploymentLogRecord {
