@@ -11,7 +11,10 @@ spring:
     url: ${database.protocol}://${database.host}:${database.port}/${database.name}
     username: ${database.user}
     password: ${database.password}
-  freemarker.expose-request-attributes: true
+  freemarker:
+    expose-request-attributes: true
+    settings:
+      template_exception_handler: rethrow
 server:
   port: 8080
   error.whitelabel.enabled: true
