@@ -1,4 +1,4 @@
 export const RoutesListingRouteI18n = {
-  RoutesListing: () => 'Routes listing',
+  RoutesListing: () => 'Admin / Routes listing',
   _404page: () => '404 page'
 };
