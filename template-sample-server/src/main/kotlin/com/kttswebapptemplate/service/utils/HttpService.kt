@@ -31,17 +31,17 @@ class HttpService(val okHttpClient: OkHttpClient) {
 
     data class EmptyResponse(val code: Int)
 
-    open fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<HttpHeader, String>) =
+    fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<HttpHeader, String>) =
         execute(method, url, null, *headers)
 
-    open fun execute(
+    fun execute(
         method: HttpMethod,
         url: Uri,
         body: String,
         vararg headers: Pair<HttpHeader, String>
     ) = execute(method, url, body.toRequestBody(), *headers)
 
-    open fun execute(
+    fun execute(
         method: HttpMethod,
         url: Uri,
         body: RequestBody?,
