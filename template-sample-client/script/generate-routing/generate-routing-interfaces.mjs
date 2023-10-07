@@ -26,9 +26,9 @@ export const generateInterfaces = (file, resultRoutes, interfacesImports) => {
     );
     let source = printImports(interfacesImports, imports);
     source += '\n\n';
-    source += 'export type ApplicationRoute = ';
+    source += 'export type ApplicationPath = ';
     source += interfaces
-      .map(i => `| ${i[0].replaceAll('/', '')}Route`)
+      .map(i => `| ${i[0].replaceAll('/', '')}Path`)
       .join('\n');
     source += '\n\n';
     source += interfaces
@@ -36,7 +36,7 @@ export const generateInterfaces = (file, resultRoutes, interfacesImports) => {
         let interf = i[1].length !== 0 ? 'export ' : '';
         interf += 'interface ';
         interf += i[0].replaceAll('/', '');
-        interf += 'Route {\n';
+        interf += 'Path {\n';
         interf += "    name: '";
         interf += i[0];
         interf += "';\n    ";

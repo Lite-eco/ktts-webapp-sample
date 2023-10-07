@@ -14,8 +14,8 @@ class Parser {
     const fullPath = parentPath ? parentPath + '/' + path : path;
     const component = Parser.extractTypeMember(member, 'component').type
       .exprName.escapedText;
-    const container = Parser.extractTypeMember(member, 'container')?.type
-      .exprName.escapedText;
+    const layout = Parser.extractTypeMember(member, 'layout')?.type.exprName
+      .escapedText;
     const params =
       path !== notFoundPath
         ? [
@@ -30,7 +30,7 @@ class Parser {
       path: path ? path : '/',
       fullPath: fullPath,
       component,
-      container,
+      layout,
       params
     };
     const subRoutes = Parser.extractTypeMember(member, 'subRoutes');
@@ -76,21 +76,18 @@ export const parseFile = file => {
     // parse routes
     if (s.name.escapedText === 'routesDsl') {
       const rawResults = s.type.members.map(m => Parser.parseMember(m));
-      // containers are at level 0 only, no need to recursively groupBy
-      const gp = Collections.groupBy(
-        rawResults,
-        c => c.container ?? '_noContainer'
-      );
-      const containerResults = Object.entries(gp)
+      // layouts are at level 0 only, no need to recursively groupBy
+      const gp = Collections.groupBy(rawResults, c => c.layout ?? '_noLayout');
+      const layoutResults = Object.entries(gp)
         .filter(([key]) => key !== '')
         .map(([key, value]) => ({
           id: key,
-          // container has no name and no path
+          // layout has no name and no path
           component: key,
           subRoutes: value
         }));
-      resultRoutes.push(...containerResults);
-      resultRoutes.push(...(gp['_noContainer'] ?? []));
+      resultRoutes.push(...layoutResults);
+      resultRoutes.push(...(gp['_noLayout'] ?? []));
     }
   });
   return { interfacesImports, resultRoutes };

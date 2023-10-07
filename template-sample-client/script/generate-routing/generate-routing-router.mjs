@@ -48,7 +48,10 @@ export const printImports = (interfacesImports, imports) => {
       .filter(i => !i[2])
       .map(v => v[0])
       .join(', ');
-    return `import ${defaultImport} { ${imports} } from '${k}';`;
+    const path = `../../${k}`
+      .replaceAll('/./', '/')
+      .replaceAll('/../generated/', '/');
+    return `import ${defaultImport} { ${imports} } from '${path}';`;
   });
   return r.join('\n');
 };

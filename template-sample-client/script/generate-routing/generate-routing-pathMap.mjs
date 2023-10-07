@@ -9,14 +9,14 @@ const extractPairs = routes =>
 
 export const generatePathMap = (file, resultRoutes) => {
   if (resultRoutes.length !== 0) {
-    let source = "import { dict } from '../utils/nominal-class';\n";
+    let source = "import { dict } from '../../utils/nominal-class';\n";
     source +=
-      "import { ApplicationRoute } from './ApplicationRoute.generated';\n";
+      "import { ApplicationPath } from './ApplicationPath.generated';\n";
     source += '\n\n';
     source +=
-      "export const routePathMap = dict<ApplicationRoute['name'], string>([\n";
+      "export const routerPathMap = dict<ApplicationPath['name'], string>([\n";
     source += extractPairs(resultRoutes)
-      // take off containers
+      // take off layouts
       .filter(r => r[0])
       // take off Not Found
       .filter(r => r[1] !== notFoundPath)

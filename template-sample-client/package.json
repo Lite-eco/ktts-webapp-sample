@@ -37,7 +37,7 @@
     "build": "react-scripts build",
     "eject": "react-scripts eject",
     "format": "prettier --config package.json --write \"src/**/*.ts{,x}\" \"script/**/*.mjs\"",
-    "generate-routing": "node script/generate-routing.mjs && prettier --config package.json --write \"src/routing/*.ts{,x}\"",
+    "generate-routing": "node script/generate-routing.mjs && prettier --config package.json --write \"src/generated/routing/*.ts{,x}\"",
     "start": "react-scripts start",
     "test": "react-scripts test"
   },
