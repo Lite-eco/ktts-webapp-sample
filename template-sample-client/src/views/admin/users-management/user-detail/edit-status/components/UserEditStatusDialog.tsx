@@ -39,7 +39,7 @@ export const UserEditStatusDialog = (props: {
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
   const loggedInUserInfos = useRecoilValue(state.userInfos);
   if (!loggedInUserInfos) {
-    throw Errors._fe2e1fc7();
+    throw Errors._21bea505();
   }
   useEffect(() => {
     if (props.userId) {
@@ -69,7 +69,7 @@ export const UserEditStatusDialog = (props: {
   };
   const save = () => {
     if (!userInfos) {
-      throw Errors._8ab803a9();
+      throw Errors._7914a749();
     }
     if (!props.userId) {
       throw Errors._3b84f677();
