@@ -35,13 +35,15 @@ object GenerateJooqAndDiff {
         Paths.get(rootDir).also { logger.info { "Project dir is $it" } }
     }
 
+    val databaseLibResourcesDir by lazy { projectDir.resolve("database-lib/src/main/resources") }
+
     val webServerResourcesDir by lazy {
         projectDir.resolve("template-sample-server/src/main/resources")
     }
 
-    val sqlSchemaFilesDir by lazy { webServerResourcesDir.resolve("data/schema") }
+    val sqlSchemaFilesDir by lazy { databaseLibResourcesDir.resolve("data/schema") }
 
-    val sqlInsertFilesDir by lazy { webServerResourcesDir.resolve("data/insert") }
+    val sqlInsertFilesDir by lazy { databaseLibResourcesDir.resolve("data/insert") }
 
     val buildDir by lazy { projectDir.resolve("database-lib/build") }
 
