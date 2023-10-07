@@ -21,7 +21,8 @@ export const generateInterfaces = (file, resultRoutes, interfacesImports) => {
     const imports = new Set(
       interfaces
         .map(i => i[1])
-        .flatMap(i => i.map(o => o.type.typeName.escapedText))
+        .flatMap(i => i.map(o => o.type.typeName?.escapedText))
+        .filter(i => !!i)
     );
     let source = printImports(interfacesImports, imports);
     source += '\n\n';
