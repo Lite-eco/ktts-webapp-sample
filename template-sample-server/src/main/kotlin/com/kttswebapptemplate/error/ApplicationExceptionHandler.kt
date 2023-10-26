@@ -40,10 +40,9 @@ class ApplicationExceptionHandler(
         val subCause = exception.cause?.cause
         when {
             subCause is SizeLimitExceededException -> {
-                // TODO[tmpl][secu] in practice what happens with user null ?
                 logger.info {
-                    // TODO[tmpl][secu] which means user must be connected...
-                    "User ${userSessionService.getUserSession()} tried to upload a file to big: ${subCause.message}"
+                    (userSessionService.getUserSessionIfAuthenticated()?.let { "User $it" }
+                        ?: "Anonymous") + " tried to upload a file to big: ${subCause.message}"
                 }
                 // TODO[tmpl][secu] error codes for the front !
                 return render(
