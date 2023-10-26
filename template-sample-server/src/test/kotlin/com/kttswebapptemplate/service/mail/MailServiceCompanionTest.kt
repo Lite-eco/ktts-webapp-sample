@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test
 class MailServiceCompanionTest {
     @Test
     fun `check extractMailPrefixSuffix()`() {
+        assertEquals("" to "", extractMailPrefixSuffix(""))
         assertEquals("roger" to "", extractMailPrefixSuffix("roger"))
         assertEquals("roger" to "", extractMailPrefixSuffix("roger+test"))
         assertEquals("roger" to "gmail.com", extractMailPrefixSuffix("roger@gmail.com"))
