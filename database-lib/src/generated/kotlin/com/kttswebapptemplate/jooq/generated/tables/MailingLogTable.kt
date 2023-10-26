@@ -91,10 +91,10 @@ open class MailingLogTable(
     val DATA: TableField<MailingLogRecord, String?> =
         createField(DSL.name("data"), SQLDataType.CLOB.nullable(false), this, "")
 
-    /** The column <code>public.mailing_log.date</code>. */
-    val DATE: TableField<MailingLogRecord, Instant?> =
+    /** The column <code>public.mailing_log.log_date</code>. */
+    val LOG_DATE: TableField<MailingLogRecord, Instant?> =
         createField(
-            DSL.name("date"),
+            DSL.name("log_date"),
             SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false),
             this,
             "",

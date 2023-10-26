@@ -69,7 +69,7 @@ class MailService(
                 subject = subject,
                 content = content,
                 data = Serializer.serialize(mailData),
-                date = dateService.now())
+                logDate = dateService.now())
         mailingLogDao.insert(log)
         mailSendingService.sendMail(Mail(sender, recipient, subject, content), log.id)
     }

@@ -21,7 +21,7 @@ class MailingLogDao(private val jooq: DSLContext) {
         val subject: String,
         val content: String,
         val data: String,
-        val date: Instant
+        val logDate: Instant
     )
 
     fun insert(r: Record) {
@@ -38,7 +38,7 @@ class MailingLogDao(private val jooq: DSLContext) {
                     subject = r.subject,
                     content = r.content,
                     data = r.data,
-                    date = r.date))
+                    logDate = r.logDate))
             .execute()
     }
 }

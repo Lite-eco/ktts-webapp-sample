@@ -55,7 +55,7 @@ open class MailingLogRecord private constructor() :
         set(value): Unit = set(8, value)
         get(): String = get(8) as String
 
-    open var date: Instant
+    open var logDate: Instant
         set(value): Unit = set(9, value)
         get(): Instant = get(9) as Instant
 
@@ -121,7 +121,7 @@ open class MailingLogRecord private constructor() :
 
     override fun field9(): Field<String?> = MailingLogTable.MAILING_LOG.DATA
 
-    override fun field10(): Field<Instant?> = MailingLogTable.MAILING_LOG.DATE
+    override fun field10(): Field<Instant?> = MailingLogTable.MAILING_LOG.LOG_DATE
 
     override fun component1(): UUID = id
 
@@ -141,7 +141,7 @@ open class MailingLogRecord private constructor() :
 
     override fun component9(): String = `data`
 
-    override fun component10(): Instant = date
+    override fun component10(): Instant = logDate
 
     override fun value1(): UUID = id
 
@@ -161,7 +161,7 @@ open class MailingLogRecord private constructor() :
 
     override fun value9(): String = `data`
 
-    override fun value10(): Instant = date
+    override fun value10(): Instant = logDate
 
     override fun value1(value: UUID?): MailingLogRecord {
         set(0, value)
@@ -249,7 +249,7 @@ open class MailingLogRecord private constructor() :
         subject: String,
         content: String,
         `data`: String,
-        date: Instant
+        logDate: Instant
     ) : this() {
         this.id = id
         this.userId = userId
@@ -260,7 +260,7 @@ open class MailingLogRecord private constructor() :
         this.subject = subject
         this.content = content
         this.`data` = `data`
-        this.date = date
+        this.logDate = logDate
         resetChangedOnNotNull()
     }
 }

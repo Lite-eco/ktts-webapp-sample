@@ -9,6 +9,6 @@ CREATE TABLE mailing_log
     subject TEXT NOT NULL,
     content TEXT NOT NULL,
     data TEXT NOT NULL,
-    date TIMESTAMPTZ NOT NULL,
+    log_date TIMESTAMPTZ NOT NULL,
     FOREIGN KEY (user_id) REFERENCES app_user (id)
 );
