@@ -19,7 +19,7 @@ export const nominal = <
   T extends NominalNumber<any> | NominalString<any> | undefined
 >(
   value: string | number
-) => value as unknown as T;
+) => value as T;
 
 type DictKey = NominalItem | string;
 
@@ -28,7 +28,18 @@ export class Dict<K extends DictKey, T> {
   private _typeGuardValue!: T;
 }
 
-export const dict = <K extends DictKey, T>(pairs: [K, T][] = []): Dict<K, T> =>
+export const dict = <K extends DictKey, T>() => ({} as Dict<K, T>);
+
+export const associateBy = <K extends DictKey, T>(
+  a: T[],
+  key: (i: T) => K
+): Dict<K, T> => {
+  const d = dict<K, T>();
+  a.forEach(i => setMutable(d, key(i), i));
+  return d;
+};
+
+export const pairsToDict = <K extends DictKey, T>(pairs: [K, T][] = []) =>
   // @ts-ignore
   Object.fromEntries(pairs) as Dict<K, T>;
 
@@ -53,9 +64,18 @@ export const set = <K extends DictKey, T>(
   value: T
 ): Dict<K, T> => {
   const newDict = { ...dict } as Dict<K, T>;
-  // @ts-ignore
-  newDict[key] = value;
+  setMutable(newDict, key, value);
   return newDict;
+};
+
+export const setAll = <K extends DictKey, T>(
+  dict: Dict<K, T>,
+  values: T[],
+  key: (i: T) => K
+) => {
+  const result = { ...dict } as Dict<K, T>;
+  values.forEach(i => setMutable(result, key(i), i));
+  return result;
 };
 
 export const setMutable = <K extends DictKey, T>(
@@ -68,13 +88,13 @@ export const setMutable = <K extends DictKey, T>(
 };
 
 export const dictKeys = <K extends DictKey, T>(dict: Dict<K, T>) =>
-  Object.keys(dict) as unknown as K[];
+  Object.keys(dict) as K[];
 
 export const dictValues = <K extends DictKey, T>(dict: Dict<K, T>) =>
   Object.values(dict) as T[];
 
 export const dictEntries = <K extends DictKey, T>(dict: Dict<K, T>) =>
-  Object.entries(dict) as unknown as [K, T][];
+  Object.entries(dict) as [K, T][];
 
 export const deleteFromDict = <K extends DictKey, T>(
   dict: Dict<K, T>,
@@ -97,15 +117,6 @@ export const mergeDicts = <K extends DictKey, T>(...dicts: Dict<K, T>[]) => {
     });
   });
   return result;
-};
-
-export const associateBy = <K extends DictKey, T>(
-  a: T[],
-  key: (i: T) => K
-): Dict<K, T> => {
-  const d = dict<K, T>();
-  a.forEach(i => setMutable(d, key(i), i));
-  return d;
 };
 
 export const groupBy = <K extends DictKey, T>(

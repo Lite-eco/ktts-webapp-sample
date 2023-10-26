@@ -1,7 +1,7 @@
-import { dict } from '../../utils/nominal-class';
+import { pairsToDict } from '../../utils/nominal-class';
 import { ApplicationPath } from './ApplicationPath.generated';
 
-export const routerPathMap = dict<ApplicationPath['name'], string>([
+export const routerPathMap = pairsToDict<ApplicationPath['name'], string>([
   ['Account', '/account'],
   ['Admin', '/admin'],
   ['Admin/ManualCommand', '/admin/manual-command'],
