@@ -10,30 +10,22 @@ import org.springframework.session.jdbc.config.annotation.web.http.EnableJdbcHtt
 
 @SpringBootApplication(exclude = [UserDetailsServiceAutoConfiguration::class])
 @EnableJdbcHttpSession
-class TemplateSampleApplication {
-
-    companion object {
-        val logger = KotlinLogging.logger {}
-
-        var runningApplication = false
-
-        fun springProfile(lowercaseEnv: String) =
-            if (ApplicationInstance.env == ApplicationEnvironment.Dev) {
-                val userProfile = lowercaseEnv + "-" + System.getProperty("user.name")
-                "$lowercaseEnv,$userProfile"
-            } else {
-                lowercaseEnv
-            }
-    }
-}
+class TemplateSampleApplication
 
 fun main(args: Array<String>) {
-    TemplateSampleApplication.runningApplication = true
+    ApplicationInstance.runningApplication = true
     val lowercaseEnv = ApplicationInstance.env.name.lowercase()
-    TemplateSampleApplication.logger.info { "Environment is [$lowercaseEnv]" }
     System.setProperty("logging.config", "classpath:logback-webapp-$lowercaseEnv.xml")
     val app = SpringApplication(TemplateSampleApplication::class.java)
     app.setDefaultProperties(
-        mapOf("spring.profiles.default" to TemplateSampleApplication.springProfile(lowercaseEnv)))
+        mapOf(
+            "spring.profiles.default" to
+                if (ApplicationInstance.env == ApplicationEnvironment.Dev) {
+                    val userProfile = lowercaseEnv + "-" + System.getProperty("user.name")
+                    "$lowercaseEnv,$userProfile"
+                } else {
+                    lowercaseEnv
+                }))
     app.run(*args)
+    KotlinLogging.logger {}.info { "Environment is [${ApplicationInstance.env}]" }
 }

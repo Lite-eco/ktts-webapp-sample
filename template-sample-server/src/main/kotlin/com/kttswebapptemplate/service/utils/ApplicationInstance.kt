@@ -1,6 +1,5 @@
 package com.kttswebapptemplate.service.utils
 
-import com.kttswebapptemplate.TemplateSampleApplication
 import com.kttswebapptemplate.domain.ApplicationEnvironment
 import com.kttswebapptemplate.domain.DeploymentLogId
 import com.kttswebapptemplate.utils.toTypeId
@@ -10,11 +9,15 @@ import java.util.Properties
 import java.util.UUID
 
 object ApplicationInstance {
+
+    // is true in dev, false in test
+    var runningApplication = false
+
     val env by lazy {
         System.getenv("ENV")?.let {
             ApplicationEnvironment.valueOf(it.replaceFirstChar { it.uppercase() })
         }
-            ?: if (TemplateSampleApplication.runningApplication) {
+            ?: if (runningApplication) {
                 ApplicationEnvironment.Dev
             } else {
                 ApplicationEnvironment.Test
