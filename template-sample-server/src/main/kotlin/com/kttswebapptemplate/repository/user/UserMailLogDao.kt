@@ -18,7 +18,8 @@ class UserMailLogDao(private val jooq: DSLContext) {
         val mail: String,
         val dirtyMail: String?,
         val validated: Boolean,
-        val creationDate: Instant
+        val creationDate: Instant,
+        val validatedUpdate: Instant?
     )
 
     fun insert(r: Record) {
@@ -31,7 +32,18 @@ class UserMailLogDao(private val jooq: DSLContext) {
                     mail = r.mail,
                     dirtyMail = r.dirtyMail,
                     validated = r.validated,
-                    creationDate = r.creationDate))
+                    creationDate = r.creationDate,
+                    validatedUpdate = r.validatedUpdate,
+                ))
+            .execute()
+    }
+
+    fun updateValidated(id: UserMailLogId, validated: Boolean, date: Instant) {
+        jooq
+            .update(USER_MAIL_LOG)
+            .set(USER_MAIL_LOG.VALIDATED, validated)
+            .set(USER_MAIL_LOG.VALIDATED_UPDATE, date)
+            .where(USER_MAIL_LOG.ID.equal(id.rawId))
             .execute()
     }
 
@@ -51,5 +63,6 @@ class UserMailLogDao(private val jooq: DSLContext) {
             mail = r.mail,
             dirtyMail = r.dirtyMail,
             validated = r.validated,
-            creationDate = r.creationDate)
+            creationDate = r.creationDate,
+            validatedUpdate = r.validatedUpdate)
 }

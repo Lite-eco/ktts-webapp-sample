@@ -93,7 +93,8 @@ class UserService(
                 lastUpdate = now)
         userDao.insert(user, hashedPassword)
         val mailLog =
-            UserMailLogDao.Record(randomService.id(), user.id, cleanMail, dirtyMail, false, now)
+            UserMailLogDao.Record(
+                randomService.id(), user.id, cleanMail, dirtyMail, false, now, null)
         userMailLogDao.insert(mailLog)
         notificationService.notify(
             "${user.mail} just subscribed.", NotificationService.Channel.NewUser)
@@ -130,18 +131,23 @@ class UserService(
             if (lastUserMailLog.id != requireNotNull(t.userMailLogId) { "${t.token}" }) {
                 throw IllegalArgumentException("${t.token} ${t.userId}")
             }
+            if (lastUserMailLog.validated) {
+                return
+            }
             val userMail = userDao.fetch(t.userId)
             if (userMail.mail != lastUserMailLog.mail) {
                 // the user is changing his email
                 TODO() // update user
             } else {
                 // the user is validating his "first" email
+                userMailLogDao.updateValidated(lastUserMailLog.id, true, dateService.now())
                 updateStatusOrRoleIfNotNull(
                     userId = t.userId, status = UserStatus.Active, role = null)
             }
         }
     }
 
+    // TODO directly validated is simpler for the moment
     fun updateMail(userId: UserId, mail: String) {
         val (newMail, newDirtyMail) = cleanMailAndReturnDirty(mail)
         val formerMail = userDao.fetchMail(userId)
@@ -155,9 +161,9 @@ class UserService(
             return
         }
         userMailLogDao.insert(
-            UserMailLogDao.Record(randomService.id(), userId, newMail, newDirtyMail, false, now))
+            UserMailLogDao.Record(
+                randomService.id(), userId, newMail, newDirtyMail, true, now, null))
         logger.info { "Update mail $userId $formerMail => $newMail" }
-        // TODO nop, needs validation first
         userDao.updateMail(userId, newMail, now)
     }
 
