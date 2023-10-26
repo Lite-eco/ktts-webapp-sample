@@ -26,18 +26,8 @@ count=0
 errors=""
 while IFS= read -r line; do
     count=$((count + 1))
-    loading_bar_size=$((count * 100 / total_files))
-    loading_bar="["
-    for ((i = 0; i < loading_bar_size; i++)); do
-        loading_bar+="■"
-    done
-    for ((i = loading_bar_size; i < 100; i++)); do
-        loading_bar+=" "
-    done
-    loading_bar+="]"
-
-    echo -ne "\rStatus: $loading_bar $count / $total_files"
-
+    echo -ne "\r$count / $total_files"
+    
     if [[ $line == *" error: "* ]]; then
       errors=$errors$'\n'$line
     fi
