@@ -14,3 +14,7 @@ assets:
   webpackDevPort:
   webpackDevHost:
 #---------------------------------------------------------------------------
+mail:
+  devDestination: ${MAIL_DEV_DESTINATION}
+  devLogSender: ${MAIL_DEV_LOG_SENDER}
+#---------------------------------------------------------------------------

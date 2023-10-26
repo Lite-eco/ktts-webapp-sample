@@ -16,8 +16,8 @@ import org.springframework.stereotype.Service
 
 @Service
 class MailService(
-    @Value("\${mail.devLogSender}") private val devLogSenderMail: String,
     @Value("\${mail.devDestination}") private val devDestinationMail: String,
+    @Value("\${mail.devLogSender}") private val devLogSenderMail: String,
     private val mailingLogDao: MailingLogDao,
     private val dateService: DateService,
     private val mailSendingService: MailSendingService,

@@ -3,5 +3,3 @@ database:
   password:
   protocol: jdbc:postgresql
 assets.useBuildFiles: true
-mail:
-  devDestination: dev+log-template-sample@example.com

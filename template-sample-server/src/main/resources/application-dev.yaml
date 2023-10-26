@@ -19,5 +19,6 @@ assets:
   webpackDevHost: localhost
 #---------------------------------------------------------------------------
 mail:
-  devDestination: ${DEV_MAIL}
+  devDestination: ${DEV_MAIL:#{"dev+log-template-sample@example.com"}}
+  devLogSender: ${mail.devDestination}
 #---------------------------------------------------------------------------

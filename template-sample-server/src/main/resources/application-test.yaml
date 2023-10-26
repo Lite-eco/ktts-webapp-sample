@@ -16,3 +16,7 @@ assets:
   webpackDevPort:
   webpackDevHost:
 #---------------------------------------------------------------------------
+mail:
+  devDestination: dev+log-template-sample@example.com
+  devLogSender: dev+log-template-sample@example.com
+#---------------------------------------------------------------------------
