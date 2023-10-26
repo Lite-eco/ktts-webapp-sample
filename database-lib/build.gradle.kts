@@ -1,12 +1,9 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
-
 plugins { kotlin("jvm") }
 
 val kotlinVersion = "1.9.0"
 val jooqVersion = "3.18.4"
 
 tasks {
-    withType<KotlinCompile> { kotlinOptions.jvmTarget = "17" }
     register<JavaExec>("generateJooq") {
         mainClass.set("com.kttswebapptemplate.database.GenerateJooqAndDiffKt")
         classpath = sourceSets["main"].runtimeClasspath
