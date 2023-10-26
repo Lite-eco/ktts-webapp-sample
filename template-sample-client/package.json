@@ -47,11 +47,6 @@
     "trailingComma": "none",
     "arrowParens": "avoid"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app"
-    ]
-  },
   "browserslist": {
     "production": [
       ">0.2%",

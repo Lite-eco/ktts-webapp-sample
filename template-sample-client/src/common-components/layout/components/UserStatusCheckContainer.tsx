@@ -53,9 +53,8 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
             setUserInfos({ ...userInfos, status: r.status });
           });
       }, 2000);
-      return () => clearInterval(intervalId); //This is important
+      return () => clearInterval(intervalId);
     }
-    return () => {};
   }, [userInfos, setUserInfos]);
   const mailValidationToken = new URLSearchParams(window.location.search).get(
     'mailValidation'

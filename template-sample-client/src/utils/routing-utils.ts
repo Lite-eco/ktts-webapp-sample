@@ -17,10 +17,7 @@ export const useTypedMatches = () => {
 
 // because of https://github.com/remix-run/react-router/issues/7634
 // solution in comment #issuecomment-1306650156
-export const navigateTo = (
-  route: ApplicationPath,
-  replaceState: boolean = false
-) =>
+export const navigateTo = (route: ApplicationPath, replaceState = false) =>
   router.navigate(buildPath(route), {
     replace: replaceState
   });
