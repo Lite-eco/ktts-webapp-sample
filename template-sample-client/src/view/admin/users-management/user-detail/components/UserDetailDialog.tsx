@@ -20,11 +20,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  Paper,
   Table,
   TableBody,
   TableCell,
-  TableContainer,
   TableHead,
   TableRow
 } from '@mui/material';
@@ -57,121 +55,117 @@ export const UserDetailDialog = (props: {
           )}
           {props.userInfos && (
             <>
-              <TableContainer component={Paper}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>{t.Field()}</TableCell>
-                      <TableCell align="left">{t.Value()}</TableCell>
-                      <TableCell />
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    <TableRow
-                      css={css`
-                        &:last-child td,
-                        &:last-child th {
-                          border: 0;
-                        }
-                      `}
-                    >
-                      <TableCell component="th" scope="row">
-                        {t.id()}
-                      </TableCell>
-                      <TableCell align="left">
-                        <CopyContentWidget text={props.userInfos.id} />
-                      </TableCell>
-                      <TableCell align="left" />
-                    </TableRow>
-                    <TableRow
-                      css={css`
-                        &:last-child td,
-                        &:last-child th {
-                          border: 0;
-                        }
-                      `}
-                    >
-                      <TableCell component="th" scope="row">
-                        {t.mail()}
-                      </TableCell>
-                      <TableCell align="left">
-                        <CopyContentWidget text={props.userInfos.mail} />
-                      </TableCell>
-                      <TableCell align="left" />
-                    </TableRow>
-                    <TableRow
-                      css={css`
-                        &:last-child td,
-                        &:last-child th {
-                          border: 0;
-                        }
-                      `}
-                    >
-                      <TableCell component="th" scope="row">
-                        {t.displayName()}
-                      </TableCell>
-                      <TableCell align="left">
-                        {props.userInfos.displayName}
-                      </TableCell>
-                      <TableCell align="left" />
-                    </TableRow>
-                    <TableRow
-                      css={css`
-                        &:last-child td,
-                        &:last-child th {
-                          border: 0;
-                        }
-                      `}
-                    >
-                      <TableCell component="th" scope="row">
-                        {t.status()}
-                      </TableCell>
-                      <TableCell align="left">
-                        {props.userInfos.status}
-                      </TableCell>
-                      <TableCell align="left">
-                        <RouteLink
-                          element="Button"
-                          variant="outlined"
-                          route={{
-                            name: 'Admin/UsersManagement/UserDetail/EditStatus',
-                            userId: props.userInfos.id
-                          }}
-                        >
-                          {t.Edit()}
-                        </RouteLink>
-                      </TableCell>
-                    </TableRow>
-                    <TableRow
-                      css={css`
-                        &:last-child td,
-                        &:last-child th {
-                          border: 0;
-                        }
-                      `}
-                    >
-                      <TableCell component="th" scope="row">
-                        {t.role()}
-                      </TableCell>
-                      <TableCell align="left">
-                        <RoleChip role={props.userInfos.role} />
-                      </TableCell>
-                      <TableCell align="left">
-                        <RouteLink
-                          element="Button"
-                          variant="outlined"
-                          route={{
-                            name: 'Admin/UsersManagement/UserDetail/EditRole',
-                            userId: props.userInfos.id
-                          }}
-                        >
-                          {t.Edit()}
-                        </RouteLink>
-                      </TableCell>
-                    </TableRow>
-                  </TableBody>
-                </Table>
-              </TableContainer>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>{t.Field()}</TableCell>
+                    <TableCell align="left">{t.Value()}</TableCell>
+                    <TableCell />
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow
+                    css={css`
+                      &:last-child td,
+                      &:last-child th {
+                        border: 0;
+                      }
+                    `}
+                  >
+                    <TableCell component="th" scope="row">
+                      {t.id()}
+                    </TableCell>
+                    <TableCell align="left">
+                      <CopyContentWidget text={props.userInfos.id} />
+                    </TableCell>
+                    <TableCell align="left" />
+                  </TableRow>
+                  <TableRow
+                    css={css`
+                      &:last-child td,
+                      &:last-child th {
+                        border: 0;
+                      }
+                    `}
+                  >
+                    <TableCell component="th" scope="row">
+                      {t.mail()}
+                    </TableCell>
+                    <TableCell align="left">
+                      <CopyContentWidget text={props.userInfos.mail} />
+                    </TableCell>
+                    <TableCell align="left" />
+                  </TableRow>
+                  <TableRow
+                    css={css`
+                      &:last-child td,
+                      &:last-child th {
+                        border: 0;
+                      }
+                    `}
+                  >
+                    <TableCell component="th" scope="row">
+                      {t.displayName()}
+                    </TableCell>
+                    <TableCell align="left">
+                      {props.userInfos.displayName}
+                    </TableCell>
+                    <TableCell align="left" />
+                  </TableRow>
+                  <TableRow
+                    css={css`
+                      &:last-child td,
+                      &:last-child th {
+                        border: 0;
+                      }
+                    `}
+                  >
+                    <TableCell component="th" scope="row">
+                      {t.status()}
+                    </TableCell>
+                    <TableCell align="left">{props.userInfos.status}</TableCell>
+                    <TableCell align="left">
+                      <RouteLink
+                        element="Button"
+                        variant="outlined"
+                        route={{
+                          name: 'Admin/UsersManagement/UserDetail/EditStatus',
+                          userId: props.userInfos.id
+                        }}
+                      >
+                        {t.Edit()}
+                      </RouteLink>
+                    </TableCell>
+                  </TableRow>
+                  <TableRow
+                    css={css`
+                      &:last-child td,
+                      &:last-child th {
+                        border: 0;
+                      }
+                    `}
+                  >
+                    <TableCell component="th" scope="row">
+                      {t.role()}
+                    </TableCell>
+                    <TableCell align="left">
+                      <RoleChip role={props.userInfos.role} />
+                    </TableCell>
+                    <TableCell align="left">
+                      <RouteLink
+                        element="Button"
+                        variant="outlined"
+                        route={{
+                          name: 'Admin/UsersManagement/UserDetail/EditRole',
+                          userId: props.userInfos.id
+                        }}
+                      >
+                        {t.Edit()}
+                      </RouteLink>
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
               <div
                 css={css`
                   margin: 10px 0;

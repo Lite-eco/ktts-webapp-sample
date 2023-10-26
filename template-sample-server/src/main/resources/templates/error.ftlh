@@ -5,7 +5,7 @@
 <#include "header.ftlh">
 </head>
 <body>
-<div class="container">
+<div>
     <h1>Error ${requestError.status?no_esc}</h1>
     <p>${requestError.error?no_esc}</p>
     <p>${requestError.message?no_esc}</p>
