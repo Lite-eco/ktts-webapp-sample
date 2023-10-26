@@ -1,7 +1,11 @@
 package com.kttswebapptemplate.config
 
+import com.kttswebapptemplate.domain.ApplicationEnvironment
 import com.kttswebapptemplate.error.ApplicationExceptionHandlerExceptionResolver
 import com.kttswebapptemplate.serialization.Serializer
+import com.kttswebapptemplate.service.mail.DevFakeMailSendingService
+import com.kttswebapptemplate.service.mail.MailSendingService
+import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.ApplicationTaskExecutor
 import com.kttswebapptemplate.service.utils.random.IdLogService
 import com.kttswebapptemplate.service.utils.random.RandomService
@@ -104,6 +108,14 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
                 authorizeHttpRequests { authorize(anyRequest, permitAll) }
             }
             http.build()
+        }
+        bean<MailSendingService> {
+            when (ApplicationInstance.env) {
+                ApplicationEnvironment.Dev,
+                ApplicationEnvironment.Test -> DevFakeMailSendingService()
+                ApplicationEnvironment.Staging,
+                ApplicationEnvironment.Prod -> TODO()
+            }
         }
     }
 

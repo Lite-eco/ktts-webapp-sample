@@ -20,7 +20,7 @@ class MailService(
     @Value("\${mail.devDestination}") private val devDestinationMail: String,
     private val mailingLogDao: MailingLogDao,
     private val dateService: DateService,
-    private val fakeSaasMailService: FakeSaasMailService,
+    private val mailSendingService: MailSendingService,
     private val randomService: RandomService,
 ) {
 
@@ -71,6 +71,6 @@ class MailService(
                 data = Serializer.serialize(mailData),
                 date = dateService.now())
         mailingLogDao.insert(log)
-        fakeSaasMailService.sendMail(Mail(sender, recipient, subject, content), log.id)
+        mailSendingService.sendMail(Mail(sender, recipient, subject, content), log.id)
     }
 }
