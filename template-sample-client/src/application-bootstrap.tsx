@@ -6,7 +6,7 @@ import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
 import { RecoilRoot } from 'recoil';
 
-global.log = (logged: any) => console.log(logged);
+global.log = console.log;
 
 const root = document.getElementById('root');
 if (root) {

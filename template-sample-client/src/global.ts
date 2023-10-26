@@ -3,5 +3,5 @@ import { ApplicationBootstrapData } from './generated/domain/BootstrapData.gener
 declare global {
   const bootstrapData: ApplicationBootstrapData;
   const csrfToken: string;
-  var log: (mess: any) => void;
+  var log: (...mess: any[]) => void;
 }
