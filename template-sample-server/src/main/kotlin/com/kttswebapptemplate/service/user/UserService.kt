@@ -158,7 +158,7 @@ class UserService(
             UserMailLogDao.Record(randomService.id(), userId, newMail, newDirtyMail, false, now))
         logger.info { "Update mail $userId $formerMail => $newMail" }
         // TODO nop, needs validation first
-        //        userDao.updateMail(userId, newMail, now)
+        userDao.updateMail(userId, newMail, now)
     }
 
     fun updatePassword(userId: UserId, password: PlainStringPassword) {

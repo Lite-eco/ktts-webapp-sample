@@ -2,10 +2,12 @@ package com.kttswebapptemplate.controller
 
 import com.kttswebapptemplate.command.AdminUpdateRoleCommand
 import com.kttswebapptemplate.command.AdminUpdateRoleCommandHandler
-import com.kttswebapptemplate.command.AdminUpdateSessions
+import com.kttswebapptemplate.command.AdminUpdateSessionsCommand
 import com.kttswebapptemplate.command.AdminUpdateSessionsCommandHandler
 import com.kttswebapptemplate.command.AdminUpdateStatusCommand
 import com.kttswebapptemplate.command.AdminUpdateStatusCommandHandler
+import com.kttswebapptemplate.command.AdminUpdateUserMailCommand
+import com.kttswebapptemplate.command.AdminUpdateUserMailCommandHandler
 import com.kttswebapptemplate.command.Command
 import com.kttswebapptemplate.command.CommandConfiguration
 import com.kttswebapptemplate.command.CommandHandler
@@ -51,6 +53,7 @@ class CommandController(
     private val adminUpdateRoleCommandHandler: AdminUpdateRoleCommandHandler,
     private val adminUpdateSessionsCommandHandler: AdminUpdateSessionsCommandHandler,
     private val adminUpdateStatusCommandHandler: AdminUpdateStatusCommandHandler,
+    private val adminUpdateUserMailCommandHandler: AdminUpdateUserMailCommandHandler,
     private val devLoginCommandHandler: DevLoginCommandHandler,
     private val loginCommandHandler: LoginCommandHandler,
     private val registerCommandHandler: RegisterCommandHandler,
@@ -134,8 +137,9 @@ class CommandController(
     private fun handler(command: Command) =
         when (command) {
             is AdminUpdateRoleCommand -> adminUpdateRoleCommandHandler
-            AdminUpdateSessions -> adminUpdateSessionsCommandHandler
+            AdminUpdateSessionsCommand -> adminUpdateSessionsCommandHandler
             is AdminUpdateStatusCommand -> adminUpdateStatusCommandHandler
+            is AdminUpdateUserMailCommand -> adminUpdateUserMailCommandHandler
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
             is RegisterCommand -> registerCommandHandler
@@ -147,7 +151,7 @@ class CommandController(
     // for admin commands, should return the affected user when there's one
     private fun affectedUserId(command: Command): UserId? =
         when (command) {
-            AdminUpdateSessions,
+            AdminUpdateSessionsCommand,
             is DevLoginCommand,
             is LoginCommand,
             is RegisterCommand,
@@ -155,6 +159,7 @@ class CommandController(
             is ValidateMailCommand -> null
             is AdminUpdateRoleCommand -> command.userId
             is AdminUpdateStatusCommand -> command.userId
+            is AdminUpdateUserMailCommand -> command.userId
             is UpdateLostPasswordCommand -> TODO()
         }
 }

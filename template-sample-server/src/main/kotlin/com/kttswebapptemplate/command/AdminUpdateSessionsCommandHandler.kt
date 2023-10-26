@@ -16,9 +16,9 @@ class AdminUpdateSessionsCommandHandler(
     private val sessionRepository: SafeSessionRepository,
     private val userService: UserService,
     private val userSessionService: UserSessionService,
-) : CommandHandler.Handler<AdminUpdateSessions, EmptyCommandResponse>() {
+) : CommandHandler.Handler<AdminUpdateSessionsCommand, EmptyCommandResponse>() {
 
-    override fun handle(command: AdminUpdateSessions): EmptyCommandResponse {
+    override fun handle(command: AdminUpdateSessionsCommand): EmptyCommandResponse {
         updateSessions()
         return EmptyCommandResponse
     }

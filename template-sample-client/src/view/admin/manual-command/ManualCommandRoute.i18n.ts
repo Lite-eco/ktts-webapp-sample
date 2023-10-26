@@ -12,5 +12,6 @@ export const ManualCommandRouteI18n = {
   CommandsCanBeSentInGroup: () =>
     'Commands can be sent in batch (they are sent & handled one by one to the backend). Just use a JSON array:',
   Documentation: () => 'Documentation',
-  UpdateSessions: () => 'Update sessions'
+  UpdateSessions: () => 'Update sessions',
+  UpdateUserMail: () => 'Update user mail'
 };

@@ -24,9 +24,11 @@ data object EmptyCommandResponse : CommandResponse()
 
 data class AdminUpdateRoleCommand(val userId: UserId, val role: Role) : Command()
 
-data object AdminUpdateSessions : Command()
+data object AdminUpdateSessionsCommand : Command()
 
 data class AdminUpdateStatusCommand(val userId: UserId, val status: UserStatus) : Command()
+
+data class AdminUpdateUserMailCommand(val userId: UserId, val mail: String) : Command()
 
 data class DevLoginCommand(val username: String) : Command()
 

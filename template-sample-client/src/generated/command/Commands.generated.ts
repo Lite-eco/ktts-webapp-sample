@@ -12,8 +12,9 @@ import { UserAccountOperationToken } from '../domain/UserAccountOperationToken.g
 
 export type Command =
   | AdminUpdateRoleCommand
-  | AdminUpdateSessions
+  | AdminUpdateSessionsCommand
   | AdminUpdateStatusCommand
+  | AdminUpdateUserMailCommand
   | DevLoginCommand
   | LoginCommand
   | RegisterCommand
@@ -38,14 +39,20 @@ export interface AdminUpdateRoleCommand {
   role: Role;
 }
 
-export interface AdminUpdateSessions {
-  objectType: 'AdminUpdateSessions';
+export interface AdminUpdateSessionsCommand {
+  objectType: 'AdminUpdateSessionsCommand';
 }
 
 export interface AdminUpdateStatusCommand {
   objectType: 'AdminUpdateStatusCommand';
   userId: UserId;
   status: UserStatus;
+}
+
+export interface AdminUpdateUserMailCommand {
+  objectType: 'AdminUpdateUserMailCommand';
+  userId: UserId;
+  mail: string;
 }
 
 export interface DevLoginCommand {

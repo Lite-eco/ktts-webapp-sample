@@ -1,18 +1,26 @@
 /** @jsxImportSource @emotion/react */
 import {
-  AdminUpdateSessions,
+  AdminUpdateSessionsCommand,
+  AdminUpdateUserMailCommand,
   CommandResponse
 } from '../../../generated/command/Commands.generated';
 import { RequestError } from '../../../generated/error/Exceptions.generated';
 import { useI18n } from '../../../hooks/i18n';
 import { appContext } from '../../../services/ApplicationContext';
+import { nominal } from '../../../utils/nominal-class';
 import { ManualCommandRouteI18n } from './ManualCommandRoute.i18n';
 import { css } from '@emotion/react';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
 
-const sampleAdminUpdateSessions: AdminUpdateSessions = {
-  objectType: 'AdminUpdateSessions'
+const sampleAdminUpdateSessionsCommand: AdminUpdateSessionsCommand = {
+  objectType: 'AdminUpdateSessionsCommand'
+};
+
+const sampleAdminUpdateUserMailCommand: AdminUpdateUserMailCommand = {
+  objectType: 'AdminUpdateUserMailCommand',
+  userId: nominal('92a30f9b8dd44291b88ba6be0afca4ae'),
+  mail: 'example@mail.com'
 };
 
 /** Should explain data in the response */
@@ -116,12 +124,14 @@ export const ManualCommandRoute = () => {
       >
         <h1>{t.ManualCommands()}</h1>
         <p>{t.HowTo()}</p>
-        <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
+        <pre>{JSON.stringify(sampleAdminUpdateSessionsCommand, null, 2)}</pre>
         <p>{t.CommandsCanBeSentInGroup()}</p>
         <pre>[command1, command2]</pre>
         <h2>{t.Documentation()}</h2>
         <h3>{t.UpdateSessions()}</h3>
-        <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
+        <pre>{JSON.stringify(sampleAdminUpdateSessionsCommand, null, 2)}</pre>
+        <h3>{t.UpdateUserMail()}</h3>
+        <pre>{JSON.stringify(sampleAdminUpdateUserMailCommand, null, 2)}</pre>
       </div>
       <div
         css={css`
