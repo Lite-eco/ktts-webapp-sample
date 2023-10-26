@@ -6,6 +6,7 @@ CREATE TABLE user_mail_log
     dirty_mail VARCHAR(255),
     validated BOOLEAN NOT NULL,
     creation_date TIMESTAMPTZ NOT NULL,
+    validated_update TIMESTAMPTZ,
     FOREIGN KEY (user_id) REFERENCES app_user (id)
 );
 
