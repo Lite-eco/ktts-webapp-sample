@@ -38,8 +38,12 @@ const RouteListingItem = (props: {
 }) => {
   const path = props.route.path;
   const t = useI18n(RoutesListingRouteI18n);
-  // if path is empty it's a container
-  if (!path) {
+  // if path is an empty string it's a root route
+  if (path === '') {
+    return null;
+  }
+  // if path is undefined it's a container
+  if (path === undefined) {
     return (
       <div
         css={css`
