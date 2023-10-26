@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { ApplicationPath } from '../../../generated/routing/ApplicationPath.generated';
 import { useI18n } from '../../../hooks/i18n';
-import { state } from '../../../state/state';
+import { useUserState } from '../../../state/UserState';
 import { colors } from '../../../style/vars';
 import { buildPath } from '../../../utils/routing-utils';
 import { RouteLink } from '../../RouteLink';
@@ -13,10 +13,9 @@ import { ListItemButton, ListItemText, Menu, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import { PropsWithChildren, useRef, useState } from 'react';
 import { Link as RouterLink, useMatches } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 
 export const Navbar = () => {
-  const userInfos = useRecoilValue(state.userInfos);
+  const userInfos = useUserState(s => s.userInfos);
   const buttonElement = useRef<HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
   const close = () => setOpen(false);

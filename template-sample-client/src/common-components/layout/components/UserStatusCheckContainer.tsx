@@ -3,7 +3,7 @@ import { UserStatus } from '../../../generated/domain/User.generated';
 import { GetUserStatusQueryResponse } from '../../../generated/query/Queries.generated';
 import { useI18n } from '../../../hooks/i18n';
 import { appContext } from '../../../services/ApplicationContext';
-import { state } from '../../../state/state';
+import { useUserState } from '../../../state/UserState';
 import { assertUnreachable } from '../../../utils';
 import { nominal } from '../../../utils/nominal-class';
 import { navigateTo } from '../../../utils/routing-utils';
@@ -17,7 +17,6 @@ import {
   DialogTitle
 } from '@mui/material';
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 const UserStatusContent = (
   props: PropsWithChildren<{ status: UserStatus | undefined }>
@@ -37,7 +36,8 @@ const UserStatusContent = (
 };
 
 export const UserStatusCheckContainer = (props: PropsWithChildren) => {
-  const [userInfos, setUserInfos] = useRecoilState(state.userInfos);
+  const userInfos = useUserState(s => s.userInfos);
+  const updateUserStatus = useUserState(s => s.updateUserStatus);
   const [displayPopup, setDisplayPopup] = useState(false);
   useEffect(() => {
     if (userInfos?.status === 'MailValidationPending') {
@@ -50,12 +50,12 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
             if (r.status !== 'MailValidationPending') {
               clearInterval(intervalId);
             }
-            setUserInfos({ ...userInfos, status: r.status });
+            updateUserStatus(r.status);
           });
       }, 2000);
       return () => clearInterval(intervalId);
     }
-  }, [userInfos, setUserInfos]);
+  }, [userInfos, updateUserStatus]);
   const mailValidationToken = new URLSearchParams(window.location.search).get(
     'mailValidation'
   );
@@ -70,10 +70,7 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
         // validation is done whether the user is connected or not
         // (and if there's a session, it's not necessarily with the validated user)
         if (userInfos?.id === userId) {
-          setUserInfos({
-            ...userInfos,
-            status: 'Active'
-          });
+          updateUserStatus('Active');
         }
         navigateTo({ name: 'Root' }, true);
         setDisplayPopup(true);

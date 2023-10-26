@@ -4,21 +4,18 @@ import { router } from './generated/routing/router.generated';
 import { SnackbarProvider } from 'notistack';
 import { createRoot } from 'react-dom/client';
 import { RouterProvider } from 'react-router-dom';
-import { RecoilRoot } from 'recoil';
 
 global.log = console.log;
 
 const root = document.getElementById('root');
 if (root) {
   createRoot(root).render(
-    <RecoilRoot>
-      <StylesProviderContainer>
-        <I18nProvider>
-          <SnackbarProvider maxSnack={3}>
-            <RouterProvider router={router} />
-          </SnackbarProvider>
-        </I18nProvider>
-      </StylesProviderContainer>
-    </RecoilRoot>
+    <StylesProviderContainer>
+      <I18nProvider>
+        <SnackbarProvider maxSnack={3}>
+          <RouterProvider router={router} />
+        </SnackbarProvider>
+      </I18nProvider>
+    </StylesProviderContainer>
   );
 }

@@ -4,17 +4,17 @@ import { RegisterCommandResponse } from '../../generated/command/Commands.genera
 import { RegisterResult } from '../../generated/domain/User.generated';
 import { useI18n } from '../../hooks/i18n';
 import { appContext } from '../../services/ApplicationContext';
-import { state } from '../../state/state';
+import { useUserState } from '../../state/UserState';
 import { assertUnreachable } from '../../utils';
 import { navigateTo } from '../../utils/routing-utils';
 import { RegisterRouteI18n } from './RegisterRoute.i18n';
 import { RegisterForm, RegisterFormInput } from './components/RegisterForm';
 import { css } from '@emotion/react';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 export const RegisterRoute = () => {
-  const [userInfos, setUserInfos] = useRecoilState(state.userInfos);
+  const userInfos = useUserState(s => s.userInfos);
+  const setUserInfos = useUserState(s => s.setUserInfos);
   const [registerResult, setRegisterResult] = useState<RegisterResult>();
   const register = (input: RegisterFormInput) =>
     appContext.commandService

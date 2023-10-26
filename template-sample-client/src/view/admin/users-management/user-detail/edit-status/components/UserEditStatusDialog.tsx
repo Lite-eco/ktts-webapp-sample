@@ -11,7 +11,7 @@ import { AdminGetUserInfosQueryResponse } from '../../../../../../generated/quer
 import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
 import { appContext } from '../../../../../../services/ApplicationContext';
-import { state } from '../../../../../../state/state';
+import { useUserState } from '../../../../../../state/UserState';
 import { navigateTo } from '../../../../../../utils/routing-utils';
 import { UserEditStatusDialogI18n } from './UserEditStatusDialog.i18n';
 import { css } from '@emotion/react';
@@ -27,7 +27,6 @@ import {
   TextField
 } from '@mui/material';
 import { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 export const UserEditStatusDialog = (props: {
   userId: UserId;
@@ -37,7 +36,7 @@ export const UserEditStatusDialog = (props: {
   const [status, setStatus] = useState<UserStatus | undefined>();
   const [queryLoading, setQueryLoading] = useState<LoadingState>('Idle');
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
-  const loggedInUserInfos = useRecoilValue(state.userInfos);
+  const loggedInUserInfos = useUserState(s => s.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._21bea505();
   }

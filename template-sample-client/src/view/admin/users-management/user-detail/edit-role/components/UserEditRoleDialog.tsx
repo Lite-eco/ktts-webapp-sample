@@ -10,7 +10,7 @@ import {
 import { useI18n } from '../../../../../../hooks/i18n';
 import { LoadingState } from '../../../../../../interfaces';
 import { appContext } from '../../../../../../services/ApplicationContext';
-import { state } from '../../../../../../state/state';
+import { useUserState } from '../../../../../../state/UserState';
 import { colors } from '../../../../../../style/vars';
 import { navigateTo } from '../../../../../../utils/routing-utils';
 import { UserEditRoleDialogI18n } from './UserEditRoleDialog.i18n';
@@ -29,7 +29,6 @@ import {
   Typography
 } from '@mui/material';
 import { PropsWithChildren, useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 
 export const UserEditRoleDialog = (props: {
   userId: UserId;
@@ -39,7 +38,7 @@ export const UserEditRoleDialog = (props: {
 }) => {
   const [role, setRole] = useState<Role | undefined>();
   const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
-  const loggedInUserInfos = useRecoilValue(state.userInfos);
+  const loggedInUserInfos = useUserState(s => s.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._fe2e1fc7();
   }

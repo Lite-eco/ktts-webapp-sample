@@ -3,15 +3,14 @@ import { RouteLink } from '../../../common-components/RouteLink';
 import { ApplicationPath } from '../../../generated/routing/ApplicationPath.generated';
 import { routes } from '../../../generated/routing/router.generated';
 import { useI18n } from '../../../hooks/i18n';
-import { state } from '../../../state/state';
+import { useUserState } from '../../../state/UserState';
 import { colors } from '../../../style/vars';
 import { RoutesListingRouteI18n } from './RoutesListingRoute.i18n';
 import { css } from '@emotion/react';
 import { Link, RouteObject } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 
 export const RoutesListingRoute = () => {
-  const userInfos = useRecoilValue(state.userInfos);
+  const userInfos = useUserState(s => s.userInfos);
   const t = useI18n(RoutesListingRouteI18n);
   if (userInfos?.role !== 'Admin') {
     return null;

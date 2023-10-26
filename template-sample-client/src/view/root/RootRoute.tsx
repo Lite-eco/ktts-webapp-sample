@@ -1,12 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { RouteLink } from '../../common-components/RouteLink';
 import { useI18n } from '../../hooks/i18n';
-import { state } from '../../state/state';
+import { useUserState } from '../../state/UserState';
 import { RootRouteI18n } from './RootRoute.i18n';
-import { useRecoilValue } from 'recoil';
 
 export const RootRoute = () => {
-  const userInfos = useRecoilValue(state.userInfos);
+  const userInfos = useUserState(s => s.userInfos);
   const t = useI18n(RootRouteI18n);
   return (
     <>

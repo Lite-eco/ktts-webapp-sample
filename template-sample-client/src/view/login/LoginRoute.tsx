@@ -7,7 +7,7 @@ import {
 import { LoginResult, UserInfos } from '../../generated/domain/User.generated';
 import { useI18n } from '../../hooks/i18n';
 import { appContext } from '../../services/ApplicationContext';
-import { state } from '../../state/state';
+import { useUserState } from '../../state/UserState';
 import { colors } from '../../style/vars';
 import { assertUnreachable } from '../../utils';
 import { navigateTo } from '../../utils/routing-utils';
@@ -16,10 +16,10 @@ import { LoginForm, LoginFormInput } from './components/LoginForm';
 import { css } from '@emotion/react';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
-import { useRecoilState } from 'recoil';
 
 export const LoginRoute = () => {
-  const [userInfos, setUserInfos] = useRecoilState(state.userInfos);
+  const userInfos = useUserState(s => s.userInfos);
+  const setUserInfos = useUserState(s => s.setUserInfos);
   const [loginResult, setLoginResult] = useState<LoginResult>();
   const connect = (userInfos: UserInfos) => {
     setUserInfos(userInfos);
