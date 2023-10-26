@@ -18,7 +18,7 @@ import org.jooq.Index
 import org.jooq.Name
 import org.jooq.Record
 import org.jooq.Records
-import org.jooq.Row6
+import org.jooq.Row7
 import org.jooq.Schema
 import org.jooq.SelectField
 import org.jooq.Table
@@ -82,6 +82,15 @@ open class UserMailLogTable(
         createField(
             DSL.name("creation_date"),
             SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false),
+            this,
+            "",
+            TimestampWithTimeZoneToInstantJooqConverter())
+
+    /** The column <code>public.user_mail_log.validated_update</code>. */
+    val VALIDATED_UPDATE: TableField<UserMailLogRecord, Instant?> =
+        createField(
+            DSL.name("validated_update"),
+            SQLDataType.TIMESTAMPWITHTIMEZONE(6),
             this,
             "",
             TimestampWithTimeZoneToInstantJooqConverter())
@@ -151,19 +160,19 @@ open class UserMailLogTable(
         UserMailLogTable(name.getQualifiedName(), null)
 
     // -------------------------------------------------------------------------
-    // Row6 type methods
+    // Row7 type methods
     // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row6<UUID?, UUID?, String?, String?, Boolean?, Instant?> =
-        super.fieldsRow() as Row6<UUID?, UUID?, String?, String?, Boolean?, Instant?>
+    override fun fieldsRow(): Row7<UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?> =
+        super.fieldsRow() as Row7<UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?>
 
     /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
     fun <U> mapping(
-        from: (UUID?, UUID?, String?, String?, Boolean?, Instant?) -> U
+        from: (UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?) -> U
     ): SelectField<U> = convertFrom(Records.mapping(from))
 
     /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
     fun <U> mapping(
         toType: Class<U>,
-        from: (UUID?, UUID?, String?, String?, Boolean?, Instant?) -> U
+        from: (UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?) -> U
     ): SelectField<U> = convertFrom(toType, Records.mapping(from))
 }
