@@ -1,11 +1,12 @@
 KTFMT_VERSION=0.46
 ##################
 FILENAME=ktfmt-$KTFMT_VERSION-jar-with-dependencies.jar
-DIR=.ktfmt
+DIR=~/.ktfmt
 FILE=$DIR/$FILENAME
 if ! test -f "$FILE"; then
     mkdir $DIR
     LINK=https://search.maven.org/remotecontent?filepath=com/facebook/ktfmt/$KTFMT_VERSION/$FILENAME
     curl -L $LINK -o $FILE
 fi
-java -jar $FILE --dropbox-style .
+echo ~~~ ktfmt $KTFMT_VERSION ~~~
+java -jar $FILE --dropbox-style $(find . -type d \( -name build -o -name node_modules \) -prune -o \( -name "*.kt" -o -name "*.kts" \) -print)
