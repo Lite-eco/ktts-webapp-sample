@@ -114,10 +114,23 @@ export const ManualCommandRoute = () => {
           flex: 1;
         `}
       >
-        <h1>{t.Command()}</h1>
+        <h1>{t.ManualCommands()}</h1>
+        <p>{t.HowTo()}</p>
+        <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
+        <p>{t.CommandsCanBeSentInGroup()}</p>
+        <pre>[command1, command2]</pre>
+        <h2>{t.Documentation()}</h2>
+        <h3>{t.UpdateSessions()}</h3>
+        <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
+      </div>
+      <div
+        css={css`
+          flex: 2;
+        `}
+      >
         <textarea
           ref={commandTextArea}
-          rows={16}
+          rows={40}
           css={css`
             width: 100%;
           `}
@@ -141,30 +154,6 @@ export const ManualCommandRoute = () => {
             <pre>{JSON.stringify(r, null, 2)}</pre>
           </p>
         ))}
-      </div>
-      <div
-        css={css`
-          flex: 1;
-        `}
-      >
-        <h2>{t.Commands()}</h2>
-        <h3>{t.UpdateSessions()}</h3>
-        <pre>{JSON.stringify(sampleAdminUpdateSessions, null, 2)}</pre>
-      </div>
-      <div
-        css={css`
-          flex: 1;
-        `}
-      >
-        <h2>{t.BatchCommands()}</h2>
-        <p>{t.CommandsCanBeSentInGroup()}</p>
-        <pre>
-          {JSON.stringify(
-            [sampleAdminUpdateSessions, sampleAdminUpdateSessions],
-            null,
-            2
-          )}
-        </pre>
       </div>
     </div>
   );

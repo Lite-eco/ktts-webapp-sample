@@ -4,12 +4,13 @@ export const ManualCommandRouteI18n = {
   CommandAlreadyHandled: () => 'Command already handled.',
   InvalidJson: () => 'Invalid JSON.',
   ServerError: () => 'Server error: ',
-  Command: () => 'Admin / Command(s):',
+  ManualCommands: () => 'Admin / Manual commands:',
   SendCommand: () => 'Send command',
   ok: () => 'ok',
-  Commands: () => 'Commands',
-  UpdateSessions: () => 'Update sessions',
-  BatchCommands: () => '"Batch" commands',
+  HowTo: () =>
+    'Commands can be directly sent to the back-end in the following text area. Just input the command, for example:',
   CommandsCanBeSentInGroup: () =>
-    'Commands can be sent in group (they are sent & handled one by one to the backend)'
+    'Commands can be sent in batch (they are sent & handled one by one to the backend). Just use a JSON array:',
+  Documentation: () => 'Documentation',
+  UpdateSessions: () => 'Update sessions'
 };
