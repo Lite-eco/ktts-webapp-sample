@@ -11,7 +11,7 @@ val psqlDatabaseConfiguration: PsqlDatabaseConfiguration by lazy {
             SpringLikeYamlConfigUtils.yamlFilesToMap(
                 *configurationFiles
                     .mapNotNull {
-                        GenerateJooqAndDiff.webServerResourcesDir.resolve(it).let {
+                        Directories.webServerResourcesDir.resolve(it).let {
                             if (it.exists()) it.inputStream() else null
                         }
                     }

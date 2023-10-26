@@ -1,8 +1,5 @@
 package com.kttswebapptemplate.database
 
-import com.kttswebapptemplate.database.GenerateJooqAndDiff.sqlInitiateSchemaResultFile
-import com.kttswebapptemplate.database.GenerateJooqAndDiff.sqlInsertFilesDir
-import com.kttswebapptemplate.database.GenerateJooqAndDiff.sqlSchemaFilesDir
 import com.kttswebapptemplate.database.domain.PsqlDatabaseConfiguration
 import com.kttswebapptemplate.database.utils.DatabaseUtils
 import com.kttswebapptemplate.database.utils.SqlDependenciesResolver
@@ -32,7 +29,7 @@ object ResetDatabase {
 
     fun resetDatabaseSchema(connection: Connection, insertData: Boolean) {
         logger.info {
-            "Reset schema \"${PsqlDatabaseConfiguration.schema}\", using directory: $sqlSchemaFilesDir"
+            "Reset schema \"${PsqlDatabaseConfiguration.schema}\", using directory: ${Directories.sqlSchemaFilesDir}"
         }
         val jooq = DSL.using(connection)
         cleanSchema(jooq, PsqlDatabaseConfiguration.schema)
@@ -49,7 +46,7 @@ object ResetDatabase {
 
     private fun initializeSchema(jooq: DSLContext) {
         val sqlQueries =
-            sqlSchemaFilesDir
+            Directories.sqlSchemaFilesDir
                 .toFile()
                 .walk()
                 .filter { it.extension == "sql" }
@@ -60,13 +57,13 @@ object ResetDatabase {
 
         val initScript =
             "BEGIN TRANSACTION;\n" + resolved.joinToString(separator = "\n") + "COMMIT;"
-        Files.write(sqlInitiateSchemaResultFile, initScript.toByteArray())
+        Files.write(Directories.sqlInitiateSchemaResultFile, initScript.toByteArray())
     }
 
     private fun insertInitialData(jooq: DSLContext) {
-        logger.info { "Insert initial data, using directory: $sqlInsertFilesDir" }
+        logger.info { "Insert initial data, using directory: ${Directories.sqlInsertFilesDir}" }
         val sqlQueries =
-            sqlInsertFilesDir
+            Directories.sqlInsertFilesDir
                 .toFile()
                 .walk()
                 .filter { it.extension == "sql" }
