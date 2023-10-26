@@ -115,8 +115,6 @@ class UserSessionService(
                 // [doc] allows UserSession object evolution without breaking existing sessions
                 // & then securityContextRepository.saveContext()
                 is Session -> convert(it).session
-                // TODO[tmpl][secu] do 403 if anonymousUser
-                is AnonymousAuthenticationToken,
                 anonymousUser -> throw AppErrors.NotConnectedUser()
                 // TODO[tmpl][secu] log ?
                 else -> throw IllegalStateException("Unexpected principal type ${it.javaClass} $it")
