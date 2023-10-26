@@ -15,13 +15,14 @@ export const AdminRootRoute = () => {
       <div>
         {dictEntries(routerPathMap)
           .filter(([name]) => name.startsWith('Admin/'))
-          .map(([name, path]) => {
+          .map(([name]) => {
             const subRoutes = name.split('/');
             if (subRoutes.length > 2) {
               return null;
             }
             return (
               <div
+                key={name}
                 css={css`
                   padding: 10px;
                 `}
