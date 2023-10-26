@@ -49,21 +49,25 @@ repositories {
 configurations.all { exclude("junit") }
 
 dependencies {
+    // kotlin
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlinVersion")
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
-    implementation("io.github.microutils:kotlin-logging:3.0.5")
-    implementation("ch.qos.logback:logback-classic:1.4.7")
-    implementation("org.yaml:snakeyaml:2.0")
-
+    // database
+    implementation("org.postgresql:postgresql:42.5.4")
     implementation("org.jooq:jooq:$jooqVersion")
     implementation("org.jooq:jooq-meta:$jooqVersion")
     implementation("org.jooq:jooq-codegen:$jooqVersion")
 
+    // logs
+    implementation("ch.qos.logback:logback-classic:1.4.7")
+    implementation("io.github.microutils:kotlin-logging:3.0.5")
+
+    // utils
     implementation("com.github.jsqlparser:jsqlparser:4.6")
+    implementation("org.yaml:snakeyaml:2.0")
 
-    implementation("org.postgresql:postgresql:42.5.4")
-
+    // tests
     testImplementation("org.assertj:assertj-core:3.24.2")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
