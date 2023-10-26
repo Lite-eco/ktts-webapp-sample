@@ -34,6 +34,8 @@ tasks {
     }
 }
 
+springBoot { mainClass.set("com.kttswebapptemplate.TemplateSampleApplicationKt") }
+
 repositories {
     mavenLocal()
     mavenCentral()
