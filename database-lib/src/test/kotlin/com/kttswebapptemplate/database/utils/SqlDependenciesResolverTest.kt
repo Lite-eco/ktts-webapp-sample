@@ -54,7 +54,8 @@ CREATE INDEX ON app_user (mail);
         """
                 .trimIndent(),
             SqlDependenciesResolver.resolveSql(listOf(userSql, userFileSql))
-                .joinToString(separator = "\n")
+                .map { it.sql + ";" }
+                .joinToString(separator = "\n\n")
                 .trim())
     }
 
@@ -113,6 +114,7 @@ CREATE TABLE test1
                 SqlDependenciesResolver.resolveSql(listOf(sql1))
             }
         assertEquals(
-            "Table Table(name=test1) references test2 which isn't described.", thrown.message)
+            "Table ${SqlDependenciesResolver.TableName("test1")} references test2 which isn't described.",
+            thrown.message)
     }
 }

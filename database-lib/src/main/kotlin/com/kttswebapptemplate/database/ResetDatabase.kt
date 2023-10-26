@@ -36,7 +36,7 @@ object ResetDatabase {
         }
         val jooq = DSL.using(connection)
         cleanSchema(jooq, PsqlDatabaseConfiguration.schema)
-        initializeSchema(jooq, PsqlDatabaseConfiguration.schema)
+        initializeSchema(jooq)
         if (insertData) {
             insertInitialData(jooq)
         }
@@ -47,7 +47,7 @@ object ResetDatabase {
         jooq.createSchema(schema).execute()
     }
 
-    private fun initializeSchema(jooq: DSLContext, schema: String) {
+    private fun initializeSchema(jooq: DSLContext) {
         val sqlQueries =
             sqlSchemaFilesDir
                 .toFile()
@@ -56,7 +56,7 @@ object ResetDatabase {
                 .map { Files.readString(it.toPath()) }
                 .toList()
         val resolved = SqlDependenciesResolver.resolveSql(sqlQueries)
-        jooq.transaction { _ -> resolved.forEach { jooq.execute(it) } }
+        jooq.transaction { _ -> resolved.forEach { jooq.execute(it.sql) } }
 
         val initScript =
             "BEGIN TRANSACTION;\n" + resolved.joinToString(separator = "\n") + "COMMIT;"
