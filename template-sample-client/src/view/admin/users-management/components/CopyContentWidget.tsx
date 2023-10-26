@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
+import { Errors } from '../../../../errors';
 import { clientUid } from '../../../../utils';
 import { pipe } from '../../../../utils/Pipe';
 import { NominalString } from '../../../../utils/nominal-class';
 import { css } from '@emotion/react';
 import { FileCopy } from '@mui/icons-material';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 
 const uuidClass = 'uuidClass-' + clientUid();
 const copyContainerClass = 'copyContainer-' + clientUid();
@@ -15,19 +16,22 @@ export const CopyContentWidget = (props: {
   limitChars?: number;
 }) => {
   const [copyEffectId, setCopyEffectId] = useState(clientUid());
-
+  const divRef = useRef<HTMLDivElement | null>(null);
   const onCopyClick = () => {
+    if (!divRef.current) {
+      throw Errors._587793ab();
+    }
     // this feature is actually coming from hell
     // https://stackoverflow.com/questions/31593297/using-execcommand-javascript-to-copy-hidden-text-to-clipboard
     const tempInput = document.createElement('input');
     tempInput.style.position = 'absolute';
-    tempInput.style.left = '-1000px';
-    tempInput.style.top = '-1000px';
+    tempInput.style.left = '-5000px';
+    tempInput.style.top = '-5000px';
     tempInput.value = props.text;
-    document.body.appendChild(tempInput);
+    divRef.current.appendChild(tempInput);
     tempInput.select();
     document.execCommand('copy');
-    document.body.removeChild(tempInput);
+    divRef.current.removeChild(tempInput);
     setCopyEffectId(clientUid());
   };
   const display = pipe(props.text)
@@ -35,6 +39,7 @@ export const CopyContentWidget = (props: {
     .unwrap();
   return (
     <div
+      ref={divRef}
       css={css`
         display: inline-block;
         position: relative;
