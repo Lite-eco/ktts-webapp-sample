@@ -47,7 +47,7 @@ class DevInitialDataInjectorService(
                     role = role,
                     status = UserStatus.Active,
                     signupDate = now,
-                    lastUpdate = now),
+                    lastUpdateDate = now),
                 userService.hashPassword(PlainStringPassword(username)))
         }
     }

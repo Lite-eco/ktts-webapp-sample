@@ -89,7 +89,7 @@ class UserService(
                 role = Role.User,
                 status = UserStatus.MailValidationPending,
                 signupDate = now,
-                lastUpdate = now)
+                lastUpdateDate = now)
         userDao.insert(user, hashedPassword)
         val mailLog =
             UserMailLogDao.Record(

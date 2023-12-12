@@ -26,7 +26,7 @@ class UserDao(private val jooq: DSLContext) {
         val status: UserStatus,
         val role: Role,
         val signupDate: Instant,
-        val lastUpdate: Instant
+        val lastUpdateDate: Instant
     ) {
         override fun toString() = "User($id|$mail)"
     }
@@ -45,7 +45,7 @@ class UserDao(private val jooq: DSLContext) {
                         status = r.status.name,
                         role = r.role.name,
                         signupDate = r.signupDate,
-                        lastUpdate = r.lastUpdate))
+                        lastUpdateDate = r.lastUpdateDate))
                 .execute()
         } catch (e: DuplicateKeyException) {
             handleDuplicateKeyException(e, r.mail)
@@ -57,7 +57,7 @@ class UserDao(private val jooq: DSLContext) {
             jooq
                 .update(APP_USER)
                 .set(APP_USER.MAIL, mail)
-                .set(APP_USER.LAST_UPDATE, lastUpdateDate)
+                .set(APP_USER.LAST_UPDATE_DATE, lastUpdateDate)
                 .where(APP_USER.ID.equal(id.rawId))
                 .execute()
         } catch (e: DuplicateKeyException) {
@@ -80,7 +80,7 @@ class UserDao(private val jooq: DSLContext) {
         jooq
             .update(APP_USER)
             .set(APP_USER.PASSWORD, password.hash)
-            .set(APP_USER.LAST_UPDATE, lastUpdateDate)
+            .set(APP_USER.LAST_UPDATE_DATE, lastUpdateDate)
             .where(APP_USER.ID.equal(id.rawId))
             .execute()
     }
@@ -89,7 +89,7 @@ class UserDao(private val jooq: DSLContext) {
         jooq
             .update(APP_USER)
             .set(APP_USER.ROLE, role.name)
-            .set(APP_USER.LAST_UPDATE, lastUpdateDate)
+            .set(APP_USER.LAST_UPDATE_DATE, lastUpdateDate)
             .where(APP_USER.ID.equal(id.rawId))
             .execute()
     }
@@ -98,7 +98,7 @@ class UserDao(private val jooq: DSLContext) {
         jooq
             .update(APP_USER)
             .set(APP_USER.STATUS, status.name)
-            .set(APP_USER.LAST_UPDATE, lastUpdateDate)
+            .set(APP_USER.LAST_UPDATE_DATE, lastUpdateDate)
             .where(APP_USER.ID.equal(id.rawId))
             .execute()
     }
@@ -147,5 +147,5 @@ class UserDao(private val jooq: DSLContext) {
             status = UserStatus.valueOf(r.status),
             role = Role.valueOf(r.role),
             signupDate = r.signupDate,
-            lastUpdate = r.lastUpdate)
+            lastUpdateDate = r.lastUpdateDate)
 }

@@ -21,6 +21,6 @@ object TestData {
             status = UserStatus.Active,
             role = Role.User,
             signupDate = date,
-            lastUpdate = date)
+            lastUpdateDate = date)
     }
 }
