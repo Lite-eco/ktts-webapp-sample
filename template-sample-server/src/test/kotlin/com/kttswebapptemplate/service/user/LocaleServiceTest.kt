@@ -4,7 +4,7 @@ import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.service.utils.ApplicationTaskExecutor
 import com.kttswebapptemplate.service.utils.NotificationService
 import java.util.Locale
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
 class LocaleServiceTest {
