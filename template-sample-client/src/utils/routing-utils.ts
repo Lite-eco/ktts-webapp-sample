@@ -22,17 +22,15 @@ export const navigateTo = (route: ApplicationPath, replaceState = false) =>
     replace: replaceState
   });
 
-export const buildPath = (route: ApplicationPath) => {
-  let path = getValue(routerPathMap, route.name);
-  Object.keys(route)
-    .filter(k => k !== 'name')
-    .forEach((k: string) => {
-      // @ts-ignore
-      const param = route[k];
-      if (path.indexOf(k) === -1) {
-        throw Error(`Missing parameter ${k} in ${path}.`);
+export const buildPath = (path: ApplicationPath) => {
+  let pathName = getValue(routerPathMap, path.name);
+  Object.entries(path)
+    .filter(([k]) => k !== 'name')
+    .forEach(([key, param]) => {
+      if (pathName.indexOf(key) === -1) {
+        throw Error(`Missing parameter ${key} in ${pathName}.`);
       }
-      path = path.replace(':' + k, param);
+      pathName = pathName.replace(':' + key, param);
     });
-  return path;
+  return pathName;
 };
