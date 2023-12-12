@@ -103,10 +103,9 @@ class UserDao(private val jooq: DSLContext) {
             .execute()
     }
 
-    fun doesMailExist(login: String): Boolean =
-        jooq.selectCount().from(APP_USER).where(APP_USER.MAIL.equal(login)).fetchSingle().let {
-            it.value1() > 0
-        }
+    fun doesMailExist(mail: String): Boolean =
+        jooq.selectCount().from(APP_USER).where(APP_USER.MAIL.equal(mail)).fetchSingle().value1() >
+            0
 
     fun fetch(id: UserId): Record = requireNotNull(fetchOrNull(id)) { "$id" }
 
