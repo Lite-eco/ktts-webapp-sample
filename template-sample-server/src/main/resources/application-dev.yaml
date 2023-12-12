@@ -20,5 +20,4 @@ assets:
 #---------------------------------------------------------------------------
 mail:
   devDestination: ${DEV_MAIL:#{"dev+log-template-sample@example.com"}}
-  devLogSender: ${mail.devDestination}
 #---------------------------------------------------------------------------

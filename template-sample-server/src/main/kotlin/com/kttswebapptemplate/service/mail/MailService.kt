@@ -11,13 +11,10 @@ import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.random.RandomService
 import kotlin.math.min
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 
 @Service
 class MailService(
-    @Value("\${mail.devDestination}") private val devDestinationMail: String,
-    @Value("\${mail.devLogSender}") private val devLogSenderMail: String,
     private val mailingLogDao: MailingLogDao,
     private val dateService: DateService,
     private val mailSendingService: MailSendingService,
@@ -43,13 +40,6 @@ class MailService(
         userId: UserId,
         language: Language
     ) {
-        if (ApplicationInstance.env == ApplicationEnvironment.Dev) {
-            val (mailPrefix, mailSuffix) = extractMailPrefixSuffix(recipient.mail)
-            val (devMailPrefix, devMailSuffix) = extractMailPrefixSuffix(devDestinationMail)
-            if (mailPrefix != devMailPrefix || mailSuffix != devMailSuffix)
-                throw IllegalArgumentException(
-                    "Mail send canceled in dev env to ${recipient.mail} (expect $devLogSenderMail only)")
-        }
         val (subject, content) =
             MailTemplates.mailSubjectAndData(mailData, language).let { (subject, content) ->
                 val finalSubject =
