@@ -56,7 +56,9 @@ object ResetDatabase {
         jooq.transaction { _ -> resolved.forEach { jooq.execute(it.sql) } }
 
         val initScript =
-            "BEGIN TRANSACTION;\n" + resolved.joinToString(separator = "\n") + "COMMIT;"
+            "BEGIN TRANSACTION;\n" +
+                resolved.map { it.sql + ";" }.joinToString(separator = "\n") +
+                "COMMIT;"
         Files.write(Directories.sqlInitiateSchemaResultFile, initScript.toByteArray())
     }
 
