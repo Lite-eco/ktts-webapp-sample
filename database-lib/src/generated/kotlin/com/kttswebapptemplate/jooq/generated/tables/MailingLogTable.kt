@@ -10,7 +10,6 @@ import com.kttswebapptemplate.jooq.generated.keys.MAILING_LOG__MAILING_LOG_USER_
 import com.kttswebapptemplate.jooq.generated.tables.records.MailingLogRecord
 import java.time.Instant
 import java.util.UUID
-import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name

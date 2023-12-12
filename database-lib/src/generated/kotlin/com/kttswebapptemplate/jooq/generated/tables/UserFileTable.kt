@@ -10,7 +10,6 @@ import com.kttswebapptemplate.jooq.generated.keys.USER_FILE__USER_FILE_USER_ID_F
 import com.kttswebapptemplate.jooq.generated.tables.records.UserFileRecord
 import java.time.Instant
 import java.util.UUID
-import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name

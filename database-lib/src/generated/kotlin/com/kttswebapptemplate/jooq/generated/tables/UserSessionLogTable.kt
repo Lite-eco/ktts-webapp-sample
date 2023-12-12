@@ -11,7 +11,6 @@ import com.kttswebapptemplate.jooq.generated.keys.USER_SESSION_LOG__USER_SESSION
 import com.kttswebapptemplate.jooq.generated.tables.records.UserSessionLogRecord
 import java.time.Instant
 import java.util.UUID
-import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Index

@@ -11,7 +11,6 @@ import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTab
 import com.kttswebapptemplate.jooq.generated.tables.UserFileTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserSessionLogTable
-import kotlin.collections.List
 import org.jooq.Catalog
 import org.jooq.Table
 import org.jooq.impl.SchemaImpl

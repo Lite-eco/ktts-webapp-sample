@@ -10,7 +10,6 @@ import com.kttswebapptemplate.jooq.generated.keys.COMMAND_LOG__COMMAND_LOG_DEPLO
 import com.kttswebapptemplate.jooq.generated.tables.records.CommandLogRecord
 import java.time.Instant
 import java.util.UUID
-import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name

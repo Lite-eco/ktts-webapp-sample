@@ -11,7 +11,6 @@ import com.kttswebapptemplate.jooq.generated.keys.USER_ACCOUNT_OPERATION_TOKEN__
 import com.kttswebapptemplate.jooq.generated.tables.records.UserAccountOperationTokenRecord
 import java.time.Instant
 import java.util.UUID
-import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Name

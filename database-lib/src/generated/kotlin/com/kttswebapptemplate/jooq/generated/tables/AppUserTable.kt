@@ -11,7 +11,6 @@ import com.kttswebapptemplate.jooq.generated.keys.APP_USER_PKEY
 import com.kttswebapptemplate.jooq.generated.tables.records.AppUserRecord
 import java.time.Instant
 import java.util.UUID
-import kotlin.collections.List
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Index
