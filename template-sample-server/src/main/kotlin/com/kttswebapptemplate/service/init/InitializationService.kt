@@ -75,7 +75,7 @@ class InitializationService(
     private fun verifySpringProfilesConsistency() {
         // verify ApplicationInstance.env is in Spring profiles
         val profiles = let {
-            val e = ApplicationEnvironment.values().map { it.name.lowercase() }
+            val e = ApplicationEnvironment.entries.map { it.name.lowercase() }
             environment.activeProfiles.filter { it in e }
         }
         // if not empty, let's check profiles are consistent with env
