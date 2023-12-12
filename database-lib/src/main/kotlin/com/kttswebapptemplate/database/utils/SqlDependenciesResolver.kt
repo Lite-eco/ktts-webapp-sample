@@ -1,5 +1,7 @@
 package com.kttswebapptemplate.database.utils
 
+import mu.KotlinLogging
+import net.sf.jsqlparser.JSQLParserException
 import net.sf.jsqlparser.parser.CCJSqlParserUtil
 import net.sf.jsqlparser.schema.Table
 import net.sf.jsqlparser.statement.alter.Alter
@@ -8,6 +10,8 @@ import net.sf.jsqlparser.statement.create.table.ForeignKeyIndex
 
 object SqlDependenciesResolver {
 
+    internal val logger = KotlinLogging.logger {}
+
     const val psqlDefaultSchema = "public"
 
     data class TableName(val schema: String, val name: String) {
@@ -15,6 +19,8 @@ object SqlDependenciesResolver {
             fun from(table: Table) = TableName(table.schemaName ?: psqlDefaultSchema, table.name)
         }
     }
+
+    data class SqlFile(val path: String, val sql: String)
 
     // TODO test crossing tables inside a given file
     // file 1 : t1 + t2, t1 depends on t3
@@ -33,45 +39,52 @@ object SqlDependenciesResolver {
         data class CreateType(override val sql: String) : ParseResult(sql)
     }
 
-    fun parseSql(sql: List<String>): List<ParseResult> =
-        sql.flatMap { part ->
+    fun parseSql(sqlFiles: List<SqlFile>): List<ParseResult> =
+        sqlFiles.flatMap { sqlFile ->
             val noComment =
-                part.split("\n").filter { !it.startsWith("--") }.joinToString(separator = "\n")
+                sqlFile.sql
+                    .split("\n")
+                    .filter { !it.startsWith("--") }
+                    .joinToString(separator = "\n")
             val parts = noComment.split(";").map { it.trim() }.filter { it.isNotBlank() }
-            parts.map { parse(it) }
+            parts.map { parse(SqlFile(sqlFile.path, it)) }
         }
 
-    private fun parse(query: String) =
+    private fun parse(sqlFile: SqlFile) =
         // for the moment we feed jsql with anything it can parse, even if not useful (ie
         // ParseResult.Alter)
         when {
-            query.startsWith("ALTER ") -> jsqlParse(query)
-            query.startsWith("CREATE TABLE ") -> jsqlParse(query)
-            query.startsWith("CREATE INDEX ") -> ParseResult.CreateIndex(query)
-            query.startsWith("CREATE TYPE ") -> ParseResult.CreateType(query)
-            query.startsWith("CREATE SCHEMA ") ->
+            sqlFile.sql.startsWith("ALTER ") -> jsqlParse(sqlFile)
+            sqlFile.sql.startsWith("CREATE TABLE ") -> jsqlParse(sqlFile)
+            sqlFile.sql.startsWith("CREATE INDEX ") -> ParseResult.CreateIndex(sqlFile.sql)
+            sqlFile.sql.startsWith("CREATE TYPE ") -> ParseResult.CreateType(sqlFile.sql)
+            sqlFile.sql.startsWith("CREATE SCHEMA ") ->
                 throw IllegalArgumentException(
-                    "Postgresql schemas are deducted from table names, remove \"$query\"")
-            else -> throw NotImplementedError("Unknown query '$query'")
+                    "Postgresql schemas are deducted from table names, remove 'create schema' in \"${sqlFile.path}\"")
+            else -> throw NotImplementedError("Unknown query in ${sqlFile.path} '${sqlFile.sql}'")
         }
 
-    private fun jsqlParse(query: String) =
-        when (val parsed = CCJSqlParserUtil.parse(query)) {
-            is JsqlCreateTable ->
-                ParseResult.CreateTable(
-                    query,
-                    TableName.from(parsed.table),
-                    parsed.indexes?.filterIsInstance<ForeignKeyIndex>() ?: emptyList())
-            is Alter -> ParseResult.Alter(query)
-            else -> throw NotImplementedError("${parsed.javaClass} $parsed")
+    private fun jsqlParse(sqlFile: SqlFile) =
+        try {
+            when (val parsed = CCJSqlParserUtil.parse(sqlFile.sql)) {
+                is JsqlCreateTable ->
+                    ParseResult.CreateTable(
+                        sqlFile.sql,
+                        TableName.from(parsed.table),
+                        parsed.indexes?.filterIsInstance<ForeignKeyIndex>() ?: emptyList())
+                is Alter -> ParseResult.Alter(sqlFile.sql)
+                else -> throw NotImplementedError("${parsed.javaClass} $parsed")
+            }
+        } catch (e: JSQLParserException) {
+            throw IllegalArgumentException("Parsing error in ${sqlFile.path}", e)
         }
 
     /**
      * Resolve SQL request, ordered to respect tables dependencies. Will NOT rewrite SQL queries.
      * For crossed foreign keys, one foreign key must be in an "autonomous" ADD FOREIGN KEY query
      */
-    fun resolveSql(sql: List<String>): List<ParseResult> {
-        val parsed = parseSql(sql)
+    fun resolveSql(sqlFiles: List<SqlFile>): List<ParseResult> {
+        val parsed = parseSql(sqlFiles)
         val (createTables, otherSql) =
             @Suppress("UNCHECKED_CAST")
             (parsed.partition { it is ParseResult.CreateTable }

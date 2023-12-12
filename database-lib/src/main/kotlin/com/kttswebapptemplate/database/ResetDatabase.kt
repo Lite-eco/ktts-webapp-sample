@@ -5,6 +5,7 @@ import com.kttswebapptemplate.database.utils.SqlDependenciesResolver
 import java.nio.file.Files
 import java.sql.Connection
 import java.sql.DriverManager
+import kotlin.io.path.absolutePathString
 import mu.KotlinLogging
 import org.jooq.DSLContext
 import org.jooq.impl.DSL
@@ -65,7 +66,12 @@ object ResetDatabase {
                 .toFile()
                 .walk()
                 .filter { it.extension == "sql" }
-                .map { Files.readString(it.toPath()) }
+                .map {
+                    val path =
+                        it.absolutePath.substring(
+                            Directories.sqlSchemaFilesDir.absolutePathString().length + 1)
+                    SqlDependenciesResolver.SqlFile(path, Files.readString(it.toPath()))
+                }
                 .toList()
         return SqlDependenciesResolver.resolveSql(sqlQueries)
     }

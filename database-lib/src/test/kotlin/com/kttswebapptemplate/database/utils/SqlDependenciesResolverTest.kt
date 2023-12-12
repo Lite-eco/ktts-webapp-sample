@@ -53,7 +53,10 @@ ALTER TABLE app_user ADD FOREIGN KEY(file) REFERENCES user_file(id);
 CREATE INDEX ON app_user (mail);
         """
                 .trimIndent(),
-            SqlDependenciesResolver.resolveSql(listOf(userSql, userFileSql))
+            SqlDependenciesResolver.resolveSql(
+                    listOf(
+                        SqlDependenciesResolver.SqlFile("1", userSql),
+                        SqlDependenciesResolver.SqlFile("2", userFileSql)))
                 .map { it.sql + ";" }
                 .joinToString(separator = "\n\n")
                 .trim())
@@ -90,7 +93,11 @@ CREATE TABLE test3
 """
         val thrown =
             assertThrows(IllegalArgumentException::class.java) {
-                SqlDependenciesResolver.resolveSql(listOf(sql1, sql2, sql3))
+                SqlDependenciesResolver.resolveSql(
+                    listOf(
+                        SqlDependenciesResolver.SqlFile("1", sql1),
+                        SqlDependenciesResolver.SqlFile("2", sql2),
+                        SqlDependenciesResolver.SqlFile("3", sql3)))
             }
         assertEquals(
             "Cyclic reference test1 -> test2 -> test3 -> test1. " +
@@ -111,7 +118,8 @@ CREATE TABLE test1
 """
         val thrown =
             assertThrows(IllegalArgumentException::class.java) {
-                SqlDependenciesResolver.resolveSql(listOf(sql1))
+                SqlDependenciesResolver.resolveSql(
+                    listOf(SqlDependenciesResolver.SqlFile("1", sql1)))
             }
         assertEquals(
             "Table ${SqlDependenciesResolver.TableName("public", "test1")} references test2 which isn't described.",
