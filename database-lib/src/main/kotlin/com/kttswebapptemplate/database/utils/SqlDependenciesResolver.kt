@@ -163,6 +163,15 @@ object SqlDependenciesResolver {
             resolve
         } else {
             if (resolve.isEmpty()) {
+                val duplicates =
+                    parseResults
+                        .groupBy { it.name }
+                        .filter { it.value.size > 1 }
+                        .map { it.key.name to it.value.map { it.file.path } }
+                if (duplicates.isNotEmpty()) {
+                    throw RuntimeException(
+                        "Tables duplicates: \n* ${duplicates.map { "${it.first} in files ${it.second.joinToString(separator = ", ")}"}.joinToString(separator = "\n* ")}")
+                }
                 val missing = parseResults.map { it.name } - resolvedTables
                 throw RuntimeException("Missing $missing")
             }
