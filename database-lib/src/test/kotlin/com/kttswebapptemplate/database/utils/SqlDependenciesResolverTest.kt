@@ -57,7 +57,7 @@ CREATE INDEX ON app_user (mail);
                     listOf(
                         SqlDependenciesResolver.SqlFile("1", userSql),
                         SqlDependenciesResolver.SqlFile("2", userFileSql)))
-                .map { it.sql + ";" }
+                .map { it.file.sql + ";" }
                 .joinToString(separator = "\n\n")
                 .trim())
     }

@@ -25,18 +25,18 @@ object SqlDependenciesResolver {
     // TODO test crossing tables inside a given file
     // file 1 : t1 + t2, t1 depends on t3
     // file 2 : t3 which depends on t2
-    sealed class ParseResult(open val sql: String) {
-        data class Alter(override val sql: String) : ParseResult(sql)
+    sealed class ParseResult(open val file: SqlFile) {
+        data class Alter(override val file: SqlFile) : ParseResult(file)
 
-        data class CreateIndex(override val sql: String) : ParseResult(sql)
+        data class CreateIndex(override val file: SqlFile) : ParseResult(file)
 
         data class CreateTable(
-            override val sql: String,
+            override val file: SqlFile,
             val name: TableName,
             val foreignKeys: List<ForeignKeyIndex>,
-        ) : ParseResult(sql)
+        ) : ParseResult(file)
 
-        data class CreateType(override val sql: String) : ParseResult(sql)
+        data class CreateType(override val file: SqlFile) : ParseResult(file)
     }
 
     fun parseSql(sqlFiles: List<SqlFile>): List<ParseResult> =
@@ -56,8 +56,8 @@ object SqlDependenciesResolver {
         when {
             sqlFile.sql.startsWith("ALTER ") -> jsqlParse(sqlFile)
             sqlFile.sql.startsWith("CREATE TABLE ") -> jsqlParse(sqlFile)
-            sqlFile.sql.startsWith("CREATE INDEX ") -> ParseResult.CreateIndex(sqlFile.sql)
-            sqlFile.sql.startsWith("CREATE TYPE ") -> ParseResult.CreateType(sqlFile.sql)
+            sqlFile.sql.startsWith("CREATE INDEX ") -> ParseResult.CreateIndex(sqlFile)
+            sqlFile.sql.startsWith("CREATE TYPE ") -> ParseResult.CreateType(sqlFile)
             sqlFile.sql.startsWith("CREATE SCHEMA ") ->
                 throw IllegalArgumentException(
                     "Postgresql schemas are deducted from table names, remove 'create schema' in \"${sqlFile.path}\"")
@@ -69,10 +69,10 @@ object SqlDependenciesResolver {
             when (val parsed = CCJSqlParserUtil.parse(sqlFile.sql)) {
                 is JsqlCreateTable ->
                     ParseResult.CreateTable(
-                        sqlFile.sql,
+                        sqlFile,
                         TableName.from(parsed.table),
                         parsed.indexes?.filterIsInstance<ForeignKeyIndex>() ?: emptyList())
-                is Alter -> ParseResult.Alter(sqlFile.sql)
+                is Alter -> ParseResult.Alter(sqlFile)
                 else -> throw NotImplementedError("${parsed.javaClass} $parsed")
             }
         } catch (e: JSQLParserException) {

@@ -80,10 +80,12 @@ object ResetDatabase {
         jooq: DSLContext,
         resolvedSql: List<SqlDependenciesResolver.ParseResult>
     ) {
-        jooq.transaction { _ -> resolvedSql.forEach { jooq.execute(it.sql) } }
+        jooq.transaction { _ -> resolvedSql.forEach { jooq.execute(it.file.sql) } }
         val initScript =
             "BEGIN TRANSACTION;\n" +
-                resolvedSql.map { it.sql + ";" }.joinToString(separator = "\n") +
+                resolvedSql
+                    .map { "-- from " + it.file.path + "\n" + it.file.sql + ";" }
+                    .joinToString(separator = "\n") +
                 "\nCOMMIT;"
         Files.write(Directories.sqlInitiateSchemaResultFile, initScript.toByteArray())
     }
