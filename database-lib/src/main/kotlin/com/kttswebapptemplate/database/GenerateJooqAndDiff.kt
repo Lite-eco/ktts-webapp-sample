@@ -5,7 +5,9 @@ import com.kttswebapptemplate.database.jooq.JooqGeneratorStrategy
 import com.kttswebapptemplate.database.utils.DatabaseUtils
 import com.kttswebapptemplate.database.utils.PgQuarrelUtils
 import com.kttswebapptemplate.database.utils.ShellRunner
+import java.nio.file.Files
 import java.sql.DriverManager
+import kotlin.io.path.walk
 import mu.KotlinLogging
 import org.jooq.codegen.GenerationTool
 
@@ -51,6 +53,19 @@ object GenerateJooqAndDiff {
                     psqlDatabaseConfiguration.password)
                 .use { c -> ResetDatabase.resetDatabaseSchema(c, insertData = true) }
             logger.info { "Format codebase" }
+            // waiting for a better solution ?
+            // "import kotlin.collections.List" is useless & removed by optimized imports
+            Directories.generatedDir
+                .toFile()
+                .walk()
+                .filter { it.extension == "kt" }
+                .forEach {
+                    Files.write(
+                        it.toPath(),
+                        Files.readString(it.toPath())
+                            .replace("import kotlin.collections.List", "")
+                            .toByteArray(Charsets.UTF_8))
+                }
             // TODO should be on generated files only
             ShellRunner.run(Directories.projectDir, "./ktfmt")
         } finally {
