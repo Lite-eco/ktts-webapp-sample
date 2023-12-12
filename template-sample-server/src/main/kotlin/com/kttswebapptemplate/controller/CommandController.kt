@@ -81,7 +81,7 @@ class CommandController(
                 userId = null, // set later
                 affectedUserId = affectedUserId(command),
                 deploymentLogId = ApplicationInstance.deploymentLogId,
-                commandClass = command.javaClass,
+                commandClass = command.javaClass.name,
                 jsonCommand = filteredJsonCommand,
                 // the ip can evolve within a session, it makes sense to save it here
                 ip = request.remoteAddr,
