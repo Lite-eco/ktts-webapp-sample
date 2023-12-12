@@ -25,6 +25,9 @@ class MailService(
 ) {
 
     companion object {
+        val applicationMailSenderContact =
+            Mail.Contact("TemplateSample contact", "contact@example.com")
+
         fun extractMailPrefixSuffix(mail: String): Pair<String, String> {
             val arobaseLimit = mail.indexOf('@').let { if (it != -1) it else mail.length }
             val plusLimit = mail.indexOf('+').let { if (it != -1) it else mail.length }

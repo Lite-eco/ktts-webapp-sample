@@ -15,12 +15,17 @@ class WebConfiguration(private val env: Environment) : WebMvcConfigurer, Servlet
 
     private val logger = KotlinLogging.logger {}
 
+    companion object {
+        // TODO[tmpl] /res vs /static
+        const val resourcesPath = "/static"
+    }
+
     // cache for 4 years
     private val cacheTimeToLive = Duration.of((365 * 3 + 366).toLong(), ChronoUnit.DAYS)
 
     override fun addResourceHandlers(registry: ResourceHandlerRegistry) {
         registry
-            .addResourceHandler(ApplicationConstants.resourcesPath + "/**")
+            .addResourceHandler(resourcesPath + "/**")
             .addResourceLocations("classpath:/static/", "file:static/")
             .setCachePeriod(cacheTimeToLive.seconds.toInt())
     }

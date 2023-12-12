@@ -1,6 +1,5 @@
 package com.kttswebapptemplate.service.user
 
-import com.kttswebapptemplate.config.ApplicationConstants.applicationMailSenderContact
 import com.kttswebapptemplate.config.Routes
 import com.kttswebapptemplate.domain.Mail
 import com.kttswebapptemplate.domain.MailData
@@ -25,7 +24,7 @@ class LostPasswordMailSenderService(
         val url = appUrl.resolve(Routes.loginUpdatePassword)
         logger.info { "Send lost password mail to $user" }
         mailService.sendMail(
-            applicationMailSenderContact,
+            MailService.applicationMailSenderContact,
             Mail.Contact(user.displayName, user.mail),
             MailData.LostPassword(url),
             user.id,

@@ -1,6 +1,6 @@
 package com.kttswebapptemplate.service.user
 
-import com.kttswebapptemplate.config.ApplicationConstants
+import org.springframework.session.Session as SpringSession
 import com.kttswebapptemplate.config.SafeSessionRepository
 import com.kttswebapptemplate.domain.HashedPassword
 import com.kttswebapptemplate.domain.Language
@@ -32,7 +32,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
-import org.springframework.session.Session as SpringSession
 import org.springframework.stereotype.Service
 
 @Service
@@ -109,7 +108,7 @@ class UserService(
         val validateMailUrl =
             appUrl.append("?mailValidation=${token.token.rawString}-${user.id.stringUuid()}")
         mailService.sendMail(
-            ApplicationConstants.applicationMailSenderContact,
+            MailService.applicationMailSenderContact,
             Mail.Contact(user.displayName, user.mail),
             MailData.AccountMailValidation(user.displayName, validateMailUrl),
             user.id,
