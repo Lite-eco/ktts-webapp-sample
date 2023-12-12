@@ -23,6 +23,7 @@ import org.postgresql.Driver
 object JooqConfiguration {
     fun generateConfiguration(
         conf: PsqlDatabaseConfiguration,
+        schemas: Set<String>,
         excludeTables: Set<String>,
         generatedPackageName: String? = null,
         generatedCodePath: Path? = null,
@@ -43,9 +44,7 @@ object JooqConfiguration {
                             .withName(PostgresDatabase::class.java.name)
                             .withIncludes(".*")
                             .withExcludes(excludeTables.joinToString(separator = "|"))
-                            .withSchemata(
-                                SchemaMappingType()
-                                    .withInputSchema(PsqlDatabaseConfiguration.schema))
+                            .withSchemata(schemas.map { SchemaMappingType().withInputSchema(it) })
                             .apply {
                                 val timeStampForcedType =
                                     ForcedType().apply {

@@ -33,7 +33,7 @@ class InitializationService(
             ApplicationEnvironment.Test -> {
                 if (databaseIsEmpty(dataSource)) {
                     dataSource.connection.use { c ->
-                        ResetDatabase.resetDatabaseSchema(c, insertInitialData)
+                        ResetDatabase.resetDatabaseSchemas(c, insertInitialData)
                     }
                 }
                 if (insertInitialData) {

@@ -1,6 +1,5 @@
 package com.kttswebapptemplate.database
 
-import com.kttswebapptemplate.database.domain.PsqlDatabaseConfiguration
 import com.kttswebapptemplate.database.utils.DatabaseUtils
 import com.kttswebapptemplate.database.utils.SqlDependenciesResolver
 import java.nio.file.Files
@@ -17,7 +16,7 @@ fun main() {
             psqlDatabaseConfiguration.jdbcUrl(),
             psqlDatabaseConfiguration.user,
             psqlDatabaseConfiguration.password)
-        .use { ResetDatabase.resetDatabaseSchema(it, insertData = true) }
+        .use { ResetDatabase.resetDatabaseSchemas(it, insertData = true) }
     ResetDatabase.logger.info {
         "[OK] reset database \"${psqlDatabaseConfiguration.databaseName}\""
     }
@@ -27,24 +26,40 @@ object ResetDatabase {
     // [doc] generated directory can be deleted if there is a problem
     internal val logger = KotlinLogging.logger {}
 
-    fun resetDatabaseSchema(connection: Connection, insertData: Boolean) {
+    fun resetDatabaseSchemas(connection: Connection, insertData: Boolean): Set<String> {
         logger.info {
-            "Reset schema \"${PsqlDatabaseConfiguration.schema}\", using directory: ${Directories.sqlSchemaFilesDir}"
+            "Reset database \"${psqlDatabaseConfiguration.databaseName}\", using directory: ${Directories.sqlSchemaFilesDir}"
         }
         val jooq = DSL.using(connection)
-        cleanSchema(jooq, PsqlDatabaseConfiguration.schema)
-        initializeSchema(jooq)
+        val resolvedSql = resolveSql()
+        val schemas =
+            resolvedSql
+                .filterIsInstance<SqlDependenciesResolver.ParseResult.CreateTable>()
+                .map { it.name.schema }
+                .toSet()
+                .let {
+                    if (it.isNotEmpty()) {
+                        it
+                    } else {
+                        // with an empty set Jooq will generate code for information_schema &
+                        // pg_catalog
+                        setOf(SqlDependenciesResolver.psqlDefaultSchema)
+                    }
+                }
+        schemas.forEach { cleanSchema(jooq, it) }
+        initializeDatabase(jooq, resolvedSql)
         if (insertData) {
             insertInitialData(jooq)
         }
+        return schemas
     }
 
     private fun cleanSchema(jooq: DSLContext, schema: String) {
-        jooq.dropSchema(schema).cascade().execute()
+        jooq.dropSchemaIfExists(schema).cascade().execute()
         jooq.createSchema(schema).execute()
     }
 
-    private fun initializeSchema(jooq: DSLContext) {
+    private fun resolveSql(): List<SqlDependenciesResolver.ParseResult> {
         val sqlQueries =
             Directories.sqlSchemaFilesDir
                 .toFile()
@@ -52,13 +67,18 @@ object ResetDatabase {
                 .filter { it.extension == "sql" }
                 .map { Files.readString(it.toPath()) }
                 .toList()
-        val resolved = SqlDependenciesResolver.resolveSql(sqlQueries)
-        jooq.transaction { _ -> resolved.forEach { jooq.execute(it.sql) } }
+        return SqlDependenciesResolver.resolveSql(sqlQueries)
+    }
 
+    private fun initializeDatabase(
+        jooq: DSLContext,
+        resolvedSql: List<SqlDependenciesResolver.ParseResult>
+    ) {
+        jooq.transaction { _ -> resolvedSql.forEach { jooq.execute(it.sql) } }
         val initScript =
             "BEGIN TRANSACTION;\n" +
-                resolved.map { it.sql + ";" }.joinToString(separator = "\n") +
-                "COMMIT;"
+                resolvedSql.map { it.sql + ";" }.joinToString(separator = "\n") +
+                "\nCOMMIT;"
         Files.write(Directories.sqlInitiateSchemaResultFile, initScript.toByteArray())
     }
 

@@ -7,7 +7,6 @@ import com.kttswebapptemplate.database.utils.PgQuarrelUtils
 import com.kttswebapptemplate.database.utils.ShellRunner
 import java.nio.file.Files
 import java.sql.DriverManager
-import kotlin.io.path.walk
 import mu.KotlinLogging
 import org.jooq.codegen.GenerationTool
 
@@ -29,15 +28,17 @@ object GenerateJooqAndDiff {
         logger.info { "Generation via base ${generationDatabaseConfiguration.databaseName}" }
         try {
             DatabaseUtils.createDatabaseIfNeeded(generationDatabaseConfiguration)
-            DriverManager.getConnection(
-                    generationDatabaseConfiguration.jdbcUrl(),
-                    generationDatabaseConfiguration.user,
-                    generationDatabaseConfiguration.password)
-                .use { ResetDatabase.resetDatabaseSchema(it, insertData = false) }
+            val schemas =
+                DriverManager.getConnection(
+                        generationDatabaseConfiguration.jdbcUrl(),
+                        generationDatabaseConfiguration.user,
+                        generationDatabaseConfiguration.password)
+                    .use { ResetDatabase.resetDatabaseSchemas(it, insertData = false) }
             logger.info { "Generate Jooq code" }
             GenerationTool.generate(
                 JooqConfiguration.generateConfiguration(
                     conf = generationDatabaseConfiguration,
+                    schemas = schemas,
                     excludeTables = setOf("spring_session", "spring_session_attributes"),
                     generatedPackageName = "com.kttswebapptemplate.jooq",
                     generatedCodePath = Directories.generatedDir.resolve("kotlin"),
@@ -51,7 +52,7 @@ object GenerateJooqAndDiff {
                     psqlDatabaseConfiguration.jdbcUrl(),
                     psqlDatabaseConfiguration.user,
                     psqlDatabaseConfiguration.password)
-                .use { c -> ResetDatabase.resetDatabaseSchema(c, insertData = true) }
+                .use { ResetDatabase.resetDatabaseSchemas(it, insertData = true) }
             logger.info { "Format codebase" }
             // waiting for a better solution ?
             // "import kotlin.collections.List" is useless & removed by optimized imports

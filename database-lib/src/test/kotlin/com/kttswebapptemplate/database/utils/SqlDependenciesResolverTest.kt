@@ -114,7 +114,7 @@ CREATE TABLE test1
                 SqlDependenciesResolver.resolveSql(listOf(sql1))
             }
         assertEquals(
-            "Table ${SqlDependenciesResolver.TableName("test1")} references test2 which isn't described.",
+            "Table ${SqlDependenciesResolver.TableName("public", "test1")} references test2 which isn't described.",
             thrown.message)
     }
 }

@@ -1,18 +1,28 @@
 package com.kttswebapptemplate.database.utils
 
 import net.sf.jsqlparser.parser.CCJSqlParserUtil
+import net.sf.jsqlparser.schema.Table
 import net.sf.jsqlparser.statement.alter.Alter
 import net.sf.jsqlparser.statement.create.table.CreateTable as JsqlCreateTable
 import net.sf.jsqlparser.statement.create.table.ForeignKeyIndex
 
 object SqlDependenciesResolver {
 
-    inline class TableName(val name: String)
+    const val psqlDefaultSchema = "public"
+
+    data class TableName(val schema: String, val name: String) {
+        companion object {
+            fun from(table: Table) = TableName(table.schemaName ?: psqlDefaultSchema, table.name)
+        }
+    }
 
     // TODO test crossing tables inside a given file
     // file 1 : t1 + t2, t1 depends on t3
     // file 2 : t3 which depends on t2
     sealed class ParseResult(open val sql: String) {
+        data class Alter(override val sql: String) : ParseResult(sql)
+
+        data class CreateIndex(override val sql: String) : ParseResult(sql)
 
         data class CreateTable(
             override val sql: String,
@@ -21,10 +31,6 @@ object SqlDependenciesResolver {
         ) : ParseResult(sql)
 
         data class CreateType(override val sql: String) : ParseResult(sql)
-
-        data class CreateIndex(override val sql: String) : ParseResult(sql)
-
-        data class Alter(override val sql: String) : ParseResult(sql)
     }
 
     fun parseSql(sql: List<String>): List<ParseResult> =
@@ -43,6 +49,9 @@ object SqlDependenciesResolver {
             query.startsWith("CREATE TABLE ") -> jsqlParse(query)
             query.startsWith("CREATE INDEX ") -> ParseResult.CreateIndex(query)
             query.startsWith("CREATE TYPE ") -> ParseResult.CreateType(query)
+            query.startsWith("CREATE SCHEMA ") ->
+                throw IllegalArgumentException(
+                    "Postgresql schemas are deducted from table names, remove \"$query\"")
             else -> throw NotImplementedError("Unknown query '$query'")
         }
 
@@ -51,7 +60,7 @@ object SqlDependenciesResolver {
             is JsqlCreateTable ->
                 ParseResult.CreateTable(
                     query,
-                    TableName(parsed.table.name),
+                    TableName.from(parsed.table),
                     parsed.indexes?.filterIsInstance<ForeignKeyIndex>() ?: emptyList())
             is Alter -> ParseResult.Alter(query)
             else -> throw NotImplementedError("${parsed.javaClass} $parsed")
@@ -78,8 +87,8 @@ object SqlDependenciesResolver {
                 when (it) {
                     is ParseResult.Alter -> false
                     is ParseResult.CreateIndex -> false
-                    is ParseResult.CreateType -> true
                     is ParseResult.CreateTable -> throw RuntimeException()
+                    is ParseResult.CreateType -> true
                 }
             }
         return beforeCreateTables + resolved + afterCreateTables
@@ -93,20 +102,20 @@ object SqlDependenciesResolver {
         parseResult.foreignKeys
             .filter {
                 // table referencing itself is authorized
-                TableName(it.table.name) != tableChain.last()
+                TableName.from(it.table) != tableChain.last()
             }
             .forEach { foreignKey ->
-                if (TableName(foreignKey.table.name) !in map.keys) {
+                if (TableName.from(foreignKey.table) !in map.keys) {
                     throw IllegalArgumentException(
                         "Table ${tableChain.last()} references ${foreignKey.table.name} which isn't described.")
                 }
-                if (TableName(foreignKey.table.name) == tableChain.first()) {
+                if (TableName.from(foreignKey.table) == tableChain.first()) {
                     val chain = tableChain.map { it.name }.joinToString(" -> ")
                     throw IllegalArgumentException(
                         "Cyclic reference $chain -> ${foreignKey.table.name}. " +
                             "Think about using an 'ALTER TABLE [...] ADD FOREIGN KEY [...]' query.")
                 }
-                checkForeignKeys(tableChain + TableName(foreignKey.table.name), map)
+                checkForeignKeys(tableChain + TableName.from(foreignKey.table), map)
             }
     }
 
@@ -118,7 +127,7 @@ object SqlDependenciesResolver {
             parseResults
                 .filter { it.name !in resolvedTables }
                 .filter { parsed ->
-                    (parsed.foreignKeys.map { TableName(it.table.name) } -
+                    (parsed.foreignKeys.map { TableName.from(it.table) } -
                             resolvedTables -
                             // table can reference itselft
                             parsed.name)

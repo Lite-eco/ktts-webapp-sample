@@ -9,8 +9,4 @@ data class PsqlDatabaseConfiguration(
     val protocol: String
 ) {
     fun jdbcUrl() = "$protocol://$host:$port/$databaseName"
-
-    companion object {
-        const val schema = "public"
-    }
 }
