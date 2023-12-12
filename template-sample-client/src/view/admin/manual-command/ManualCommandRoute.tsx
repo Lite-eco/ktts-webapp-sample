@@ -124,14 +124,14 @@ export const ManualCommandRoute = () => {
       >
         <h1>{t.ManualCommands()}</h1>
         <p>{t.HowTo()}</p>
-        <pre>{JSON.stringify(sampleAdminUpdateSessionsCommand, null, 2)}</pre>
+        <Sample json={sampleAdminUpdateSessionsCommand} />
         <p>{t.CommandsCanBeSentInGroup()}</p>
         <pre>[command1, command2]</pre>
         <h2>{t.Documentation()}</h2>
         <h3>{t.UpdateSessions()}</h3>
-        <pre>{JSON.stringify(sampleAdminUpdateSessionsCommand, null, 2)}</pre>
+        <Sample json={sampleAdminUpdateSessionsCommand} />
         <h3>{t.UpdateUserMail()}</h3>
-        <pre>{JSON.stringify(sampleAdminUpdateUserMailCommand, null, 2)}</pre>
+        <Sample json={sampleAdminUpdateUserMailCommand} />
       </div>
       <div
         css={css`
@@ -161,10 +161,15 @@ export const ManualCommandRoute = () => {
             <h3>
               <DocResponse response={r} />
             </h3>
-            <pre>{JSON.stringify(r, null, 2)}</pre>
+            <Sample json={r} />
           </p>
         ))}
       </div>
     </div>
   );
 };
+
+// @ts-ignore
+const Sample = (props: { json: any }) => (
+  <pre>{JSON.stringify(props.json, null, 2)}</pre>
+);
