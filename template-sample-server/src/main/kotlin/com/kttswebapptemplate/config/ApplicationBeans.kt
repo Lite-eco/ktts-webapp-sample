@@ -35,17 +35,18 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
         bean(isPrimary = true) { Serializer.objectMapper }
         bean<OkHttpClient>()
         bean<IdLogService>()
-        bean { RandomService(ref()) }
+        bean<RandomService>()
         bean {
-            ThreadPoolTaskExecutor().apply {
-                corePoolSize = 20
-                maxPoolSize = 20
-                queueCapacity = 500
-                threadNamePrefix = "TaskExecutor-"
-                initialize()
-            }
+            ApplicationTaskExecutor(
+                ThreadPoolTaskExecutor().apply {
+                    corePoolSize = 20
+                    maxPoolSize = 20
+                    queueCapacity = 500
+                    threadNamePrefix = "TaskExecutor-"
+                    initialize()
+                },
+                "main-executor")
         }
-        bean { ApplicationTaskExecutor(ref(), "main-executor") }
         bean<CookieCsrfTokenRepository>()
         bean<HttpSessionSecurityContextRepository>()
         bean<XorCsrfTokenRequestAttributeHandler>()
