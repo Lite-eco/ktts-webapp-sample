@@ -9,9 +9,9 @@ const extractPairs = routes =>
 
 export const generatePathMap = (file, resultRoutes) => {
   if (resultRoutes.length !== 0) {
-    let source = "import { pairsToDict } from '../../utils/nominal-class';\n";
+    let source = "import { pairsToDict } from 'utils/nominal-class';\n";
     source +=
-      "import { ApplicationPath } from './ApplicationPath.generated';\n";
+      "import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';\n";
     source += '\n\n';
     source +=
       "export const routerPathMap = pairsToDict<ApplicationPath['name'], string>([\n";
