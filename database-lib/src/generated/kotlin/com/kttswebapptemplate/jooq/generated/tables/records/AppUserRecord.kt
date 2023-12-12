@@ -50,7 +50,7 @@ open class AppUserRecord private constructor() :
         set(value): Unit = set(7, value)
         get(): Instant = get(7) as Instant
 
-    open var lastUpdate: Instant
+    open var lastUpdateDate: Instant
         set(value): Unit = set(8, value)
         get(): Instant = get(8) as Instant
 
@@ -90,7 +90,7 @@ open class AppUserRecord private constructor() :
 
     override fun field8(): Field<Instant?> = AppUserTable.APP_USER.SIGNUP_DATE
 
-    override fun field9(): Field<Instant?> = AppUserTable.APP_USER.LAST_UPDATE
+    override fun field9(): Field<Instant?> = AppUserTable.APP_USER.LAST_UPDATE_DATE
 
     override fun component1(): UUID = id
 
@@ -108,7 +108,7 @@ open class AppUserRecord private constructor() :
 
     override fun component8(): Instant = signupDate
 
-    override fun component9(): Instant = lastUpdate
+    override fun component9(): Instant = lastUpdateDate
 
     override fun value1(): UUID = id
 
@@ -126,7 +126,7 @@ open class AppUserRecord private constructor() :
 
     override fun value8(): Instant = signupDate
 
-    override fun value9(): Instant = lastUpdate
+    override fun value9(): Instant = lastUpdateDate
 
     override fun value1(value: UUID?): AppUserRecord {
         set(0, value)
@@ -206,7 +206,7 @@ open class AppUserRecord private constructor() :
         status: String,
         role: String,
         signupDate: Instant,
-        lastUpdate: Instant
+        lastUpdateDate: Instant
     ) : this() {
         this.id = id
         this.mail = mail
@@ -216,7 +216,7 @@ open class AppUserRecord private constructor() :
         this.status = status
         this.role = role
         this.signupDate = signupDate
-        this.lastUpdate = lastUpdate
+        this.lastUpdateDate = lastUpdateDate
         resetChangedOnNotNull()
     }
 }

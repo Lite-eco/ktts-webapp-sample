@@ -93,10 +93,10 @@ open class AppUserTable(
             "",
             TimestampWithTimeZoneToInstantJooqConverter())
 
-    /** The column <code>public.app_user.last_update</code>. */
-    val LAST_UPDATE: TableField<AppUserRecord, Instant?> =
+    /** The column <code>public.app_user.last_update_date</code>. */
+    val LAST_UPDATE_DATE: TableField<AppUserRecord, Instant?> =
         createField(
-            DSL.name("last_update"),
+            DSL.name("last_update_date"),
             SQLDataType.TIMESTAMPWITHTIMEZONE(6).nullable(false),
             this,
             "",
