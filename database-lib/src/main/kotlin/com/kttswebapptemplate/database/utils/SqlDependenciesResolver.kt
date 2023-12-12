@@ -6,6 +6,7 @@ import net.sf.jsqlparser.parser.CCJSqlParserUtil
 import net.sf.jsqlparser.schema.Table
 import net.sf.jsqlparser.statement.alter.Alter
 import net.sf.jsqlparser.statement.create.table.CreateTable as JsqlCreateTable
+import net.sf.jsqlparser.statement.create.table.CreateTable
 import net.sf.jsqlparser.statement.create.table.ForeignKeyIndex
 
 object SqlDependenciesResolver {
@@ -69,15 +70,26 @@ object SqlDependenciesResolver {
             when (val parsed = CCJSqlParserUtil.parse(sqlFile.sql)) {
                 is JsqlCreateTable ->
                     ParseResult.CreateTable(
-                        sqlFile,
-                        TableName.from(parsed.table),
-                        parsed.indexes?.filterIsInstance<ForeignKeyIndex>() ?: emptyList())
+                        sqlFile, TableName.from(parsed.table), foreignKeys(parsed, sqlFile))
                 is Alter -> ParseResult.Alter(sqlFile)
                 else -> throw NotImplementedError("${parsed.javaClass} $parsed")
             }
         } catch (e: JSQLParserException) {
             throw IllegalArgumentException("Parsing error in ${sqlFile.path}", e)
         }
+
+    private fun foreignKeys(parsed: CreateTable, sqlFile: SqlFile): List<ForeignKeyIndex> {
+        parsed.columnDefinitions?.map {
+            val references = it.columnSpecs?.filter { it == "REFERENCES" }
+            if (references?.isNotEmpty() == true) {
+                // TODO handle those =]
+                throw IllegalArgumentException(
+                    "Can't handle direct SQL references (use FOREIGN KEY syntax instead). " +
+                        "Found one in file ${sqlFile.path} table \"${parsed.table.name}\" column \"${it.columnName}\"")
+            }
+        }
+        return parsed.indexes?.filterIsInstance<ForeignKeyIndex>() ?: emptyList()
+    }
 
     /**
      * Resolve SQL request, ordered to respect tables dependencies. Will NOT rewrite SQL queries.
