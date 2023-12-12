@@ -9,6 +9,7 @@ import com.kttswebapptemplate.service.user.UserService
 import com.kttswebapptemplate.service.user.UserSessionService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import mu.KotlinLogging
 import org.springframework.stereotype.Service
 
 @Service
@@ -17,6 +18,8 @@ class RegisterCommandHandler(
     private val userSessionService: UserSessionService,
     private val localeService: LocaleService
 ) : CommandHandler<RegisterCommand, RegisterCommandResponse> {
+
+    val logger = KotlinLogging.logger {}
 
     companion object {
         // TODO[tmpl] those validations should be done in another place too. Also :
@@ -39,7 +42,7 @@ class RegisterCommandHandler(
             // FIXME[tmpl] can't find the wooord
             // TemplateSampleCommonException
             // TemplateSampleStandardException
-            throw RuntimeException("$userSession")
+            throw RuntimeException("User is already logged in: $userSession")
         }
         validateRegisterCommand(command)
         val user =
@@ -50,6 +53,9 @@ class RegisterCommandHandler(
                     command.displayName,
                     localeService.selectLanguage(request.locales.toList()))
             } catch (e: MailAlreadyRegisteredException) {
+                logger.info {
+                    "Someone tried to register with already existing mail ${command.mail.trim()}"
+                }
                 return RegisterCommandResponse(RegisterResult.MailAlreadyExists, null)
             }
         userSessionService.authenticateUser(user, request, response)

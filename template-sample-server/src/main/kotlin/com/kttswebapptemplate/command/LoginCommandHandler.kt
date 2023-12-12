@@ -27,7 +27,7 @@ class LoginCommandHandler(
             // FIXME[tmpl] can't find the wooord
             // TemplateSampleCommonException
             // TemplateSampleStandardException
-            throw RuntimeException()
+            throw RuntimeException("User is already logged in: $userSession")
         }
         val cleanMail = UserService.cleanMail(command.mail)
         val user =
