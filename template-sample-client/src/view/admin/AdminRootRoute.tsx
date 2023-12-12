@@ -27,7 +27,7 @@ export const AdminRootRoute = () => {
                   padding: 10px;
                 `}
               >
-                <RouteLink route={{ name } as ApplicationPath}>
+                <RouteLink path={{ name } as ApplicationPath}>
                   {subRoutes[1]}
                 </RouteLink>
               </div>

@@ -32,14 +32,14 @@ export const Navbar = () => {
       `}
     >
       <RouteLink
+        path={{
+          name: 'Root'
+        }}
         addCss={css`
           color: ${colors.white};
           text-decoration: none;
           text-transform: uppercase;
         `}
-        route={{
-          name: 'Root'
-        }}
       >
         {t.TemplateSample()}
       </RouteLink>
@@ -60,7 +60,7 @@ export const Navbar = () => {
         <Menu anchorEl={buttonElement.current} open={open} onClose={close}>
           {!userInfos && (
             <MenuLink
-              route={{
+              path={{
                 name: 'Login'
               }}
               label={t.Login()}
@@ -68,7 +68,7 @@ export const Navbar = () => {
           )}
           {!userInfos && (
             <MenuLink
-              route={{
+              path={{
                 name: 'Register'
               }}
               label={t.Register()}
@@ -76,7 +76,7 @@ export const Navbar = () => {
           )}
           {userInfos?.status === 'Active' && (
             <MenuLink
-              route={{
+              path={{
                 name: 'Account'
               }}
               label={t.Account()}
@@ -84,7 +84,7 @@ export const Navbar = () => {
           )}
           {userInfos?.role === 'Admin' && (
             <MenuLink
-              route={{
+              path={{
                 name: 'Admin'
               }}
               label={t.Admin()}
@@ -97,9 +97,9 @@ export const Navbar = () => {
   );
 };
 
-const MenuLink = (props: { route: ApplicationPath; label: string }) => {
+const MenuLink = (props: { path: ApplicationPath; label: string }) => {
   return (
-    <MenuItem component={MatchRouterLink} route={props.route}>
+    <MenuItem component={MatchRouterLink} path={props.path}>
       <ListItemButton>
         <ListItemText primary={props.label} />
       </ListItemButton>
@@ -108,10 +108,10 @@ const MenuLink = (props: { route: ApplicationPath; label: string }) => {
 };
 
 const MatchRouterLink = (
-  props: PropsWithChildren<{ route: ApplicationPath }>
+  props: PropsWithChildren<{ path: ApplicationPath }>
 ) => {
   const matches = useMatches();
-  const to = buildPath(props.route);
+  const to = buildPath(props.path);
   const doesMatch = matches[matches.length - 1].pathname === to;
   return (
     <div

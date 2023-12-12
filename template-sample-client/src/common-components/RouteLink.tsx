@@ -14,7 +14,7 @@ const linkDefaultElement = 'Link';
 
 const RouteLinkBase = (
   props: PropsWithChildren<{
-    route: ApplicationPath;
+    path: ApplicationPath;
     doesMatch: boolean;
     variant?: ButtonTypeMap['props']['variant'];
     addCss?: EmotionStyles;
@@ -23,7 +23,7 @@ const RouteLinkBase = (
   }>
 ) => {
   const properties = {
-    to: buildPath(props.route),
+    to: buildPath(props.path),
     variant: props.variant ?? 'outlined',
     css: css([
       css`
@@ -56,7 +56,7 @@ const RouteLinkBase = (
 
 export const RouteLink = (
   props: PropsWithChildren<{
-    route: ApplicationPath;
+    path: ApplicationPath;
     // TODO only available for Button ? buttonVariant ?
     variant?: ButtonTypeMap['props']['variant'];
     addCss?: EmotionStyles;
@@ -65,7 +65,7 @@ export const RouteLink = (
   }>
 ) => (
   <RouteLinkBase
-    route={props.route}
+    path={props.path}
     doesMatch={false}
     variant={props.variant}
     addCss={props.addCss}
@@ -78,7 +78,7 @@ export const RouteLink = (
 
 export const MatchRouteLink = (
   props: PropsWithChildren<{
-    route: ApplicationPath;
+    path: ApplicationPath;
     matchModel: 'FullMatch' | 'PartialMatch';
     variant?: ButtonTypeMap['props']['variant'];
     addCss?: EmotionStyles;
@@ -87,13 +87,13 @@ export const MatchRouteLink = (
   }>
 ) => {
   const match = useMatch({
-    path: getValue(routerPathMap, props.route.name),
+    path: getValue(routerPathMap, props.path.name),
     end: props.matchModel === 'FullMatch'
   });
   // FIXME check css works
   return (
     <RouteLinkBase
-      route={props.route}
+      path={props.path}
       doesMatch={!!match}
       variant={props.variant}
       addCss={props.addCss}

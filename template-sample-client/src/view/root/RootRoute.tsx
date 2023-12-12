@@ -11,7 +11,7 @@ export const RootRoute = () => {
     <>
       {!userInfos && (
         <RouteLink
-          route={{
+          path={{
             name: 'Login'
           }}
         >

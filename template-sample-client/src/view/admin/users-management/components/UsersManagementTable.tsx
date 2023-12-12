@@ -104,12 +104,12 @@ export const UsersManagementTable = (props: {
       headerName: '',
       renderCell: (p: GridRenderCellParams<AdminUserInfos>) => (
         <RouteLink
-          element="Button"
-          variant="outlined"
-          route={{
+          path={{
             name: 'Admin/UsersManagement/UserDetail',
             userId: p.row.id
           }}
+          element="Button"
+          variant="outlined"
         >
           {t.Details()}
         </RouteLink>

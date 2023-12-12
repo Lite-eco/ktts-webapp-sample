@@ -126,12 +126,12 @@ export const UserDetailDialog = (props: {
                     <TableCell align="left">{props.userInfos.status}</TableCell>
                     <TableCell align="left">
                       <RouteLink
-                        element="Button"
-                        variant="outlined"
-                        route={{
+                        path={{
                           name: 'Admin/UsersManagement/UserDetail/EditStatus',
                           userId: props.userInfos.id
                         }}
+                        element="Button"
+                        variant="outlined"
                       >
                         {t.Edit()}
                       </RouteLink>
@@ -153,12 +153,12 @@ export const UserDetailDialog = (props: {
                     </TableCell>
                     <TableCell align="left">
                       <RouteLink
-                        element="Button"
-                        variant="outlined"
-                        route={{
+                        path={{
                           name: 'Admin/UsersManagement/UserDetail/EditRole',
                           userId: props.userInfos.id
                         }}
+                        element="Button"
+                        variant="outlined"
                       >
                         {t.Edit()}
                       </RouteLink>

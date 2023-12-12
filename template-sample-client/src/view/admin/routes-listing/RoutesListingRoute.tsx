@@ -83,7 +83,7 @@ const RouteListingItem = (props: {
         `}
       >
         {name !== 'NotFound' && !fullPath.includes(':') && (
-          <RouteLink route={{ name } as ApplicationPath}>
+          <RouteLink path={{ name } as ApplicationPath}>
             <RouteLinkComp name={name} path={fullPath} />
           </RouteLink>
         )}
