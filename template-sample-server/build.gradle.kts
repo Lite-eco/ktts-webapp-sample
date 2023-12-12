@@ -1,13 +1,13 @@
 plugins {
     kotlin("jvm")
     id("io.spring.dependency-management") version "1.1.0"
-    id("org.springframework.boot") version "3.1.0"
+    id("org.springframework.boot") version "3.1.5"
     // so we don't need to open Spring components classes
     id("org.jetbrains.kotlin.plugin.spring")
-    id("com.google.devtools.ksp") version "1.9.0-1.0.11"
+    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
 }
 
-val kotlinVersion = "1.9.0"
+val kotlinVersion = "1.9.20"
 
 tasks {
     test {

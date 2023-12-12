@@ -1,11 +1,11 @@
 plugins {
-    val kotlinVersion = "1.9.0"
+    val kotlinVersion = "1.9.20"
     kotlin("jvm") version kotlinVersion apply false
     id("org.jetbrains.kotlin.plugin.spring") version kotlinVersion apply false
 }
 
 buildscript {
-    val kotlinVersion = "1.9.0"
+    val kotlinVersion = "1.9.20"
     dependencies { classpath(kotlin("gradle-plugin", version = kotlinVersion)) }
 }
 
