@@ -1,4 +1,4 @@
-import { Errors } from '../errors';
+import { Errors } from 'errors';
 
 export class CsrfTokenService {
   public header = 'X-XSRF-TOKEN';

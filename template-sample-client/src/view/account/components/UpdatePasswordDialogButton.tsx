@@ -1,12 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { LoadingStateButton } from '../../../common-components/LoadingButton';
-import { UpdatePasswordResult } from '../../../generated/domain/User.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { LoadingState } from '../../../interfaces';
-import { colors } from '../../../style/vars';
-import { assertUnreachable, clientUid } from '../../../utils';
-import { PasswordForm, PasswordFormInput } from './PasswordForm';
-import { UpdatePasswordDialogButtonI18n } from './UpdatePasswordDialogButton.i18n';
 import { css } from '@emotion/react';
 import {
   Button,
@@ -16,7 +8,18 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
+import { LoadingStateButton } from 'common-components/LoadingButton';
+import { UpdatePasswordResult } from 'generated/domain/User.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
 import { useState } from 'react';
+import { colors } from 'style/vars';
+import { assertUnreachable, clientUid } from 'utils';
+import {
+  PasswordForm,
+  PasswordFormInput
+} from 'view/account/components/PasswordForm';
+import { UpdatePasswordDialogButtonI18n } from 'view/account/components/UpdatePasswordDialogButton.i18n';
 
 export const UpdatePasswordDialogButton = (props: {
   onSubmit: (dto: PasswordFormInput) => Promise<UpdatePasswordResult>;

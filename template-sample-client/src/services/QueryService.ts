@@ -1,5 +1,5 @@
-import { Query, QueryResponse } from '../generated/query/Queries.generated';
-import { appContext } from './ApplicationContext';
+import { Query, QueryResponse } from 'generated/query/Queries.generated';
+import { appContext } from 'services/ApplicationContext';
 
 export class QueryService {
   public send = <R extends QueryResponse>(query: Query): Promise<R> =>

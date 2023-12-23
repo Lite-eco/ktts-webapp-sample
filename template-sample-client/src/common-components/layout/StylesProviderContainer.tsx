@@ -1,5 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { globalStyles } from '../../style/global-styles';
 import { Global } from '@emotion/react';
 import {
   createTheme,
@@ -8,6 +7,7 @@ import {
 } from '@mui/material';
 import StylesProvider from '@mui/styles/StylesProvider';
 import { PropsWithChildren } from 'react';
+import { globalStyles } from 'style/global-styles';
 
 const muiTheme = createTheme({
   typography: {

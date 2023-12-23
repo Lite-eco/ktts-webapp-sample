@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { useI18n } from '../../../hooks/i18n';
-import { appContext } from '../../../services/ApplicationContext';
-import { colors } from '../../../style/vars';
-import { LogoutMenuItemI18n } from './LogoutMenuItem.i18n';
 import { css } from '@emotion/react';
 import { MenuItem } from '@mui/material';
+import { LogoutMenuItemI18n } from 'common-components/layout/components/LogoutMenuItem.i18n';
+import { useI18n } from 'hooks/i18n';
 import { useRef } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { colors } from 'style/vars';
 
 const logoutPath = '/logout';
 

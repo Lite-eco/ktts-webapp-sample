@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { UpdatePasswordCommandResponse } from '../../generated/command/Commands.generated';
-import { appContext } from '../../services/ApplicationContext';
-import { PasswordFormInput } from './components/PasswordForm';
-import { UpdatePasswordDialogButton } from './components/UpdatePasswordDialogButton';
+import { UpdatePasswordCommandResponse } from 'generated/command/Commands.generated';
+import { appContext } from 'services/ApplicationContext';
+import { PasswordFormInput } from 'view/account/components/PasswordForm';
+import { UpdatePasswordDialogButton } from 'view/account/components/UpdatePasswordDialogButton';
 
 export const AccountRoute = () => {
   const onSubmit = (dto: PasswordFormInput) =>

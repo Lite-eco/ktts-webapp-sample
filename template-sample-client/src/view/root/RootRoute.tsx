@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
-import { RouteLink } from '../../common-components/RouteLink';
-import { useI18n } from '../../hooks/i18n';
-import { useUserState } from '../../state/UserState';
-import { RootRouteI18n } from './RootRoute.i18n';
+import { RouteLink } from 'common-components/RouteLink';
+import { useI18n } from 'hooks/i18n';
+import { useUserState } from 'state/UserState';
+import { RootRouteI18n } from 'view/root/RootRoute.i18n';
 
 export const RootRoute = () => {
   const userInfos = useUserState(s => s.userInfos);

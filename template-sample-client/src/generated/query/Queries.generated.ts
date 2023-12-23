@@ -1,5 +1,5 @@
-import { UserId } from '../domain/Ids.generated';
-import { AdminUserInfos, UserStatus } from '../domain/User.generated';
+import { UserId } from 'generated/domain/Ids.generated';
+import { AdminUserInfos, UserStatus } from 'generated/domain/User.generated';
 
 export type Query =
   | AdminGetUserInfosQuery

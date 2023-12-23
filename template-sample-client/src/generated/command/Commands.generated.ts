@@ -1,5 +1,5 @@
-import { UserId } from '../domain/Ids.generated';
-import { PlainStringPassword } from '../domain/Security.generated';
+import { UserId } from 'generated/domain/Ids.generated';
+import { PlainStringPassword } from 'generated/domain/Security.generated';
 import {
   LoginResult,
   RegisterResult,
@@ -7,8 +7,8 @@ import {
   UpdatePasswordResult,
   UserInfos,
   UserStatus
-} from '../domain/User.generated';
-import { UserAccountOperationToken } from '../domain/UserAccountOperationToken.generated';
+} from 'generated/domain/User.generated';
+import { UserAccountOperationToken } from 'generated/domain/UserAccountOperationToken.generated';
 
 export type Command =
   | AdminUpdateRoleCommand

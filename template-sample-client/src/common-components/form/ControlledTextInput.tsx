@@ -1,6 +1,6 @@
-import { useI18n } from '../../hooks/i18n';
-import { ControlledTextInputI18n } from './ControlledTextInput.i18n';
 import { TextField } from '@mui/material';
+import { ControlledTextInputI18n } from 'common-components/form/ControlledTextInput.i18n';
+import { useI18n } from 'hooks/i18n';
 import { ChangeEvent } from 'react';
 import { Controller, FieldPath } from 'react-hook-form';
 import { Control, FieldValues } from 'react-hook-form/dist/types';

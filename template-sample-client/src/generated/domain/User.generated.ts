@@ -1,5 +1,5 @@
-import { Instant } from '../../domain/datetime';
-import { UserId } from './Ids.generated';
+import { Instant } from 'domain/datetime';
+import { UserId } from 'generated/domain/Ids.generated';
 
 export type UserStatus = 'MailValidationPending' | 'Active' | 'Disabled';
 

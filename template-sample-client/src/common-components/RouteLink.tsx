@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { ApplicationPath } from '../generated/routing/ApplicationPath.generated';
-import { routerPathMap } from '../generated/routing/routerPathMap.generated';
-import { EmotionStyles } from '../interfaces';
-import { assertUnreachable } from '../utils';
-import { getValue } from '../utils/nominal-class';
-import { buildPath } from '../utils/routing-utils';
 import { css } from '@emotion/react';
 import { Button, ButtonTypeMap } from '@mui/material';
+import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
+import { routerPathMap } from 'generated/routing/routerPathMap.generated';
+import { EmotionStyles } from 'interfaces';
 import { PropsWithChildren } from 'react';
 import { Link, useMatch } from 'react-router-dom';
+import { assertUnreachable } from 'utils';
+import { getValue } from 'utils/nominal-class';
+import { buildPath } from 'utils/routing-utils';
 
 const linkDefaultElement = 'Link';
 

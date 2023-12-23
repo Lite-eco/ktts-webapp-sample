@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { ControlledPasswordInput } from '../../../common-components/form/ControlledPasswordInput';
-import { ClientUid } from '../../../domain/client-ids';
-import { PlainStringPassword } from '../../../generated/domain/Security.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { nominal } from '../../../utils/nominal-class';
-import { PasswordFormI18n } from './PasswordForm.i18n';
 import { css } from '@emotion/react';
+import { ControlledPasswordInput } from 'common-components/form/ControlledPasswordInput';
+import { ClientUid } from 'domain/client-ids';
+import { PlainStringPassword } from 'generated/domain/Security.generated';
+import { useI18n } from 'hooks/i18n';
 import { useForm } from 'react-hook-form';
+import { nominal } from 'utils/nominal-class';
+import { PasswordFormI18n } from 'view/account/components/PasswordForm.i18n';
 
 export interface PasswordFormInput {
   currentPassword: PlainStringPassword;

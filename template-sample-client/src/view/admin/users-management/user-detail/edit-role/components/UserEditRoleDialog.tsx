@@ -1,19 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { LoadingStateButton } from '../../../../../../common-components/LoadingButton';
-import { roleEnumValues } from '../../../../../../domain/enums';
-import { Errors } from '../../../../../../errors';
-import { UserId } from '../../../../../../generated/domain/Ids.generated';
-import {
-  AdminUserInfos,
-  Role
-} from '../../../../../../generated/domain/User.generated';
-import { useI18n } from '../../../../../../hooks/i18n';
-import { LoadingState } from '../../../../../../interfaces';
-import { appContext } from '../../../../../../services/ApplicationContext';
-import { useUserState } from '../../../../../../state/UserState';
-import { colors } from '../../../../../../style/vars';
-import { navigateTo } from '../../../../../../utils/routing-utils';
-import { UserEditRoleDialogI18n } from './UserEditRoleDialog.i18n';
 import { css } from '@emotion/react';
 import { Warning as WarningIcon } from '@mui/icons-material';
 import {
@@ -28,7 +13,19 @@ import {
   TextField,
   Typography
 } from '@mui/material';
+import { LoadingStateButton } from 'common-components/LoadingButton';
+import { roleEnumValues } from 'domain/enums';
+import { Errors } from 'errors';
+import { UserId } from 'generated/domain/Ids.generated';
+import { AdminUserInfos, Role } from 'generated/domain/User.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
 import { PropsWithChildren, useEffect, useState } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { useUserState } from 'state/UserState';
+import { colors } from 'style/vars';
+import { navigateTo } from 'utils/routing-utils';
+import { UserEditRoleDialogI18n } from 'view/admin/users-management/user-detail/edit-role/components/UserEditRoleDialog.i18n';
 
 export const UserEditRoleDialog = (props: {
   userId: UserId;

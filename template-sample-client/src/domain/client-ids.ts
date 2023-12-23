@@ -1,3 +1,3 @@
-import { NominalString } from '../utils/nominal-class';
+import { NominalString } from 'utils/nominal-class';
 
 export type ClientUid = NominalString<'ClientUid'>;

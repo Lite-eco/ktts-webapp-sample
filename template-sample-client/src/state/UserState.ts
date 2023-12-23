@@ -1,5 +1,5 @@
-import { Errors } from '../errors';
-import { UserInfos, UserStatus } from '../generated/domain/User.generated';
+import { Errors } from 'errors';
+import { UserInfos, UserStatus } from 'generated/domain/User.generated';
 import { create } from 'zustand';
 
 interface UserState {

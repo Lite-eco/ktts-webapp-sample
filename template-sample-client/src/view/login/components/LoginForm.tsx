@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { LoadingStateButton } from '../../../common-components/LoadingButton';
-import { ControlledPasswordInput } from '../../../common-components/form/ControlledPasswordInput';
-import { ControlledTextInput } from '../../../common-components/form/ControlledTextInput';
-import { PlainStringPassword } from '../../../generated/domain/Security.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { LoadingState } from '../../../interfaces';
-import { nominal } from '../../../utils/nominal-class';
-import { LoginFormI18n } from './LoginForm.i18n';
 import { css } from '@emotion/react';
+import { LoadingStateButton } from 'common-components/LoadingButton';
+import { ControlledPasswordInput } from 'common-components/form/ControlledPasswordInput';
+import { ControlledTextInput } from 'common-components/form/ControlledTextInput';
+import { PlainStringPassword } from 'generated/domain/Security.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { nominal } from 'utils/nominal-class';
+import { LoginFormI18n } from 'view/login/components/LoginForm.i18n';
 
 export interface LoginFormInput {
   mail: string;

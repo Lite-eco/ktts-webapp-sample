@@ -1,12 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { RouteLink } from '../../../../../common-components/RouteLink';
-import { AdminUserInfos } from '../../../../../generated/domain/User.generated';
-import { useI18n } from '../../../../../hooks/i18n';
-import { LoadingState } from '../../../../../interfaces';
-import { navigateTo } from '../../../../../utils/routing-utils';
-import { CopyContentWidget } from '../../components/CopyContentWidget';
-import { RoleChip } from '../../components/UsersManagementTable';
-import { UserDetailDialogI18n } from './UserDetailDialog.i18n';
 import { css } from '@emotion/react';
 import { ExpandMore as ExpandMoreIcon } from '@mui/icons-material';
 import {
@@ -26,6 +18,14 @@ import {
   TableHead,
   TableRow
 } from '@mui/material';
+import { RouteLink } from 'common-components/RouteLink';
+import { AdminUserInfos } from 'generated/domain/User.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
+import { navigateTo } from 'utils/routing-utils';
+import { CopyContentWidget } from 'view/admin/users-management/components/CopyContentWidget';
+import { RoleChip } from 'view/admin/users-management/components/UsersManagementTable';
+import { UserDetailDialogI18n } from 'view/admin/users-management/user-detail/components/UserDetailDialog.i18n';
 
 export const UserDetailDialog = (props: {
   userInfos: AdminUserInfos | undefined;

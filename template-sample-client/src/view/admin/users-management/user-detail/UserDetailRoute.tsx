@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { AdminUserInfos } from '../../../../generated/domain/User.generated';
-import { AdminGetUserInfosQueryResponse } from '../../../../generated/query/Queries.generated';
-import { AdminUsersManagementUserDetailPath } from '../../../../generated/routing/ApplicationPath.generated';
-import { LoadingState } from '../../../../interfaces';
-import { appContext } from '../../../../services/ApplicationContext';
-import { useTypedParams } from '../../../../utils/routing-utils';
-import { UsersManagementOutletContext } from '../UsersManagementRoute';
-import { UserDetailDialog } from './components/UserDetailDialog';
+import { AdminUserInfos } from 'generated/domain/User.generated';
+import { AdminGetUserInfosQueryResponse } from 'generated/query/Queries.generated';
+import { AdminUsersManagementUserDetailPath } from 'generated/routing/ApplicationPath.generated';
+import { LoadingState } from 'interfaces';
 import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
+import { appContext } from 'services/ApplicationContext';
+import { useTypedParams } from 'utils/routing-utils';
+import { UsersManagementOutletContext } from 'view/admin/users-management/UsersManagementRoute';
+import { UserDetailDialog } from 'view/admin/users-management/user-detail/components/UserDetailDialog';
 
 export interface UsersManagementUserDetailOutletContext {
   userInfos: AdminUserInfos | undefined;

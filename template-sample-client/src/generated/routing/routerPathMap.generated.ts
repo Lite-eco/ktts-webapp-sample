@@ -1,5 +1,5 @@
-import { pairsToDict } from '../../utils/nominal-class';
-import { ApplicationPath } from './ApplicationPath.generated';
+import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
+import { pairsToDict } from 'utils/nominal-class';
 
 export const routerPathMap = pairsToDict<ApplicationPath['name'], string>([
   ['Account', '/account'],

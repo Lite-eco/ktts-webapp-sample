@@ -1,4 +1,4 @@
-import { ApplicationBootstrapData } from './generated/domain/BootstrapData.generated';
+import { ApplicationBootstrapData } from 'generated/domain/BootstrapData.generated';
 
 declare global {
   const bootstrapData: ApplicationBootstrapData;

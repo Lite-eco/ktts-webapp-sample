@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { ApplicationPath } from '../../../generated/routing/ApplicationPath.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { useUserState } from '../../../state/UserState';
-import { colors } from '../../../style/vars';
-import { buildPath } from '../../../utils/routing-utils';
-import { RouteLink } from '../../RouteLink';
-import { LogoutMenuItem } from './LogoutMenuItem';
-import { NavbarI18n } from './Navbar.i18n';
 import { css } from '@emotion/react';
 import { Menu as MenuIcon } from '@mui/icons-material';
 import { ListItemButton, ListItemText, Menu, MenuItem } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
+import { RouteLink } from 'common-components/RouteLink';
+import { LogoutMenuItem } from 'common-components/layout/components/LogoutMenuItem';
+import { NavbarI18n } from 'common-components/layout/components/Navbar.i18n';
+import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
+import { useI18n } from 'hooks/i18n';
 import { PropsWithChildren, useRef, useState } from 'react';
 import { Link as RouterLink, useMatches } from 'react-router-dom';
+import { useUserState } from 'state/UserState';
+import { colors } from 'style/vars';
+import { buildPath } from 'utils/routing-utils';
 
 export const Navbar = () => {
   const userInfos = useUserState(s => s.userInfos);

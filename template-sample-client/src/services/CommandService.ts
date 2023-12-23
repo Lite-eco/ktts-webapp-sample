@@ -1,8 +1,5 @@
-import {
-  Command,
-  CommandResponse
-} from '../generated/command/Commands.generated';
-import { appContext } from './ApplicationContext';
+import { Command, CommandResponse } from 'generated/command/Commands.generated';
+import { appContext } from 'services/ApplicationContext';
 
 export class CommandService {
   public send = <R extends CommandResponse>(command: Command): Promise<R> =>

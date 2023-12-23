@@ -1,8 +1,8 @@
-import { ApplicationPath } from '../generated/routing/ApplicationPath.generated';
-import { router } from '../generated/routing/router.generated';
-import { routerPathMap } from '../generated/routing/routerPathMap.generated';
-import { getValue } from './nominal-class';
+import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
+import { router } from 'generated/routing/router.generated';
+import { routerPathMap } from 'generated/routing/routerPathMap.generated';
 import { useMatches, useParams } from 'react-router-dom';
+import { getValue } from 'utils/nominal-class';
 
 export const useTypedParams = <T extends ApplicationPath>(): Omit<T, 'name'> =>
   useParams() as Omit<T, 'name'>;

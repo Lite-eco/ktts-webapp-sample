@@ -1,5 +1,5 @@
-import { RequestError } from '../generated/error/Exceptions.generated';
-import { appContext } from './ApplicationContext';
+import { RequestError } from 'generated/error/Exceptions.generated';
+import { appContext } from 'services/ApplicationContext';
 
 type RequestType = 'Get' | 'Post';
 

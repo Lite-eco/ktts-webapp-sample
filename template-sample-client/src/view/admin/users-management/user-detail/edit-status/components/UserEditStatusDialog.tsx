@@ -1,19 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { LoadingStateButton } from '../../../../../../common-components/LoadingButton';
-import { statusEnumValues } from '../../../../../../domain/enums';
-import { Errors } from '../../../../../../errors';
-import { UserId } from '../../../../../../generated/domain/Ids.generated';
-import {
-  AdminUserInfos,
-  UserStatus
-} from '../../../../../../generated/domain/User.generated';
-import { AdminGetUserInfosQueryResponse } from '../../../../../../generated/query/Queries.generated';
-import { useI18n } from '../../../../../../hooks/i18n';
-import { LoadingState } from '../../../../../../interfaces';
-import { appContext } from '../../../../../../services/ApplicationContext';
-import { useUserState } from '../../../../../../state/UserState';
-import { navigateTo } from '../../../../../../utils/routing-utils';
-import { UserEditStatusDialogI18n } from './UserEditStatusDialog.i18n';
 import { css } from '@emotion/react';
 import {
   Autocomplete,
@@ -26,7 +11,19 @@ import {
   DialogTitle,
   TextField
 } from '@mui/material';
+import { LoadingStateButton } from 'common-components/LoadingButton';
+import { statusEnumValues } from 'domain/enums';
+import { Errors } from 'errors';
+import { UserId } from 'generated/domain/Ids.generated';
+import { AdminUserInfos, UserStatus } from 'generated/domain/User.generated';
+import { AdminGetUserInfosQueryResponse } from 'generated/query/Queries.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
 import { useEffect, useState } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { useUserState } from 'state/UserState';
+import { navigateTo } from 'utils/routing-utils';
+import { UserEditStatusDialogI18n } from 'view/admin/users-management/user-detail/edit-status/components/UserEditStatusDialog.i18n';
 
 export const UserEditStatusDialog = (props: {
   userId: UserId;

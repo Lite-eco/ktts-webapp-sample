@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { useI18n } from '../../hooks/i18n';
-import { ControlledPasswordInputI18n } from './ControlledPasswordInput.i18n';
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { TextField } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import InputAdornment from '@mui/material/InputAdornment';
+import { ControlledPasswordInputI18n } from 'common-components/form/ControlledPasswordInput.i18n';
+import { useI18n } from 'hooks/i18n';
 import { useState } from 'react';
 import { Controller, FieldPath } from 'react-hook-form';
 import { Control, FieldValues } from 'react-hook-form/dist/types';

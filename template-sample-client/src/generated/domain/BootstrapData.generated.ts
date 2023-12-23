@@ -1,5 +1,5 @@
-import { ApplicationEnvironment } from './Application.generated';
-import { UserInfos } from './User.generated';
+import { ApplicationEnvironment } from 'generated/domain/Application.generated';
+import { UserInfos } from 'generated/domain/User.generated';
 
 export interface ApplicationBootstrapData {
   env: ApplicationEnvironment;

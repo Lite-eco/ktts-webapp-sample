@@ -1,7 +1,7 @@
-import { CommandService } from './CommandService';
-import { CsrfTokenService } from './CsrfTokenService';
-import { HttpService } from './HttpService';
-import { QueryService } from './QueryService';
+import { CommandService } from 'services/CommandService';
+import { CsrfTokenService } from 'services/CsrfTokenService';
+import { HttpService } from 'services/HttpService';
+import { QueryService } from 'services/QueryService';
 
 class ApplicationContext {
   private _csrfTokenService?: CsrfTokenService;

@@ -1,16 +1,19 @@
 /** @jsxImportSource @emotion/react */
-import { Errors } from '../../errors';
-import { RegisterCommandResponse } from '../../generated/command/Commands.generated';
-import { RegisterResult } from '../../generated/domain/User.generated';
-import { useI18n } from '../../hooks/i18n';
-import { appContext } from '../../services/ApplicationContext';
-import { useUserState } from '../../state/UserState';
-import { assertUnreachable } from '../../utils';
-import { navigateTo } from '../../utils/routing-utils';
-import { RegisterRouteI18n } from './RegisterRoute.i18n';
-import { RegisterForm, RegisterFormInput } from './components/RegisterForm';
 import { css } from '@emotion/react';
+import { Errors } from 'errors';
+import { RegisterCommandResponse } from 'generated/command/Commands.generated';
+import { RegisterResult } from 'generated/domain/User.generated';
+import { useI18n } from 'hooks/i18n';
 import { useState } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { useUserState } from 'state/UserState';
+import { assertUnreachable } from 'utils';
+import { navigateTo } from 'utils/routing-utils';
+import { RegisterRouteI18n } from 'view/register/RegisterRoute.i18n';
+import {
+  RegisterForm,
+  RegisterFormInput
+} from 'view/register/components/RegisterForm';
 
 export const RegisterRoute = () => {
   const userInfos = useUserState(s => s.userInfos);

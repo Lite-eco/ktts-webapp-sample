@@ -1,4 +1,4 @@
-import { UserId } from '../domain/Ids.generated';
+import { UserId } from 'generated/domain/Ids.generated';
 
 export type ApplicationPath =
   | AccountPath

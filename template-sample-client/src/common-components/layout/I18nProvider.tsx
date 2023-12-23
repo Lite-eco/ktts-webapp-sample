@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { I18nContext, initialI18nContext } from '../../hooks/i18n';
+import { I18nContext, initialI18nContext } from 'hooks/i18n';
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
 export const I18nProvider = (props: PropsWithChildren) => {

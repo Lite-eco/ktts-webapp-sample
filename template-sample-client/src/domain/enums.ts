@@ -1,4 +1,4 @@
-import { Role, UserStatus } from '../generated/domain/User.generated';
+import { Role, UserStatus } from 'generated/domain/User.generated';
 
 // from https://stackoverflow.com/questions/55265679/enforce-that-an-array-is-exhaustive-over-a-union-type
 export const enumValues =

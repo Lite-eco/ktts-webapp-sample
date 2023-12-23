@@ -1,15 +1,15 @@
 /** @jsxImportSource @emotion/react */
-import { AdminUserInfos } from '../../../generated/domain/User.generated';
-import { AdminGetUsersQueryResponse } from '../../../generated/query/Queries.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { LoadingState } from '../../../interfaces';
-import { appContext } from '../../../services/ApplicationContext';
-import { UsersManagementRouteI18n } from './UsersManagementRoute.i18n';
-import { UsersManagementTable } from './components/UsersManagementTable';
 import { css } from '@emotion/react';
+import { AdminUserInfos } from 'generated/domain/User.generated';
+import { AdminGetUsersQueryResponse } from 'generated/query/Queries.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
+import { appContext } from 'services/ApplicationContext';
+import { UsersManagementRouteI18n } from 'view/admin/users-management/UsersManagementRoute.i18n';
+import { UsersManagementTable } from 'view/admin/users-management/components/UsersManagementTable';
 
 export interface UsersManagementOutletContext {
   updateUserInfos: (userInfos: AdminUserInfos) => void;

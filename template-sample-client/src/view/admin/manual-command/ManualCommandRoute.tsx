@@ -1,17 +1,17 @@
 /** @jsxImportSource @emotion/react */
+import { css } from '@emotion/react';
 import {
   AdminUpdateSessionsCommand,
   AdminUpdateUserMailCommand,
   CommandResponse
-} from '../../../generated/command/Commands.generated';
-import { RequestError } from '../../../generated/error/Exceptions.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { appContext } from '../../../services/ApplicationContext';
-import { nominal } from '../../../utils/nominal-class';
-import { ManualCommandRouteI18n } from './ManualCommandRoute.i18n';
-import { css } from '@emotion/react';
+} from 'generated/command/Commands.generated';
+import { RequestError } from 'generated/error/Exceptions.generated';
+import { useI18n } from 'hooks/i18n';
 import { useSnackbar } from 'notistack';
 import { useRef, useState } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { nominal } from 'utils/nominal-class';
+import { ManualCommandRouteI18n } from 'view/admin/manual-command/ManualCommandRoute.i18n';
 
 const sampleAdminUpdateSessionsCommand: AdminUpdateSessionsCommand = {
   objectType: 'AdminUpdateSessionsCommand'

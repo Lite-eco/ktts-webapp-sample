@@ -1,13 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { UserStatus } from '../../../generated/domain/User.generated';
-import { GetUserStatusQueryResponse } from '../../../generated/query/Queries.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { appContext } from '../../../services/ApplicationContext';
-import { useUserState } from '../../../state/UserState';
-import { assertUnreachable } from '../../../utils';
-import { nominal } from '../../../utils/nominal-class';
-import { navigateTo } from '../../../utils/routing-utils';
-import { UserStatusCheckContainerI18n } from './UserStatusCheckContainer.i18n';
 import {
   Button,
   Dialog,
@@ -16,7 +7,16 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
+import { UserStatusCheckContainerI18n } from 'common-components/layout/components/UserStatusCheckContainer.i18n';
+import { UserStatus } from 'generated/domain/User.generated';
+import { GetUserStatusQueryResponse } from 'generated/query/Queries.generated';
+import { useI18n } from 'hooks/i18n';
 import { PropsWithChildren, useEffect, useState } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { useUserState } from 'state/UserState';
+import { assertUnreachable } from 'utils';
+import { nominal } from 'utils/nominal-class';
+import { navigateTo } from 'utils/routing-utils';
 
 const UserStatusContent = (
   props: PropsWithChildren<{ status: UserStatus | undefined }>

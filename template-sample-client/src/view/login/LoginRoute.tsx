@@ -1,21 +1,21 @@
 /** @jsxImportSource @emotion/react */
-import { Errors } from '../../errors';
+import { css } from '@emotion/react';
+import Button from '@mui/material/Button';
+import { Errors } from 'errors';
 import {
   DevLoginCommandResponse,
   LoginCommandResponse
-} from '../../generated/command/Commands.generated';
-import { LoginResult, UserInfos } from '../../generated/domain/User.generated';
-import { useI18n } from '../../hooks/i18n';
-import { appContext } from '../../services/ApplicationContext';
-import { useUserState } from '../../state/UserState';
-import { colors } from '../../style/vars';
-import { assertUnreachable } from '../../utils';
-import { navigateTo } from '../../utils/routing-utils';
-import { LoginRouteI18n } from './LoginRoute.i18n';
-import { LoginForm, LoginFormInput } from './components/LoginForm';
-import { css } from '@emotion/react';
-import Button from '@mui/material/Button';
+} from 'generated/command/Commands.generated';
+import { LoginResult, UserInfos } from 'generated/domain/User.generated';
+import { useI18n } from 'hooks/i18n';
 import { useState } from 'react';
+import { appContext } from 'services/ApplicationContext';
+import { useUserState } from 'state/UserState';
+import { colors } from 'style/vars';
+import { assertUnreachable } from 'utils';
+import { navigateTo } from 'utils/routing-utils';
+import { LoginRouteI18n } from 'view/login/LoginRoute.i18n';
+import { LoginForm, LoginFormInput } from 'view/login/components/LoginForm';
 
 export const LoginRoute = () => {
   const userInfos = useUserState(s => s.userInfos);

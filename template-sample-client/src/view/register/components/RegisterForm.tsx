@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { LoadingStateButton } from '../../../common-components/LoadingButton';
-import { ControlledPasswordInput } from '../../../common-components/form/ControlledPasswordInput';
-import { ControlledTextInput } from '../../../common-components/form/ControlledTextInput';
-import { PlainStringPassword } from '../../../generated/domain/Security.generated';
-import { IsMailAlreadyTakenQueryResponse } from '../../../generated/query/Queries.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { LoadingState } from '../../../interfaces';
-import { appContext } from '../../../services/ApplicationContext';
-import { colors } from '../../../style/vars';
-import { nominal } from '../../../utils/nominal-class';
-import { RegisterFormI18n } from './RegisterForm.i18n';
 import { css } from '@emotion/react';
+import { LoadingStateButton } from 'common-components/LoadingButton';
+import { ControlledPasswordInput } from 'common-components/form/ControlledPasswordInput';
+import { ControlledTextInput } from 'common-components/form/ControlledTextInput';
+import { PlainStringPassword } from 'generated/domain/Security.generated';
+import { IsMailAlreadyTakenQueryResponse } from 'generated/query/Queries.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { appContext } from 'services/ApplicationContext';
+import { colors } from 'style/vars';
+import { nominal } from 'utils/nominal-class';
+import { RegisterFormI18n } from 'view/register/components/RegisterForm.i18n';
 
 export interface RegisterFormInput {
   mail: string;

@@ -1,13 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { RouteLink } from '../../../common-components/RouteLink';
-import { ApplicationPath } from '../../../generated/routing/ApplicationPath.generated';
-import { routes } from '../../../generated/routing/router.generated';
-import { useI18n } from '../../../hooks/i18n';
-import { useUserState } from '../../../state/UserState';
-import { colors } from '../../../style/vars';
-import { RoutesListingRouteI18n } from './RoutesListingRoute.i18n';
 import { css } from '@emotion/react';
+import { RouteLink } from 'common-components/RouteLink';
+import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
+import { routes } from 'generated/routing/router.generated';
+import { useI18n } from 'hooks/i18n';
 import { Link, RouteObject } from 'react-router-dom';
+import { useUserState } from 'state/UserState';
+import { colors } from 'style/vars';
+import { RoutesListingRouteI18n } from 'view/admin/routes-listing/RoutesListingRoute.i18n';
 
 export const RoutesListingRoute = () => {
   const userInfos = useUserState(s => s.userInfos);

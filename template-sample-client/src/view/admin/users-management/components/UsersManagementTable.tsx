@@ -1,15 +1,4 @@
 /** @jsxImportSource @emotion/react */
-import { RouteLink } from '../../../../common-components/RouteLink';
-import { adminIdDisplayChars } from '../../../../domain/admin';
-import {
-  AdminUserInfos,
-  Role
-} from '../../../../generated/domain/User.generated';
-import { useI18n } from '../../../../hooks/i18n';
-import { LoadingState } from '../../../../interfaces';
-import { colors } from '../../../../style/vars';
-import { CopyContentWidget } from './CopyContentWidget';
-import { UsersManagementTableI18n } from './UsersManagementTable.i18n';
 import { css } from '@emotion/react';
 import {
   DataGrid,
@@ -18,6 +7,14 @@ import {
   GridValueFormatterParams,
   GridValueGetterParams
 } from '@mui/x-data-grid';
+import { RouteLink } from 'common-components/RouteLink';
+import { adminIdDisplayChars } from 'domain/admin';
+import { AdminUserInfos, Role } from 'generated/domain/User.generated';
+import { useI18n } from 'hooks/i18n';
+import { LoadingState } from 'interfaces';
+import { colors } from 'style/vars';
+import { CopyContentWidget } from 'view/admin/users-management/components/CopyContentWidget';
+import { UsersManagementTableI18n } from 'view/admin/users-management/components/UsersManagementTable.i18n';
 
 export const RoleChip = (props: { role: Role }) => (
   <span

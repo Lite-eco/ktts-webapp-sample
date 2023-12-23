@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { Navbar } from './components/Navbar';
-import { UserStatusCheckContainer } from './components/UserStatusCheckContainer';
 import { css } from '@emotion/react';
+import { Navbar } from 'common-components/layout/components/Navbar';
+import { UserStatusCheckContainer } from 'common-components/layout/components/UserStatusCheckContainer';
 import { Outlet } from 'react-router-dom';
 
 export const MainLayout = () => (

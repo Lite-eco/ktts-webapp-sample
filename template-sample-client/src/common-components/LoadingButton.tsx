@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { ClientUid } from '../domain/client-ids';
-import { EmotionStyles, LoadingState } from '../interfaces';
-import { assertUnreachable } from '../utils';
 import { css } from '@emotion/react';
 import { Button, CircularProgress } from '@mui/material';
 import { ButtonTypeMap } from '@mui/material/Button/Button';
+import { ClientUid } from 'domain/client-ids';
+import { EmotionStyles, LoadingState } from 'interfaces';
 import * as React from 'react';
 import { PropsWithChildren, ReactElement, useState } from 'react';
+import { assertUnreachable } from 'utils';
 
 const ButtonContent = (
   props: PropsWithChildren<{

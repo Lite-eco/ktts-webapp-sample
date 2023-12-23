@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
-import { useUserState } from '../../state/UserState';
-import { NotFoundRoute } from '../not-found/NotFoundRoute';
 import { Outlet } from 'react-router-dom';
+import { useUserState } from 'state/UserState';
+import { NotFoundRoute } from 'view/not-found/NotFoundRoute';
 
 export const AdminRoute = () => {
   const userInfos = useUserState(s => s.userInfos);

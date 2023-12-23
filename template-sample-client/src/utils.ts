@@ -1,5 +1,5 @@
-import { ClientUid } from './domain/client-ids';
-import { nominal } from './utils/nominal-class';
+import { ClientUid } from 'domain/client-ids';
+import { nominal } from 'utils/nominal-class';
 
 export function assertUnreachable(x: never): never {
   throw new Error(`Expected unreachable code ! Value: "${JSON.stringify(x)}"`);
