@@ -28,7 +28,7 @@ export class Dict<K extends DictKey, T> {
   private _typeGuardValue!: T;
 }
 
-export const dict = <K extends DictKey, T>() => ({} as Dict<K, T>);
+export const dict = <K extends DictKey, T>() => ({}) as Dict<K, T>;
 
 export const associateBy = <K extends DictKey, T>(
   a: T[],
