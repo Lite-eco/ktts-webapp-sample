@@ -38,6 +38,8 @@ object SqlDependenciesResolver {
         ) : ParseResult(file)
 
         data class CreateType(override val file: SqlFile) : ParseResult(file)
+
+        data class CreateView(override val file: SqlFile) : ParseResult(file)
     }
 
     fun parseSql(sqlFiles: List<SqlFile>): List<ParseResult> =
@@ -59,6 +61,7 @@ object SqlDependenciesResolver {
             sqlFile.sql.startsWith("CREATE TABLE ") -> jsqlParse(sqlFile)
             sqlFile.sql.startsWith("CREATE INDEX ") -> ParseResult.CreateIndex(sqlFile)
             sqlFile.sql.startsWith("CREATE TYPE ") -> ParseResult.CreateType(sqlFile)
+            sqlFile.sql.startsWith("CREATE VIEW ") -> ParseResult.CreateView(sqlFile)
             sqlFile.sql.startsWith("CREATE SCHEMA ") ->
                 throw IllegalArgumentException(
                     "Postgresql schemas are deducted from table names, remove 'create schema' in \"${sqlFile.path}\"")
@@ -114,6 +117,7 @@ object SqlDependenciesResolver {
                     is ParseResult.CreateIndex -> false
                     is ParseResult.CreateTable -> throw RuntimeException()
                     is ParseResult.CreateType -> true
+                    is ParseResult.CreateView -> false
                 }
             }
         return beforeCreateTables + resolved + afterCreateTables
