@@ -53,7 +53,7 @@ object GenerateJooqAndDiff {
                     psqlDatabaseConfiguration.user,
                     psqlDatabaseConfiguration.password)
                 .use { ResetDatabase.resetDatabaseSchemas(it, insertData = true) }
-            logger.info { "Format codebase" }
+            logger.info { "Clean imports" }
             // waiting for a better solution ?
             // "import kotlin.collections.List" is useless & removed by optimized imports
             Directories.generatedDir
@@ -67,6 +67,7 @@ object GenerateJooqAndDiff {
                             .replace("import kotlin.collections.List", "")
                             .toByteArray(Charsets.UTF_8))
                 }
+            logger.info { "Format codebase" }
             // TODO should be on generated files only
             ShellRunner.run(Directories.projectDir, "./ktfmt")
         } finally {
