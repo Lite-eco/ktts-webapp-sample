@@ -57,6 +57,7 @@ ksp {
                 "com.kttswebapptemplate.domain.TemplateSampleSecurityString")
             .joinToString(separator = "|"))
     arg("kt2ts:nominalStringImport", "utils/nominal-class.ts")
+    arg("kt2ts:absoluteImport", "true")
     arg("kt2ts:debugFile", "$rootDir/template-sample-client/build/debug-generation.html")
 }
 
@@ -76,7 +77,7 @@ dependencies {
 
     // kt2ts
     implementation("io.github.kt2ts:kt2ts-annotation:1.0.0")
-    ksp("io.github.kt2ts:kt2ts-ksp-generator:0.0.2")
+    ksp("io.github.kt2ts:kt2ts-ksp-generator:0.0.4")
 
     // database
     implementation("org.postgresql:postgresql:42.5.4")
