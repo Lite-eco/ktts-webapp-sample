@@ -7,6 +7,7 @@ import com.kttswebapptemplate.jooq.generated.tables.AppUserTable
 import com.kttswebapptemplate.jooq.generated.tables.CommandLogTable
 import com.kttswebapptemplate.jooq.generated.tables.DeploymentLogTable
 import com.kttswebapptemplate.jooq.generated.tables.MailingLogTable
+import com.kttswebapptemplate.jooq.generated.tables.SqlScriptLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTable
 import com.kttswebapptemplate.jooq.generated.tables.UserFileTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
@@ -23,6 +24,9 @@ val DEPLOYMENT_LOG: DeploymentLogTable = DeploymentLogTable.DEPLOYMENT_LOG
 
 /** The table <code>public.mailing_log</code>. */
 val MAILING_LOG: MailingLogTable = MailingLogTable.MAILING_LOG
+
+/** The table <code>public.sql_script_log</code>. */
+val SQL_SCRIPT_LOG: SqlScriptLogTable = SqlScriptLogTable.SQL_SCRIPT_LOG
 
 /** The table <code>public.user_account_operation_token</code>. */
 val USER_ACCOUNT_OPERATION_TOKEN: UserAccountOperationTokenTable =

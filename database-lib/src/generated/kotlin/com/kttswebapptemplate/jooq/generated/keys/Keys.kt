@@ -7,6 +7,7 @@ import com.kttswebapptemplate.jooq.generated.tables.AppUserTable
 import com.kttswebapptemplate.jooq.generated.tables.CommandLogTable
 import com.kttswebapptemplate.jooq.generated.tables.DeploymentLogTable
 import com.kttswebapptemplate.jooq.generated.tables.MailingLogTable
+import com.kttswebapptemplate.jooq.generated.tables.SqlScriptLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTable
 import com.kttswebapptemplate.jooq.generated.tables.UserFileTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
@@ -15,6 +16,7 @@ import com.kttswebapptemplate.jooq.generated.tables.records.AppUserRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.CommandLogRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.DeploymentLogRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.MailingLogRecord
+import com.kttswebapptemplate.jooq.generated.tables.records.SqlScriptLogRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.UserAccountOperationTokenRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.UserFileRecord
 import com.kttswebapptemplate.jooq.generated.tables.records.UserMailLogRecord
@@ -54,6 +56,12 @@ val MAILING_LOG_PKEY: UniqueKey<MailingLogRecord> =
         MailingLogTable.MAILING_LOG,
         DSL.name("mailing_log_pkey"),
         arrayOf(MailingLogTable.MAILING_LOG.ID),
+        true)
+val SQL_SCRIPT_LOG_PKEY: UniqueKey<SqlScriptLogRecord> =
+    Internal.createUniqueKey(
+        SqlScriptLogTable.SQL_SCRIPT_LOG,
+        DSL.name("sql_script_log_pkey"),
+        arrayOf(SqlScriptLogTable.SQL_SCRIPT_LOG.ID),
         true)
 val USER_ACCOUNT_OPERATION_TOKEN_PKEY: UniqueKey<UserAccountOperationTokenRecord> =
     Internal.createUniqueKey(

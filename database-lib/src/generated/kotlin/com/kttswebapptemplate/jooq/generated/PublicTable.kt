@@ -7,6 +7,7 @@ import com.kttswebapptemplate.jooq.generated.tables.AppUserTable
 import com.kttswebapptemplate.jooq.generated.tables.CommandLogTable
 import com.kttswebapptemplate.jooq.generated.tables.DeploymentLogTable
 import com.kttswebapptemplate.jooq.generated.tables.MailingLogTable
+import com.kttswebapptemplate.jooq.generated.tables.SqlScriptLogTable
 import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTable
 import com.kttswebapptemplate.jooq.generated.tables.UserFileTable
 import com.kttswebapptemplate.jooq.generated.tables.UserMailLogTable
@@ -40,6 +41,10 @@ open class PublicTable : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
     val MAILING_LOG: MailingLogTable
         get() = MailingLogTable.MAILING_LOG
 
+    /** The table <code>public.sql_script_log</code>. */
+    val SQL_SCRIPT_LOG: SqlScriptLogTable
+        get() = SqlScriptLogTable.SQL_SCRIPT_LOG
+
     /** The table <code>public.user_account_operation_token</code>. */
     val USER_ACCOUNT_OPERATION_TOKEN: UserAccountOperationTokenTable
         get() = UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN
@@ -64,6 +69,7 @@ open class PublicTable : SchemaImpl("public", DefaultCatalog.DEFAULT_CATALOG) {
             CommandLogTable.COMMAND_LOG,
             DeploymentLogTable.DEPLOYMENT_LOG,
             MailingLogTable.MAILING_LOG,
+            SqlScriptLogTable.SQL_SCRIPT_LOG,
             UserAccountOperationTokenTable.USER_ACCOUNT_OPERATION_TOKEN,
             UserFileTable.USER_FILE,
             UserMailLogTable.USER_MAIL_LOG,
