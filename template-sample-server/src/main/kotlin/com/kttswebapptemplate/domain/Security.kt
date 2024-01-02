@@ -2,7 +2,7 @@ package com.kttswebapptemplate.domain
 
 import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 
-data class PlainStringPassword(val password: String) {
+data class PlainStringPassword(val password: String) : SerializeAsString(password) {
     override fun toString() = "Password(${TemplateSampleStringUtils.filteredPassword})"
 }
 

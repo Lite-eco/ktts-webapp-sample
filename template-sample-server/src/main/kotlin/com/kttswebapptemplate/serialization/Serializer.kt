@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.module.SimpleModule
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.fasterxml.jackson.module.kotlin.registerKotlinModule
-import com.kttswebapptemplate.domain.PlainStringPassword
 import com.kttswebapptemplate.domain.SerializeAsString
 import com.kttswebapptemplate.domain.TemplateSampleId
 import com.kttswebapptemplate.domain.TemplateSampleSecurityString
@@ -44,7 +43,6 @@ object Serializer {
                 addDeserializer(LocalDate::class.java, LocalDateDeserializer())
 
                 addSerializer(PlainStringPasswordSerializer())
-                addDeserializer(PlainStringPassword::class.java, PlainStringPasswordDeserializer())
 
                 // TODO[tmpl][serialization] handle all the null
                 addSerializer(UuidSerializer())

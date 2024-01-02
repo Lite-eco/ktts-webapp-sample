@@ -51,7 +51,6 @@ ksp {
     arg(
         "kt2ts:nominalStringMappings",
         listOf(
-                "com.kttswebapptemplate.domain.PlainStringPassword",
                 "com.kttswebapptemplate.domain.SerializeAsString",
                 "com.kttswebapptemplate.domain.TemplateSampleId",
                 "com.kttswebapptemplate.domain.TemplateSampleSecurityString")
