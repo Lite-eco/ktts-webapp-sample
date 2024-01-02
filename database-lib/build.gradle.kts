@@ -1,7 +1,7 @@
 plugins { kotlin("jvm") }
 
-val kotlinVersion = "1.9.20"
-val jooqVersion = "3.18.4"
+val kotlinVersion = "1.9.22"
+val jooqVersion = "3.19.1"
 
 tasks {
     register<JavaExec>("generateJooq") {
@@ -51,21 +51,21 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion")
 
     // database
-    implementation("org.postgresql:postgresql:42.5.4")
+    implementation("org.postgresql:postgresql:42.7.1")
     implementation("org.jooq:jooq:$jooqVersion")
     implementation("org.jooq:jooq-meta:$jooqVersion")
     implementation("org.jooq:jooq-codegen:$jooqVersion")
 
     // logs
-    implementation("ch.qos.logback:logback-classic:1.4.7")
+    implementation("ch.qos.logback:logback-classic:1.4.14")
     implementation("io.github.microutils:kotlin-logging:3.0.5")
 
     // utils
-    implementation("com.github.jsqlparser:jsqlparser:4.6")
-    implementation("org.yaml:snakeyaml:2.0")
+    implementation("com.github.jsqlparser:jsqlparser:4.8")
+    implementation("org.yaml:snakeyaml:2.2")
 
     // tests
-    testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.9.2")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.9.2")
+    testImplementation("org.assertj:assertj-core:3.25.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.10.1")
+    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.10.1")
 }

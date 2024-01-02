@@ -17,6 +17,7 @@ class JooqGeneratorStrategy(val namePrefix: String = "") : DefaultGeneratorStrat
             GeneratorStrategy.Mode.DOMAIN,
             GeneratorStrategy.Mode.ENUM,
             GeneratorStrategy.Mode.INTERFACE,
+            GeneratorStrategy.Mode.PATH,
             GeneratorStrategy.Mode.POJO,
             GeneratorStrategy.Mode.SYNTHETIC_DAO -> super.getJavaClassName(definition, mode)
             null -> throw RuntimeException()
