@@ -1,7 +1,7 @@
 plugins {
     kotlin("jvm")
-    id("io.spring.dependency-management") version "1.1.0"
-    id("org.springframework.boot") version "3.1.5"
+    id("io.spring.dependency-management") version "1.1.4"
+    id("org.springframework.boot") version "3.2.1"
     // so we don't need to open Spring components classes
     id("org.jetbrains.kotlin.plugin.spring")
     id("com.google.devtools.ksp") version "1.9.20-1.0.14"
