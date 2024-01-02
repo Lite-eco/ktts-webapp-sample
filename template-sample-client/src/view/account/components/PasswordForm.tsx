@@ -13,7 +13,7 @@ export interface PasswordFormInput {
   newPassword: PlainStringPassword;
 }
 
-export interface PasswordFormRawInput {
+interface PasswordFormRawInput {
   currentPassword: string;
   newPassword: string;
 }

@@ -16,7 +16,7 @@ export interface LoginFormInput {
   password: PlainStringPassword;
 }
 
-export interface LoginFormRawInput {
+interface LoginFormRawInput {
   mail: string;
   password: string;
 }

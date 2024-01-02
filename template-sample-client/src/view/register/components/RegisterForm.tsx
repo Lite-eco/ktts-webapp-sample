@@ -20,7 +20,7 @@ export interface RegisterFormInput {
   displayName: string;
 }
 
-export interface RegisterFormRawInput {
+interface RegisterFormRawInput {
   mail: string;
   password: string;
   displayName: string;
