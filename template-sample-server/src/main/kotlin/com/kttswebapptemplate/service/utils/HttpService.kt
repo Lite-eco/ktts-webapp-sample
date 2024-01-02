@@ -38,21 +38,27 @@ class HttpService(val okHttpClient: OkHttpClient) {
         method: HttpMethod,
         url: Uri,
         body: String,
-        vararg headers: Pair<HttpHeader, String>
+        vararg headers: Pair<HttpHeader, String?>
     ) = execute(method, url, body.toRequestBody(), *headers)
 
     fun execute(
         method: HttpMethod,
         url: Uri,
         body: RequestBody?,
-        vararg headers: Pair<HttpHeader, String>
+        vararg headers: Pair<HttpHeader, String?>
     ): Response =
         Request.Builder()
             .apply {
                 url(url.path)
                 header(HttpHeader.Accept.header, jsonMediaType)
                 header(HttpHeader.ContentType.header, jsonMediaType)
-                headers.forEach { header(it.first.header, it.second) }
+                headers.forEach { (header, value) ->
+                    if (value != null) {
+                        header(header.header, value)
+                    } else {
+                        removeHeader(header.header)
+                    }
+                }
                 method(method.method, body)
             }
             .let { okHttpClient.newCall(it.build()) }
