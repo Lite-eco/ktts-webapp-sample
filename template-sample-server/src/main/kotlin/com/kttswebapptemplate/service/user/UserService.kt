@@ -108,11 +108,11 @@ class UserService(
         val validateMailUrl =
             appUrl.append("?mailValidation=${token.token.rawString}-${user.id.stringUuid()}")
         mailService.sendMail(
-            MailService.applicationMailSenderContact,
-            Mail.Contact(user.displayName, user.mail),
-            MailData.AccountMailValidation(user.displayName, validateMailUrl),
-            user.id,
-            user.language)
+            sender = MailService.applicationMailSenderContact,
+            recipient = Mail.Contact(user.displayName, user.mail),
+            mailData = MailData.AccountMailValidation(user.displayName, validateMailUrl),
+            userId = user.id,
+            language = user.language)
         return user
     }
 

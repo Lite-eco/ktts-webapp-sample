@@ -24,10 +24,10 @@ class LostPasswordMailSenderService(
         val url = appUrl.resolve(Routes.loginUpdatePassword)
         logger.info { "Send lost password mail to $user" }
         mailService.sendMail(
-            MailService.applicationMailSenderContact,
-            Mail.Contact(user.displayName, user.mail),
-            MailData.LostPassword(url),
-            user.id,
-            user.language)
+            sender = MailService.applicationMailSenderContact,
+            recipient = Mail.Contact(user.displayName, user.mail),
+            mailData = MailData.LostPassword(url),
+            userId = user.id,
+            language = user.language)
     }
 }
