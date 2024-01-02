@@ -7,17 +7,24 @@ import com.kttswebapptemplate.database.jooq.converter.TimestampWithTimeZoneToIns
 import com.kttswebapptemplate.jooq.generated.PublicTable
 import com.kttswebapptemplate.jooq.generated.keys.USER_FILE_PKEY
 import com.kttswebapptemplate.jooq.generated.keys.USER_FILE__USER_FILE_USER_ID_FKEY
+import com.kttswebapptemplate.jooq.generated.tables.AppUserTable.AppUserPath
 import com.kttswebapptemplate.jooq.generated.tables.records.UserFileRecord
 import java.time.Instant
 import java.util.UUID
+import kotlin.collections.Collection
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row6
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -31,20 +38,25 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class UserFileTable(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, UserFileRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, UserFileRecord>?,
+    parentPath: InverseForeignKey<out Record, UserFileRecord>?,
     aliased: Table<UserFileRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ) :
     TableImpl<UserFileRecord>(
         alias,
         PublicTable.PUBLIC,
-        child,
         path,
+        childPath,
+        parentPath,
         aliased,
         parameters,
         DSL.comment(""),
-        TableOptions.table()) {
+        TableOptions.table(),
+        where,
+    ) {
     companion object {
 
         /** The reference instance of <code>public.user_file</code> */
@@ -86,13 +98,19 @@ open class UserFileTable(
     private constructor(
         alias: Name,
         aliased: Table<UserFileRecord>?
-    ) : this(alias, null, null, aliased, null)
+    ) : this(alias, null, null, null, aliased, null, null)
 
     private constructor(
         alias: Name,
         aliased: Table<UserFileRecord>?,
         parameters: Array<Field<*>?>?
-    ) : this(alias, null, null, aliased, parameters)
+    ) : this(alias, null, null, null, aliased, parameters, null)
+
+    private constructor(
+        alias: Name,
+        aliased: Table<UserFileRecord>?,
+        where: Condition
+    ) : this(alias, null, null, null, aliased, null, where)
 
     /** Create an aliased <code>public.user_file</code> table reference */
     constructor(alias: String) : this(DSL.name(alias))
@@ -104,9 +122,34 @@ open class UserFileTable(
     constructor() : this(DSL.name("user_file"), null)
 
     constructor(
-        child: Table<out Record>,
-        key: ForeignKey<out Record, UserFileRecord>
-    ) : this(Internal.createPathAlias(child, key), child, key, USER_FILE, null)
+        path: Table<out Record>,
+        childPath: ForeignKey<out Record, UserFileRecord>?,
+        parentPath: InverseForeignKey<out Record, UserFileRecord>?
+    ) : this(
+        Internal.createPathAlias(path, childPath, parentPath),
+        path,
+        childPath,
+        parentPath,
+        USER_FILE,
+        null,
+        null)
+
+    /** A subtype implementing {@link Path} for simplified path-based joins. */
+    open class UserFilePath : UserFileTable, Path<UserFileRecord> {
+        constructor(
+            path: Table<out Record>,
+            childPath: ForeignKey<out Record, UserFileRecord>?,
+            parentPath: InverseForeignKey<out Record, UserFileRecord>?
+        ) : super(path, childPath, parentPath)
+
+        private constructor(alias: Name, aliased: Table<UserFileRecord>) : super(alias, aliased)
+
+        override fun `as`(alias: String): UserFilePath = UserFilePath(DSL.name(alias), this)
+
+        override fun `as`(alias: Name): UserFilePath = UserFilePath(alias, this)
+
+        override fun `as`(alias: Table<*>): UserFilePath = UserFilePath(alias.qualifiedName, this)
+    }
 
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
 
@@ -115,25 +158,24 @@ open class UserFileTable(
     override fun getReferences(): List<ForeignKey<UserFileRecord, *>> =
         listOf(USER_FILE__USER_FILE_USER_ID_FKEY)
 
-    private lateinit var _appUser: AppUserTable
+    private lateinit var _appUser: AppUserPath
 
     /** Get the implicit join path to the <code>public.app_user</code> table. */
-    fun appUser(): AppUserTable {
+    fun appUser(): AppUserPath {
         if (!this::_appUser.isInitialized)
-            _appUser = AppUserTable(this, USER_FILE__USER_FILE_USER_ID_FKEY)
+            _appUser = AppUserPath(this, USER_FILE__USER_FILE_USER_ID_FKEY, null)
 
         return _appUser
     }
 
-    val appUser: AppUserTable
-        get(): AppUserTable = appUser()
+    val appUser: AppUserPath
+        get(): AppUserPath = appUser()
 
     override fun `as`(alias: String): UserFileTable = UserFileTable(DSL.name(alias), this)
 
     override fun `as`(alias: Name): UserFileTable = UserFileTable(alias, this)
 
-    override fun `as`(alias: Table<*>): UserFileTable =
-        UserFileTable(alias.getQualifiedName(), this)
+    override fun `as`(alias: Table<*>): UserFileTable = UserFileTable(alias.qualifiedName, this)
 
     /** Rename this table */
     override fun rename(name: String): UserFileTable = UserFileTable(DSL.name(name), null)
@@ -142,23 +184,43 @@ open class UserFileTable(
     override fun rename(name: Name): UserFileTable = UserFileTable(name, null)
 
     /** Rename this table */
-    override fun rename(name: Table<*>): UserFileTable =
-        UserFileTable(name.getQualifiedName(), null)
+    override fun rename(name: Table<*>): UserFileTable = UserFileTable(name.qualifiedName, null)
 
-    // -------------------------------------------------------------------------
-    // Row6 type methods
-    // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row6<UUID?, UUID?, ByteArray?, String?, String?, Instant?> =
-        super.fieldsRow() as Row6<UUID?, UUID?, ByteArray?, String?, String?, Instant?>
+    /** Create an inline derived table from this table */
+    override fun where(condition: Condition): UserFileTable =
+        UserFileTable(qualifiedName, if (aliased()) this else null, condition)
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
-    fun <U> mapping(
-        from: (UUID?, UUID?, ByteArray?, String?, String?, Instant?) -> U
-    ): SelectField<U> = convertFrom(Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(conditions: Collection<Condition>): UserFileTable =
+        where(DSL.and(conditions))
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
-    fun <U> mapping(
-        toType: Class<U>,
-        from: (UUID?, UUID?, ByteArray?, String?, String?, Instant?) -> U
-    ): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(vararg conditions: Condition): UserFileTable = where(DSL.and(*conditions))
+
+    /** Create an inline derived table from this table */
+    override fun where(condition: Field<Boolean?>): UserFileTable = where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL override fun where(condition: SQL): UserFileTable = where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String): UserFileTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg binds: Any?): UserFileTable =
+        where(DSL.condition(condition, *binds))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): UserFileTable =
+        where(DSL.condition(condition, *parts))
+
+    /** Create an inline derived table from this table */
+    override fun whereExists(select: Select<*>): UserFileTable = where(DSL.exists(select))
+
+    /** Create an inline derived table from this table */
+    override fun whereNotExists(select: Select<*>): UserFileTable = where(DSL.notExists(select))
 }

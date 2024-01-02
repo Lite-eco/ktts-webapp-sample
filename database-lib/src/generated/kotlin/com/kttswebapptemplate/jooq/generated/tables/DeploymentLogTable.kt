@@ -5,18 +5,26 @@ package com.kttswebapptemplate.jooq.generated.tables
 
 import com.kttswebapptemplate.database.jooq.converter.TimestampWithTimeZoneToInstantJooqConverter
 import com.kttswebapptemplate.jooq.generated.PublicTable
+import com.kttswebapptemplate.jooq.generated.keys.COMMAND_LOG__COMMAND_LOG_DEPLOYMENT_LOG_ID_FKEY
 import com.kttswebapptemplate.jooq.generated.keys.DEPLOYMENT_LOG_PKEY
+import com.kttswebapptemplate.jooq.generated.tables.CommandLogTable.CommandLogPath
 import com.kttswebapptemplate.jooq.generated.tables.records.DeploymentLogRecord
 import java.time.Instant
 import java.util.UUID
+import kotlin.collections.Collection
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row5
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -30,20 +38,25 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class DeploymentLogTable(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, DeploymentLogRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, DeploymentLogRecord>?,
+    parentPath: InverseForeignKey<out Record, DeploymentLogRecord>?,
     aliased: Table<DeploymentLogRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ) :
     TableImpl<DeploymentLogRecord>(
         alias,
         PublicTable.PUBLIC,
-        child,
         path,
+        childPath,
+        parentPath,
         aliased,
         parameters,
         DSL.comment(""),
-        TableOptions.table()) {
+        TableOptions.table(),
+        where,
+    ) {
     companion object {
 
         /** The reference instance of <code>public.deployment_log</code> */
@@ -86,13 +99,19 @@ open class DeploymentLogTable(
     private constructor(
         alias: Name,
         aliased: Table<DeploymentLogRecord>?
-    ) : this(alias, null, null, aliased, null)
+    ) : this(alias, null, null, null, aliased, null, null)
 
     private constructor(
         alias: Name,
         aliased: Table<DeploymentLogRecord>?,
         parameters: Array<Field<*>?>?
-    ) : this(alias, null, null, aliased, parameters)
+    ) : this(alias, null, null, null, aliased, parameters, null)
+
+    private constructor(
+        alias: Name,
+        aliased: Table<DeploymentLogRecord>?,
+        where: Condition
+    ) : this(alias, null, null, null, aliased, null, where)
 
     /** Create an aliased <code>public.deployment_log</code> table reference */
     constructor(alias: String) : this(DSL.name(alias))
@@ -104,20 +123,65 @@ open class DeploymentLogTable(
     constructor() : this(DSL.name("deployment_log"), null)
 
     constructor(
-        child: Table<out Record>,
-        key: ForeignKey<out Record, DeploymentLogRecord>
-    ) : this(Internal.createPathAlias(child, key), child, key, DEPLOYMENT_LOG, null)
+        path: Table<out Record>,
+        childPath: ForeignKey<out Record, DeploymentLogRecord>?,
+        parentPath: InverseForeignKey<out Record, DeploymentLogRecord>?
+    ) : this(
+        Internal.createPathAlias(path, childPath, parentPath),
+        path,
+        childPath,
+        parentPath,
+        DEPLOYMENT_LOG,
+        null,
+        null)
+
+    /** A subtype implementing {@link Path} for simplified path-based joins. */
+    open class DeploymentLogPath : DeploymentLogTable, Path<DeploymentLogRecord> {
+        constructor(
+            path: Table<out Record>,
+            childPath: ForeignKey<out Record, DeploymentLogRecord>?,
+            parentPath: InverseForeignKey<out Record, DeploymentLogRecord>?
+        ) : super(path, childPath, parentPath)
+
+        private constructor(
+            alias: Name,
+            aliased: Table<DeploymentLogRecord>
+        ) : super(alias, aliased)
+
+        override fun `as`(alias: String): DeploymentLogPath =
+            DeploymentLogPath(DSL.name(alias), this)
+
+        override fun `as`(alias: Name): DeploymentLogPath = DeploymentLogPath(alias, this)
+
+        override fun `as`(alias: Table<*>): DeploymentLogPath =
+            DeploymentLogPath(alias.qualifiedName, this)
+    }
 
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
 
     override fun getPrimaryKey(): UniqueKey<DeploymentLogRecord> = DEPLOYMENT_LOG_PKEY
+
+    private lateinit var _commandLog: CommandLogPath
+
+    /** Get the implicit to-many join path to the <code>public.command_log</code> table */
+    fun commandLog(): CommandLogPath {
+        if (!this::_commandLog.isInitialized)
+            _commandLog =
+                CommandLogPath(
+                    this, null, COMMAND_LOG__COMMAND_LOG_DEPLOYMENT_LOG_ID_FKEY.inverseKey)
+
+        return _commandLog
+    }
+
+    val commandLog: CommandLogPath
+        get(): CommandLogPath = commandLog()
 
     override fun `as`(alias: String): DeploymentLogTable = DeploymentLogTable(DSL.name(alias), this)
 
     override fun `as`(alias: Name): DeploymentLogTable = DeploymentLogTable(alias, this)
 
     override fun `as`(alias: Table<*>): DeploymentLogTable =
-        DeploymentLogTable(alias.getQualifiedName(), this)
+        DeploymentLogTable(alias.qualifiedName, this)
 
     /** Rename this table */
     override fun rename(name: String): DeploymentLogTable = DeploymentLogTable(DSL.name(name), null)
@@ -127,21 +191,49 @@ open class DeploymentLogTable(
 
     /** Rename this table */
     override fun rename(name: Table<*>): DeploymentLogTable =
-        DeploymentLogTable(name.getQualifiedName(), null)
+        DeploymentLogTable(name.qualifiedName, null)
 
-    // -------------------------------------------------------------------------
-    // Row5 type methods
-    // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row5<UUID?, String?, String?, Instant?, Instant?> =
-        super.fieldsRow() as Row5<UUID?, String?, String?, Instant?, Instant?>
+    /** Create an inline derived table from this table */
+    override fun where(condition: Condition): DeploymentLogTable =
+        DeploymentLogTable(qualifiedName, if (aliased()) this else null, condition)
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
-    fun <U> mapping(from: (UUID?, String?, String?, Instant?, Instant?) -> U): SelectField<U> =
-        convertFrom(Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(conditions: Collection<Condition>): DeploymentLogTable =
+        where(DSL.and(conditions))
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
-    fun <U> mapping(
-        toType: Class<U>,
-        from: (UUID?, String?, String?, Instant?, Instant?) -> U
-    ): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(vararg conditions: Condition): DeploymentLogTable =
+        where(DSL.and(*conditions))
+
+    /** Create an inline derived table from this table */
+    override fun where(condition: Field<Boolean?>): DeploymentLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(condition: SQL): DeploymentLogTable = where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String): DeploymentLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg binds: Any?): DeploymentLogTable =
+        where(DSL.condition(condition, *binds))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(
+        @Stringly.SQL condition: String,
+        vararg parts: QueryPart
+    ): DeploymentLogTable = where(DSL.condition(condition, *parts))
+
+    /** Create an inline derived table from this table */
+    override fun whereExists(select: Select<*>): DeploymentLogTable = where(DSL.exists(select))
+
+    /** Create an inline derived table from this table */
+    override fun whereNotExists(select: Select<*>): DeploymentLogTable =
+        where(DSL.notExists(select))
 }

@@ -8,18 +8,25 @@ import com.kttswebapptemplate.jooq.generated.PublicTable
 import com.kttswebapptemplate.jooq.generated.indexes.USER_SESSION_LOG_USER_ID_IDX
 import com.kttswebapptemplate.jooq.generated.keys.USER_SESSION_LOG_PKEY
 import com.kttswebapptemplate.jooq.generated.keys.USER_SESSION_LOG__USER_SESSION_LOG_USER_ID_FKEY
+import com.kttswebapptemplate.jooq.generated.tables.AppUserTable.AppUserPath
 import com.kttswebapptemplate.jooq.generated.tables.records.UserSessionLogRecord
 import java.time.Instant
 import java.util.UUID
+import kotlin.collections.Collection
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Index
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row6
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -33,20 +40,25 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class UserSessionLogTable(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, UserSessionLogRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, UserSessionLogRecord>?,
+    parentPath: InverseForeignKey<out Record, UserSessionLogRecord>?,
     aliased: Table<UserSessionLogRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ) :
     TableImpl<UserSessionLogRecord>(
         alias,
         PublicTable.PUBLIC,
-        child,
         path,
+        childPath,
+        parentPath,
         aliased,
         parameters,
         DSL.comment(""),
-        TableOptions.table()) {
+        TableOptions.table(),
+        where,
+    ) {
     companion object {
 
         /** The reference instance of <code>public.user_session_log</code> */
@@ -89,13 +101,19 @@ open class UserSessionLogTable(
     private constructor(
         alias: Name,
         aliased: Table<UserSessionLogRecord>?
-    ) : this(alias, null, null, aliased, null)
+    ) : this(alias, null, null, null, aliased, null, null)
 
     private constructor(
         alias: Name,
         aliased: Table<UserSessionLogRecord>?,
         parameters: Array<Field<*>?>?
-    ) : this(alias, null, null, aliased, parameters)
+    ) : this(alias, null, null, null, aliased, parameters, null)
+
+    private constructor(
+        alias: Name,
+        aliased: Table<UserSessionLogRecord>?,
+        where: Condition
+    ) : this(alias, null, null, null, aliased, null, where)
 
     /** Create an aliased <code>public.user_session_log</code> table reference */
     constructor(alias: String) : this(DSL.name(alias))
@@ -107,9 +125,39 @@ open class UserSessionLogTable(
     constructor() : this(DSL.name("user_session_log"), null)
 
     constructor(
-        child: Table<out Record>,
-        key: ForeignKey<out Record, UserSessionLogRecord>
-    ) : this(Internal.createPathAlias(child, key), child, key, USER_SESSION_LOG, null)
+        path: Table<out Record>,
+        childPath: ForeignKey<out Record, UserSessionLogRecord>?,
+        parentPath: InverseForeignKey<out Record, UserSessionLogRecord>?
+    ) : this(
+        Internal.createPathAlias(path, childPath, parentPath),
+        path,
+        childPath,
+        parentPath,
+        USER_SESSION_LOG,
+        null,
+        null)
+
+    /** A subtype implementing {@link Path} for simplified path-based joins. */
+    open class UserSessionLogPath : UserSessionLogTable, Path<UserSessionLogRecord> {
+        constructor(
+            path: Table<out Record>,
+            childPath: ForeignKey<out Record, UserSessionLogRecord>?,
+            parentPath: InverseForeignKey<out Record, UserSessionLogRecord>?
+        ) : super(path, childPath, parentPath)
+
+        private constructor(
+            alias: Name,
+            aliased: Table<UserSessionLogRecord>
+        ) : super(alias, aliased)
+
+        override fun `as`(alias: String): UserSessionLogPath =
+            UserSessionLogPath(DSL.name(alias), this)
+
+        override fun `as`(alias: Name): UserSessionLogPath = UserSessionLogPath(alias, this)
+
+        override fun `as`(alias: Table<*>): UserSessionLogPath =
+            UserSessionLogPath(alias.qualifiedName, this)
+    }
 
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
 
@@ -120,18 +168,18 @@ open class UserSessionLogTable(
     override fun getReferences(): List<ForeignKey<UserSessionLogRecord, *>> =
         listOf(USER_SESSION_LOG__USER_SESSION_LOG_USER_ID_FKEY)
 
-    private lateinit var _appUser: AppUserTable
+    private lateinit var _appUser: AppUserPath
 
     /** Get the implicit join path to the <code>public.app_user</code> table. */
-    fun appUser(): AppUserTable {
+    fun appUser(): AppUserPath {
         if (!this::_appUser.isInitialized)
-            _appUser = AppUserTable(this, USER_SESSION_LOG__USER_SESSION_LOG_USER_ID_FKEY)
+            _appUser = AppUserPath(this, USER_SESSION_LOG__USER_SESSION_LOG_USER_ID_FKEY, null)
 
         return _appUser
     }
 
-    val appUser: AppUserTable
-        get(): AppUserTable = appUser()
+    val appUser: AppUserPath
+        get(): AppUserPath = appUser()
 
     override fun `as`(alias: String): UserSessionLogTable =
         UserSessionLogTable(DSL.name(alias), this)
@@ -139,7 +187,7 @@ open class UserSessionLogTable(
     override fun `as`(alias: Name): UserSessionLogTable = UserSessionLogTable(alias, this)
 
     override fun `as`(alias: Table<*>): UserSessionLogTable =
-        UserSessionLogTable(alias.getQualifiedName(), this)
+        UserSessionLogTable(alias.qualifiedName, this)
 
     /** Rename this table */
     override fun rename(name: String): UserSessionLogTable =
@@ -150,21 +198,49 @@ open class UserSessionLogTable(
 
     /** Rename this table */
     override fun rename(name: Table<*>): UserSessionLogTable =
-        UserSessionLogTable(name.getQualifiedName(), null)
+        UserSessionLogTable(name.qualifiedName, null)
 
-    // -------------------------------------------------------------------------
-    // Row6 type methods
-    // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row6<UUID?, String?, UUID?, UUID?, Instant?, String?> =
-        super.fieldsRow() as Row6<UUID?, String?, UUID?, UUID?, Instant?, String?>
+    /** Create an inline derived table from this table */
+    override fun where(condition: Condition): UserSessionLogTable =
+        UserSessionLogTable(qualifiedName, if (aliased()) this else null, condition)
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
-    fun <U> mapping(from: (UUID?, String?, UUID?, UUID?, Instant?, String?) -> U): SelectField<U> =
-        convertFrom(Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(conditions: Collection<Condition>): UserSessionLogTable =
+        where(DSL.and(conditions))
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
-    fun <U> mapping(
-        toType: Class<U>,
-        from: (UUID?, String?, UUID?, UUID?, Instant?, String?) -> U
-    ): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(vararg conditions: Condition): UserSessionLogTable =
+        where(DSL.and(*conditions))
+
+    /** Create an inline derived table from this table */
+    override fun where(condition: Field<Boolean?>): UserSessionLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(condition: SQL): UserSessionLogTable = where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String): UserSessionLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg binds: Any?): UserSessionLogTable =
+        where(DSL.condition(condition, *binds))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(
+        @Stringly.SQL condition: String,
+        vararg parts: QueryPart
+    ): UserSessionLogTable = where(DSL.condition(condition, *parts))
+
+    /** Create an inline derived table from this table */
+    override fun whereExists(select: Select<*>): UserSessionLogTable = where(DSL.exists(select))
+
+    /** Create an inline derived table from this table */
+    override fun whereNotExists(select: Select<*>): UserSessionLogTable =
+        where(DSL.notExists(select))
 }

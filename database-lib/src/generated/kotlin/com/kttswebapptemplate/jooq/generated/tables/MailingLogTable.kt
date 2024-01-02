@@ -7,17 +7,24 @@ import com.kttswebapptemplate.database.jooq.converter.TimestampWithTimeZoneToIns
 import com.kttswebapptemplate.jooq.generated.PublicTable
 import com.kttswebapptemplate.jooq.generated.keys.MAILING_LOG_PKEY
 import com.kttswebapptemplate.jooq.generated.keys.MAILING_LOG__MAILING_LOG_USER_ID_FKEY
+import com.kttswebapptemplate.jooq.generated.tables.AppUserTable.AppUserPath
 import com.kttswebapptemplate.jooq.generated.tables.records.MailingLogRecord
 import java.time.Instant
 import java.util.UUID
+import kotlin.collections.Collection
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row10
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -31,20 +38,25 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class MailingLogTable(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, MailingLogRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, MailingLogRecord>?,
+    parentPath: InverseForeignKey<out Record, MailingLogRecord>?,
     aliased: Table<MailingLogRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ) :
     TableImpl<MailingLogRecord>(
         alias,
         PublicTable.PUBLIC,
-        child,
         path,
+        childPath,
+        parentPath,
         aliased,
         parameters,
         DSL.comment(""),
-        TableOptions.table()) {
+        TableOptions.table(),
+        where,
+    ) {
     companion object {
 
         /** The reference instance of <code>public.mailing_log</code> */
@@ -102,13 +114,19 @@ open class MailingLogTable(
     private constructor(
         alias: Name,
         aliased: Table<MailingLogRecord>?
-    ) : this(alias, null, null, aliased, null)
+    ) : this(alias, null, null, null, aliased, null, null)
 
     private constructor(
         alias: Name,
         aliased: Table<MailingLogRecord>?,
         parameters: Array<Field<*>?>?
-    ) : this(alias, null, null, aliased, parameters)
+    ) : this(alias, null, null, null, aliased, parameters, null)
+
+    private constructor(
+        alias: Name,
+        aliased: Table<MailingLogRecord>?,
+        where: Condition
+    ) : this(alias, null, null, null, aliased, null, where)
 
     /** Create an aliased <code>public.mailing_log</code> table reference */
     constructor(alias: String) : this(DSL.name(alias))
@@ -120,9 +138,35 @@ open class MailingLogTable(
     constructor() : this(DSL.name("mailing_log"), null)
 
     constructor(
-        child: Table<out Record>,
-        key: ForeignKey<out Record, MailingLogRecord>
-    ) : this(Internal.createPathAlias(child, key), child, key, MAILING_LOG, null)
+        path: Table<out Record>,
+        childPath: ForeignKey<out Record, MailingLogRecord>?,
+        parentPath: InverseForeignKey<out Record, MailingLogRecord>?
+    ) : this(
+        Internal.createPathAlias(path, childPath, parentPath),
+        path,
+        childPath,
+        parentPath,
+        MAILING_LOG,
+        null,
+        null)
+
+    /** A subtype implementing {@link Path} for simplified path-based joins. */
+    open class MailingLogPath : MailingLogTable, Path<MailingLogRecord> {
+        constructor(
+            path: Table<out Record>,
+            childPath: ForeignKey<out Record, MailingLogRecord>?,
+            parentPath: InverseForeignKey<out Record, MailingLogRecord>?
+        ) : super(path, childPath, parentPath)
+
+        private constructor(alias: Name, aliased: Table<MailingLogRecord>) : super(alias, aliased)
+
+        override fun `as`(alias: String): MailingLogPath = MailingLogPath(DSL.name(alias), this)
+
+        override fun `as`(alias: Name): MailingLogPath = MailingLogPath(alias, this)
+
+        override fun `as`(alias: Table<*>): MailingLogPath =
+            MailingLogPath(alias.qualifiedName, this)
+    }
 
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
 
@@ -131,25 +175,24 @@ open class MailingLogTable(
     override fun getReferences(): List<ForeignKey<MailingLogRecord, *>> =
         listOf(MAILING_LOG__MAILING_LOG_USER_ID_FKEY)
 
-    private lateinit var _appUser: AppUserTable
+    private lateinit var _appUser: AppUserPath
 
     /** Get the implicit join path to the <code>public.app_user</code> table. */
-    fun appUser(): AppUserTable {
+    fun appUser(): AppUserPath {
         if (!this::_appUser.isInitialized)
-            _appUser = AppUserTable(this, MAILING_LOG__MAILING_LOG_USER_ID_FKEY)
+            _appUser = AppUserPath(this, MAILING_LOG__MAILING_LOG_USER_ID_FKEY, null)
 
         return _appUser
     }
 
-    val appUser: AppUserTable
-        get(): AppUserTable = appUser()
+    val appUser: AppUserPath
+        get(): AppUserPath = appUser()
 
     override fun `as`(alias: String): MailingLogTable = MailingLogTable(DSL.name(alias), this)
 
     override fun `as`(alias: Name): MailingLogTable = MailingLogTable(alias, this)
 
-    override fun `as`(alias: Table<*>): MailingLogTable =
-        MailingLogTable(alias.getQualifiedName(), this)
+    override fun `as`(alias: Table<*>): MailingLogTable = MailingLogTable(alias.qualifiedName, this)
 
     /** Rename this table */
     override fun rename(name: String): MailingLogTable = MailingLogTable(DSL.name(name), null)
@@ -158,59 +201,44 @@ open class MailingLogTable(
     override fun rename(name: Name): MailingLogTable = MailingLogTable(name, null)
 
     /** Rename this table */
-    override fun rename(name: Table<*>): MailingLogTable =
-        MailingLogTable(name.getQualifiedName(), null)
+    override fun rename(name: Table<*>): MailingLogTable = MailingLogTable(name.qualifiedName, null)
 
-    // -------------------------------------------------------------------------
-    // Row10 type methods
-    // -------------------------------------------------------------------------
-    override fun fieldsRow():
-        Row10<
-            UUID?, UUID?, String?, String?, String?, String?, String?, String?, String?, Instant?> =
-        super.fieldsRow()
-            as
-            Row10<
-                UUID?,
-                UUID?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                Instant?>
+    /** Create an inline derived table from this table */
+    override fun where(condition: Condition): MailingLogTable =
+        MailingLogTable(qualifiedName, if (aliased()) this else null, condition)
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
-    fun <U> mapping(
-        from:
-            (
-                UUID?,
-                UUID?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                Instant?) -> U
-    ): SelectField<U> = convertFrom(Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(conditions: Collection<Condition>): MailingLogTable =
+        where(DSL.and(conditions))
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
-    fun <U> mapping(
-        toType: Class<U>,
-        from:
-            (
-                UUID?,
-                UUID?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                String?,
-                Instant?) -> U
-    ): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(vararg conditions: Condition): MailingLogTable = where(DSL.and(*conditions))
+
+    /** Create an inline derived table from this table */
+    override fun where(condition: Field<Boolean?>): MailingLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL override fun where(condition: SQL): MailingLogTable = where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String): MailingLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg binds: Any?): MailingLogTable =
+        where(DSL.condition(condition, *binds))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): MailingLogTable =
+        where(DSL.condition(condition, *parts))
+
+    /** Create an inline derived table from this table */
+    override fun whereExists(select: Select<*>): MailingLogTable = where(DSL.exists(select))
+
+    /** Create an inline derived table from this table */
+    override fun whereNotExists(select: Select<*>): MailingLogTable = where(DSL.notExists(select))
 }

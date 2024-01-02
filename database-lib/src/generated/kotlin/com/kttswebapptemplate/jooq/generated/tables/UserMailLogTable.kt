@@ -6,20 +6,29 @@ package com.kttswebapptemplate.jooq.generated.tables
 import com.kttswebapptemplate.database.jooq.converter.TimestampWithTimeZoneToInstantJooqConverter
 import com.kttswebapptemplate.jooq.generated.PublicTable
 import com.kttswebapptemplate.jooq.generated.indexes.USER_MAIL_LOG_USER_ID_IDX
+import com.kttswebapptemplate.jooq.generated.keys.USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_MAIL_LOG_ID_FKEY
 import com.kttswebapptemplate.jooq.generated.keys.USER_MAIL_LOG_PKEY
 import com.kttswebapptemplate.jooq.generated.keys.USER_MAIL_LOG__USER_MAIL_LOG_USER_ID_FKEY
+import com.kttswebapptemplate.jooq.generated.tables.AppUserTable.AppUserPath
+import com.kttswebapptemplate.jooq.generated.tables.UserAccountOperationTokenTable.UserAccountOperationTokenPath
 import com.kttswebapptemplate.jooq.generated.tables.records.UserMailLogRecord
 import java.time.Instant
 import java.util.UUID
+import kotlin.collections.Collection
+import org.jooq.Condition
 import org.jooq.Field
 import org.jooq.ForeignKey
 import org.jooq.Index
+import org.jooq.InverseForeignKey
 import org.jooq.Name
+import org.jooq.Path
+import org.jooq.PlainSQL
+import org.jooq.QueryPart
 import org.jooq.Record
-import org.jooq.Records
-import org.jooq.Row7
+import org.jooq.SQL
 import org.jooq.Schema
-import org.jooq.SelectField
+import org.jooq.Select
+import org.jooq.Stringly
 import org.jooq.Table
 import org.jooq.TableField
 import org.jooq.TableOptions
@@ -33,20 +42,25 @@ import org.jooq.impl.TableImpl
 @Suppress("UNCHECKED_CAST")
 open class UserMailLogTable(
     alias: Name,
-    child: Table<out Record>?,
-    path: ForeignKey<out Record, UserMailLogRecord>?,
+    path: Table<out Record>?,
+    childPath: ForeignKey<out Record, UserMailLogRecord>?,
+    parentPath: InverseForeignKey<out Record, UserMailLogRecord>?,
     aliased: Table<UserMailLogRecord>?,
-    parameters: Array<Field<*>?>?
+    parameters: Array<Field<*>?>?,
+    where: Condition?
 ) :
     TableImpl<UserMailLogRecord>(
         alias,
         PublicTable.PUBLIC,
-        child,
         path,
+        childPath,
+        parentPath,
         aliased,
         parameters,
         DSL.comment(""),
-        TableOptions.table()) {
+        TableOptions.table(),
+        where,
+    ) {
     companion object {
 
         /** The reference instance of <code>public.user_mail_log</code> */
@@ -97,13 +111,19 @@ open class UserMailLogTable(
     private constructor(
         alias: Name,
         aliased: Table<UserMailLogRecord>?
-    ) : this(alias, null, null, aliased, null)
+    ) : this(alias, null, null, null, aliased, null, null)
 
     private constructor(
         alias: Name,
         aliased: Table<UserMailLogRecord>?,
         parameters: Array<Field<*>?>?
-    ) : this(alias, null, null, aliased, parameters)
+    ) : this(alias, null, null, null, aliased, parameters, null)
+
+    private constructor(
+        alias: Name,
+        aliased: Table<UserMailLogRecord>?,
+        where: Condition
+    ) : this(alias, null, null, null, aliased, null, where)
 
     /** Create an aliased <code>public.user_mail_log</code> table reference */
     constructor(alias: String) : this(DSL.name(alias))
@@ -115,9 +135,35 @@ open class UserMailLogTable(
     constructor() : this(DSL.name("user_mail_log"), null)
 
     constructor(
-        child: Table<out Record>,
-        key: ForeignKey<out Record, UserMailLogRecord>
-    ) : this(Internal.createPathAlias(child, key), child, key, USER_MAIL_LOG, null)
+        path: Table<out Record>,
+        childPath: ForeignKey<out Record, UserMailLogRecord>?,
+        parentPath: InverseForeignKey<out Record, UserMailLogRecord>?
+    ) : this(
+        Internal.createPathAlias(path, childPath, parentPath),
+        path,
+        childPath,
+        parentPath,
+        USER_MAIL_LOG,
+        null,
+        null)
+
+    /** A subtype implementing {@link Path} for simplified path-based joins. */
+    open class UserMailLogPath : UserMailLogTable, Path<UserMailLogRecord> {
+        constructor(
+            path: Table<out Record>,
+            childPath: ForeignKey<out Record, UserMailLogRecord>?,
+            parentPath: InverseForeignKey<out Record, UserMailLogRecord>?
+        ) : super(path, childPath, parentPath)
+
+        private constructor(alias: Name, aliased: Table<UserMailLogRecord>) : super(alias, aliased)
+
+        override fun `as`(alias: String): UserMailLogPath = UserMailLogPath(DSL.name(alias), this)
+
+        override fun `as`(alias: Name): UserMailLogPath = UserMailLogPath(alias, this)
+
+        override fun `as`(alias: Table<*>): UserMailLogPath =
+            UserMailLogPath(alias.qualifiedName, this)
+    }
 
     override fun getSchema(): Schema? = if (aliased()) null else PublicTable.PUBLIC
 
@@ -128,25 +174,46 @@ open class UserMailLogTable(
     override fun getReferences(): List<ForeignKey<UserMailLogRecord, *>> =
         listOf(USER_MAIL_LOG__USER_MAIL_LOG_USER_ID_FKEY)
 
-    private lateinit var _appUser: AppUserTable
+    private lateinit var _appUser: AppUserPath
 
     /** Get the implicit join path to the <code>public.app_user</code> table. */
-    fun appUser(): AppUserTable {
+    fun appUser(): AppUserPath {
         if (!this::_appUser.isInitialized)
-            _appUser = AppUserTable(this, USER_MAIL_LOG__USER_MAIL_LOG_USER_ID_FKEY)
+            _appUser = AppUserPath(this, USER_MAIL_LOG__USER_MAIL_LOG_USER_ID_FKEY, null)
 
         return _appUser
     }
 
-    val appUser: AppUserTable
-        get(): AppUserTable = appUser()
+    val appUser: AppUserPath
+        get(): AppUserPath = appUser()
+
+    private lateinit var _userAccountOperationToken: UserAccountOperationTokenPath
+
+    /**
+     * Get the implicit to-many join path to the <code>public.user_account_operation_token</code>
+     * table
+     */
+    fun userAccountOperationToken(): UserAccountOperationTokenPath {
+        if (!this::_userAccountOperationToken.isInitialized)
+            _userAccountOperationToken =
+                UserAccountOperationTokenPath(
+                    this,
+                    null,
+                    USER_ACCOUNT_OPERATION_TOKEN__USER_ACCOUNT_OPERATION_TOKEN_USER_MAIL_LOG_ID_FKEY
+                        .inverseKey)
+
+        return _userAccountOperationToken
+    }
+
+    val userAccountOperationToken: UserAccountOperationTokenPath
+        get(): UserAccountOperationTokenPath = userAccountOperationToken()
 
     override fun `as`(alias: String): UserMailLogTable = UserMailLogTable(DSL.name(alias), this)
 
     override fun `as`(alias: Name): UserMailLogTable = UserMailLogTable(alias, this)
 
     override fun `as`(alias: Table<*>): UserMailLogTable =
-        UserMailLogTable(alias.getQualifiedName(), this)
+        UserMailLogTable(alias.qualifiedName, this)
 
     /** Rename this table */
     override fun rename(name: String): UserMailLogTable = UserMailLogTable(DSL.name(name), null)
@@ -156,22 +223,44 @@ open class UserMailLogTable(
 
     /** Rename this table */
     override fun rename(name: Table<*>): UserMailLogTable =
-        UserMailLogTable(name.getQualifiedName(), null)
+        UserMailLogTable(name.qualifiedName, null)
 
-    // -------------------------------------------------------------------------
-    // Row7 type methods
-    // -------------------------------------------------------------------------
-    override fun fieldsRow(): Row7<UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?> =
-        super.fieldsRow() as Row7<UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?>
+    /** Create an inline derived table from this table */
+    override fun where(condition: Condition): UserMailLogTable =
+        UserMailLogTable(qualifiedName, if (aliased()) this else null, condition)
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Function)}. */
-    fun <U> mapping(
-        from: (UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?) -> U
-    ): SelectField<U> = convertFrom(Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(conditions: Collection<Condition>): UserMailLogTable =
+        where(DSL.and(conditions))
 
-    /** Convenience mapping calling {@link SelectField#convertFrom(Class, Function)}. */
-    fun <U> mapping(
-        toType: Class<U>,
-        from: (UUID?, UUID?, String?, String?, Boolean?, Instant?, Instant?) -> U
-    ): SelectField<U> = convertFrom(toType, Records.mapping(from))
+    /** Create an inline derived table from this table */
+    override fun where(vararg conditions: Condition): UserMailLogTable = where(DSL.and(*conditions))
+
+    /** Create an inline derived table from this table */
+    override fun where(condition: Field<Boolean?>): UserMailLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL override fun where(condition: SQL): UserMailLogTable = where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String): UserMailLogTable =
+        where(DSL.condition(condition))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg binds: Any?): UserMailLogTable =
+        where(DSL.condition(condition, *binds))
+
+    /** Create an inline derived table from this table */
+    @PlainSQL
+    override fun where(@Stringly.SQL condition: String, vararg parts: QueryPart): UserMailLogTable =
+        where(DSL.condition(condition, *parts))
+
+    /** Create an inline derived table from this table */
+    override fun whereExists(select: Select<*>): UserMailLogTable = where(DSL.exists(select))
+
+    /** Create an inline derived table from this table */
+    override fun whereNotExists(select: Select<*>): UserMailLogTable = where(DSL.notExists(select))
 }
