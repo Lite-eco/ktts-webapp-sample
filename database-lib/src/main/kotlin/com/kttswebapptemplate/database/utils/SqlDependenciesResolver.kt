@@ -70,6 +70,7 @@ object SqlDependenciesResolver {
 
     private fun jsqlParse(sqlFile: SqlFile) =
         try {
+            // TODO enum + test for exhaustivity
             when (val parsed = CCJSqlParserUtil.parse(sqlFile.sql)) {
                 is JsqlCreateTable ->
                     ParseResult.CreateTable(

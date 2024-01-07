@@ -45,7 +45,8 @@ class ApplicationErrorController(
         // TODO[tmpl][secu] rewrite return applicationExceptionHandler.render(..., when() {})
         val errorId = randomService.id<RequestErrorId>()
         val (status, error) =
-            when (response.status) {
+        // TODO use HttpStatus
+        when (response.status) {
                 // when we directly reach the /error url !
                 // we'are arrived here with a status 200
                 200 -> 404 to "Not Found"
