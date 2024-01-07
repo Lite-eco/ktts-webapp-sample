@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { MenuItem } from '@mui/material';
-import { LogoutMenuItemI18n } from 'common-components/layout/components/LogoutMenuItem.i18n';
+import { LogoutMenuItemI18n } from 'view/components/layout/components/LogoutMenuItem.i18n';
 import { useI18n } from 'hooks/i18n';
 import { useRef } from 'react';
 import { appContext } from 'services/ApplicationContext';

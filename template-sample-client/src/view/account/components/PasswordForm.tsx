@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { ControlledPasswordInput } from 'common-components/form/ControlledPasswordInput';
+import { ControlledPasswordInput } from 'view/components/form/ControlledPasswordInput';
 import { ClientUid } from 'domain/client-ids';
 import { PlainStringPassword } from 'generated/domain/Security.generated';
 import { useI18n } from 'hooks/i18n';

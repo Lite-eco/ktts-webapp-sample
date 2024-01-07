@@ -18,7 +18,7 @@ import {
   TableHead,
   TableRow
 } from '@mui/material';
-import { RouteLink } from 'common-components/RouteLink';
+import { RouteLink } from 'view/components/RouteLink';
 import { AdminUserInfos } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';
 import { LoadingState } from 'interfaces';

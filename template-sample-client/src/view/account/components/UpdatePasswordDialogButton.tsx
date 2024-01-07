@@ -8,7 +8,7 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
-import { LoadingStateButton } from 'common-components/LoadingButton';
+import { LoadingStateButton } from 'view/components/LoadingButton';
 import { UpdatePasswordResult } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';
 import { LoadingState } from 'interfaces';

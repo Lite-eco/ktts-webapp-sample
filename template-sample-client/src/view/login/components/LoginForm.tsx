@@ -1,8 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { LoadingStateButton } from 'common-components/LoadingButton';
-import { ControlledPasswordInput } from 'common-components/form/ControlledPasswordInput';
-import { ControlledTextInput } from 'common-components/form/ControlledTextInput';
+import { LoadingStateButton } from 'view/components/LoadingButton';
+import { ControlledPasswordInput } from 'view/components/form/ControlledPasswordInput';
+import { ControlledTextInput } from 'view/components/form/ControlledTextInput';
 import { PlainStringPassword } from 'generated/domain/Security.generated';
 import { useI18n } from 'hooks/i18n';
 import { LoadingState } from 'interfaces';

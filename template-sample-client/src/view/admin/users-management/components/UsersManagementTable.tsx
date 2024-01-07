@@ -7,7 +7,7 @@ import {
   GridValueFormatterParams,
   GridValueGetterParams
 } from '@mui/x-data-grid';
-import { RouteLink } from 'common-components/RouteLink';
+import { RouteLink } from 'view/components/RouteLink';
 import { adminIdDisplayChars } from 'domain/admin';
 import { AdminUserInfos, Role } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';

@@ -11,7 +11,7 @@ import {
   DialogTitle,
   TextField
 } from '@mui/material';
-import { LoadingStateButton } from 'common-components/LoadingButton';
+import { LoadingStateButton } from 'view/components/LoadingButton';
 import { statusEnumValues } from 'domain/enums';
 import { Errors } from 'errors';
 import { UserId } from 'generated/domain/Ids.generated';

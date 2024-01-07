@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { RouteLink } from 'common-components/RouteLink';
+import { RouteLink } from 'view/components/RouteLink';
 import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
 import { routes } from 'generated/routing/router.generated';
 import { useI18n } from 'hooks/i18n';

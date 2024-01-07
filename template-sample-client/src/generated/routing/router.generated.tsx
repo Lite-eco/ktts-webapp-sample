@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { MainLayout } from 'common-components/layout/MainLayout';
+import { MainLayout } from 'view/components/layout/MainLayout';
 import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { AccountRoute } from 'view/account/AccountRoute';
 import { AdminRootRoute } from 'view/admin/AdminRootRoute';

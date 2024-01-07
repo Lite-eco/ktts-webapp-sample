@@ -1,4 +1,4 @@
-import { MainLayout } from 'common-components/layout/MainLayout';
+import { MainLayout } from 'view/components/layout/MainLayout';
 import { UserId } from 'generated/domain/Ids.generated';
 import { AccountRoute } from 'view/account/AccountRoute';
 import { AdminRootRoute } from 'view/admin/AdminRootRoute';

@@ -7,7 +7,7 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
-import { UserStatusCheckContainerI18n } from 'common-components/layout/components/UserStatusCheckContainer.i18n';
+import { UserStatusCheckContainerI18n } from 'view/components/layout/components/UserStatusCheckContainer.i18n';
 import { UserStatus } from 'generated/domain/User.generated';
 import { GetUserStatusQueryResponse } from 'generated/query/Queries.generated';
 import { useI18n } from 'hooks/i18n';
