@@ -26,6 +26,7 @@ export const generateRouter = (file, resultRoutes, interfacesImports) => {
     source += '\n\n';
     source += 'export const routes: RouteObject[] = [\n';
     resultRoutes
+      // with react router v6 route selection algorithm does not use routes order
       .sort(sortByIdWithNotFoundLast)
       .forEach(r => (source += printRoute(r)));
     source += ']\n';
@@ -67,6 +68,7 @@ const printRoute = r => {
       res += `{id: '${r.id}/_', path: '', element: <${r.rootComponent} />},`;
     }
     res += r.subRoutes
+      // with react router v6 route selection algorithm does not use routes order
       .sort(sortByIdWithNotFoundLast)
       .map(r => printRoute(r))
       .join('\n');
