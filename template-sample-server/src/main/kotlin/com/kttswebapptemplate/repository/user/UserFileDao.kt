@@ -1,7 +1,6 @@
 package com.kttswebapptemplate.repository.user
 
 import com.kttswebapptemplate.domain.MimeType
-import com.kttswebapptemplate.domain.UserFileData
 import com.kttswebapptemplate.domain.UserFileId
 import com.kttswebapptemplate.domain.UserId
 import com.kttswebapptemplate.jooq.generated.tables.records.UserFileRecord
@@ -48,13 +47,10 @@ class UserFileDao(private val jooq: DSLContext) {
             .execute()
     }
 
-    fun fetchDataOrNull(id: UserFileId): UserFileData? =
-        jooq
-            .select(USER_FILE.CONTENT_TYPE, USER_FILE.FILE_CONTENT)
-            .from(USER_FILE)
-            .where(USER_FILE.ID.equal(id.rawId))
-            .fetchOne()
-            ?.let { mapData(it.into(USER_FILE)) }
+    fun fetchDataOrNull(id: UserFileId): Pair<Record, ByteArray>? =
+        jooq.selectFrom(USER_FILE).where(USER_FILE.ID.equal(id.rawId)).fetchOne()?.let {
+            mapRecord(it) to it.fileContent
+        }
 
     fun fetchReferenceOrNull(id: UserFileId): Record? =
         jooq
@@ -73,10 +69,6 @@ class UserFileDao(private val jooq: DSLContext) {
             .map { mapRecord(it.into(UserFileRecord::class.java)) }
 
     fun count(): Int = jooq.selectCount().from(USER_FILE).fetchSingle().value1()
-
-    fun mapData(r: UserFileRecord): UserFileData {
-        return UserFileData(MimeType(r.contentType), r.fileContent)
-    }
 
     fun mapRecord(raw: JooqRecord): Record {
         val r = raw.into(UserFileRecord::class.java)

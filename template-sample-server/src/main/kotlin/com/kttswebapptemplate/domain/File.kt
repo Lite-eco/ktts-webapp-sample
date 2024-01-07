@@ -6,5 +6,3 @@ data class MimeType(val type: String) : SerializeAsString(type) {
         val ApplicationJson = MimeType("application/json")
     }
 }
-
-class UserFileData(val contentType: MimeType, val file: ByteArray)
