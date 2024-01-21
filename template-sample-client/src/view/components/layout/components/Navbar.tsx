@@ -25,9 +25,10 @@ export const Navbar = () => {
       css={css`
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         height: 36px;
-        padding: 10px 20px;
+        padding: 0 20px;
         background: ${colors.grey};
       `}
     >

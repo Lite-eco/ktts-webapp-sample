@@ -24,7 +24,7 @@ export const AdminRootRoute = () => {
               <div
                 key={name}
                 css={css`
-                  padding: 10px;
+                  padding: 4px;
                 `}
               >
                 <RouteLink path={{ name } as ApplicationPath}>
