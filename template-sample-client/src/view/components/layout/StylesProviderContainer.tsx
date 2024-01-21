@@ -2,6 +2,7 @@
 import { Global } from '@emotion/react';
 import {
   createTheme,
+  CssBaseline,
   StyledEngineProvider,
   ThemeProvider
 } from '@mui/material';
@@ -17,6 +18,7 @@ const muiTheme = createTheme({
 });
 export const StylesProviderContainer = (props: PropsWithChildren) => (
   <>
+    <CssBaseline />
     <Global styles={[globalStyles]} />
     <StylesProvider injectFirst>
       <StyledEngineProvider injectFirst>
