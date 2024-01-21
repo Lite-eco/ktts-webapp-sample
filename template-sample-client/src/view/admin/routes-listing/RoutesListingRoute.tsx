@@ -16,17 +16,20 @@ export const RoutesListingRoute = () => {
     return null;
   }
   return (
-    <div
-      css={css`
-        display: flex;
-        flex-direction: column;
-      `}
-    >
+    <>
       <h1>{t.RoutesListing()}</h1>
-      {routes.map(route => (
-        <RouteListingItem key={route.id} route={route} parentPath={''} />
-      ))}
-    </div>
+      <div
+        css={css`
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+        `}
+      >
+        {routes.map(route => (
+          <RouteListingItem key={route.id} route={route} parentPath={''} />
+        ))}
+      </div>
+    </>
   );
 };
 
@@ -45,7 +48,6 @@ const RouteListingItem = (props: {
     return (
       <div
         css={css`
-          margin: 4px 0;
           border: 1px solid ${colors.grey};
         `}
       >

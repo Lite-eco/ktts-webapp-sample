@@ -97,10 +97,7 @@ export const ManualCommandRoute = () => {
     <div
       css={css`
         display: flex;
-
-        & > div {
-          margin: 0 5px;
-        }
+        gap: 8px;
 
         pre {
           padding: 10px;
