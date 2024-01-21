@@ -21,7 +21,6 @@ total_files=$(echo "$files" | wc -l | xargs)
 echo Start formatter on $total_files files
 
 # Run the command while updating the loading bar
-loading_bar=""
 count=0
 errors=""
 while IFS= read -r line; do
@@ -33,7 +32,7 @@ while IFS= read -r line; do
     fi
 done < <(java -jar $file --dropbox-style $files 2>&1)
 
-# New line after loading bar line
+# New line after counting line
 echo
 
 end_time=$(gdate +%s%N | cut -b1-13)
