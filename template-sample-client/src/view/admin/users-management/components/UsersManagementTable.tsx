@@ -125,6 +125,10 @@ export const UsersManagementTable = (props: {
       loading={props.loading === 'Loading'}
       autoPageSize={true}
       css={css`
+        .MuiDataGrid-columnHeaderTitle {
+          font-weight: bold;
+        }
+
         .MuiDataGrid-row {
           &:nth-of-type(odd) {
             background-color: ${colors.clearGrey2};
