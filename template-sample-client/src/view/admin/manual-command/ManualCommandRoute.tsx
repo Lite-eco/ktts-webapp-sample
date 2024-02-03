@@ -12,6 +12,8 @@ import { useRef, useState } from 'react';
 import { appContext } from 'services/ApplicationContext';
 import { nominal } from 'utils/nominal-class';
 import { ManualCommandRouteI18n } from 'view/admin/manual-command/ManualCommandRoute.i18n';
+import { colors } from 'style/vars';
+import { RequestErrorId } from 'generated/domain/Ids.generated';
 
 const sampleAdminUpdateSessionsCommand: AdminUpdateSessionsCommand = {
   objectType: 'AdminUpdateSessionsCommand'
@@ -23,24 +25,22 @@ const sampleAdminUpdateUserMailCommand: AdminUpdateUserMailCommand = {
   mail: 'example@mail.com'
 };
 
-/** Should explain data in the response */
-const DocResponse = (props: { response: CommandResponse }) => {
-  const objectType = props.response.objectType;
-  const t = useI18n(ManualCommandRouteI18n);
-  switch (objectType) {
-    default:
-      return t.Result();
-  }
-};
-
 export const ManualCommandRoute = () => {
   const commandTextArea = useRef<HTMLTextAreaElement | null>(null);
   const [previousSubmitedValue, setPreviousSubmitedValue] = useState<string>();
   const [okCommandCount, setOkCommandCount] = useState<number>();
   const [totalCommandCount, setTotalCommandCount] = useState<number>();
   const [commandResults, setCommandResults] = useState<any[]>([]);
+  const [commandErrorIds, setCommandErrorIds] = useState<RequestErrorId[]>([]);
   const { enqueueSnackbar } = useSnackbar();
-  const handleCommand = async () => {
+  const handleCommand = () => {
+    let okCommands = 0;
+    setOkCommandCount(okCommands);
+    let results: any[] = [];
+    setCommandResults(results);
+    let errorIds: RequestErrorId[] = [];
+    setCommandErrorIds(errorIds);
+    setTotalCommandCount(undefined);
     const textCommand = commandTextArea.current?.value;
     if (!textCommand) {
       enqueueSnackbar(t.NoCommand(), {
@@ -49,7 +49,7 @@ export const ManualCommandRoute = () => {
       return;
     }
     if (textCommand === previousSubmitedValue) {
-      enqueueSnackbar(t.CommandAlreadyHandled(), {
+      enqueueSnackbar(t.CommandAlreadySent(), {
         variant: 'error'
       });
       return;
@@ -71,10 +71,6 @@ export const ManualCommandRoute = () => {
     }
     setPreviousSubmitedValue(textCommand);
     setTotalCommandCount(commands.length);
-    let okCommands = 0;
-    setOkCommandCount(okCommands);
-    let results: any[] = [];
-    setCommandResults(results);
     // commands.forEach will send all commands at the same time
     commands.forEach(async c => {
       await appContext.httpService
@@ -85,11 +81,13 @@ export const ManualCommandRoute = () => {
           results = [...results, r.body];
           setCommandResults(results);
         })
-        .catch((e: RequestError) =>
+        .catch((e: RequestError) => {
+          errorIds = [...errorIds, e.id];
+          setCommandErrorIds(errorIds);
           enqueueSnackbar(t.ServerError() + e.id, {
             variant: 'error'
-          })
-        );
+          });
+        });
     });
   };
   const t = useI18n(ManualCommandRouteI18n);
@@ -161,6 +159,16 @@ export const ManualCommandRoute = () => {
             <Sample json={r} />
           </p>
         ))}
+        {commandErrorIds.map((id, i) => (
+          <h3
+            key={i}
+            css={css`
+              color: ${colors.errorRed};
+            `}
+          >
+            Error id : <b>{id}</b>
+          </h3>
+        ))}
       </div>
     </div>
   );
@@ -170,3 +178,13 @@ export const ManualCommandRoute = () => {
 const Sample = (props: { json: any }) => (
   <pre>{JSON.stringify(props.json, null, 2)}</pre>
 );
+
+/** Should explain data in the response */
+const DocResponse = (props: { response: CommandResponse }) => {
+  const objectType = props.response.objectType;
+  const t = useI18n(ManualCommandRouteI18n);
+  switch (objectType) {
+    default:
+      return t.Result();
+  }
+};

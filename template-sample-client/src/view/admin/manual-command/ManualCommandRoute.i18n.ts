@@ -1,7 +1,7 @@
 export const ManualCommandRouteI18n = {
   Result: () => 'Result:',
   NoCommand: () => 'No command.',
-  CommandAlreadyHandled: () => 'Command already handled.',
+  CommandAlreadySent: () => 'Command already sent.',
   InvalidJson: () => 'Invalid JSON.',
   ServerError: () => 'Server error: ',
   ManualCommands: () => 'Admin / Manual commands:',
