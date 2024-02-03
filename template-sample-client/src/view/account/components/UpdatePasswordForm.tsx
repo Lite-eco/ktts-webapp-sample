@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { ControlledPasswordInput } from 'view/components/form/ControlledPasswordInput';
 import { ClientUid } from 'domain/client-ids';
 import { PlainStringPassword } from 'generated/domain/Security.generated';
 import { useI18n } from 'hooks/i18n';
 import { useForm } from 'react-hook-form';
 import { nominal } from 'utils/nominal-class';
 import { UpdatePasswordFormI18n } from 'view/account/components/UpdatePasswordForm.i18n';
+import { ControlledPasswordInput } from 'view/components/form/ControlledPasswordInput';
 
 export interface PasswordFormInput {
   currentPassword: PlainStringPassword;
@@ -20,7 +20,7 @@ interface PasswordFormRawInput {
 
 export const UpdatePasswordForm = (props: {
   formId: ClientUid;
-  onSubmit: (dto: PasswordFormInput) => Promise<void>;
+  onSubmit: (input: PasswordFormInput) => Promise<void>;
 }) => {
   const {
     handleSubmit,

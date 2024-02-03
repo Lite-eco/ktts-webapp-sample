@@ -22,16 +22,16 @@ import {
 import { UpdatePasswordDialogButtonI18n } from 'view/account/components/UpdatePasswordDialogButton.i18n';
 
 export const UpdatePasswordDialogButton = (props: {
-  onSubmit: (dto: PasswordFormInput) => Promise<UpdatePasswordResult>;
+  onSubmit: (input: PasswordFormInput) => Promise<UpdatePasswordResult>;
 }) => {
   const [open, setOpen] = useState(false);
   const [updateLoading, setUpdateLoading] = useState<LoadingStatus>('Idle');
   const [displayError, setDisplayError] = useState(false);
   const close = () => setOpen(false);
-  const onSubmit = (dto: PasswordFormInput) => {
+  const onSubmit = (input: PasswordFormInput) => {
     setUpdateLoading('Loading');
     setDisplayError(false);
-    return props.onSubmit(dto).then(r => {
+    return props.onSubmit(input).then(r => {
       setUpdateLoading('Idle');
       switch (r) {
         case 'BadPassword':

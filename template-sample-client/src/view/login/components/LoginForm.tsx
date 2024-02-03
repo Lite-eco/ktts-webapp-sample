@@ -23,7 +23,7 @@ interface LoginFormRawInput {
 }
 
 export const LoginForm = (props: {
-  onSubmit: (dto: LoginFormInput) => Promise<void>;
+  onSubmit: (input: LoginFormInput) => Promise<void>;
 }) => {
   const {
     handleSubmit,

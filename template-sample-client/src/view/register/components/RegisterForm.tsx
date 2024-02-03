@@ -27,7 +27,7 @@ interface RegisterFormRawInput {
 }
 
 export const RegisterForm = (props: {
-  onSubmit: (dto: RegisterFormInput) => Promise<void>;
+  onSubmit: (input: RegisterFormInput) => Promise<void>;
   mailIsAlreadyTaken: boolean;
 }) => {
   const [mailIsAlreadyTaken, setMailIsAlreadyTaken] = useState(false);
