@@ -18,9 +18,9 @@ open class MailingLogRecord private constructor() :
         set(value): Unit = set(0, value)
         get(): UUID = get(0) as UUID
 
-    open var userId: UUID
+    open var userId: UUID?
         set(value): Unit = set(1, value)
-        get(): UUID = get(1) as UUID
+        get(): UUID? = get(1) as UUID?
 
     open var senderName: String
         set(value): Unit = set(2, value)
@@ -63,7 +63,7 @@ open class MailingLogRecord private constructor() :
     /** Create a detached, initialised MailingLogRecord */
     constructor(
         id: UUID,
-        userId: UUID,
+        userId: UUID? = null,
         senderName: String,
         senderMail: String,
         recipientName: String,

@@ -72,7 +72,7 @@ open class MailingLogTable(
 
     /** The column <code>public.mailing_log.user_id</code>. */
     val USER_ID: TableField<MailingLogRecord, UUID?> =
-        createField(DSL.name("user_id"), SQLDataType.UUID.nullable(false), this, "")
+        createField(DSL.name("user_id"), SQLDataType.UUID, this, "")
 
     /** The column <code>public.mailing_log.sender_name</code>. */
     val SENDER_NAME: TableField<MailingLogRecord, String?> =
