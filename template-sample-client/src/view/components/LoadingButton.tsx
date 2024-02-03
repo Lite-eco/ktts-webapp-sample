@@ -3,17 +3,17 @@ import { css } from '@emotion/react';
 import { Button, CircularProgress } from '@mui/material';
 import { ButtonTypeMap } from '@mui/material/Button/Button';
 import { ClientUid } from 'domain/client-ids';
-import { EmotionStyles, LoadingState } from 'interfaces';
+import { EmotionStyles, LoadingStatus } from 'interfaces';
 import * as React from 'react';
 import { PropsWithChildren, ReactElement, useState } from 'react';
 import { assertUnreachable } from 'utils';
 
 const ButtonContent = (
   props: PropsWithChildren<{
-    loadingState: LoadingState;
+    loadingStatus: LoadingStatus;
   }>
 ) => {
-  switch (props.loadingState) {
+  switch (props.loadingStatus) {
     case 'Idle':
     case 'Error':
       return <>{props.children}</>;
@@ -40,14 +40,14 @@ const ButtonContent = (
         </>
       );
     default:
-      assertUnreachable(props.loadingState);
+      assertUnreachable(props.loadingStatus);
   }
 };
 
 const LoadingButtonBase = (
   props: PropsWithChildren<{
     onClick?: () => void;
-    loadingState: LoadingState;
+    loadingStatus: LoadingStatus;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
     startIcon?: ReactElement;
@@ -64,16 +64,16 @@ const LoadingButtonBase = (
         ? React.cloneElement(props.startIcon, {
             style: {
               // so button sizing doesn't change
-              visibility: props.loadingState === 'Idle' ? 'visible' : 'hidden'
+              visibility: props.loadingStatus === 'Idle' ? 'visible' : 'hidden'
             }
           })
         : undefined
     }
-    disabled={props.loadingState === 'Loading'}
+    disabled={props.loadingStatus === 'Loading'}
     css={props.addCss}
     form={props.formId}
   >
-    <ButtonContent loadingState={props.loadingState}>
+    <ButtonContent loadingStatus={props.loadingStatus}>
       {props.children}
     </ButtonContent>
   </Button>
@@ -88,7 +88,7 @@ export const LoadingButton = (
     addCss?: EmotionStyles;
   }>
 ) => {
-  const [loading, setLoading] = useState<LoadingState>('Idle');
+  const [loading, setLoading] = useState<LoadingStatus>('Idle');
   return (
     <LoadingButtonBase
       onClick={() => {
@@ -98,7 +98,7 @@ export const LoadingButton = (
           .then(() => setLoading('Idle'))
           .catch(() => setLoading('Error'));
       }}
-      loadingState={loading}
+      loadingStatus={loading}
       type={props.type}
       variant={props.variant}
       startIcon={props.startIcon}
@@ -109,10 +109,10 @@ export const LoadingButton = (
   );
 };
 
-export const LoadingStateButton = (
+export const LoadingStatusButton = (
   props: PropsWithChildren<{
     onClick?: () => void;
-    loadingState: LoadingState;
+    loadingStatus: LoadingStatus;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
     startIcon?: ReactElement;
@@ -122,7 +122,7 @@ export const LoadingStateButton = (
 ) => (
   <LoadingButtonBase
     onClick={props.onClick}
-    loadingState={props.loadingState}
+    loadingStatus={props.loadingStatus}
     type={props.type}
     variant={props.variant}
     startIcon={props.startIcon}

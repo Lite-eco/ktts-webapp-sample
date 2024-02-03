@@ -11,7 +11,7 @@ import { RouteLink } from 'view/components/RouteLink';
 import { adminIdDisplayChars } from 'domain/admin';
 import { AdminUserInfos, Role } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { colors } from 'style/vars';
 import { CopyContentWidget } from 'view/admin/users-management/components/CopyContentWidget';
 import { UsersManagementTableI18n } from 'view/admin/users-management/components/UsersManagementTable.i18n';
@@ -31,7 +31,7 @@ export const RoleChip = (props: { role: Role }) => (
 
 export const UsersManagementTable = (props: {
   users: AdminUserInfos[];
-  loading: LoadingState;
+  loading: LoadingStatus;
 }) => {
   const t = useI18n(UsersManagementTableI18n);
   const columns: GridColDef[] = [

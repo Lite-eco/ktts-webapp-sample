@@ -11,14 +11,14 @@ import {
   DialogTitle,
   TextField
 } from '@mui/material';
-import { LoadingStateButton } from 'view/components/LoadingButton';
+import { LoadingStatusButton } from 'view/components/LoadingButton';
 import { statusEnumValues } from 'domain/enums';
 import { Errors } from 'errors';
 import { UserId } from 'generated/domain/Ids.generated';
 import { AdminUserInfos, UserStatus } from 'generated/domain/User.generated';
 import { AdminGetUserInfosQueryResponse } from 'generated/query/Queries.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { useEffect, useState } from 'react';
 import { appContext } from 'services/ApplicationContext';
 import { useUserState } from 'state/UserState';
@@ -31,8 +31,8 @@ export const UserEditStatusDialog = (props: {
 }) => {
   const [userInfos, setUserInfos] = useState<AdminUserInfos | undefined>();
   const [status, setStatus] = useState<UserStatus | undefined>();
-  const [queryLoading, setQueryLoading] = useState<LoadingState>('Idle');
-  const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
+  const [queryLoading, setQueryLoading] = useState<LoadingStatus>('Idle');
+  const [updateLoading, setUpdateLoading] = useState<LoadingStatus>('Idle');
   const loggedInUserInfos = useUserState(s => s.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._21bea505();
@@ -123,9 +123,9 @@ export const UserEditStatusDialog = (props: {
       </DialogContent>
       <DialogActions>
         <Button onClick={close}>{t.Close()}</Button>
-        <LoadingStateButton loadingState={updateLoading} onClick={save}>
+        <LoadingStatusButton loadingStatus={updateLoading} onClick={save}>
           {t.Save()}
-        </LoadingStateButton>
+        </LoadingStatusButton>
       </DialogActions>
     </Dialog>
   );

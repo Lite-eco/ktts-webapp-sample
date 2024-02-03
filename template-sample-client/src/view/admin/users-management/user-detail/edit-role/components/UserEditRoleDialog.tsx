@@ -13,13 +13,13 @@ import {
   TextField,
   Typography
 } from '@mui/material';
-import { LoadingStateButton } from 'view/components/LoadingButton';
+import { LoadingStatusButton } from 'view/components/LoadingButton';
 import { roleEnumValues } from 'domain/enums';
 import { Errors } from 'errors';
 import { UserId } from 'generated/domain/Ids.generated';
 import { AdminUserInfos, Role } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { PropsWithChildren, useEffect, useState } from 'react';
 import { appContext } from 'services/ApplicationContext';
 import { useUserState } from 'state/UserState';
@@ -31,10 +31,10 @@ export const UserEditRoleDialog = (props: {
   userId: UserId;
   userInfos: AdminUserInfos | undefined;
   updateUserInfos: (user: AdminUserInfos) => void;
-  loadingUserInfos: LoadingState;
+  loadingUserInfos: LoadingStatus;
 }) => {
   const [role, setRole] = useState<Role | undefined>();
-  const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
+  const [updateLoading, setUpdateLoading] = useState<LoadingStatus>('Idle');
   const loggedInUserInfos = useUserState(s => s.userInfos);
   if (!loggedInUserInfos) {
     throw Errors._fe2e1fc7();
@@ -108,9 +108,9 @@ export const UserEditRoleDialog = (props: {
       </DialogContent>
       <DialogActions>
         <Button onClick={close}>{t.Close()}</Button>
-        <LoadingStateButton loadingState={updateLoading} onClick={save}>
+        <LoadingStatusButton loadingStatus={updateLoading} onClick={save}>
           {t.Save()}
-        </LoadingStateButton>
+        </LoadingStatusButton>
       </DialogActions>
     </Dialog>
   );

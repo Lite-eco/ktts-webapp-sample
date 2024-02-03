@@ -2,7 +2,7 @@
 import { AdminUserInfos } from 'generated/domain/User.generated';
 import { AdminGetUserInfosQueryResponse } from 'generated/query/Queries.generated';
 import { AdminUsersManagementUserDetailPath } from 'generated/routing/ApplicationPath.generated';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { useEffect, useState } from 'react';
 import { Outlet, useOutletContext } from 'react-router-dom';
 import { appContext } from 'services/ApplicationContext';
@@ -13,7 +13,7 @@ import { UserDetailDialog } from 'view/admin/users-management/user-detail/compon
 export interface UsersManagementUserDetailOutletContext {
   userInfos: AdminUserInfos | undefined;
   updateUserInfos: (userInfos: AdminUserInfos) => void;
-  loadingUserInfos: LoadingState;
+  loadingUserInfos: LoadingStatus;
 }
 
 export const UserDetailRoute = () => {
@@ -21,7 +21,7 @@ export const UserDetailRoute = () => {
   const outletContext = useOutletContext<UsersManagementOutletContext>();
   const [userInfos, setUserInfos] = useState<AdminUserInfos>();
   const [loadingUserInfos, setLoadingUserInfos] =
-    useState<LoadingState>('Idle');
+    useState<LoadingStatus>('Idle');
   const updateUserInfos = (userInfos: AdminUserInfos) => {
     outletContext.updateUserInfos(userInfos);
     setUserInfos(userInfos);

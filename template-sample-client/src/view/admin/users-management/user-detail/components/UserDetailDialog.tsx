@@ -21,7 +21,7 @@ import {
 import { RouteLink } from 'view/components/RouteLink';
 import { AdminUserInfos } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { navigateTo } from 'utils/routing-utils';
 import { CopyContentWidget } from 'view/admin/users-management/components/CopyContentWidget';
 import { RoleChip } from 'view/admin/users-management/components/UsersManagementTable';
@@ -29,7 +29,7 @@ import { UserDetailDialogI18n } from 'view/admin/users-management/user-detail/co
 
 export const UserDetailDialog = (props: {
   userInfos: AdminUserInfos | undefined;
-  loadingUserInfos: LoadingState;
+  loadingUserInfos: LoadingStatus;
 }) => {
   const close = () => navigateTo({ name: 'Admin/UsersManagement' });
   const t = useI18n(UserDetailDialogI18n);

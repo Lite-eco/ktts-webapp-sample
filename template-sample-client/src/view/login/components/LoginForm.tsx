@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { LoadingStateButton } from 'view/components/LoadingButton';
+import { LoadingStatusButton } from 'view/components/LoadingButton';
 import { ControlledPasswordInput } from 'view/components/form/ControlledPasswordInput';
 import { ControlledTextInput } from 'view/components/form/ControlledTextInput';
 import { PlainStringPassword } from 'generated/domain/Security.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { nominal } from 'utils/nominal-class';
@@ -29,7 +29,7 @@ export const LoginForm = (props: {
     control,
     formState: { errors }
   } = useForm<LoginFormRawInput>();
-  const [loading, setLoading] = useState<LoadingState>('Idle');
+  const [loading, setLoading] = useState<LoadingStatus>('Idle');
   const t = useI18n(LoginFormI18n);
   return (
     <form
@@ -68,9 +68,9 @@ export const LoginForm = (props: {
           errors={errors}
         />
       </div>
-      <LoadingStateButton loadingState={loading} type="submit">
+      <LoadingStatusButton loadingStatus={loading} type="submit">
         {t.Login()}
-      </LoadingStateButton>
+      </LoadingStatusButton>
     </form>
   );
 };

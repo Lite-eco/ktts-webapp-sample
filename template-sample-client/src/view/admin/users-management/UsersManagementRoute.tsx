@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { AdminUserInfos } from 'generated/domain/User.generated';
 import { AdminGetUsersQueryResponse } from 'generated/query/Queries.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { useSnackbar } from 'notistack';
 import { useEffect, useState } from 'react';
 import { Outlet } from 'react-router-dom';
@@ -17,7 +17,7 @@ export interface UsersManagementOutletContext {
 
 export const UsersManagementRoute = () => {
   const [users, setUsers] = useState<AdminUserInfos[]>([]);
-  const [loading, setLoading] = useState<LoadingState>('Idle');
+  const [loading, setLoading] = useState<LoadingStatus>('Idle');
   const { enqueueSnackbar } = useSnackbar();
   // TODO would probably be better to reload data
   const updateUserInfos = (userInfos: AdminUserInfos) =>

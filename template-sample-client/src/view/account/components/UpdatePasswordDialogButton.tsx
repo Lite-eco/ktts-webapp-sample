@@ -8,10 +8,10 @@ import {
   DialogContentText,
   DialogTitle
 } from '@mui/material';
-import { LoadingStateButton } from 'view/components/LoadingButton';
+import { LoadingStatusButton } from 'view/components/LoadingButton';
 import { UpdatePasswordResult } from 'generated/domain/User.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { useState } from 'react';
 import { colors } from 'style/vars';
 import { assertUnreachable, clientUid } from 'utils';
@@ -25,7 +25,7 @@ export const UpdatePasswordDialogButton = (props: {
   onSubmit: (dto: PasswordFormInput) => Promise<UpdatePasswordResult>;
 }) => {
   const [open, setOpen] = useState(false);
-  const [updateLoading, setUpdateLoading] = useState<LoadingState>('Idle');
+  const [updateLoading, setUpdateLoading] = useState<LoadingStatus>('Idle');
   const [displayError, setDisplayError] = useState(false);
   const close = () => setOpen(false);
   const onSubmit = (dto: PasswordFormInput) => {
@@ -79,9 +79,9 @@ export const UpdatePasswordDialogButton = (props: {
         </DialogContent>
         <DialogActions>
           <Button onClick={close}>{t.Close()}</Button>
-          <LoadingStateButton formId={formId} loadingState={updateLoading}>
+          <LoadingStatusButton formId={formId} loadingStatus={updateLoading}>
             {t.Save()}
-          </LoadingStateButton>
+          </LoadingStatusButton>
         </DialogActions>
       </Dialog>
     </>

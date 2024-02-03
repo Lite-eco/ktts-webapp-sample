@@ -1,12 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { LoadingStateButton } from 'view/components/LoadingButton';
+import { LoadingStatusButton } from 'view/components/LoadingButton';
 import { ControlledPasswordInput } from 'view/components/form/ControlledPasswordInput';
 import { ControlledTextInput } from 'view/components/form/ControlledTextInput';
 import { PlainStringPassword } from 'generated/domain/Security.generated';
 import { IsMailAlreadyTakenQueryResponse } from 'generated/query/Queries.generated';
 import { useI18n } from 'hooks/i18n';
-import { LoadingState } from 'interfaces';
+import { LoadingStatus } from 'interfaces';
 import { ChangeEvent, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { appContext } from 'services/ApplicationContext';
@@ -49,7 +49,7 @@ export const RegisterForm = (props: {
     control,
     formState: { errors }
   } = useForm<RegisterFormRawInput>();
-  const [loading, setLoading] = useState<LoadingState>('Idle');
+  const [loading, setLoading] = useState<LoadingStatus>('Idle');
   const t = useI18n(RegisterFormI18n);
   return (
     <form
@@ -113,9 +113,9 @@ export const RegisterForm = (props: {
           errors={errors}
         />
       </div>
-      <LoadingStateButton loadingState={loading} type="submit">
+      <LoadingStatusButton loadingStatus={loading} type="submit">
         {t.Register()}
-      </LoadingStateButton>
+      </LoadingStatusButton>
     </form>
   );
 };
