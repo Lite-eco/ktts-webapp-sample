@@ -1,7 +1,7 @@
 CREATE TABLE mailing_log
 (
     id UUID PRIMARY KEY,
-    user_id UUID NOT NULL,
+    user_id UUID,
     sender_name VARCHAR(255) NOT NULL,
     sender_mail VARCHAR(255) NOT NULL,
     recipient_name VARCHAR(255) NOT NULL,
