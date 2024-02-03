@@ -6,6 +6,8 @@ import com.kttswebapptemplate.domain.TemplateSampleUuidId
 import java.lang.reflect.InvocationTargetException
 import java.util.UUID
 import kotlin.reflect.full.starProjectedType
+import org.springframework.context.support.BeanDefinitionDsl
+import org.springframework.core.env.ConfigurableEnvironment
 
 operator fun StringBuilder.plusAssign(adding: Any) {
     append(adding)
@@ -66,3 +68,6 @@ fun String.uuid(): UUID =
     } else {
         throw IllegalArgumentException(this)
     }
+
+fun BeanDefinitionDsl.BeanSupplierContext.config(property: String) =
+    ref<ConfigurableEnvironment>().resolveRequiredPlaceholders("\${$property}")
