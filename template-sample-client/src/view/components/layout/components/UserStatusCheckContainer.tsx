@@ -39,6 +39,9 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
   const userInfos = useUserState(s => s.userInfos);
   const updateUserStatus = useUserState(s => s.updateUserStatus);
   const [displayPopup, setDisplayPopup] = useState(false);
+  const mailValidationToken = new URLSearchParams(window.location.search).get(
+    'mailValidation'
+  );
   useEffect(() => {
     if (userInfos?.status === 'MailValidationPending') {
       const intervalId = setInterval(() => {
@@ -57,26 +60,25 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
       return () => clearInterval(intervalId);
     }
   }, [userInfos, updateUserStatus]);
-  const mailValidationToken = new URLSearchParams(window.location.search).get(
-    'mailValidation'
-  );
-  if (mailValidationToken) {
-    const [token, userId] = mailValidationToken.split('-');
-    appContext.commandService
-      .send({
-        objectType: 'ValidateMailCommand',
-        token: nominal(token)
-      })
-      .then(() => {
-        // validation is done whether the user is connected or not
-        // (and if there's a session, it's not necessarily with the validated user)
-        if (userInfos?.id === userId) {
-          updateUserStatus('Active');
-        }
-        navigateTo({ name: 'Root' }, true);
-        setDisplayPopup(true);
-      });
-  }
+  useEffect(() => {
+    if (mailValidationToken) {
+      const [token, userId] = mailValidationToken.split('-');
+      appContext.commandService
+        .send({
+          objectType: 'ValidateMailCommand',
+          token: nominal(token)
+        })
+        .then(() => {
+          // validation is done whether the user is connected or not
+          // (and if there's a session, it's not necessarily with the validated user)
+          if (userInfos?.id === userId) {
+            updateUserStatus('Active');
+          }
+          navigateTo({ name: 'Root' }, true);
+          setDisplayPopup(true);
+        });
+    }
+  }, [mailValidationToken, userInfos, updateUserStatus]);
   const t = useI18n(UserStatusCheckContainerI18n);
   return (
     <>
