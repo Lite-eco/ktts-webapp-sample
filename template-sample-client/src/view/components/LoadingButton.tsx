@@ -46,7 +46,7 @@ const ButtonContent = (
 
 const LoadingButtonBase = (
   props: PropsWithChildren<{
-    onClick?: () => void;
+    onClick?: () => any;
     loadingStatus: LoadingStatus;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
@@ -81,7 +81,7 @@ const LoadingButtonBase = (
 
 export const LoadingButton = (
   props: PropsWithChildren<{
-    onClick: () => Promise<void>;
+    onClick: () => Promise<any>;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
     startIcon?: ReactElement;
@@ -111,7 +111,7 @@ export const LoadingButton = (
 
 export const LoadingStatusButton = (
   props: PropsWithChildren<{
-    onClick?: () => void;
+    onClick?: () => any;
     loadingStatus: LoadingStatus;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
