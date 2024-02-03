@@ -3,7 +3,9 @@ package com.kttswebapptemplate.service.utils.random
 import com.kttswebapptemplate.domain.TemplateSampleId
 import com.kttswebapptemplate.utils.stringUuid
 import java.util.UUID
+import org.springframework.stereotype.Service
 
+@Service
 class IdLogService {
 
     data class IdLogging(var enableLogging: Boolean, val list: MutableList<TemplateSampleId<*>>?) {

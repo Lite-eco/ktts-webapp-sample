@@ -5,9 +5,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.ZoneId
-import org.springframework.stereotype.Service
 
-@Service
 class DateService {
     fun now() = Instant.now()
 
