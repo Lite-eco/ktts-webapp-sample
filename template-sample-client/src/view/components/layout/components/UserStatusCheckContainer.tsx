@@ -49,6 +49,7 @@ export const UserStatusCheckContainer = (props: PropsWithChildren) => {
           .then(r => {
             if (r.status !== 'MailValidationPending') {
               clearInterval(intervalId);
+              setDisplayPopup(true);
             }
             updateUserStatus(r.status);
           });

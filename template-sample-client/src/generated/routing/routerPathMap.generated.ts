@@ -1,5 +1,5 @@
-import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
 import { pairsToDict } from 'utils/nominal-class';
+import { ApplicationPath } from 'generated/routing/ApplicationPath.generated';
 
 export const routerPathMap = pairsToDict<ApplicationPath['name'], string>([
   ['Account', '/account'],
@@ -17,6 +17,8 @@ export const routerPathMap = pairsToDict<ApplicationPath['name'], string>([
     '/admin/users-management/:userId/edit-status'
   ],
   ['Login', '/login'],
+  ['LostPassword', '/lost-password'],
   ['Register', '/register'],
+  ['ResetLostPassword', '/reset-lost-password'],
   ['Root', '/']
 ]);

@@ -13,6 +13,8 @@ import { LoginRoute } from 'view/login/LoginRoute';
 import { NotFoundRoute } from 'view/not-found/NotFoundRoute';
 import { RegisterRoute } from 'view/register/RegisterRoute';
 import { RootRoute } from 'view/root/RootRoute';
+import { LostPasswordRoute } from 'view/lost-password/LostPasswordRoute';
+import { ResetLostPasswordRoute } from 'view/reset-lost-password/ResetLostPasswordRoute';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 type routesDsl = {
@@ -65,10 +67,20 @@ type routesDsl = {
     layout: typeof MainLayout;
     component: typeof LoginRoute;
   };
+  LostPassword: {
+    path: 'lost-password';
+    layout: typeof MainLayout;
+    component: typeof LostPasswordRoute;
+  };
   Register: {
     path: 'register';
     layout: typeof MainLayout;
     component: typeof RegisterRoute;
+  };
+  ResetLostPassword: {
+    path: 'reset-lost-password';
+    layout: typeof MainLayout;
+    component: typeof ResetLostPasswordRoute;
   };
   Root: {
     path: '';

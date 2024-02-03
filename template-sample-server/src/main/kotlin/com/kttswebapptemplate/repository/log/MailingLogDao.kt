@@ -13,7 +13,7 @@ class MailingLogDao(private val jooq: DSLContext) {
 
     data class Record(
         val id: MailLogId,
-        val userId: UserId,
+        val userId: UserId?,
         val senderName: String,
         val senderMail: String,
         val recipientName: String,
@@ -30,7 +30,7 @@ class MailingLogDao(private val jooq: DSLContext) {
             .set(
                 MailingLogRecord(
                     id = r.id.rawId,
-                    userId = r.userId.rawId,
+                    userId = r.userId?.rawId,
                     senderName = r.senderName,
                     senderMail = r.senderMail,
                     recipientName = r.recipientName,

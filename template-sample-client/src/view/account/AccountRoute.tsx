@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { UpdatePasswordCommandResponse } from 'generated/command/Commands.generated';
 import { appContext } from 'services/ApplicationContext';
-import { PasswordFormInput } from 'view/account/components/PasswordForm';
+import { PasswordFormInput } from 'view/account/components/UpdatePasswordForm';
 import { UpdatePasswordDialogButton } from 'view/account/components/UpdatePasswordDialogButton';
 
 export const AccountRoute = () => {

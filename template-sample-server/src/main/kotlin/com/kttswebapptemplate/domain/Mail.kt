@@ -16,5 +16,7 @@ data class Mail(
 sealed class MailData {
     data class AccountMailValidation(val displayName: String, val url: Uri) : MailData()
 
-    data class LostPassword(val url: Uri) : MailData()
+    data class LostPassword(val displayName: String, val url: Uri) : MailData()
+
+    data class LostPasswordNoAccount(val mail: String, val url: Uri) : MailData()
 }

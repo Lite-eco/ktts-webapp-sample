@@ -3,6 +3,7 @@ package com.kttswebapptemplate.domain
 import kt2ts.annotation.GenerateTypescript
 
 enum class UserAccountOperationTokenType {
+    LostPassword,
     ValidateMail,
 }
 

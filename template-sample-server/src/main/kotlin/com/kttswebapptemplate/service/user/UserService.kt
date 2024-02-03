@@ -108,7 +108,6 @@ class UserService(
         val validateMailUrl =
             appUrl.append("?mailValidation=${token.token.rawString}-${user.id.stringUuid()}")
         mailService.sendMail(
-            sender = MailService.applicationMailSenderContact,
             recipient = Mail.Contact(user.displayName, user.mail),
             mailData = MailData.AccountMailValidation(user.displayName, validateMailUrl),
             userId = user.id,
@@ -117,9 +116,10 @@ class UserService(
     }
 
     fun validateMail(token: UserAccountOperationToken) {
-        val t =
-            accountTokenDao.fetchOrNull(token, UserAccountOperationTokenType.ValidateMail)
-                ?: throw IllegalArgumentException("$token")
+        val t = accountTokenDao.fetchOrNull(token) ?: throw IllegalArgumentException("$token")
+        if (t.tokenType != UserAccountOperationTokenType.ValidateMail) {
+            throw IllegalArgumentException("$token")
+        }
         if (!validateToken(t, mailValidationTokenValidityDuration)) {
             // TODO information to the user
             throw IllegalArgumentException("$token")

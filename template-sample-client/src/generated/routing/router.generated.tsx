@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { MainLayout } from 'view/components/layout/MainLayout';
-import { createBrowserRouter, RouteObject } from 'react-router-dom';
 import { AccountRoute } from 'view/account/AccountRoute';
 import { AdminRootRoute } from 'view/admin/AdminRootRoute';
 import { AdminRoute } from 'view/admin/AdminRoute';
@@ -14,6 +13,9 @@ import { LoginRoute } from 'view/login/LoginRoute';
 import { NotFoundRoute } from 'view/not-found/NotFoundRoute';
 import { RegisterRoute } from 'view/register/RegisterRoute';
 import { RootRoute } from 'view/root/RootRoute';
+import { LostPasswordRoute } from 'view/lost-password/LostPasswordRoute';
+import { ResetLostPasswordRoute } from 'view/reset-lost-password/ResetLostPasswordRoute';
+import { createBrowserRouter, RouteObject } from 'react-router-dom';
 
 export const routes: RouteObject[] = [
   {
@@ -73,9 +75,19 @@ export const routes: RouteObject[] = [
         element: <LoginRoute />
       },
       {
+        id: 'LostPassword',
+        path: 'lost-password',
+        element: <LostPasswordRoute />
+      },
+      {
         id: 'Register',
         path: 'register',
         element: <RegisterRoute />
+      },
+      {
+        id: 'ResetLostPassword',
+        path: 'reset-lost-password',
+        element: <ResetLostPasswordRoute />
       },
       {
         id: 'Root',

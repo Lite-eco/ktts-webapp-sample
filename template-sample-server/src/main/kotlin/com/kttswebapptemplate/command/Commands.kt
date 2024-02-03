@@ -48,10 +48,14 @@ data class RegisterCommand(
 data class RegisterCommandResponse(val result: RegisterResult, val userInfos: UserInfos?) :
     CommandResponse()
 
-data class UpdateLostPasswordCommand(
+data class ResetLostPasswordCommand(
     val token: UserAccountOperationToken,
     val newPassword: PlainStringPassword
 ) : Command()
+
+data class ResetLostPasswordCommandResponse(val userInfos: UserInfos) : CommandResponse()
+
+data class SendLostPasswordMailCommand(val mail: String) : Command()
 
 data class UpdatePasswordCommand(
     val currentPassword: PlainStringPassword,

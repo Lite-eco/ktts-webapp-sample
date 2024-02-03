@@ -15,7 +15,8 @@ object CommandConfiguration {
             is DevLoginCommand -> null
             is LoginCommand -> null
             is RegisterCommand -> null
-            is UpdateLostPasswordCommand -> TODO()
+            is ResetLostPasswordCommand -> null
+            is SendLostPasswordMailCommand -> null
             is UpdatePasswordCommand -> User
             is ValidateMailCommand -> null
         }

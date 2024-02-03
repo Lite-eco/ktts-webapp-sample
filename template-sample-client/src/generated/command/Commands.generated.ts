@@ -18,7 +18,8 @@ export type Command =
   | DevLoginCommand
   | LoginCommand
   | RegisterCommand
-  | UpdateLostPasswordCommand
+  | ResetLostPasswordCommand
+  | SendLostPasswordMailCommand
   | UpdatePasswordCommand
   | ValidateMailCommand;
 
@@ -27,6 +28,7 @@ export type CommandResponse =
   | EmptyCommandResponse
   | LoginCommandResponse
   | RegisterCommandResponse
+  | ResetLostPasswordCommandResponse
   | UpdatePasswordCommandResponse;
 
 export interface EmptyCommandResponse {
@@ -90,10 +92,20 @@ export interface RegisterCommandResponse {
   userInfos?: UserInfos;
 }
 
-export interface UpdateLostPasswordCommand {
-  objectType: 'UpdateLostPasswordCommand';
+export interface ResetLostPasswordCommand {
+  objectType: 'ResetLostPasswordCommand';
   token: UserAccountOperationToken;
   newPassword: PlainStringPassword;
+}
+
+export interface ResetLostPasswordCommandResponse {
+  objectType: 'ResetLostPasswordCommandResponse';
+  userInfos: UserInfos;
+}
+
+export interface SendLostPasswordMailCommand {
+  objectType: 'SendLostPasswordMailCommand';
+  mail: string;
 }
 
 export interface UpdatePasswordCommand {

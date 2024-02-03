@@ -10,6 +10,7 @@ import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { nominal } from 'utils/nominal-class';
 import { LoginFormI18n } from 'view/login/components/LoginForm.i18n';
+import { RouteLink } from 'view/components/RouteLink';
 
 export interface LoginFormInput {
   mail: string;
@@ -67,6 +68,15 @@ export const LoginForm = (props: {
           control={control}
           errors={errors}
         />
+      </div>
+      <div
+        css={css`
+          text-align: right;
+        `}
+      >
+        <RouteLink path={{ name: 'LostPassword' }}>
+          {t.LostPassword()}
+        </RouteLink>
       </div>
       <LoadingStatusButton loadingStatus={loading} type="submit">
         {t.Login()}

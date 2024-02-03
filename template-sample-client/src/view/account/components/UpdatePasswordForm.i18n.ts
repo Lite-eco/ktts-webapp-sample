@@ -1,4 +1,4 @@
-export const PasswordFormI18n = {
+export const UpdatePasswordFormI18n = {
   CurrentPassword: () => 'Current password',
   NewPassword: () => 'New password'
 };

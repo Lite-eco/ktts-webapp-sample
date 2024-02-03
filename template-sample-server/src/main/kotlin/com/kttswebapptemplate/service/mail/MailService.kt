@@ -33,13 +33,7 @@ class MailService(
         }
     }
 
-    fun sendMail(
-        sender: Mail.Contact,
-        recipient: Mail.Contact,
-        mailData: MailData,
-        userId: UserId,
-        language: Language
-    ) {
+    fun sendMail(recipient: Mail.Contact, mailData: MailData, userId: UserId?, language: Language) {
         val (subject, content) =
             MailTemplates.mailSubjectAndData(mailData, language).let { (subject, content) ->
                 val finalSubject =
@@ -55,8 +49,8 @@ class MailService(
             MailingLogDao.Record(
                 id = randomService.id(),
                 userId = userId,
-                senderName = sender.name,
-                senderMail = sender.mail,
+                senderName = applicationMailSenderContact.name,
+                senderMail = applicationMailSenderContact.mail,
                 recipientName = recipient.name,
                 recipientMail = recipient.mail,
                 subject = subject,
@@ -64,6 +58,9 @@ class MailService(
                 data = Serializer.serialize(mailData),
                 logDate = dateService.now())
         mailingLogDao.insert(log)
-        mailSendingService.sendMail(Mail(sender, recipient, subject, content), log.id)
+        // TODO[tmpl] try catch and log !
+        // or not... not an easy decision here
+        mailSendingService.sendMail(
+            Mail(applicationMailSenderContact, recipient, subject, content), log.id)
     }
 }

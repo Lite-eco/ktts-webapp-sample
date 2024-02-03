@@ -16,9 +16,9 @@ import { useState } from 'react';
 import { colors } from 'style/vars';
 import { assertUnreachable, clientUid } from 'utils';
 import {
-  PasswordForm,
+  UpdatePasswordForm,
   PasswordFormInput
-} from 'view/account/components/PasswordForm';
+} from 'view/account/components/UpdatePasswordForm';
 import { UpdatePasswordDialogButtonI18n } from 'view/account/components/UpdatePasswordDialogButton.i18n';
 
 export const UpdatePasswordDialogButton = (props: {
@@ -60,7 +60,7 @@ export const UpdatePasswordDialogButton = (props: {
         <DialogTitle>{t.UpdatePassword2()}</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            <PasswordForm formId={formId} onSubmit={onSubmit} />
+            <UpdatePasswordForm formId={formId} onSubmit={onSubmit} />
             {displayError && (
               <div
                 css={css`

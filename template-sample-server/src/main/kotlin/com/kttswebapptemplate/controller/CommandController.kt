@@ -19,7 +19,10 @@ import com.kttswebapptemplate.command.LoginCommand
 import com.kttswebapptemplate.command.LoginCommandHandler
 import com.kttswebapptemplate.command.RegisterCommand
 import com.kttswebapptemplate.command.RegisterCommandHandler
-import com.kttswebapptemplate.command.UpdateLostPasswordCommand
+import com.kttswebapptemplate.command.ResetLostPasswordCommand
+import com.kttswebapptemplate.command.ResetLostPasswordCommandHandler
+import com.kttswebapptemplate.command.SendLostPasswordMailCommand
+import com.kttswebapptemplate.command.SendLostPasswordMailCommandHandler
 import com.kttswebapptemplate.command.UpdatePasswordCommand
 import com.kttswebapptemplate.command.UpdatePasswordCommandHandler
 import com.kttswebapptemplate.command.ValidateMailCommand
@@ -57,6 +60,8 @@ class CommandController(
     private val devLoginCommandHandler: DevLoginCommandHandler,
     private val loginCommandHandler: LoginCommandHandler,
     private val registerCommandHandler: RegisterCommandHandler,
+    private val resetLostPasswordCommandHandler: ResetLostPasswordCommandHandler,
+    private val sendLostPasswordMailCommandHandler: SendLostPasswordMailCommandHandler,
     private val updatePasswordCommandHandler: UpdatePasswordCommandHandler,
     private val validateMailCommandHandler: ValidateMailCommandHandler
 ) {
@@ -143,9 +148,10 @@ class CommandController(
             is DevLoginCommand -> devLoginCommandHandler
             is LoginCommand -> loginCommandHandler
             is RegisterCommand -> registerCommandHandler
+            is ResetLostPasswordCommand -> resetLostPasswordCommandHandler
+            is SendLostPasswordMailCommand -> sendLostPasswordMailCommandHandler
             is UpdatePasswordCommand -> updatePasswordCommandHandler
             is ValidateMailCommand -> validateMailCommandHandler
-            is UpdateLostPasswordCommand -> TODO()
         }.let { @Suppress("UNCHECKED_CAST") (it as CommandHandler<Command, CommandResponse>) }
 
     // for admin commands, should return the affected user when there's one
@@ -155,11 +161,12 @@ class CommandController(
             is DevLoginCommand,
             is LoginCommand,
             is RegisterCommand,
+            is ResetLostPasswordCommand,
+            is SendLostPasswordMailCommand,
             is UpdatePasswordCommand,
             is ValidateMailCommand -> null
             is AdminUpdateRoleCommand -> command.userId
             is AdminUpdateStatusCommand -> command.userId
             is AdminUpdateUserMailCommand -> command.userId
-            is UpdateLostPasswordCommand -> TODO()
         }
 }

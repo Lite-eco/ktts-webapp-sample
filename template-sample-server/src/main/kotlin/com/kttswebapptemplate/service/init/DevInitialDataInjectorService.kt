@@ -16,7 +16,7 @@ import org.springframework.stereotype.Service
 @Service
 // TODO[tmpl] naming fake / sample
 class DevInitialDataInjectorService(
-    @Value("\${mail.devDestination}") private val developerDestinationMail: String,
+    @Value("\${mailing.devDestination}") private val developerDestinationMail: String,
     private val userDao: UserDao,
     private val dateService: DateService,
     private val randomService: RandomService,

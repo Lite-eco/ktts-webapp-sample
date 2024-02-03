@@ -10,7 +10,9 @@ export type ApplicationPath =
   | AdminUsersManagementUserDetailEditRolePath
   | AdminUsersManagementUserDetailEditStatusPath
   | LoginPath
+  | LostPasswordPath
   | RegisterPath
+  | ResetLostPasswordPath
   | RootPath;
 
 interface AccountPath {
@@ -52,8 +54,16 @@ interface LoginPath {
   name: 'Login';
 }
 
+interface LostPasswordPath {
+  name: 'LostPassword';
+}
+
 interface RegisterPath {
   name: 'Register';
+}
+
+interface ResetLostPasswordPath {
+  name: 'ResetLostPassword';
 }
 
 interface RootPath {

@@ -6,7 +6,7 @@ import { PlainStringPassword } from 'generated/domain/Security.generated';
 import { useI18n } from 'hooks/i18n';
 import { useForm } from 'react-hook-form';
 import { nominal } from 'utils/nominal-class';
-import { PasswordFormI18n } from 'view/account/components/PasswordForm.i18n';
+import { UpdatePasswordFormI18n } from 'view/account/components/UpdatePasswordForm.i18n';
 
 export interface PasswordFormInput {
   currentPassword: PlainStringPassword;
@@ -18,7 +18,7 @@ interface PasswordFormRawInput {
   newPassword: string;
 }
 
-export const PasswordForm = (props: {
+export const UpdatePasswordForm = (props: {
   formId: ClientUid;
   onSubmit: (dto: PasswordFormInput) => Promise<void>;
 }) => {
@@ -27,7 +27,7 @@ export const PasswordForm = (props: {
     control,
     formState: { errors }
   } = useForm<PasswordFormRawInput>();
-  const t = useI18n(PasswordFormI18n);
+  const t = useI18n(UpdatePasswordFormI18n);
   return (
     <form
       id={props.formId}

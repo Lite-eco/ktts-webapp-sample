@@ -36,14 +36,10 @@ class UserAccountOperationTokenDao(private val jooq: DSLContext) {
             .execute()
     }
 
-    fun fetchOrNull(
-        token: UserAccountOperationToken,
-        tokenType: UserAccountOperationTokenType
-    ): Record? =
+    fun fetchOrNull(token: UserAccountOperationToken): Record? =
         jooq
             .selectFrom(USER_ACCOUNT_OPERATION_TOKEN)
             .where(USER_ACCOUNT_OPERATION_TOKEN.TOKEN.equal(token.rawString))
-            .and(USER_ACCOUNT_OPERATION_TOKEN.TOKEN_TYPE.equal(tokenType.name))
             .fetchOne()
             ?.let(this::map)
 
