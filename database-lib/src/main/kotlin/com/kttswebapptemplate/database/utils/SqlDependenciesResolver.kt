@@ -135,17 +135,22 @@ object SqlDependenciesResolver {
                 TableName.from(it.table) != tableChain.last()
             }
             .forEach { foreignKey ->
-                if (TableName.from(foreignKey.table) !in map.keys) {
+                val tableName = TableName.from(foreignKey.table)
+                if (tableName !in map.keys) {
                     throw IllegalArgumentException(
                         "Table ${tableChain.last()} references ${foreignKey.table.name} which isn't described.")
                 }
-                if (TableName.from(foreignKey.table) == tableChain.first()) {
-                    val chain = tableChain.map { it.name }.joinToString(" -> ")
+                if (tableName in tableChain) {
+                    val chain =
+                        tableChain
+                            .dropWhile { it != tableName }
+                            .map { it.name }
+                            .joinToString(" -> ")
                     throw IllegalArgumentException(
                         "Cyclic reference $chain -> ${foreignKey.table.name}. " +
                             "Think about using an 'ALTER TABLE [...] ADD FOREIGN KEY [...]' query.")
                 }
-                checkForeignKeys(tableChain + TableName.from(foreignKey.table), map)
+                checkForeignKeys(tableChain + tableName, map)
             }
     }
 
