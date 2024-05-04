@@ -16,7 +16,7 @@ services:
     volumes:
       - ../:/repo
   template-sample-psql:
-    image: postgres:13.3
+    image: postgres:15.6
     environment:
       POSTGRES_USER: docker-psql-user
       POSTGRES_DB: templatesample

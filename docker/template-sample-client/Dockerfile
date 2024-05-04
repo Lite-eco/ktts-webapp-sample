@@ -1,7 +1,8 @@
-FROM node:16-alpine
+FROM node:22
 
-RUN apk add git
+RUN apt-get update
+RUN apt-get -y install git
 
 WORKDIR /src
 
-CMD git clone --depth 1 file:///repo && cd repo/template-sample-client && yarn && yarn start
+CMD git clone --depth 1 file:///repo ; cd repo && git pull && cd template-sample-client && yarn && yarn start
