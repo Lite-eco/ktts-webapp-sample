@@ -4,10 +4,10 @@ plugins {
     id("org.springframework.boot") version "3.2.1"
     // so we don't need to open Spring components classes
     id("org.jetbrains.kotlin.plugin.spring")
-    id("com.google.devtools.ksp") version "1.9.20-1.0.14"
+    id("com.google.devtools.ksp") version "1.9.23-1.0.20"
 }
 
-val kotlinVersion = "1.9.22"
+val kotlinVersion = "1.9.23"
 
 tasks {
     test {
@@ -40,6 +40,7 @@ repositories {
     mavenLocal()
     mavenCentral()
     maven("https://repo.spring.io/milestone")
+    maven { url = uri("https://mlorber.net/maven_repo") }
 }
 
 configurations.all { exclude(group = "junit", module = "junit") }

@@ -1,6 +1,6 @@
 plugins { kotlin("jvm") }
 
-val kotlinVersion = "1.9.22"
+val kotlinVersion = "1.9.23"
 val jooqVersion = "3.19.1"
 
 tasks {
