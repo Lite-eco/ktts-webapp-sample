@@ -31,7 +31,7 @@ class HttpService(val okHttpClient: OkHttpClient) {
 
     data class EmptyResponse(val code: Int)
 
-    fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<HttpHeader, String>) =
+    fun execute(method: HttpMethod, url: Uri, vararg headers: Pair<HttpHeader, String>): Response =
         execute(method, url, null, *headers)
 
     fun execute(
@@ -39,7 +39,7 @@ class HttpService(val okHttpClient: OkHttpClient) {
         url: Uri,
         body: String,
         vararg headers: Pair<HttpHeader, String?>
-    ) = execute(method, url, body.toRequestBody(), *headers)
+    ): Response = execute(method, url, body.toRequestBody(), *headers)
 
     fun execute(
         method: HttpMethod,
