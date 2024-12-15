@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import org.springframework.web.servlet.resource.EncodedResourceResolver
 
 @Configuration
 class WebConfiguration(private val env: Environment) : WebMvcConfigurer, ServletContextInitializer {
@@ -28,6 +29,8 @@ class WebConfiguration(private val env: Environment) : WebMvcConfigurer, Servlet
             .addResourceHandler(resourcesPath + "/**")
             .addResourceLocations("classpath:/static/", "file:static/")
             .setCachePeriod(cacheTimeToLive.seconds.toInt())
+            .resourceChain(true)
+            .addResolver(EncodedResourceResolver())
     }
 
     override fun onStartup(servletContext: ServletContext?) {

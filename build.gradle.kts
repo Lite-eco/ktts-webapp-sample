@@ -50,6 +50,13 @@ tasks {
         }
         into("build")
         doLast {
+            fileTree("${rootProject.buildDir}/static")
+                .filter { it.extension in setOf("css", "js") }
+                .forEach {
+                    val gzipName = "${it.path}.gz"
+                    ant.withGroovyBuilder { "gzip"("destfile" to gzipName, "src" to it.path) }
+                }
+
             val buildPropertiesFile by extra("${rootProject.buildDir}/build.properties")
             File(buildPropertiesFile)
                 .writeText(
