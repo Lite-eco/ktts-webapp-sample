@@ -5,7 +5,7 @@ import { ButtonTypeMap } from '@mui/material/Button/Button';
 import { ClientUid } from 'domain/client-ids';
 import { EmotionStyles, LoadingStatus } from 'interfaces';
 import * as React from 'react';
-import { PropsWithChildren, ReactElement, useState } from 'react';
+import { PropsWithChildren, useState } from 'react';
 import { assertUnreachable } from 'utils';
 
 const ButtonContent = (
@@ -50,7 +50,6 @@ const LoadingButtonBase = (
     loadingStatus: LoadingStatus;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
-    startIcon?: ReactElement;
     addCss?: EmotionStyles;
     formId?: ClientUid;
   }>
@@ -59,16 +58,6 @@ const LoadingButtonBase = (
     onClick={props.onClick}
     type={(props.type ?? props.formId) ? 'submit' : undefined}
     variant={props.variant ?? 'contained'}
-    startIcon={
-      props.startIcon
-        ? React.cloneElement(props.startIcon, {
-            style: {
-              // so button sizing doesn't change
-              visibility: props.loadingStatus === 'Idle' ? 'visible' : 'hidden'
-            }
-          })
-        : undefined
-    }
     disabled={props.loadingStatus === 'Loading'}
     css={props.addCss}
     form={props.formId}
@@ -84,7 +73,6 @@ export const LoadingButton = (
     onClick: () => Promise<any>;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
-    startIcon?: ReactElement;
     addCss?: EmotionStyles;
   }>
 ) => {
@@ -101,7 +89,6 @@ export const LoadingButton = (
       loadingStatus={loading}
       type={props.type}
       variant={props.variant}
-      startIcon={props.startIcon}
       addCss={props.addCss}
     >
       {props.children}
@@ -115,7 +102,6 @@ export const LoadingStatusButton = (
     loadingStatus: LoadingStatus;
     type?: 'submit';
     variant?: ButtonTypeMap['props']['variant'];
-    startIcon?: ReactElement;
     addCss?: EmotionStyles;
     formId?: ClientUid;
   }>
@@ -125,7 +111,6 @@ export const LoadingStatusButton = (
     loadingStatus={props.loadingStatus}
     type={props.type}
     variant={props.variant}
-    startIcon={props.startIcon}
     addCss={props.addCss}
     formId={props.formId}
   >

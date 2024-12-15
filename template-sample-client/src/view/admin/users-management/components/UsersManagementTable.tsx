@@ -1,12 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import {
-  DataGrid,
-  GridColDef,
-  GridRenderCellParams,
-  GridValueFormatterParams,
-  GridValueGetterParams
-} from '@mui/x-data-grid';
+import { DataGrid, GridColDef, GridRenderCellParams } from '@mui/x-data-grid';
 import { RouteLink } from 'view/components/RouteLink';
 import { adminIdDisplayChars } from 'domain/admin';
 import { AdminUserInfos, Role } from 'generated/domain/User.generated';
@@ -59,8 +53,7 @@ export const UsersManagementTable = (props: {
     {
       field: 'displayName',
       headerName: t.DisplayName(),
-      valueGetter: (p: GridValueGetterParams<AdminUserInfos>) =>
-        p.row.displayName,
+      valueGetter: (v, row: AdminUserInfos) => row.displayName,
       flex: 1,
       sortable: false,
       filterable: false
@@ -68,7 +61,7 @@ export const UsersManagementTable = (props: {
     {
       field: 'status',
       headerName: t.Status(),
-      valueGetter: (p: GridValueGetterParams<AdminUserInfos>) => p.row.status,
+      valueGetter: (v, row: AdminUserInfos) => row.status,
       flex: 1,
       sortable: false,
       filterable: false
@@ -88,10 +81,9 @@ export const UsersManagementTable = (props: {
     {
       field: 'signup date',
       headerName: t.SignupDate(),
-      valueGetter: (p: GridValueGetterParams<AdminUserInfos>) =>
-        new Date(p.row.signupDate),
-      valueFormatter: (p: GridValueFormatterParams<Date>) =>
-        p.value.toLocaleDateString() + ' ' + p.value.toLocaleTimeString(),
+      valueGetter: (v, row: AdminUserInfos) => new Date(row.signupDate),
+      valueFormatter: (value: Date) =>
+        value.toLocaleDateString() + ' ' + value.toLocaleTimeString(),
       flex: 1,
       sortable: true,
       filterable: false

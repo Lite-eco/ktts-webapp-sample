@@ -57,7 +57,7 @@ export const ManualCommandRoute = () => {
     let command;
     try {
       command = JSON.parse(textCommand);
-    } catch (e) {
+    } catch {
       enqueueSnackbar(t.InvalidJson(), {
         variant: 'error'
       });

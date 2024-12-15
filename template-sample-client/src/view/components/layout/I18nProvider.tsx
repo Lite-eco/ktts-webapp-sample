@@ -1,18 +1,20 @@
 /** @jsxImportSource @emotion/react */
-import { I18nContext, initialI18nContext } from 'hooks/i18n';
+import { I18nContext, initialI18nContext, Language } from 'hooks/i18n';
 import { PropsWithChildren, useCallback, useEffect, useState } from 'react';
 
 export const I18nProvider = (props: PropsWithChildren) => {
-  const [language, setLanguage] = useState<'En' | 'debug'>(
+  const [language, setLanguage] = useState<Language>(
     initialI18nContext.language
   );
   // from https://devtrium.com/posts/how-keyboard-shortcut
   const handleKeyPress = useCallback(
     (e: KeyboardEvent) => {
       if (e.ctrlKey && e.key === 't') {
-        language === initialI18nContext.language
-          ? setLanguage('debug')
-          : setLanguage(initialI18nContext.language);
+        if (language === initialI18nContext.language) {
+          setLanguage('Debug');
+        } else {
+          setLanguage(initialI18nContext.language);
+        }
       }
     },
     [language]
