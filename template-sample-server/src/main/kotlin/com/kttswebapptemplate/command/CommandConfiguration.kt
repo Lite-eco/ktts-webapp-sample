@@ -8,9 +8,9 @@ object CommandConfiguration {
 
     fun role(command: Command): Role? =
         when (command) {
-            is AdminUpdateRoleCommand -> Admin
-            AdminUpdateSessionsCommand -> Admin
-            is AdminUpdateStatusCommand -> Admin
+            is AdminUpdateRoleCommand,
+            AdminUpdateSessionsCommand,
+            is AdminUpdateStatusCommand,
             is AdminUpdateUserMailCommand -> Admin
             is DevLoginCommand -> null
             is LoginCommand -> null
