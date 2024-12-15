@@ -1,5 +1,6 @@
 package com.kttswebapptemplate.service.user
 
+import com.kttswebapptemplate.config.SafeSessionRepository
 import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.Session
 import com.kttswebapptemplate.domain.UserSession
@@ -11,6 +12,7 @@ import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.repository.user.UserSessionLogDao
 import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.DateService
+import com.kttswebapptemplate.service.utils.TransactionIsolationService
 import com.kttswebapptemplate.service.utils.random.RandomService
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
@@ -19,9 +21,11 @@ import mu.KotlinLogging
 import org.springframework.security.authentication.AnonymousAuthenticationToken
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
+import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler
+import org.springframework.session.Session as SpringSession
 import org.springframework.stereotype.Service
 
 @Service
@@ -32,6 +36,8 @@ class UserSessionService(
     private val dateService: DateService,
     private val randomService: RandomService,
     private val xorCsrfTokenRequestAttributeHandler: XorCsrfTokenRequestAttributeHandler,
+    private val transactionIsolationService: TransactionIsolationService,
+    private val sessionRepository: SafeSessionRepository,
 ) {
 
     val logger = KotlinLogging.logger {}
@@ -135,10 +141,24 @@ class UserSessionService(
         // }
         }
 
-    fun updateCurrentSession(userSession: UserSession): UserSession {
+    fun updateAndPersistAllExistingSessionsForUser(newSession: Session) {
+        sessionRepository
+            .findByPrincipalName(
+                // toString() here is ok cause Spring does it
+                newSession.toString())
+            .values
+            .forEach { updateAndPersistSession(it, newSession) }
+    }
+
+    fun updateAndPersistSession(springSession: SpringSession, userSession: Session) {
+        logger.info { "Save up-to-date session ${springSession.id}" }
         val springAuthentication = UsernamePasswordAuthenticationToken(userSession, null, null)
-        // [doc] this does save session in database
-        SecurityContextHolder.getContext().authentication = springAuthentication
-        return userSession
+        val context =
+            springSession.getAttribute<SecurityContextImpl>(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
+        context.authentication = springAuthentication
+        springSession.setAttribute(
+            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context)
+        transactionIsolationService.execute { sessionRepository.save(springSession) }
     }
 }

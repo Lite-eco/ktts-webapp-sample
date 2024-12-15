@@ -1,6 +1,5 @@
 package com.kttswebapptemplate.service.user
 
-import com.kttswebapptemplate.config.SafeSessionRepository
 import com.kttswebapptemplate.domain.HashedPassword
 import com.kttswebapptemplate.domain.Language
 import com.kttswebapptemplate.domain.Mail
@@ -20,18 +19,13 @@ import com.kttswebapptemplate.repository.user.UserSessionLogDao
 import com.kttswebapptemplate.service.mail.MailService
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.NotificationService
-import com.kttswebapptemplate.service.utils.TransactionIsolationService
 import com.kttswebapptemplate.service.utils.random.RandomService
 import com.kttswebapptemplate.utils.TemplateSampleStringUtils
 import java.time.Duration
 import java.time.temporal.ChronoUnit
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContextImpl
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository
-import org.springframework.session.Session as SpringSession
 import org.springframework.stereotype.Service
 
 @Service
@@ -44,10 +38,9 @@ class UserService(
     private val dateService: DateService,
     private val randomService: RandomService,
     private val notificationService: NotificationService,
-    private val transactionIsolationService: TransactionIsolationService,
-    private val sessionRepository: SafeSessionRepository,
     private val passwordEncoder: PasswordEncoder,
-    private val mailService: MailService
+    private val mailService: MailService,
+    private val userSessionService: UserSessionService
 ) {
 
     private val logger = KotlinLogging.logger {}
@@ -186,26 +179,9 @@ class UserService(
             userSessionLogDao.fetchIdsByUserId(userId).forEach { sessionId ->
                 val updatedSession =
                     UserSession(sessionId, userId, status ?: user.status, role ?: user.role)
-                sessionRepository
-                    .findByPrincipalName(
-                        // toString() here is ok cause Spring does it
-                        updatedSession.toString())
-                    .values
-                    .forEach { updateSession(it, updatedSession) }
+                userSessionService.updateAndPersistAllExistingSessionsForUser(updatedSession)
             }
         }
-
-    fun updateSession(session: SpringSession, userSession: UserSession) {
-        logger.info { "Save up-to-date session ${session.id}" }
-        val springAuthentication = UsernamePasswordAuthenticationToken(userSession, null, null)
-        val context =
-            session.getAttribute<SecurityContextImpl>(
-                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY)
-        context.authentication = springAuthentication
-        session.setAttribute(
-            HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, context)
-        transactionIsolationService.execute { sessionRepository.save(session) }
-    }
 
     fun hashPassword(password: PlainStringPassword): HashedPassword {
         require(password.password.isNotBlank()) { "Password is blank" }

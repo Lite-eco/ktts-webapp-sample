@@ -2,7 +2,6 @@ package com.kttswebapptemplate.command
 
 import com.kttswebapptemplate.config.SafeSessionRepository
 import com.kttswebapptemplate.domain.Session
-import com.kttswebapptemplate.service.user.UserService
 import com.kttswebapptemplate.service.user.UserSessionService
 import org.jooq.DSLContext
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Service
 class AdminUpdateSessionsCommandHandler(
     private val jooq: DSLContext,
     private val sessionRepository: SafeSessionRepository,
-    private val userService: UserService,
     private val userSessionService: UserSessionService,
 ) : CommandHandler.Handler<AdminUpdateSessionsCommand, EmptyCommandResponse>() {
 
@@ -42,7 +40,7 @@ class AdminUpdateSessionsCommandHandler(
                                     .principal as Session)
                                 .let { userSessionService.convert(it) }
                         if (conversion.needsUpdate) {
-                            userService.updateSession(session, conversion.session)
+                            userSessionService.updateAndPersistSession(session, conversion.session)
                         }
                     }
             }
