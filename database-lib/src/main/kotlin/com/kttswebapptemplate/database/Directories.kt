@@ -1,6 +1,6 @@
 package com.kttswebapptemplate.database
 
-import java.nio.file.Paths
+import java.nio.file.Path
 import mu.KotlinLogging
 
 object Directories {
@@ -18,7 +18,7 @@ object Directories {
                 .firstOrNull { userDir.endsWith(it) }
                 ?.let { userDir.dropLast(it.length) } ?: userDir
         }
-        Paths.get(rootDir).also { logger.info { "Project dir is $it" } }
+        Path.of(rootDir).also { logger.info { "Project dir is $it" } }
     }
 
     val generatedDir by lazy { projectDir.resolve("database-lib/src/generated") }
