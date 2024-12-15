@@ -1,13 +1,22 @@
 package com.kttswebapptemplate.service.utils.random
 
+import com.kttswebapptemplate.domain.ApplicationEnvironment
 import com.kttswebapptemplate.domain.TemplateSampleSecurityString
 import com.kttswebapptemplate.domain.TemplateSampleStringId
 import com.kttswebapptemplate.domain.TemplateSampleUuidId
+import com.kttswebapptemplate.service.utils.ApplicationInstance
 import java.util.UUID
 import org.apache.commons.text.CharacterPredicates
 import org.apache.commons.text.RandomStringGenerator
 
 open class RandomService(val idLogService: IdLogService? = null) {
+
+    init {
+        // to avoid errors in Spring context configuration
+        if (ApplicationInstance.env != ApplicationEnvironment.Test) {
+            requireNotNull(idLogService) { "idLogService must be set" }
+        }
+    }
 
     private val generator by lazy {
         RandomStringGenerator.Builder()

@@ -57,7 +57,7 @@ const LoadingButtonBase = (
 ) => (
   <Button
     onClick={props.onClick}
-    type={props.type ?? props.formId ? 'submit' : undefined}
+    type={(props.type ?? props.formId) ? 'submit' : undefined}
     variant={props.variant ?? 'contained'}
     startIcon={
       props.startIcon

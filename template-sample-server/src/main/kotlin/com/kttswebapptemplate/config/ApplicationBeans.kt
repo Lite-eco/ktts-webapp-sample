@@ -1,11 +1,14 @@
 package com.kttswebapptemplate.config
 
+import com.kttswebapptemplate.domain.ApplicationEnvironment.*
 import com.kttswebapptemplate.error.ApplicationExceptionHandlerExceptionResolver
 import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.mail.DevFakeMailSendingService
 import com.kttswebapptemplate.service.mail.MailSendingService
+import com.kttswebapptemplate.service.utils.ApplicationInstance
 import com.kttswebapptemplate.service.utils.ApplicationTaskExecutor
-import com.kttswebapptemplate.service.utils.random.IdLogService
+import com.kttswebapptemplate.service.utils.DateService
+import com.kttswebapptemplate.service.utils.random.DummyRandomService
 import com.kttswebapptemplate.service.utils.random.RandomService
 import okhttp3.OkHttpClient
 import org.springframework.boot.autoconfigure.web.servlet.WebMvcRegistrations
@@ -32,8 +35,40 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
     val beans = beans {
         bean(isPrimary = true) { Serializer.objectMapper }
         bean<OkHttpClient>()
-        bean<IdLogService>()
-        bean<RandomService>()
+        bean<DateService> {
+            when (ApplicationInstance.env) {
+                Dev,
+                Staging,
+                Prod -> DateService()
+                Test ->
+                    // should be replaced with implementation dedicated to tests
+                    DateService()
+            }
+        }
+        bean<RandomService> {
+            when (ApplicationInstance.env) {
+                Dev,
+                Staging,
+                Prod -> RandomService(ref())
+                Test -> DummyRandomService()
+            }
+        }
+        bean<MailSendingService> {
+            when (ApplicationInstance.env) {
+                Dev,
+                Test -> DevFakeMailSendingService()
+                Staging,
+                Prod ->
+                    // should be replaced with real implementation
+                    DevFakeMailSendingService()
+            }
+        }
+        // Spring configuration
+        bean<CookieCsrfTokenRepository>()
+        bean<HttpSessionSecurityContextRepository>()
+        bean<XorCsrfTokenRequestAttributeHandler>()
+        bean<BCryptPasswordEncoder>(isPrimary = true)
+        bean { TomcatServletWebServerFactory().apply { addContextValves(TomcatValve()) } }
         bean {
             ApplicationTaskExecutor(
                 ThreadPoolTaskExecutor().apply {
@@ -45,10 +80,6 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
                 },
                 "main-executor")
         }
-        bean<CookieCsrfTokenRepository>()
-        bean<HttpSessionSecurityContextRepository>()
-        bean<XorCsrfTokenRequestAttributeHandler>()
-        bean<BCryptPasswordEncoder>(isPrimary = true)
         bean {
             object : WebMvcRegistrations {
                 override fun getExceptionHandlerExceptionResolver() =
@@ -76,7 +107,6 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
                         it as FindByIndexNameSessionRepository<Session>
                     })
         }
-        bean { TomcatServletWebServerFactory().apply { addContextValves(TomcatValve()) } }
         bean {
             val http = ref<HttpSecurity>()
             http {
@@ -108,7 +138,6 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
             }
             http.build()
         }
-        bean<MailSendingService> { DevFakeMailSendingService() }
     }
 
     override fun initialize(context: GenericApplicationContext) = beans.initialize(context)
