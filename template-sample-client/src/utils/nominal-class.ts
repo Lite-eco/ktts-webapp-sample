@@ -58,7 +58,7 @@ export const getValue = <K extends DictKey, T>(dict: Dict<K, T>, key: K): T => {
   return r;
 };
 
-export const set = <K extends DictKey, T>(
+export const setValue = <K extends DictKey, T>(
   dict: Dict<K, T>,
   key: K,
   value: T
