@@ -1,6 +1,9 @@
 package com.kttswebapptemplate.config
 
-import com.kttswebapptemplate.domain.ApplicationEnvironment.*
+import com.kttswebapptemplate.domain.ApplicationEnvironment.Dev
+import com.kttswebapptemplate.domain.ApplicationEnvironment.Prod
+import com.kttswebapptemplate.domain.ApplicationEnvironment.Staging
+import com.kttswebapptemplate.domain.ApplicationEnvironment.Test
 import com.kttswebapptemplate.error.ApplicationExceptionHandlerExceptionResolver
 import com.kttswebapptemplate.serialization.Serializer
 import com.kttswebapptemplate.service.mail.DevFakeMailSendingService
@@ -23,7 +26,6 @@ import org.springframework.security.config.annotation.web.invoke
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.web.AuthenticationEntryPoint
 import org.springframework.security.web.authentication.logout.LogoutSuccessHandler
-import org.springframework.security.web.context.HttpSessionSecurityContextRepository
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository
 import org.springframework.security.web.csrf.XorCsrfTokenRequestAttributeHandler
 import org.springframework.session.FindByIndexNameSessionRepository
@@ -65,7 +67,6 @@ class ApplicationBeans : ApplicationContextInitializer<GenericApplicationContext
         }
         // Spring configuration
         bean<CookieCsrfTokenRepository>()
-        bean<HttpSessionSecurityContextRepository>()
         bean<XorCsrfTokenRequestAttributeHandler>()
         bean<BCryptPasswordEncoder>(isPrimary = true)
         bean { TomcatServletWebServerFactory().apply { addContextValves(TomcatValve()) } }

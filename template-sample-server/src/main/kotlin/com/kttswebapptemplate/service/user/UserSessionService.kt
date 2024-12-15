@@ -30,7 +30,6 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserSessionService(
-    private val securityContextRepository: HttpSessionSecurityContextRepository,
     private val cookieCsrfTokenRepository: CookieCsrfTokenRepository,
     private val userSessionLogDao: UserSessionLogDao,
     private val dateService: DateService,
@@ -60,20 +59,22 @@ class UserSessionService(
         val sessionId = randomService.id<UserSessionId>()
 
         // create the session if doesn't exist
-        val session = request.getSession(true)
-        session.maxInactiveInterval = sessionDuration.seconds.toInt()
+        val httpSession = request.getSession(true)
+        httpSession.maxInactiveInterval = sessionDuration.seconds.toInt()
 
         val now = dateService.now()
         val ip = request.remoteAddr
         userSessionLogDao.insert(
             UserSessionLogDao.Record(
-                sessionId, session.id, user.id, ApplicationInstance.deploymentLogId, now, ip))
+                sessionId, httpSession.id, user.id, ApplicationInstance.deploymentLogId, now, ip))
 
         val userSession = UserSession(sessionId, user.id, user.status, user.role)
         val springAuthentication = UsernamePasswordAuthenticationToken(userSession, null, null)
         SecurityContextHolder.getContext().let {
             it.authentication = springAuthentication
-            securityContextRepository.saveContext(it, request, response)
+            // this line triggers session update persistence
+            httpSession.setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, it)
         }
 
         cookieCsrfTokenRepository.generateToken(request).let { token ->
