@@ -55,10 +55,10 @@ class InitializationService(
         }
         deploymentLogDao.insert(
             DeploymentLogDao.Record(
-                ApplicationInstance.deploymentLogId,
-                ApplicationInstance.gitRevisionLabel,
-                dateService.serverZoneId(),
-                dateService.now(),
+                id = ApplicationInstance.deploymentLogId,
+                buildVersion = ApplicationInstance.gitRevisionLabel,
+                systemZoneId = dateService.serverZoneId(),
+                startupDate = dateService.now(),
                 shutdownDate = null))
         verifySpringProfilesConsistency()
     }

@@ -57,18 +57,18 @@ internal class SerializerTest {
         val randomService = DummyRandomService()
         val s =
             SerializationTest(
-                Instant.ofEpochMilli(1631885748409),
-                TestSerializeAsString("test"),
-                randomService.id(),
-                randomService.id(),
-                randomService.stringId(TestStringId.length),
-                randomService.stringId(TestStringId.length),
-                randomService.securityString(TestStringId.length),
-                randomService.securityString(TestStringId.length),
-                LocalDate.of(2021, 9, 17),
-                PlainStringPassword("mon mot de passe secret"),
-                "a8f088f151794107a30b1eaaa6519c98".uuid(),
-                ZoneId.of("Europe/Paris"))
+                instant = Instant.ofEpochMilli(1631885748409),
+                testSerializeAsString = TestSerializeAsString("test"),
+                testUuidId = randomService.id(),
+                testPrefixUuidId = randomService.id(),
+                testStringId = randomService.stringId(TestStringId.length),
+                testPrefixStringId = randomService.stringId(TestStringId.length),
+                testSecurityString = randomService.securityString(TestStringId.length),
+                testPrefixSecurityString = randomService.securityString(TestStringId.length),
+                localDate = LocalDate.of(2021, 9, 17),
+                plainStringPassword = PlainStringPassword("mon mot de passe secret"),
+                uuid = "a8f088f151794107a30b1eaaa6519c98".uuid(),
+                zoneId = ZoneId.of("Europe/Paris"))
         println(Serializer.serialize(s))
         val expectedJson =
             """
