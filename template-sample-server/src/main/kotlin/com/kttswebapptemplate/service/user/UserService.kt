@@ -75,29 +75,29 @@ class UserService(
         val (cleanMail, dirtyMail) = cleanMailAndReturnDirty(mail)
         val user =
             UserDao.Record(
-                id = randomService.id(),
-                mail = cleanMail,
-                displayName = displayName.trim(),
-                language = language,
-                role = Role.User,
-                status = UserStatus.MailValidationPending,
-                signupDate = now,
-                lastUpdateDate = now)
-        userDao.insert(user, hashedPassword)
+                    id = randomService.id(),
+                    mail = cleanMail,
+                    displayName = displayName.trim(),
+                    language = language,
+                    role = Role.User,
+                    status = UserStatus.MailValidationPending,
+                    signupDate = now,
+                    lastUpdateDate = now)
+                .also { userDao.insert(it, hashedPassword) }
         val mailLog =
             UserMailLogDao.Record(
-                randomService.id(), user.id, cleanMail, dirtyMail, false, now, null)
-        userMailLogDao.insert(mailLog)
+                    randomService.id(), user.id, cleanMail, dirtyMail, false, now, null)
+                .also(userMailLogDao::insert)
         notificationService.notify(
             "${user.mail} just subscribed.", NotificationService.Channel.NewUser)
         val token =
             UserAccountOperationTokenDao.Record(
-                randomService.securityString(UserAccountOperationToken.length),
-                UserAccountOperationTokenType.ValidateMail,
-                user.id,
-                mailLog.id,
-                now)
-        accountTokenDao.insert(token)
+                    randomService.securityString(UserAccountOperationToken.length),
+                    UserAccountOperationTokenType.ValidateMail,
+                    user.id,
+                    mailLog.id,
+                    now)
+                .also(accountTokenDao::insert)
         val validateMailUrl =
             appUrl.append("?mailValidation=${token.token.rawString}-${user.id.stringUuid()}")
         mailService.sendMail(

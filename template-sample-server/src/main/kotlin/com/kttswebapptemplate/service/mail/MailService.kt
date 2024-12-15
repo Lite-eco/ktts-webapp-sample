@@ -47,17 +47,17 @@ class MailService(
             }
         val log =
             MailingLogDao.Record(
-                id = randomService.id(),
-                userId = userId,
-                senderName = applicationMailSenderContact.name,
-                senderMail = applicationMailSenderContact.mail,
-                recipientName = recipient.name,
-                recipientMail = recipient.mail,
-                subject = subject,
-                content = content,
-                data = Serializer.serialize(mailData),
-                logDate = dateService.now())
-        mailingLogDao.insert(log)
+                    id = randomService.id(),
+                    userId = userId,
+                    senderName = applicationMailSenderContact.name,
+                    senderMail = applicationMailSenderContact.mail,
+                    recipientName = recipient.name,
+                    recipientMail = recipient.mail,
+                    subject = subject,
+                    content = content,
+                    data = Serializer.serialize(mailData),
+                    logDate = dateService.now())
+                .also(mailingLogDao::insert)
         // TODO[tmpl] try catch and log !
         // or not... not an easy decision here
         mailSendingService.sendMail(

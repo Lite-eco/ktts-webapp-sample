@@ -31,12 +31,12 @@ class LostPasswordMailSenderService(
         logger.info { "Send lost password mail to $user" }
         val token =
             UserAccountOperationTokenDao.Record(
-                token = randomService.securityString(UserAccountOperationToken.length),
-                tokenType = UserAccountOperationTokenType.LostPassword,
-                userId = user.id,
-                userMailLogId = null,
-                creationDate = dateService.now())
-        userAccountOperationTokenDao.insert(token)
+                    token = randomService.securityString(UserAccountOperationToken.length),
+                    tokenType = UserAccountOperationTokenType.LostPassword,
+                    userId = user.id,
+                    userMailLogId = null,
+                    creationDate = dateService.now())
+                .also(userAccountOperationTokenDao::insert)
         val url = appUrl.resolve(Routes.resetPassword).append("?authToken=${token.token.rawString}")
         mailService.sendMail(
             recipient = Mail.Contact(user.displayName, user.mail),
