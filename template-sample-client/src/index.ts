@@ -6,4 +6,4 @@ import 'es6-promise/auto';
 import 'es6-shim';
 import 'es7-shim';
 import 'whatwg-fetch';
-import './application-bootstrap';
+import 'application-bootstrap';
