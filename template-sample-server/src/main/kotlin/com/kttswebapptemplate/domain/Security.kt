@@ -1,9 +1,20 @@
 package com.kttswebapptemplate.domain
 
 import com.kttswebapptemplate.utils.TemplateSampleStringUtils
+import org.springframework.security.crypto.password.PasswordEncoder
 
-data class PlainStringPassword(val password: String) : SerializeAsString(password) {
+data class PlainStringPassword(protected val password: String) : SerializeAsString(password) {
     override fun toString() = "Password(${TemplateSampleStringUtils.filteredPassword})"
+
+    fun isNotBlank() = password.isNotBlank()
+
+    fun hashPassword(passwordEncoder: PasswordEncoder): HashedPassword {
+        require(password.isNotBlank()) { "Password is blank" }
+        return HashedPassword(passwordEncoder.encode(password.trim()))
+    }
+
+    fun passwordMatches(expextedPassword: HashedPassword, passwordEncoder: PasswordEncoder) =
+        passwordEncoder.matches(password.trim(), expextedPassword.hash)
 }
 
 data class HashedPassword(val hash: String) {

@@ -67,7 +67,7 @@ class UserService(
 
     fun createUser(
         mail: String,
-        hashedPassword: HashedPassword,
+        password: PlainStringPassword,
         displayName: String,
         language: Language,
     ): UserDao.Record {
@@ -83,7 +83,7 @@ class UserService(
                     status = UserStatus.MailValidationPending,
                     signupDate = now,
                     lastUpdateDate = now)
-                .also { userDao.insert(it, hashedPassword) }
+                .also { userDao.insert(it, password.hashPassword(passwordEncoder)) }
         val mailLog =
             UserMailLogDao.Record(
                     randomService.id(), user.id, cleanMail, dirtyMail, false, now, null)
@@ -160,7 +160,7 @@ class UserService(
     }
 
     fun updatePassword(userId: UserId, password: PlainStringPassword) {
-        userDao.updatePassword(userId, hashPassword(password), dateService.now())
+        userDao.updatePassword(userId, password.hashPassword(passwordEncoder), dateService.now())
     }
 
     /**
@@ -183,13 +183,8 @@ class UserService(
             }
         }
 
-    fun hashPassword(password: PlainStringPassword): HashedPassword {
-        require(password.password.isNotBlank()) { "Password is blank" }
-        return HashedPassword(passwordEncoder.encode(password.password.trim()))
-    }
-
     fun passwordMatches(verifyPassword: PlainStringPassword, actualPassword: HashedPassword) =
-        passwordEncoder.matches(verifyPassword.password.trim(), actualPassword.hash)
+        verifyPassword.passwordMatches(actualPassword, passwordEncoder)
 
     private fun validateToken(
         token: UserAccountOperationTokenDao.Record,

@@ -26,9 +26,9 @@ class RegisterCommandHandler(
         // * should not be longer than 255 chars (because of the database)
         fun validateRegisterCommand(c: RegisterCommand) {
             // TODO[tmpl] use require
-            if (c.mail.isBlank()) throw IllegalArgumentException("Mail is blank")
-            if (c.password.password.isBlank()) throw IllegalArgumentException("Password is blank")
-            if (c.displayName.isBlank()) throw IllegalArgumentException("Display name is blank")
+            require(c.mail.isNotBlank()) { "Mail is blank" }
+            require(c.password.isNotBlank()) { "Password is blank" }
+            require(c.displayName.isNotBlank()) { "Display name is blank" }
         }
     }
 
@@ -49,7 +49,7 @@ class RegisterCommandHandler(
             try {
                 userService.createUser(
                     command.mail.trim(),
-                    userService.hashPassword(command.password),
+                    command.password,
                     command.displayName,
                     localeService.selectLanguage(request.locales.toList()))
             } catch (e: MailAlreadyRegisteredException) {

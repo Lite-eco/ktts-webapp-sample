@@ -6,11 +6,11 @@ import com.kttswebapptemplate.domain.Role
 import com.kttswebapptemplate.domain.UserStatus
 import com.kttswebapptemplate.repository.user.UserDao
 import com.kttswebapptemplate.service.mail.MailService
-import com.kttswebapptemplate.service.user.UserService
 import com.kttswebapptemplate.service.utils.DateService
 import com.kttswebapptemplate.service.utils.TransactionIsolationService
 import com.kttswebapptemplate.service.utils.random.RandomService
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 
 @Service
@@ -20,7 +20,7 @@ class DevInitialDataInjectorService(
     private val userDao: UserDao,
     private val dateService: DateService,
     private val randomService: RandomService,
-    private val userService: UserService,
+    private val passwordEncoder: PasswordEncoder,
     private val transactionIsolationService: TransactionIsolationService
 ) {
 
@@ -48,7 +48,7 @@ class DevInitialDataInjectorService(
                     status = UserStatus.Active,
                     signupDate = now,
                     lastUpdateDate = now),
-                userService.hashPassword(PlainStringPassword(username)))
+                PlainStringPassword(username).hashPassword(passwordEncoder))
         }
     }
 
