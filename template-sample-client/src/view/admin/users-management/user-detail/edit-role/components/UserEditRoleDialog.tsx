@@ -10,8 +10,7 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  TextField,
-  Typography
+  TextField
 } from '@mui/material';
 import { LoadingStatusButton } from 'view/components/LoadingButton';
 import { roleEnumValues } from 'domain/enums';
@@ -133,6 +132,6 @@ const WarningMessage = (props: PropsWithChildren) => (
         margin-right: 20px;
       `}
     />
-    <Typography>{props.children}</Typography>
+    {props.children}
   </div>
 );
