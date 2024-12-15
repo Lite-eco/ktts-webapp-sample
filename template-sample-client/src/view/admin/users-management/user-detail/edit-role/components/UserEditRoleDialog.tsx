@@ -32,7 +32,7 @@ export const UserEditRoleDialog = (props: {
   updateUserInfos: (user: AdminUserInfos) => void;
   loadingUserInfos: LoadingStatus;
 }) => {
-  const [role, setRole] = useState<Role | undefined>();
+  const [role, setRole] = useState<Role>();
   const [updateLoading, setUpdateLoading] = useState<LoadingStatus>('Idle');
   const loggedInUserInfos = useUserState(s => s.userInfos);
   if (!loggedInUserInfos) {

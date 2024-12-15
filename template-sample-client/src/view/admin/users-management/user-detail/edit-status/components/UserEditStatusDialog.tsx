@@ -29,8 +29,8 @@ export const UserEditStatusDialog = (props: {
   userId: UserId;
   updateUserInfos: (user: AdminUserInfos) => void;
 }) => {
-  const [userInfos, setUserInfos] = useState<AdminUserInfos | undefined>();
-  const [status, setStatus] = useState<UserStatus | undefined>();
+  const [userInfos, setUserInfos] = useState<AdminUserInfos>();
+  const [status, setStatus] = useState<UserStatus>();
   const [queryLoading, setQueryLoading] = useState<LoadingStatus>('Idle');
   const [updateLoading, setUpdateLoading] = useState<LoadingStatus>('Idle');
   const loggedInUserInfos = useUserState(s => s.userInfos);
